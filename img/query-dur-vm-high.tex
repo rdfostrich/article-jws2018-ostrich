@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+    \begin{axis}[ymode=log,query-dur,ymin=0,ymax=100,legend entries = {
+            Subject 1,Predicate 1,Object 1,
+            Subject all,Predicate all,Object all
+        }]        
+        \addplot[query1,max,discard if not={offset}{0}] table [x=patch, y=lookup-mus-1, col sep=comma] {data/s-100/_average_vm.csv};
+        \addplot[query2,max,discard if not={offset}{0}] table [x=patch, y=lookup-mus-1, col sep=comma] {data/p-1500/_average_vm.csv};
+        \addplot[query3,max,discard if not={offset}{0}] table [x=patch, y=lookup-mus-1, col sep=comma] {data/o-100/_average_vm.csv};
+        
+        \addplot[query1,avg,discard if not={offset}{0}] table [x=patch, y=lookup-mus-inf, col sep=comma] {data/s-100/_average_vm.csv};
+        \addplot[query2,avg,discard if not={offset}{0}] table [x=patch, y=lookup-mus-inf, col sep=comma] {data/p-1500/_average_vm.csv};
+        \addplot[query3,avg,discard if not={offset}{0}] table [x=patch, y=lookup-mus-inf, col sep=comma] {data/o-100/_average_vm.csv};
+    \end{axis}
+\end{tikzpicture}

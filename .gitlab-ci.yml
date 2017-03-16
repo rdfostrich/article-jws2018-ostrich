@@ -1,0 +1,8 @@
+pdf:
+  image: blang/latex
+  script:
+    - latexmk -pdf report.tex
+  artifacts:
+    paths:
+    - report.pdf
+

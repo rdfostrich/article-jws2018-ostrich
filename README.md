@@ -1,23 +1,24 @@
 ```
 abstract
 introduction
-    motivation
+    motivation (mention tpf in here)
+problem statement
+    (provide groundwork for evaluation structure)
+    research questions
 related work
     archiving solutions
+        hdt
     archiving benchmarks
-    hdt
-    tpf
 OSTRICH
-    overview
-    storage (datastructures)
-    ingestion (algo(s))
-    querying (algos for VM, DM and VQ + corresponding counts)
-    implementation (cpp+node)
-    vtpf
+storage (datastructure)
+ingestion algo
+querying (algos for VM, DM and VQ + corresponding counts)
+VTPF (interface)
 evaluation
     experimental setup
+        implementation (cpp+node)
     ingestion
     querying
-discussion
+    discussion
 conclusion
 ```

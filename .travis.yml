@@ -1,0 +1,11 @@
+language: ruby
+rvm:
+  - 2.4.0
+bundler_args: --without development
+script:
+  - bundle exec nanoc compile
+  - bundle exec nanoc check internal_links mixed_content stale
+cache:
+  - bundler
+after_success:
+  - ./.travis_build_pages

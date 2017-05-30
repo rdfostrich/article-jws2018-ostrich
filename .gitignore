@@ -91,3 +91,10 @@ sympy-plots-for-*.tex/
 ### Remaining files
 .DS_Store
 *.pdf
+
+.sass-cache
+Gemfile.lock
+tmp
+output
+*.log
+*.diff

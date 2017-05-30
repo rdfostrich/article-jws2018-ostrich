@@ -1,8 +1,7 @@
 pdf:
-  image: blang/latex
+  image: "ruby:2.4.0"
   script:
-    - latexmk -pdf report.tex
-  artifacts:
-    paths:
-    - report.pdf
+    - bundle install
+    - bundle exec nanoc compile
+    - bundle exec nanoc check internal_links mixed_content stale
 

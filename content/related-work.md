@@ -41,6 +41,12 @@
 {:.todo}
 [TailR](cite:cites tailr) (Combust deliverable)
 
+{:.todo}
+[Self-indexing RDF archives](cite:cites selfindexingarchives)
+
+{:.todo}
+[Self-indexing RDF archives](cite:cites selfindexingarchives)
+
 ### RDF Archiving Benchmarks
 
 {:.todo}

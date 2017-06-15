@@ -2,6 +2,10 @@
 abstract
 introduction
     motivation (mention tpf in here)
+preliminaries
+    (on rdf archiving)
+    Querying
+    Storage policies
 problem statement
     (provide groundwork for evaluation structure)
     research questions

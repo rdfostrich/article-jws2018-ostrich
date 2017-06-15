@@ -26,6 +26,7 @@ group :development do
   gem 'thin'
   gem 'rack-livereload'
   gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+  gem 'rb-readline'
 end
 
 group :test do

@@ -47,6 +47,19 @@
 {:.todo}
 [Self-indexing RDF archives](cite:cites selfindexingarchives)
 
+### Other
+
+{:.todo}
+Remove this section and fit these paragraphs in somewhere else.
+
+[Memento](cite:cites memento) is an HTTP framework that enables time-based access to HTTP resources.
+It does this by providing datetime content-negotiation for HTTP resources.
+With this, users can access past versions of resources.
+
+[Git](cite:cites git) is a distributed version control system, which is typically used in software development projects.
+Git enables users to work of text documents independently, and synchronize their versions safely.
+Furthermore, it maintains a complete history of the documents by storing the differences between each version.
+
 ### RDF Archiving Benchmarks
 
 {:.todo}

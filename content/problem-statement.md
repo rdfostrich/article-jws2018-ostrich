@@ -1,9 +1,6 @@
 ## Problem Statement
 {:#problem-statement}
 
-{:.todo}
-TPF in intro
-
 In [previous work](cite:cites tpfarchives), we discussed the requirements for enabling queries over RDF archives using the TPF framework
 for VM, DM and VQ queries.
 <ol>

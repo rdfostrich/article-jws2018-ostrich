@@ -1,14 +1,6 @@
 ## Preliminaries
 {:#preliminaries}
 
-{:.todo} Archiving in general
-
-{:.todo}
-RDF archiving [dlod](cite:cites), [dataset dynamics](cite:cites datasetdynamics)
-
-{:.todo}
-Mention instance-level, ... archiving in intro.
-
 Several approaches exist for archiving Linked Data, which will be further discussed in [](#related-work-archiving).
 A survey about archiving [Linked Open Data](cite:cites archiving) categorizes these approaches
 into three non-orthogonal storage strategies.

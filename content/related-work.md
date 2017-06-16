@@ -16,6 +16,7 @@
 [HDT](cite:cites hdt) (Combust deliverable)
 
 ### RDF Archiving
+{:#related-work-archiving}
 
 {:.todo}
 [SemVersion](cite:cites semversion) (Combust deliverable)
@@ -46,6 +47,11 @@
 
 {:.todo}
 [Self-indexing RDF archives](cite:cites selfindexingarchives)
+
+### RDF Archive Querying
+
+{:.todo}
+[diachron](cite:cites diachronql), [T-SPARQL](cite:cites tsparql), [SPARQL-ST](cite:cites sparqlst)
 
 ### Other
 

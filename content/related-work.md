@@ -1,19 +1,39 @@
 ## Related Work
 {:#related-work}
 
-### Native RDF Indexing
+### RDF Indexing and Compression
 
-{:.todo}
-[RDF-3X](cite:cites rdf3x) (Combust deliverable)
+RDF storage systems typically use indexing and compression techniques
+for respectively reducing query times and storage requirements.
+These systems can either be based on existing database technologies,
+such as [relational databases](cite:cites virtuoso) or [document stores](cite:cites dsparq),
+or are based on techniques tailored to RDF.
+For the remainder of this article, we focus on the latter.
 
-{:.todo}
-[Hexastore](cite:cites hexastore) (Combust deliverable)
+[RDF-3X](cite:cites rdf3x) is an RDF storage technique that is based
+on a clustered B+Tree with 18 indexes in which triples are sorted lexicographically.
+6 indexes exist for each possible triple component order (SPO, SOP, OSP, OPS, PSO and POS),
+6 aggregated indexes (SP, SO, PS, PO, OS, and OP)
+and 3 one-valued indexes (S, P, and O).
+A dictionary is used to compress common triple components.
+When evaluating SPARQL queries, the optimal indexes can be selected based on the query's triple patterns.
+Furthermore, the store allows update operations.
 
-{:.todo}
-[Triplebit](cite:cites triplebit) (Combust deliverable)
+[Hexastore](cite:cites hexastore) is similar in the sense that it uses six different B+Trees,
+one for each possible triple component order.
+It also uses dictionary encoding to compress common triple components.
 
-{:.todo}
-[HDT](cite:cites hdt) (Combust deliverable)
+[Triplebit](cite:cites triplebit) is an alternative approach that is based on a two-dimensional storage matrix.
+The columns correspond to predicates, and the subjects and objects correspond to rows.
+This sparse matrix is compressed and dictionary encoded to reduce storage requirements significantly.
+Furthermore, its uses auxiliary index structures to improve index selection during query evaluation.
+
+[HDT](cite:cites hdt) is a binary RDF representation that is highly compressed
+and provides indexing structures that enable efficient querying.
+HDT archives are read-only, which leads to its high compressability,
+but makes it unsuitable for cases where datasets change frequently,
+as HDT files should be regenerated completely.
+
 
 ### RDF Archiving
 {:#related-work-archiving}

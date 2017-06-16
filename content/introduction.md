@@ -30,5 +30,10 @@ These querying possibilities correspond to the capabilities of the VTPF interfac
 which makes it possible to use implementations of this approach as the back-end for RDF archives that are published and queryable at a low cost.
 We provide OSTRICH as an open-source implementation of this approach.
 
-{:.todo}
-article structure
+This article is structured as follows.
+In the next section, we start by introducing some [fundamental concepts](#preliminaries)
+required for introducing our problem statement in [](#problem-statement).
+After that, we introduce the related work in [](#related-work).
+Next, in [](#storage), we introduce our storage approach, followed by the accompanied querying algorithms in [](#querying).
+After that, we present and discuss the evaluation of our implementation in [](#evaluation).
+Finally, we present our conclusions in [](#conclusions).

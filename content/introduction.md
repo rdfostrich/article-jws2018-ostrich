@@ -22,6 +22,18 @@ Furthermore, RDF archives should be publishable at a low cost, to make them quer
 For this, a low-cost solution such as the [Triple Pattern Fragments](cite:cites ldf) (TPF) interface
 would be ideal. By itself, the TPF interface is, just like the RDF data model, atemporal.
 That is why [VTPF](cite:cites vtpf) was introduced, a TPF feature that adds versioning capabilities to the interface.
+Furthermore, [datetime content-negotation support was added to TPF](cite:cites mementoldf) using [Memento](cite:cites memento),
+which is an HTTP framework that enables time-based access to HTTP resources.
+It does this by providing datetime content-negotiation for HTTP resources.
+With this, users can access past versions of resources, or in this case, datasets through TPF interfaces.
+
+Versioning also is a popular area in other domains, such as software development.
+[Git](cite:cites git) is a distributed version control system, typically used in software development projects,
+which enables users to work of text documents independently, and synchronize their versions safely.
+Furthermore, it maintains a complete history of the documents by storing the *differences* between each version.
+Storing the differences between each version instead of maintaining fully materialized snapshots of each version
+can significantly reduce the storage requirements for archives.
+Techniques like these are also used in existing RDF archiving solutions.
 
 In this work, we tackle the problem of storing and querying RDF archives efficiently.
 We introduce a storage technique for compressing and indexing RDF archives,

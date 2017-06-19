@@ -7,7 +7,7 @@ into three non-orthogonal storage strategies.
 <ol>
     <li>The <em>Independent copies (IC)</em> approach creates separate instantiations of datasets for
 each change or set of changes.</li>
-    <li>The <em>Change-based (CB)</em> approach instead only stores changes between versions.</li>
+    <li>The <em>Change-based (CB)</em> approach instead only stores changes (i.e. changesets) between versions.</li>
     <li>The <em>Timestamp-based (TB)</em> approach stores the temporal validity of facts.</li>
 </ol>
 

@@ -30,10 +30,19 @@ Furthermore, its uses auxiliary index structures to improve index selection duri
 
 [HDT](cite:cites hdt) is a binary RDF representation that is highly compressed
 and provides indexing structures that enable efficient querying.
+It consists of 3 main components:
+<ul>
+    <li>Header: Metadata describing the dataset.</li>
+    <li>Dictionary: Mapping between triple components and unique IDs for reducing storage requirements of triples.</li>
+    <li>Triples: Storage of the actual triples based on the IDs of the triple components.</li>
+</ul>
 HDT archives are read-only, which leads to its high compressability,
 but makes it unsuitable for cases where datasets change frequently,
 as HDT files should be regenerated completely.
-
+Its fast triple pattern queries and high compression rate make it
+the go-to backend storage method for [TPF](cite:cites ldf) servers.
+Approaches like [LOD Laundromat](lodlaundromat) combine HDT and TPF for hosting and publishing
+650K+ Linked Datasets containing 38M+ triples, proving its usefulness at large scale.
 
 ### RDF Archiving
 {:#related-work-archiving}

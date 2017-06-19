@@ -1,6 +1,11 @@
 ## Related Work
 {:#related-work}
 
+In this section, we discuss existing solutions and techniques for indexing and compression in RDF storage.
+After that, we compare different RDF archiving solutions.
+Finally, we discuss the BEAR and EvoGen benchmarks,
+of which we will use the former to benchmark the approach we present in this work.
+
 ### RDF Indexing and Compression
 
 RDF storage systems typically use indexing and compression techniques

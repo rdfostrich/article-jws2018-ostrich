@@ -115,7 +115,7 @@ img, video { max-width:100% !important; height:auto !important; }
 XXX:column-width doesn't seem to get applied in Firefox
 https://bugzilla.mozilla.org/show_bug.cgi?id=684062
 */
-main {
+main, footer {
 clear:both;
 float:left;
 width:100%;

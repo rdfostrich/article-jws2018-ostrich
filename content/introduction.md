@@ -22,6 +22,7 @@ Furthermore, RDF archives should be publishable at a low cost, to make them quer
 For this, a low-cost solution such as the [Triple Pattern Fragments](cite:cites ldf) (TPF) interface
 would be ideal. By itself, the TPF interface is, just like the RDF data model, atemporal.
 That is why [VTPF](cite:cites vtpf) was introduced, a TPF feature that adds versioning capabilities to the interface.
+It enables low-cost publication of versioned datasets, in contrast to endpoints using [temporal SPARQL extensions](cite:cites tsparql,sparqlst).
 Furthermore, [datetime content-negotation support was added to TPF](cite:cites mementoldf) using [Memento](cite:cites memento),
 which is an HTTP framework that enables time-based access to HTTP resources.
 It does this by providing datetime content-negotiation for HTTP resources.

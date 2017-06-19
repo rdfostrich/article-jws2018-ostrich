@@ -139,11 +139,6 @@ Individual copies (IC), Change-based (CB), Timestamp-based (TB) or a hybrid.
 </figcaption>
 </figure>
 
-### RDF Archive Querying
-
-{:.todo}
-[diachron](cite:cites diachronql), [T-SPARQL](cite:cites tsparql), [SPARQL-ST](cite:cites sparqlst)
-
 ### RDF Archiving Benchmarks
 
 {:.todo}

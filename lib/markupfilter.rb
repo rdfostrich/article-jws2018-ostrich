@@ -100,6 +100,8 @@ class MarkupFilter < Nanoc::Filter
       case parse_attributes(attribute_list)[:class]
       when 'listing'
         'Listing'
+      when 'table'
+        'Table'
       else
         'Fig.'
       end

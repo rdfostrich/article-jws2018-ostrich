@@ -53,7 +53,7 @@ Add rough evaluation results to each part, to motivate the choice on what to com
 As Linked Open Datasets typically [change over time](cite:cites datasetdynamics)
 and there is a need for [maintaining the history of the datasets](cite:cites archiving),
 RDF archiving has been an active area of research over the last couple of years.
-In this section, we discuss several existing RDF archiving systems.
+In this section, we discuss several existing RDF archiving systems, which are summarized in [](#rdf-archive-systems).
 We mention the basics of how they work, and what storage strategy they use as introduced in [](#preliminaries).
 
 [SemVersion](cite:cites semversion) was one of the first works to look into tracking different versions of RDF graphs.
@@ -118,6 +118,26 @@ Their implementation is based on a relation database system.
 Evaluation shows that resource lookup times for any version ranges between
 1 and 50 ms for 10 versions containing around 500K triples.
 In total, these versions require ~64MB of storage space.
+
+<figure id="rdf-archive-systems" class="table" markdown="1">
+
+| Name                                        | IC | CB | TB |
+| ------------------------------------------- |:--:|:--:|:--:|
+| [SemVersion](cite:cites semversion)         | X  |    |    |
+| [Cassidy et. al.](cite:cites vcrdf)         |    | X  |    |
+| [R&WBase](cite:cites rwbase)                |    | X  |    |
+| [R43ples](cite:cites r43ples)               |    | X  |    |
+| [Hauptman et. al.](cite:cites vcld)         |    |    | X  |
+| [X-RDF-3X](cite:cites xrdf3x)               |    |    | X  |
+| [v-RDFCSA](cite:cites selfindexingarchives) |    |    | X  |
+| [Dydra](cite:cites dydra)                   |    |    | X  |
+| [TailR](cite:cites tailr)                   | X  | X  |    |
+
+<figcaption markdown="block">
+Overview of RDF archiving solutions with their corresponding storage strategy.
+Individual copies (IC), Change-based (CB), Timestamp-based (TB) or a hybrid.
+</figcaption>
+</figure>
 
 ### RDF Archive Querying
 

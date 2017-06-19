@@ -178,6 +178,9 @@ The IC/TB hybrid Jena approach has slowly increasing evaluation times for each v
 but they are significantly lower than the regular TB approach.
 The queries of BEAR-C can currently not be solved by the archiving strategies in a straightforward way,
 but they are designed to help foster the development of future RDF archiving solutions.
+While queries of BEAR-A and BEAR-B are just triple pattern queries and therefore do not cover the full SPARQL spectrum,
+they provide the basis for more complex queries, as is proven by the [TPF framework](cite:cites ldf),
+which makes them sufficient for benchmarking.
 
 [EvoGen](cite:cites evogen) is an RDF archive systems benchmark that is based on the synthetic [LUBM dataset generator](cite:cites lubm).
 They extended the LUBM generator with additional classes and properties for introducing dataset evolution on schema-level.

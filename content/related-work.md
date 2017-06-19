@@ -1,6 +1,9 @@
 ## Related Work
 {:#related-work}
 
+{:.todo}
+Update descriptions using terminology from preliminaries.
+
 ### RDF Indexing and Compression
 
 RDF storage systems typically use indexing and compression techniques
@@ -137,7 +140,50 @@ Furthermore, it maintains a complete history of the documents by storing the dif
 ### RDF Archiving Benchmarks
 
 {:.todo}
-[BEAR](cite:cites bear)
+Update BEAR reference when their journal paper is accepted.
 
-{:.todo}
-EvoGen
+[BEAR](cite:cites bear) is a benchmark for RDF archive systems.
+It is based on three real-world datasets from different domains:
+<ul>
+    <li>BEAR-A: 58 weekly snapshots from the [Dynamic Linked Data Observatory](cite:cites datasetdynamics).</li>
+    <li>BEAR-B: 100 most volatile resources from [DBpedia Live](cite:cites dbpedialive) over the course of three months.</li>
+    <li>BEAR-C: Dataset descriptions from the [Open Data Portal Watch](cite:cites opendataportalwatch) project over the course of 32 weeks.</li>
+</ul>
+The 58 versions of BEAR-A contain between 30M and 66M triples per version, with an average change ratio of 31%.
+BEAR-A provides triple pattern queries for VM, DM and VQ for both result sets with a low and a high cardinality.
+The queries are selected in such a way that they will be evaluated over triples of a certain dynamicity,
+which requires the benchmarked systems to handle this dynamicity well.
+BEAR-B provides a small collection of triple pattern queries corresponding to the real-world usage of DBpedia.
+Finally, BEAR-C provides 10 complex SPARQL queries that were created with the help of Open Data experts.
+BEAR provides baseline RDF archive implementations based on [HDT](cite:cites hdt) and
+[Jena's](cite:cites jena) [TDB store](https://jena.apache.org/documentation/tdb/)
+for the IC, CB, TB approaches, but also hybrid IC/CB and TB/CB approaches.
+The hybrid approaches are based on snapshots followed by delta chains, as implemented by [TailR](cite:cites tailr).
+Due to HDT not supporting quads, the TB and TB/CB approaches could not be implemented in the HDT baseline implementations.
+Baseline results show that IC for both Jena and HDT requires more storage space than the raw compressed data for the three datasets.
+CB results in less storage space for both approaches for BEAR-A and BEAR-C, but not for BEAR-B because that dataset is so dynamic that
+the deltas require more storage space than they would in with IC.
+Jena-TB results in the least storage space for Jena, it does however fail for BEAR-B because of the large amount of versions
+as Jena is less efficient for many graphs.
+The hybrid approaches are evaluated with different delta chain lengths and expectedly show
+that shorter delta chains lead to storage sizes similar to IC, and longer delta chains lead to sizes similar to CB or TB.
+The queries for BEAR-A and BEAR-B show that
+IC results in constant evaluation times for any version,
+CB times increase for each following version,
+and TB also result in constant times.
+The HDT-based approaches outperform Jena in all cases because of its compressed nature.
+The IC/CB hybrid approaches similarly show increasing evaluation times for each version,
+with a drop each time a new snapshot is created.
+The IC/TB hybrid Jena approach has slowly increasing evaluation times for each version,
+but they are significantly lower than the regular TB approach.
+The queries of BEAR-C can currently not be solved by the archiving strategies in a straightforward way,
+but they are designed to help foster the development of future RDF archiving solutions.
+
+[EvoGen](cite:cites evogen) is an RDF archive systems benchmark that is based on the synthetic [LUBM dataset generator](cite:cites lubm).
+They extended the LUBM generator with additional classes and properties for introducing dataset evolution on schema-level.
+EvoGen enables the user to tweak parameters of the dataset and query generation process,
+for instance to change the dataset dynamicity and the number of versions.
+
+While EvoGen offers more flexibility than BEAR in terms of configurability.
+BEAR provides real-world datasets and baseline implementations which lowers the barrier towards its usage.
+That is why in this work we will use the BEAR dataset for benchmarking our system.

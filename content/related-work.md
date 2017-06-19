@@ -1,9 +1,6 @@
 ## Related Work
 {:#related-work}
 
-{:.todo}
-Update descriptions using terminology from preliminaries.
-
 ### RDF Indexing and Compression
 
 RDF storage systems typically use indexing and compression techniques
@@ -56,6 +53,8 @@ Add rough evaluation results to each part, to motivate the choice on what to com
 As Linked Open Datasets typically [change over time](cite:cites datasetdynamics)
 and there is a need for [maintaining the history of the datasets](cite:cites archiving),
 RDF archiving has been an active area of research over the last couple of years.
+In this section, we discuss several existing RDF archiving systems.
+We mention the basics of how they work, and what storage strategy they use as introduced in [](#preliminaries).
 
 [SemVersion](cite:cites semversion) was one of the first works to look into tracking different versions of RDF graphs.
 SemVersion is based on Concurrent Versions System (CVS) concepts to maintain different versions of ontologies,
@@ -64,52 +63,41 @@ Their approach consists of a separation of language-specific features with ontol
 The authors omit implementation details on triple storage and retrieval.
 
 Based on the Theory of Patches from [Darcs software management system](darcs),
-[Cassidy et. al.](cite:cites vcrdf) propose to store graph changes as a series of patches.
+[Cassidy et. al.](cite:cites vcrdf) propose to store graph changes as a series of patches, which makes it a CB approach.
 In the paper, they describe operations on versioned graphs such as reverse, revert and merge.
 They provide an implementation of their approach using the Redland python library and MySQL
 by representing each patch as named graphs and serializing them as TriG.
 Furthermore, a preliminary evaluation shows that their implementation is significantly slower
 than a native RDF store. They suggest a native implementation of the approach to avoid some of the overhead.
 
-[Im et. al.](cite:cites vmrdf) propose a patching system based on a relational database.
+[Im et. al.](cite:cites vmrdf) propose a CB patching system based on a relational database.
 In their approach, they use a storage scheme called *aggregated deltas*
 which associates the latest version with each of the previous ones.
 While aggregated deltas result in fast delta queries, they introduce a lot of storage overhead.
 
-[R&WBase](cite:cites rwbase) is a versioning system that adds an additional versioning layer to existing quad-stores.
+[R&WBase](cite:cites rwbase) is a CB versioning system that adds an additional versioning layer to existing quad-stores.
 It adds the functionality of tagging, branching and merging for datasets.
 The graph element is used to represent the additions and deletions of patches,
 which are respectively the even and uneven graph id's.
 Queries are resolved by looking at the highest even graph number of triples.
 
-Graube et. al. introduce [R43ples](cite:cites r43ples) which stores changesets as separate named graphs.
+Graube et. al. introduce [R43ples](cite:cites r43ples) which stores changesets as separate named graphs, making it a CB system.
 It supports the same versioning features as R&WBase and introduces new SPARQL keywords for these, such as REVISION, BRANCH and TAG.
 As reconstructing a version requires combining all changesets that came before,
 queries at a certain version are only usable for medium-sized datasets.
 
 [Hauptman et. al. introduce a similar delta-based storage approach](cite:cites vcld)
-by storing each triple in a different named graph.
+by storing each triple in a different named graph as a storage TB approach.
 The identifying graph of each triple is used in a commit graph for SPARQL query evaluation at a certain version.
 Their implementation is based on Sesame and Blazegraph and is slower than snapshot-based approaches, but uses less disk space.
 
-[X-RDF-3X](cite:cites xrdf3x) is an extension of [RDF-3X](cite:cites rdf3x) which adds versioning support.
+[X-RDF-3X](cite:cites xrdf3x) is an extension of [RDF-3X](cite:cites rdf3x) which adds versioning support using the TB approach.
 On storage-level, each triple is annotated with a creation and deletion timestamp.
 This enables time-travel queries where only triples valid at the given time are returned.
 
-[TailR](cite:cites tailr) is an HTTP archive for Linked Data pages based
-on the [Memento](cite:cites memento) for retrieving prior versions of certain URIs.
-It starts by storing a dataset snapshot, after which only deltas are stored for each consecutive version.
-When delta chains become long, a new snapshot is created to avoid long version reconstruction times.
-This approach requires more storage space than pure delta-based approaches,
-but comes with the benefit of faster version reconstruction for many versions.
-Their implementation is based on a relation database system.
-Evaluation shows that resource lookup times for any version ranges between
-1 and 50 ms for 10 versions containing around 500K triples.
-In total, these versions require ~64MB of storage space.
-
 [v-RDFCSA](cite:cites selfindexingarchives) is a self-indexing RDF archive mechanism,
 based on the RDF self-index [RDFCSA](cite:cites rdfcsa),
-that enables versioning queries on top of compressed RDF archives.
+that enables versioning queries on top of compressed RDF archives as a TB approach.
 They evaluate their approach using the [BEAR](cite:cites bear) benchmark
 and show that they can reduce storage space requirements 60 times compared to raw storage.
 Furthermore, they reduce query evaluation times more than an order of magnitude compared to state of the art solutions.
@@ -117,7 +105,19 @@ Furthermore, they reduce query evaluation times more than an order of magnitude 
 [Dydra](cite:cites dydra) is an RDF graph storage platform with dataset versioning support.
 They introduce the REVISION keyword, which is similar to the GRAPH SPARQL keyword for referring to different dataset versions.
 Their implementation is based on B+Trees that are indexed in six ways  GSPO, GPOS, GOSP, SPOG, POSG, OSPG.
-Each B+Tree value indicates the revisions in which a particular quad exists.
+Each B+Tree value indicates the revisions in which a particular quad exists, which makes it a TB approach.
+
+[TailR](cite:cites tailr) is an HTTP archive for Linked Data pages based
+on the [Memento](cite:cites memento) for retrieving prior versions of certain URIs.
+It is a hybrid CB/IC approach as it starts by storing a dataset snapshot,
+after which only deltas are stored for each consecutive version.
+When delta chains become long, a new snapshot is created to avoid long version reconstruction times.
+This approach requires more storage space than pure delta-based approaches,
+but comes with the benefit of faster version reconstruction for many versions.
+Their implementation is based on a relation database system.
+Evaluation shows that resource lookup times for any version ranges between
+1 and 50 ms for 10 versions containing around 500K triples.
+In total, these versions require ~64MB of storage space.
 
 ### RDF Archive Querying
 

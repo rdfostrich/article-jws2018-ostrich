@@ -1,6 +1,8 @@
 ## Preliminaries
 {:#preliminaries}
 
+{:.todo} do we need to give some examples and figures for the storage and query types?
+
 Several approaches exist for archiving Linked Data, which will be further discussed in [](#related-work-archiving).
 A survey about archiving [Linked Open Data](cite:cites archiving) categorizes these approaches
 into three non-orthogonal storage strategies.
@@ -23,3 +25,8 @@ consecutively different results.</li>
 </ol>
 As discussed in [previous work](cite:cites tpfarchives), CV and CM queries can be simulated in terms of the other ones.
 That is why for the remainder of this article, we will focus on VM, DM and VQ queries.
+
+As [mentioned before](cite:cites tpfarchives), there is a correspondence between the storage strategies and the query atoms.
+Namely, VM performs best for storage solutions based on IC, because there is indexing on version.
+DM works best for CB solutions, because the deltas are already in the appropriate format for DM query results.
+Finally, VQ works best for TB solutions, because the timestamp annotation directly corresponds to VQ's result format.

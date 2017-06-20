@@ -22,3 +22,33 @@ All delta's are compressed in _addition and deletion trees_, where a _dictionary
 Finally, metadata about the complete archive is stored, containing information such as the total number of available versions.
 </figcaption>
 </figure>
+
+### Snapshot and Delta Chain
+{:#snapshot-delta-chain}
+
+{:.todo}
+Compare traditional deltas with out deltas that are always based on the snapshot, and explain reason why (assumption of a large snapshot, constant version reconstruction times, compression redundancies)
+
+### Delta Storage
+{:#delta-compression}
+
+{:.todo}
+Write
+
+### Dictionary
+{:#dictionary}
+
+{:.todo}
+Write
+
+### Metadata
+{:#metadata}
+
+{:.todo}
+Write
+
+### Ingestion
+{:#ingestion}
+
+{:.todo}
+Explain both approaches (compare them later in eval)

@@ -1,7 +1,11 @@
 pdf:
   image: "ruby:2.4.0"
+  cache:
+    key: "$CI_PROJECT_PATH/$CI_BUILD_REF_NAME"
+    paths:
+    - vendor/
   script:
-    - bundle install
+    - bundle install --path vendor
     - bundle exec nanoc compile
     - bundle exec nanoc check internal_links mixed_content stale
 

@@ -112,7 +112,7 @@ The trees use triples as keys, with five different triple component orders.
 The addition trees store version and local change information.
 The deletion trees store the same, but additionally also relative snapshot positions.
 
-### Dictionary
+### Delta Chain Dictionary
 {:#dictionary}
 
 A typical technique in [RDF storage solutions](cite:cites hdt,rdf3x,triplebit) is to use a dictionary for mapping triple components to numerical IDs.
@@ -139,8 +139,10 @@ That is why the dictionary can be compressed to reduce storage requirements.
 ### Metadata
 {:#metadata}
 
-{:.todo}
-Write
+In order to allow querying algorithms to detect the total number of versions across all delta chains,
+we must store metadata regarding the delta chain version ranges.
+Assuming numerical version identifiers, a mapping can be maintained from version ID to delta chain.
+Additionally, a total version counter must be maintain for cases when the last version must be identified.
 
 ### Ingestion
 {:#ingestion}

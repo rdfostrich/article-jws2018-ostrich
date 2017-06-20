@@ -23,6 +23,12 @@ Finally, metadata about the complete archive is stored, containing information s
 </figcaption>
 </figure>
 
+{:.todo}
+Snapshot requirements:
+* triple pattern queries
+* offsets
+* dictionary
+
 ### Snapshot and Delta Chain
 {:#snapshot-delta-chain}
 
@@ -109,8 +115,26 @@ The deletion trees store the same, but additionally also relative snapshot posit
 ### Dictionary
 {:#dictionary}
 
-{:.todo}
-Write
+A typical technique in [RDF storage solutions](cite:cites hdt,rdf3x,triplebit) is to use a dictionary for mapping triple components to numerical IDs.
+This is generally done for main two reasons:
+1) to reduce storage space if triple components are stored multiple times;
+2) to simplify and optimize querying.
+As our storage approach essentially stores each triple five or ten times,
+a dictionary can definitely reduce storage space requirements.
+
+Each delta chain consists of two dictionaries, one for the snapshot and one for the deltas.
+The dictionary of the snapshot can be optimized and sorted, as it will not change over time.
+The dictionary of the deltas is volatile, as each new version can introduce new mappings.
+
+During triple encoding, the snapshot dictionary will always first be queried for existence of the triple component.
+If there is a match, that ID is used for storing the delta's triple component.
+
+For allowing the querying algorithm to identify the appropriate dictionary for triple decoding,
+some form of dictionary identification must be encoded inside the ID,
+which can for example be a reserved bit.
+
+As the dictionary entries are text-based, they are likely to contain a lot of redundancies.
+That is why the dictionary can be compressed to reduce storage requirements.
 
 ### Metadata
 {:#metadata}

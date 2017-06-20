@@ -4,7 +4,7 @@
 In this section, we introduce a storage approach for storing multiple versions of an RDF dataset.
 We focus on the part of answering our research question on how to efficiently store and query RDF archives, as introduced in [](#introduction).
 
-In order to handle VM, DM and VQ queries efficiently, our storage solution is a hybrid IC/CB/TB solution.
+In order to handle VM, DM and VQ queries efficiently, our storage solution is a hybrid IC/CB/TB triple store.
 In summary, our approach consists of an initial dataset snapshot followed by a delta chain ([TailR](cite:cites tailr)),
 where this chain is compressed in B+Trees for TB-storage ([Dydra](cite:cites dydra)).
 Furthermore, we store additional metadata for convenience and improving lookup times ([HDT](cite:cites hdt)).
@@ -33,7 +33,7 @@ On the other hand, CB is good for querying differences between versions, but is 
 reconstructing versions based on a complete delta chain.
 In this section, we discuss the hybrid IC/CB approach that our approach is based on.
 
-TailR is also hybrid IC/CB approach, in which delta chain lengths are limited
+[TailR](cite:cites tailr) is also hybrid IC/CB approach, in which delta chain lengths are limited
 to reduce the effort of reconstructing arbitrary versions in long chains.
 This is done by starting each chain with a fully materialized snapshot, followed by deltas, as shown in [](#regular-delta-chain).
 When the chain becomes too long, or other conditions are fulfilled, the chain stops
@@ -42,7 +42,7 @@ and a new fully materialized snapshot is created for the next version.
 <figure id="regular-delta-chain">
 <img src="img/regular-delta-chain.svg" alt="[regular delta chain]">
 <figcaption markdown="block">
-Delta chain in which deltas are relative to the previous delta, as is done in TailR.
+Delta chain in which deltas are relative to the previous delta, as is done in [TailR](cite:cites tailr).
 </figcaption>
 </figure>
 
@@ -66,8 +66,45 @@ Delta chain in which deltas are relative to the snapshot at the start of the cha
 ### Delta Storage
 {:#delta-compression}
 
+In order to cope with the newly introduced redundancies because of our alternative delta chain structure,
+we introduce a delta storage method similar to the TB storage strategy,
+which is able to compress redundancies within consecutive deltas.
+
+The additions and deletions of deltas require different metadata in our querying algorithms,
+which will be explained in [](#querying).
+That is why we store these in separate addition and deletion stores,
+all additions and deletions from the complete delta chain are respectively stored together.
+We use a tree structure (such as a B+Tree) for these addition and deletion stores,
+where the keys correspond to triples, and the values correspond to version information,
+which are similar to timestamps as in TB solutions.
+Even though triples can exist in multiple deltas in the same chain,
+they will only be stored once in the trees because their value contains information about version membership.
+
+In order to improve the efficiency during triple pattern query evaluation,
+we store the trees in different triple component orders,
+similar to [RDF-3X](cite:cites rdf3x) and [Hexastore](cite:cites hexastore).
+Our approach consists of five orders per addition and deletion tree: SPO, SOP, PSO, POS and OSP.
+In [](#querying), we will illustrate why these five indexes are sufficient for optimally resolving any triple pattern.
+
+Furthermore, in order to further speed up query evaluation,
+we add metadata to each triple indicating whether or not the triple is a _local change_.
+A triple is a local change in a certain version if it was already either added or removed in an earlier version.
+This local change information helps the querying algorithm to determine when to ignore a triple or not,
+which will be further explained in [](#querying).
+
+Finally, in order to speed up the process of patching a snapshot's triple pattern subset for any given offset,
+we add metadata about the position of each triple inside the snapshot to the deletion trees.
+This position information allows the querying algorithm to exploit offset capabilities of the snapshot store
+to resolve offsets for any triple pattern against any version.
+This process will also be further explained in [](#querying).
+
 {:.todo}
-Write
+Mention offsets already somewhere before this.
+
+In summary, we store ten trees, five for both the additions and deletions.
+The trees use triples as keys, with five different triple component orders.
+The addition trees store version and local change information.
+The deletion trees store the same, but additionally also relative snapshot positions.
 
 ### Dictionary
 {:#dictionary}

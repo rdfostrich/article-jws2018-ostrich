@@ -11,7 +11,9 @@ Furthermore, we store additional metadata for convenience and improving lookup t
 Triple components are encoded in a dictionary for improved compression ([HDT](cite:cites hdt))
 and we provide multiple indexes for different triple component orders ([RDF-3X](cite:cites rdf3x), [Hexastore](cite:cites hexastore)).
 [](#storage-overview) shows and overview of these main components, which will be explained in more detail in the following sections.
-We end of this section with a description of ingestion algorithms for this storage approach.
+We end of this section with a description of two ingestion algorithms for this storage approach;
+one batch algorithm, which requires loading the versions in-memory,
+and one streaming algorithm, which inserts the versions in small-chunks.
 
 <figure id="storage-overview">
 <img src="img/storage-overview.svg" alt="[storage overview]">
@@ -144,8 +146,14 @@ we must store metadata regarding the delta chain version ranges.
 Assuming numerical version identifiers, a mapping can be maintained from version ID to delta chain.
 Additionally, a total version counter must be maintain for cases when the last version must be identified.
 
-### Ingestion
-{:#ingestion}
+### Batch Ingestion
+{:#batch-ingestion}
+
+{:.todo}
+Explain both approaches (compare them later in eval)
+
+### Streaming Ingestion
+{:#streaming-ingestion}
 
 {:.todo}
 Explain both approaches (compare them later in eval)

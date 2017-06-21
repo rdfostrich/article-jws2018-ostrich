@@ -629,7 +629,7 @@ figure.algorithm pre samp:before {
 position:absolute;
 left:-1.75em;
 text-align:right;
-content:counter(precode);
+#content:counter(precode);
 counter-increment:precode;
 }
 

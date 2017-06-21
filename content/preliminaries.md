@@ -30,3 +30,7 @@ As [mentioned before](cite:cites tpfarchives), there is a correspondence between
 Namely, VM performs best for storage solutions based on IC, because there is indexing on version.
 DM works best for CB solutions, because the deltas are already in the appropriate format for DM query results.
 Finally, VQ works best for TB solutions, because the timestamp annotation directly corresponds to VQ's result format.
+
+{:.todo}
+definition of changeset
+also other definitions?

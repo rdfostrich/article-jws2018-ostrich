@@ -101,10 +101,13 @@ This local change information helps the querying algorithm to determine when to 
 which will be further explained in [](#querying).
 
 Finally, in order to speed up the process of patching a snapshot's triple pattern subset for any given offset,
-we add metadata about the position of each triple inside the snapshot to the deletion trees.
+we add metadata about the position of each triple inside the delta to the deletion trees.
 This position information allows the querying algorithm to exploit offset capabilities of the snapshot store
 to resolve offsets for any triple pattern against any version.
 This process will also be further explained in [](#querying).
+
+{:.todo}
+more information about deletion positions + give example
 
 {:.todo}
 Mention offsets already somewhere before this.
@@ -146,11 +149,81 @@ we must store metadata regarding the delta chain version ranges.
 Assuming numerical version identifiers, a mapping can be maintained from version ID to delta chain.
 Additionally, a total version counter must be maintain for cases when the last version must be identified.
 
+### Ingestion
+
+In the following two sections, we discuss an in-memory and a streaming ingestion algorithm.
+These algorithms both take a changeset — containing additions and deletions — as input,
+and ingest it to the store as a new version.
+
+Next to ingesting the added and removed triples,
+an ingestion algorithm must be able to calculate the appropriate metadata for the store as discussed in [](#delta-compression).
+More specifically, an ingestion algorithm has the following requirements:
+<ul>
+    <li>Addition triples must be stored in all addition trees</li>
+    <li>Additions and deletions must be annotated with their version</li>
+    <li>Additions and deletions must be annotated with being a local change or not</li>
+    <li>Deletions must be annotated with their position for all triple patterns</li>
+</ul>
+
 ### Batch Ingestion
 {:#batch-ingestion}
 
-{:.todo}
-Explain both approaches (compare them later in eval)
+Our naive first algorithm to ingest data into the store loads everything in memory,
+and inserts the data accordingly.
+The advantage of this algorithm is its simplicity and the possibility to do straightforward optimizations during ingestion.
+The main disadvantage is the high memory consumption requirement for large versions.
+
+Before we discuss the actual batch ingestion algorithm,
+we first introduce an in-memory changeset merging algorithm,
+which is required for the batch ingestion.
+[](#algorithm-ingestion-batch-merge) shows the pseudocode of an algorithm for merging a changeset into another changeset,
+and returning the resulting merged changeset.
+First, all contents of the original changeset are copied into the new changeset.
+After that, an iteration over all the triples of the second changeset is started.
+If the changeset already contained the given triple, the local change flag is set to negation of the local change flag in the first changeset.
+Otherwise, the triple is added to the new changeset, and the local change flag is set to `false`.
+Finally, in both cases, the addition flag of the triple in the new changeset is copied from the second changeset.
+
+<figure id="algorithm-ingestion-batch-merge" class="algorithm">
+````/algorithms/ingestion-batch-merge.txt````
+<figcaption markdown="block">
+In-memory changeset merging algorithm
+</figcaption>
+</figure>
+
+[](#algorithm-ingestion-batch) contains the pseudocode of the batch ingestion algorithm.
+It receives a changeset stream as input, and a reference to the current store.
+The algorithm starts by reading the whole stream in-memory, sorting it in SPO order,
+and encoding all triple components using the dictionary.
+After that, it loads the previous changeset in memory,
+which is required for merging it together with the new changeset using the algorithm from [](#algorithm-ingestion-batch-merge).
+After that, we have the complete new changeset loaded in memory.
+Now, we load each added triple into the addition trees, together with their version and local change flag.
+After that, we can finally start with deletion ingestion.
+This does however require the calculation of metadata about the deletion positions in the changeset for each triple pattern.
+For this, we maintain mappings from triple to a counter for each possible triple pattern.
+For the `? ? ?` triple pattern, we only have to maintain a single counter, as each triple will match with this.
+We start by iterating over all deleted triples in the new changeset,
+increment all the appropriate triple pattern counters,
+and use the new counter value as values for the positions for this deletion.
+We can now ingest the given triple in the deletion trees with their version, local change flag and positions.
+
+<figure id="algorithm-ingestion-batch" class="algorithm">
+````/algorithms/ingestion-batch.txt````
+<figcaption markdown="block">
+In-memory batch ingestion algorithm
+</figcaption>
+</figure>
+
+Even though this algorithm is straightforward,
+it can require a large amount of memory for a number of reasons.
+1) Loading the complete new changeset;
+2) Loading the complete previous changeset;
+3) Combining and loading the previous and new changesets;
+4) Maintaining counters for the deletions in all possible triple patterns.
+As deltas are stored relatively to snapshots, their size can grow for an increasing number of versions,
+which directly leads to larger memory requirements.
+The effects of this memory requirement will be evaluated in [](#evaluate).
 
 ### Streaming Ingestion
 {:#streaming-ingestion}

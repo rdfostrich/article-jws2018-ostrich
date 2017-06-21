@@ -1,0 +1,33 @@
+ingestBatch(changesetStream, store)  {
+  newVersion = store.getLastVersion() + 1
+  changeset  = changesetStream
+      .read()
+      .sort()
+      .encode(store.getDictionary(newVersion))
+  lastChangeset   = store.getLastChangeset()
+  mergedChangeset = mergeChangesets(lastChangeset, changesetEncoded)
+  
+  for (triple, localChange : mergedChangeset.getAdditions()) {
+    store.addAddition(newVersion, triple, localChange)
+  }
+  
+  Map<Triple, long> sp_;
+  Map<Triple, long> s_o;
+  Map<Triple, long> s__;
+  Map<Triple, long> _po;
+  Map<Triple, long> _p_;
+  Map<Triple, long> __o;
+  long ___ = 0;
+  for (triple, localChange : mergedChangeset.getDeletions()) {
+    positions = new Positions(
+      sp_.increment(triple.s, triple.p, 0       )
+      s_o.increment(triple.s, 0       , triple.o)
+      s__.increment(triple.s, 0       , 0       )
+      _po.increment(0       , triple.p, triple.o)
+      _p_.increment(0       , triple.p, 0       )
+      __o.increment(0       , 0       , triple.o)
+      ___++
+    )
+    store.addDeletion(newVersion, triple, localChange, positions)
+  }
+}

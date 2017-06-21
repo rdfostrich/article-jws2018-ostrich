@@ -72,7 +72,7 @@ class MarkupFilter < Nanoc::Filter
     content.gsub! %r{````(/[^`]+)````} do
       code = @items[$1]
       raise "Code block #{$1} not found." unless code
-      "<pre><code>#{h code.raw_content}</code></pre>"
+      "<pre>" + code.raw_content.lines.map{|line| "<code>#{h line}</code>"}.join() + "</pre>"
     end
   end
 
@@ -98,6 +98,8 @@ class MarkupFilter < Nanoc::Filter
       'Subsection'
     when :figure
       case parse_attributes(attribute_list)[:class]
+      when 'algorithm'
+        'Algorithm'
       when 'listing'
         'Listing'
       when 'table'

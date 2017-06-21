@@ -104,21 +104,34 @@ plot coordinates {(0cm,0.8em) (2*\pgfplotbarwidth,0.6em)};},
     
     \begin{table}[b]
         \centering
-        \DTLloaddb{s10}{data/s-10/_average_vq.csv}
-        \DTLloaddb{s100}{data/s-100/_average_vq.csv}
-        \DTLloaddb{p500}{data/p-500/_average_vq.csv}
-        \DTLloaddb{p1500}{data/p-1500/_average_vq.csv}
-        \DTLloaddb{o10}{data/o-10/_average_vq.csv}
-        \DTLloaddb{o100}{data/o-100/_average_vq.csv}        
+        \DTLloaddb{slow}{data/s-low/_average_vq.csv}
+        \DTLloaddb{shigh}{data/s-high/_average_vq.csv}
+        \DTLloaddb{plow}{data/p-low/_average_vq.csv}
+        \DTLloaddb{phigh}{data/p-high/_average_vq.csv}
+        \DTLloaddb{olow}{data/o-low/_average_vq.csv}
+        \DTLloaddb{ohigh}{data/o-high/_average_vq.csv}
+        \DTLloaddb{polow}{data/po-low/_average_vq.csv}
+        \DTLloaddb{pohigh}{data/po-high/_average_vq.csv}
+        \DTLloaddb{solow}{data/so-low/_average_vq.csv}
+        \DTLloaddb{splow}{data/sp-low/_average_vq.csv}
+        \DTLloaddb{sphigh}{data/sp-high/_average_vq.csv}
+        \DTLloaddb{spo}{data/spo/_average_vq.csv}
         \begin{tabularx}{\linewidth}{l|rr}
             & \textbf{Low cardinality} & \textbf{High cardinality} \\
             \hline
-            \textbf{Subject 1} & \DTLforeach*{s10}{\v=lookup-mus-1}{\v} & \DTLforeach*{s100}{\v=lookup-mus-1}{\v} \\
-            \textbf{Subject all} & \DTLforeach*{s10}{\v=lookup-mus-inf}{\v} & \DTLforeach*{s100}{\v=lookup-mus-inf}{\v} \\
-            \textbf{Predicate 1} & \DTLforeach*{p500}{\v=lookup-mus-1}{\v} & \DTLforeach*{p1500}{\v=lookup-mus-1}{\v} \\
-            \textbf{Predicate all} & \DTLforeach*{p500}{\v=lookup-mus-inf}{\v} & \DTLforeach*{p1500}{\v=lookup-mus-inf}{\v} \\
-            \textbf{Object 1} & \DTLforeach*{o10}{\v=lookup-mus-1}{\v} & \DTLforeach*{o100}{\v=lookup-mus-1}{\v} \\
-            \textbf{Object all} & \DTLforeach*{o10}{\v=lookup-mus-inf}{\v} & \DTLforeach*{o100}{\v=lookup-mus-inf}{\v} \\
+            \textbf{S 1} & \DTLforeach*{slow}{\v=lookup-mus-1}{\v} & \DTLforeach*{shigh}{\v=lookup-mus-1}{\v} \\
+            \textbf{S all} & \DTLforeach*{slow}{\v=lookup-mus-inf}{\v} & \DTLforeach*{shigh}{\v=lookup-mus-inf}{\v} \\
+            \textbf{P 1} & \DTLforeach*{plow}{\v=lookup-mus-1}{\v} & \DTLforeach*{phigh}{\v=lookup-mus-1}{\v} \\
+            \textbf{P all} & \DTLforeach*{plow}{\v=lookup-mus-inf}{\v} & \DTLforeach*{phigh}{\v=lookup-mus-inf}{\v} \\
+            \textbf{O 1} & \DTLforeach*{olow}{\v=lookup-mus-1}{\v} & \DTLforeach*{ohigh}{\v=lookup-mus-1}{\v} \\
+            \textbf{O all} & \DTLforeach*{olow}{\v=lookup-mus-inf}{\v} & \DTLforeach*{ohigh}{\v=lookup-mus-inf}{\v} \\
+            \textbf{PO 1} & \DTLforeach*{polow}{\v=lookup-mus-1}{\v} & \DTLforeach*{pohigh}{\v=lookup-mus-1}{\v} \\
+            \textbf{PO all} & \DTLforeach*{polow}{\v=lookup-mus-inf}{\v} & \DTLforeach*{pohigh}{\v=lookup-mus-inf}{\v} \\
+            \textbf{SO 1} & \DTLforeach*{solow}{\v=lookup-mus-1}{\v} &  \\
+            \textbf{SO all} & \DTLforeach*{solow}{\v=lookup-mus-inf}{\v} &  \\
+            \textbf{SP 1} & \DTLforeach*{splow}{\v=lookup-mus-1}{\v} & \DTLforeach*{sphigh}{\v=lookup-mus-1}{\v} \\
+            \textbf{SP all} & \DTLforeach*{splow}{\v=lookup-mus-inf}{\v} & \DTLforeach*{sphigh}{\v=lookup-mus-inf}{\v} \\
+            \textbf{SPO} & \DTLforeach*{spo}{\v=lookup-mus-1}{\v} &  \\
         \end{tabularx}
         \caption{Average lookup times for VQ queries in milliseconds}
         \label{fig:query-dur-dm}

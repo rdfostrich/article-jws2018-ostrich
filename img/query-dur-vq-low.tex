@@ -3,12 +3,12 @@
             Subject 1,Predicate 1,Object 1,
             Subject all,Predicate all,Object all
         }]        
-        \addplot[query1-bar,max,discard if not={offset}{0}] table [x expr=2,y=lookup-mus-inf, col sep=comma] {data/s-10/_average_vq.csv};
-        \addplot[query2-bar,max,discard if not={offset}{0}] table [x expr=4,y=lookup-mus-inf, col sep=comma] {data/p-500/_average_vq.csv};
-        \addplot[query3-bar,max,discard if not={offset}{0}] table [x expr=6,y=lookup-mus-inf, col sep=comma] {data/o-10/_average_vq.csv};
+        \addplot[query1-bar,max,discard if not={offset}{0}] table [x expr=2,y=lookup-mus-inf, col sep=comma] {data/s-low/_average_vq.csv};
+        \addplot[query2-bar,max,discard if not={offset}{0}] table [x expr=4,y=lookup-mus-inf, col sep=comma] {data/p-low/_average_vq.csv};
+        \addplot[query3-bar,max,discard if not={offset}{0}] table [x expr=6,y=lookup-mus-inf, col sep=comma] {data/o-low/_average_vq.csv};
         
-        \addplot[query1-bar,avg,discard if not={offset}{0}] table [x expr=3,y=lookup-mus-1, col sep=comma] {data/s-10/_average_vq.csv};
-        \addplot[query2-bar,avg,discard if not={offset}{0}] table [x expr=5,y=lookup-mus-1, col sep=comma] {data/p-500/_average_vq.csv};
-        \addplot[query3-bar,avg,discard if not={offset}{0}] table [x expr=7,y=lookup-mus-1, col sep=comma] {data/o-10/_average_vq.csv};
+        \addplot[query1-bar,avg,discard if not={offset}{0}] table [x expr=3,y=lookup-mus-1, col sep=comma] {data/s-low/_average_vq.csv};
+        \addplot[query2-bar,avg,discard if not={offset}{0}] table [x expr=5,y=lookup-mus-1, col sep=comma] {data/p-low/_average_vq.csv};
+        \addplot[query3-bar,avg,discard if not={offset}{0}] table [x expr=7,y=lookup-mus-1, col sep=comma] {data/o-low/_average_vq.csv};
     \end{axis}
 \end{tikzpicture}

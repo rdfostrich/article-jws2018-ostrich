@@ -3,12 +3,12 @@
             Subject 1,Predicate 1,Object 1,
             Subject all,Predicate all,Object all
         }]        
-        \addplot[query1,max,discard if not={offset}{0},discard if not={patch_start}{0}] table [x=patch_end, y=lookup-mus-1, col sep=comma] {data/s-100/_average_dm.csv};
-        \addplot[query2,max,discard if not={offset}{0},discard if not={patch_start}{0}] table [x=patch_end, y=lookup-mus-1, col sep=comma] {data/p-1500/_average_dm.csv};
-        \addplot[query3,max,discard if not={offset}{0},discard if not={patch_start}{0}] table [x=patch_end, y=lookup-mus-1, col sep=comma] {data/o-100/_average_dm.csv};
+        \addplot[query1,max,discard if not={offset}{0},discard if not={patch_start}{0}] table [x=patch_end, y=lookup-mus-1, col sep=comma] {data/s-high/_average_dm.csv};
+        \addplot[query2,max,discard if not={offset}{0},discard if not={patch_start}{0}] table [x=patch_end, y=lookup-mus-1, col sep=comma] {data/p-high/_average_dm.csv};
+        \addplot[query3,max,discard if not={offset}{0},discard if not={patch_start}{0}] table [x=patch_end, y=lookup-mus-1, col sep=comma] {data/o-high/_average_dm.csv};
         
-        \addplot[query1,avg,discard if not={offset}{0},discard if not={patch_start}{0}] table [x=patch_end, y=lookup-mus-inf, col sep=comma] {data/s-100/_average_dm.csv};
-        \addplot[query2,avg,discard if not={offset}{0},discard if not={patch_start}{0}] table [x=patch_end, y=lookup-mus-inf, col sep=comma] {data/p-1500/_average_dm.csv};
-        \addplot[query3,avg,discard if not={offset}{0},discard if not={patch_start}{0}] table [x=patch_end, y=lookup-mus-inf, col sep=comma] {data/o-100/_average_dm.csv};
+        \addplot[query1,avg,discard if not={offset}{0},discard if not={patch_start}{0}] table [x=patch_end, y=lookup-mus-inf, col sep=comma] {data/s-high/_average_dm.csv};
+        \addplot[query2,avg,discard if not={offset}{0},discard if not={patch_start}{0}] table [x=patch_end, y=lookup-mus-inf, col sep=comma] {data/p-high/_average_dm.csv};
+        \addplot[query3,avg,discard if not={offset}{0},discard if not={patch_start}{0}] table [x=patch_end, y=lookup-mus-inf, col sep=comma] {data/o-high/_average_dm.csv};
     \end{axis}
 \end{tikzpicture}

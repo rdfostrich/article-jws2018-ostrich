@@ -293,22 +293,6 @@ figure math {
 display:block;
 font-size:0.95em;
 }
-figure {
-counter-increment:figure;
-}
-figure.listing {
-counter-increment:listing;
-}
-figure.equation {
-counter-increment:equation;
-}
-figure.equation:after {
-content:"(" counter(equation) ")";
-line-height:0;
-position:absolute;
-top:45%;
-right:0;
-}
 figure object,
 figure img,
 figure pre {
@@ -318,18 +302,6 @@ figcaption,
 caption {
 font-weight:bold;
 text-align:center;
-}
-figcaption:before {
-content:"Figure " counter(figure) ": ";
-}
-figure.listing figcaption:before {
-content:"Listing " counter(listing) ": ";
-}
-table {
-counter-increment:table;
-}
-caption:before {
-content:"Table " counter(table) ": ";
 }
 
 .toc, .toc ol {

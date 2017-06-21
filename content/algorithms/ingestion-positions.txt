@@ -1,0 +1,11 @@
+calculatePositions(triple)  {
+  return = new Positions(
+   sp_.increment(triple.s, triple.p, 0       )
+   s_o.increment(triple.s, 0       , triple.o)
+   s__.increment(triple.s, 0       , 0       )
+   _po.increment(0       , triple.p, triple.o)
+   _p_.increment(0       , triple.p, 0       )
+   __o.increment(0       , 0       , triple.o)
+   ___++
+  )
+}

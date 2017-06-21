@@ -151,6 +151,9 @@ Additionally, a total version counter must be maintain for cases when the last v
 
 ### Ingestion
 
+{:.todo}
+Clarify distinction between store and delta-chain ingestion! (we assume one delta-chain atm)
+
 In the following two sections, we discuss an in-memory and a streaming ingestion algorithm.
 These algorithms both take a changeset — containing additions and deletions — as input,
 and ingest it to the store as a new version.
@@ -191,6 +194,20 @@ In-memory changeset merging algorithm
 </figcaption>
 </figure>
 
+Secondly, we also introduce an algorithm for incrementally calculating the position of a deletion within a changeset in [](#algorithm-positions).
+For this, we externally maintain mappings from triple to a counter for each possible triple pattern.
+For the `? ? ?` triple pattern, we only have to maintain a single counter, as each triple will match with this.
+In total, we maintain seven triple patterns per triple, we don't maintain a counter for the triple itself as its value is always 1.
+For a given triple, the position of all its possible triple patterns are incremented in the counters.
+The current counter values for all those triple patterns are returned.
+
+<figure id="algorithm-positions" class="algorithm">
+````/algorithms/ingestion-positions.txt````
+<figcaption markdown="block">
+Algorithm for incrementally calculating the position of a deletion within a changeset.
+</figcaption>
+</figure>
+
 [](#algorithm-ingestion-batch) contains the pseudocode of the batch ingestion algorithm.
 It receives a changeset stream as input, and a reference to the current store.
 The algorithm starts by reading the whole stream in-memory, sorting it in SPO order,
@@ -200,12 +217,8 @@ which is required for merging it together with the new changeset using the algor
 After that, we have the complete new changeset loaded in memory.
 Now, we load each added triple into the addition trees, together with their version and local change flag.
 After that, we can finally start with deletion ingestion.
-This does however require the calculation of metadata about the deletion positions in the changeset for each triple pattern.
-For this, we maintain mappings from triple to a counter for each possible triple pattern.
-For the `? ? ?` triple pattern, we only have to maintain a single counter, as each triple will match with this.
-We start by iterating over all deleted triples in the new changeset,
-increment all the appropriate triple pattern counters,
-and use the new counter value as values for the positions for this deletion.
+We start by iterating over all deleted triples in the new changeset
+and calculating the position of the deletion using the algorithm from [](#algorithm-positions).
 We can now ingest the given triple in the deletion trees with their version, local change flag and positions.
 
 <figure id="algorithm-ingestion-batch" class="algorithm">
@@ -224,9 +237,65 @@ it can require a large amount of memory for a number of reasons.
 As deltas are stored relatively to snapshots, their size can grow for an increasing number of versions,
 which directly leads to larger memory requirements.
 The effects of this memory requirement will be evaluated in [](#evaluate).
+The theoretical time complexity of this algorithm is `O(P + N)`,
+with `P` the number of triples in the previous changeset,
+and `N` the number of triples in the new changeset.
 
 ### Streaming Ingestion
 {:#streaming-ingestion}
 
-{:.todo}
-Explain both approaches (compare them later in eval)
+Because of the unbounded memory requirements of the [batch ingestion algorithm](#batch-ingestion),
+we also introduce a more complex streaming ingestion algorithm in [](#algorithm-ingestion-streaming).
+It also takes a changeset stream and store as input parameters,
+with as additional on the stream that its contents must be sorted in SPO-order.
+This is so that the algorithm can assume a consistent order and act as a sort-merge join operation.
+
+In summary, the algorithm performs a sort-merge join over three streams in SPO-order:
+1) the input changeset (N);
+2) the existing deletions (D) over all versions;
+and 3) the existing additions (A) over all versions.
+The algorithm iterates over all streams together, until all of them are finished.
+The smallest triple over all stream heads is handled in each iteration,
+and can be categorized in seven different cases:
+<ol>
+    <li>D &lt; N and D &lt; A</li>
+    <li>A &lt; N and A &lt; D</li>
+    <li>N &lt; A and N &lt; D</li>
+    <li>N == D and N &lt; A</li>
+    <li>N == A and N &lt; D</li>
+    <li>A == D and A &lt; N</li>
+    <li>A == D == N</li>
+</ol>
+
+The two first cases are the simplest ones,
+for these, the deletion and addition information can respectively be copied to the new version.
+For the deletion in this case, and all other cases as well, new positions must be calculated.
+In the third case, a triple is added or removed that was not present before,
+so it can either be added as a non-local change addition or deletion.
+In the fourth case, the new triple already existed as a deletion.
+If the triple is an addition, it must be added as a local change.
+If it is a deletion, it simply overwrites the existing deletion.
+Similarly, in the fifth case the new triple already existed as an addition.
+So the triple must be deleted as a local change if the new triple is a deletion.
+It can be copied if it is an addition.
+In the sixth case, the triple existed as both an addition and deletion at some point.
+In this case, we copy over the one that existed at the latest version.
+Finally, in the seventh case, the triple already existed as both an addition and deletion,
+and is equal to our new triple.
+This means that if the latest triple was an addition, it becomes a deletion, and the other way around,
+and the local change flag can be inherited.
+
+<figure id="algorithm-ingestion-streaming" class="algorithm">
+````/algorithms/ingestion-streaming.txt````
+<figcaption markdown="block">
+In-memory streaming ingestion algorithm
+</figcaption>
+</figure>
+
+The theoretical memory requirements for this algorithm are much lower than the [batch variant](#batch-ingestion).
+That is because instead of loading the complete new changeset in memory,
+we now need to load at most three triples — the heads of each stream — in memory.
+Furthermore, we still need to maintain the position counters for the deletions in all triple patterns.
+While these counters could also become large, a smart implementation could perform memory-mapping
+to avoid storing everything in memory.
+The lower memory requirements comes at the cost of a higher logical complexity, but an equal time complexity.

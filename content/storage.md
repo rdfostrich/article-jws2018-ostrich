@@ -101,9 +101,11 @@ This local change information helps the querying algorithm to determine when to 
 which will be further explained in [](#querying).
 
 Finally, in order to speed up the process of patching a snapshot's triple pattern subset for any given offset,
-we add metadata about the position of each triple inside the delta to the deletion trees.
-This position information allows the querying algorithm to exploit offset capabilities of the snapshot store
-to resolve offsets for any triple pattern against any version.
+we add metadata about the relative position of each triple inside the delta to the deletion trees.
+This position information has two purposes:
+1) it allows the querying algorithm to exploit offset capabilities of the snapshot store
+to resolve offsets for any triple pattern against any version;
+and 2) it allows deletion counts for any triple pattern and version to be done efficiently.
 This process will also be further explained in [](#querying).
 
 {:.todo}

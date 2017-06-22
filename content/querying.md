@@ -9,7 +9,12 @@ Furthermore, [querying algorithms](cite:cites ldf) typically use estimated count
 in their optimizer algorithms for determine the order of triple patterns evaluation.
 In order to support this, we provide corresponding count estimation queries.
 
+{:.todo}
+Move following fundamentals section before storage section?
+So the storage section doesn't have to say things like "as will be explained later...".
+
 ### Fundamentals
+{:#fundamentals}
 
 In this section, we introduce some fundamental concepts
 that are required for the following querying algorithms.
@@ -63,7 +68,6 @@ Overview of which triple patterns can be queried inside which index to optimally
 </figure>
 
 #### Local Changes
-{:#local-changes}
 
 When materializing versions by combining a delta with its snapshot,
 it is important to know whether or not the delta element is relative to the snapshot or a previous delta.
@@ -84,8 +88,38 @@ because storage of the local changes requires the storage of one additional flag
 
 #### Addition and Deletion counts
 
+Parts of the following querying algorithm depend on efficiently counting
+the number of additions or deletions in a delta.
+The naive way of doing this would be to simply iterate over all triples in a delta,
+and counting all those matching the triple pattern and version.
+This has a linear time complexity, so this will not perform well for large stores.
+We propose two different approaches for enabling efficient addition and deletion counting in deltas.
+
+For additions, we propose to store an additional mapping from triple pattern and version to number of additions.
+This mapping must be calculated during ingestion time, so that counts during lookup time for any triple pattern
+at any version can be derived in constant time.
+For many triples and versions, the number of possible triple patterns can become very large,
+which can result in a large mapping store.
+To cope with this, we propose to only store the elements where their counts are larger than a certain threshold.
+Elements that are not stored will have to be counted during lookup time.
+This is however not a problem for reasonably low thresholds,
+because as mentioned in [](#fundamentals),
+we can efficiently limit the iteration scope in our indexes,
+so that triple patterns for which only a limited number of matches exist,
+iteration, and therefore the counts, can happen efficiently.
+The count treshold introduces a trade-off between the storage requirements and the required triple counting during lookups.
+
 {:.todo}
-efficient deletion and addition counting
+Mention this addition count data in the storage section
+
+As mentioned in [](#delta-compression), each deletion is annotated with its relative position in the deletions for that version.
+We can exploit this information to perform deletion counting for any triple pattern and version.
+This can be done by looking up the largest possible triple for the given triple pattern in the deletions tree,
+which can be done in logarithmic time.
+If this doesn't result in a match, we follow the backward link to the element before that one in the tree.
+In this value, the position of the deletion in all deletions for the given value is available.
+Because we have queried the largest possible triple for that triple pattern in the given version,
+this will be the last deletion in the list, so its position corresponds to the total number of deletions in that case.
 
 ### Version Materialization
 
@@ -125,7 +159,7 @@ The reason why we can use the deletion's position in the changeset as offset in 
 is because this position represents the number of deletions that came before that triple inside the snapshot given a consistent triple order.
 
 For both the addition and deletion streams, local changes are filtered out.
-That is because local changes mean that these triple are cancelled out for the given version as explained in [](#local-changes),
+That is because local changes mean that these triple are cancelled out for the given version as explained in [](#fundamentals),
 so they shouldn't be returned in materialized versions.
 
 [](#query-vm-example) shows simplified storage contents where triples are represented as a single letter,

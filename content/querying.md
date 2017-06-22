@@ -11,20 +11,66 @@ In order to support this, we provide corresponding count estimation queries.
 
 ### Fundamentals
 
-{:.todo}
-Say that we don't need OPS because P and O can be switched to use POS. We don't care about order, maybe Hexastore and RDF-3X do.
+In this section, we introduce some fundamental concepts
+that are required for the following querying algorithms.
+We discuss the reason for using multiple indexes,
+having local change metadata,
+and methods for providing addition and deletion counts.
 
-{:.todo}
-Explain different triple component orders and show (prove?) that they are sufficient for all triple patterns.
+#### Multiple Indexes
+
+As mentioned in [](#delta-compression) five different indexes are used for storing the additions and deletions
+in different triple component orders, namely: SPO, SOP, PSO, POS and OSP.
+The reason for five indexes instead of all six possible component orders,
+as is typically done in [other approaches](cite:cites rdf3x,hexastore),
+is because we only aim to evaluate all triple pattern queries efficiently without having to go over the whole index.
+Other approaches are typically also interested in the final triple order for more efficient joining of streams.
+If this would be needed, a sixth `POS` index could optionally be added.
+
+The five indexes that were mentioned are sufficient for optimally reducing the iteration scope of the lookup tree for any triple pattern.
+That is because for each possible triple pattern,
+there exists an index at which the first triple component can be located in logarithmic time,
+and the terminating element of the result stream can be identified without necessarily having to go to the last value of the tree.
+
+The optimal index can always be identified by reordering the triple components of the incoming triple pattern
+in such a way that all variable components come after the materialized components, while ensuring the SPO order within these two groups.
+After that, the index that corresponds to the given triple component order can be used.
+As an `OPS` index is not required, triple components for this can be reordered to `POS` without a loss of expressivity.
+[](#triple-pattern-index-mapping) shows an overview of which triple patterns can be mapped to which index.
+
+For example, for an `S?O` query, the components are reordered to `SO?`, which corresponds to the `SOP` index.
+In this case, the first `SO?` triple can be found in logarithmic time.
+From the moment a triple is found where the object is larger than `O`,
+we can terminate the stream because no new matching triples will be found.
+
+<figure id="triple-pattern-index-mapping" class="table" markdown="1">
+
+| Triple pattern | Index |
+| -------------- |-------|
+| S P O          | SPO   |
+| S P ?          | SPO   |
+| S ? O          | SOP   |
+| S ? ?          | SPO   |
+| ? P O          | POS   |
+| ? P ?          | PSO   |
+| ? ? O          | OSP   |
+| ? ? ?          | SPO   |
+
+
+<figcaption markdown="block">
+Overview of which triple patterns can be queried inside which index to optimally reduce the iteration scope.
+</figcaption>
+</figure>
+
+#### Local Changes
 
 {:.todo}
 Local changes
 
-{:.todo}
-efficient deletion and addition counting
+#### Addition and Deletion counts
 
 {:.todo}
-Offsets based on position metadata
+efficient deletion and addition counting
 
 ### Version Materialization
 

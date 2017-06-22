@@ -3,9 +3,13 @@
 
 In this section, we introduce algorithms for performing VM, DM and VQ triple pattern queries
 based on the storage structure introduced in [](#storage).
+Before that, we introduce some fundamental concepts that are shared in all these algorithms.
 Each of these querying algorithms is based on result streams, enabling efficient offsets and limits.
-Furthermore, we introduce corresponding count estimation queries,
-which can help external systems for query optimization for multiple triple patterns.
+Furthermore, [querying algorithms](cite:cites ldf) typically use estimated counts for triple patterns
+in their optimizer algorithms for determine the order of triple patterns evaluation.
+In order to support this, we provide corresponding count estimation queries.
+
+### Fundamentals
 
 {:.todo}
 Say that we don't need OPS because P and O can be switched to use POS. We don't care about order, maybe Hexastore and RDF-3X do.
@@ -15,6 +19,9 @@ Explain different triple component orders and show (prove?) that they are suffic
 
 {:.todo}
 Local changes
+
+{:.todo}
+efficient deletion and addition counting
 
 {:.todo}
 Offsets based on position metadata
@@ -49,7 +56,7 @@ the iterator will start emitting addition triples at the end of the stream.
 <figure id="algorithm-querying-vm" class="algorithm">
 ````/algorithms/querying-vm.txt````
 <figcaption markdown="block">
-Version Materialization algorithm for triple patterns that produces a triple stream with an offset.
+Version Materialization algorithm for triple patterns that produces a triple stream with an offset in a given version.
 </figcaption>
 </figure>
 
@@ -99,21 +106,56 @@ Finally, we update the snapshot offset to 2 + 2 + 1 = 5 with stream head `F`.
 Querying the deletions results in the same `E` element,
 so we use this last offset in our final snapshot stream.
 
+#### Estimated count
+
+In order to provide an estimated count for VM triple pattern query,
+we introduce a new algorithm in [](#algorithm-querying-vm-count).
+This straightforward algorithm depends on the efficiency of the snapshot to provide count estimations for a given triple pattern.
+Based on the snapshot count for the given triple pattern, the number of deletions for that version and triple pattern
+are subtracted and the number of additions are added.
+
+<figure id="algorithm-querying-vm-count" class="algorithm">
+````/algorithms/querying-vm-count.txt````
+<figcaption markdown="block">
+Version Materialization count estimation algorithm for triple patterns in a given version.
+</figcaption>
+</figure>
+
 #### Proof
 
-{:.todo} proof
+{:.todo}
+proof regular and count algo
+
+### Delta Materialization
+
+#### Query
+
+{:.todo}
+Write
 
 #### Estimated count
 
 {:.todo}
-count
+Write
 
-### Delta Materialization
+#### Proof
 
 {:.todo}
-Write algo+count
+proof regular and count algo
 
 ### Version Query
 
+#### Query
+
 {:.todo}
-Write algo+count
+Write
+
+#### Estimated count
+
+{:.todo}
+Write
+
+#### Proof
+
+{:.todo}
+proof regular and count algo

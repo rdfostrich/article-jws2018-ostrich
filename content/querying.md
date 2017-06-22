@@ -63,9 +63,24 @@ Overview of which triple patterns can be queried inside which index to optimally
 </figure>
 
 #### Local Changes
+{:#local-changes}
 
-{:.todo}
-Local changes
+When materializing versions by combining a delta with its snapshot,
+it is important to know whether or not the delta element is relative to the snapshot or a previous delta.
+Because a triple that for example was deleted in version 1, but re-added in version 2
+is cancelled out when materializing against version 2.
+
+One way of doing this is by checking both the addition and deletion trees for a given triple and version,
+and determining the element with the smallest version.
+All elements with version larger than this smallest version will be local changes.
+
+An alternative approach would be to precalculate this information
+and store it on each value, as is done in our [storage approach](#delta-compression).
+
+The first approach always requires lookups in both trees,
+even if only the additions or deletions are queried.
+On the other hand, it requires less storage space,
+because storage of the local changes requires the storage of one additional flag per triple per version.
 
 #### Addition and Deletion counts
 
@@ -108,6 +123,10 @@ Version Materialization algorithm for triple patterns that produces a triple str
 
 The reason why we can use the deletion's position in the changeset as offset in the snapshot
 is because this position represents the number of deletions that came before that triple inside the snapshot given a consistent triple order.
+
+For both the addition and deletion streams, local changes are filtered out.
+That is because local changes mean that these triple are cancelled out for the given version as explained in [](#local-changes),
+so they shouldn't be returned in materialized versions.
 
 [](#query-vm-example) shows simplified storage contents where triples are represented as a single letter,
 and there is only a single snapshot and delta.

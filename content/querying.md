@@ -34,17 +34,17 @@ This loop starts by determining the triple at the current offset position in the
 We then query the deletions tree with for the given triple pattern and version,
 and use the snapshot triple as offset.
 This triple-based offset is done by navigating through the tree to the smallest triple before or equal to the offset triple.
-If the deletion tree query is not empty, then we use the deletion's position for the current triple pattern as new snapshot offset.
-Otherwise, we use the total number of deletions for the given triple pattern in this version as offset.
+If the query is not empty and the iterator has not yet ended,
+then we use the deletion's position for the current triple pattern as new snapshot offset.
+If the query is not empty and the iterator has ended,
+we use the total number of deletions for the given triple pattern in this version as offset.
+Otherwise, if the deletion tree query has no results, we use zero as new snapshot offset.
 From the moment that the snapshot offset doesn't change anymore, we have converged to the correct offset.
 After that, we return a simple iterator starting from that snapshot position,
 which performs a sort-merge join-like operation that removes each triple from the snapshot that also appears in the deletion stream,
 which can be done efficiently because of the consistent SPO-ordering.
 From the moment the snapshot and deletion streams have finished,
 the iterator will start emitting addition triples at the end of the stream.
-
-{:.todo}
-update description with hasPrevious
 
 <figure id="algorithm-querying-vm" class="algorithm">
 ````/algorithms/querying-vm.txt````

@@ -2,6 +2,9 @@
 {:#introduction}
 
 The number of [Linked Open Datasets](cite:cites linkeddata) using the [RDF](cite:cites spec:rdf) data model is continuously increasing.
+RDF allows the formation of directed, labeled graphs, where all elements correspond to resources.
+These resources can either be IRIs or literals.
+These graphs are represented using _triples_, in which a subject is linked via a predicate to an object.
 While the RDF data model is atemporal, Linked Datasets typically [change over time](cite:cites datasetdynamics) on
 [dataset, schema and/or instance level](cite:cites diachronql). These refer to additions,
 changes or deletions of respectively complete datasets, ontologies and separate facts.

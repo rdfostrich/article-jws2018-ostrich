@@ -25,12 +25,6 @@ Finally, metadata about the complete archive is stored, containing information s
 </figcaption>
 </figure>
 
-{:.todo}
-Snapshot requirements:
-* triple pattern queries
-* offsets
-* dictionary
-
 ### Snapshot and Delta Chain
 {:#snapshot-delta-chain}
 
@@ -70,6 +64,22 @@ which we discuss in [](#delta-compression).
 Delta chain in which deltas are relative to the snapshot at the start of the chain, as part of our approach.
 </figcaption>
 </figure>
+
+### Snapshot storage
+{:#snapshot-storage}
+
+As mention before, the start of each delta chain is a fully materialized snapshot.
+In order to provide sufficient efficiency for VM, DM and VQ querying with respect to all versions in the chain,
+we assume the following requirements for the snapshot storage:
+<ol>
+    <li>Any triple pattern query must be resolvable efficiently as triple streams.</li>
+    <li>Offsets should be applyable to the result stream of any triple pattern query efficiently.</li>
+    <li>All triple components must be dictionary-encoded.</li>
+    <li>Total result counts for any triple pattern query should be resolvable efficiently.</li>
+</ol>
+
+Providing an implementation for a snapshot store is out of scope for this work,
+but existing techniques such as [HDT](cite:cites hdt) fulfill all these requirements.
 
 ### Delta Storage
 {:#delta-compression}

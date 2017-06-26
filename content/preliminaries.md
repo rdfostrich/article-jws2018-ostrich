@@ -32,5 +32,8 @@ DM works best for CB solutions, because the deltas are already in the appropriat
 Finally, VQ works best for TB solutions, because the timestamp annotation directly corresponds to VQ's result format.
 
 {:.todo}
+explain example use cases for VM, DM and VQ (why and how)
+
+{:.todo}
 definition of changeset
 also other definitions?

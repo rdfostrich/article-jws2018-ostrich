@@ -227,15 +227,46 @@ proof regular and count algo
 
 ### Delta Materialization
 
+The goal of delta materialization queries is to query the triple differences between two versions.
+Furthermore, each triple in the result stream is annotated with either being an addition or deletion between the given version range.
+Within the scope of this work, we limit ourselves to delta materialization within a single snapshot and delta chain.
+Because of this, we distinguish two different cases for our DM algorithm
+in which we can query triple patterns between a start and end version,
+the start version of the query can either correspond to the snapshot version or it can come after that.
+Furthermore, we introduce an equivalent query for estimating the number of results for these queries.
+
 #### Query
 
-{:.todo}
-Write
+For the first query case, where the start version corresponds to the snapshot version
+the algorithm is straightforward.
+Since we always store our deltas relative to the snapshot,
+filtering the delta of the given end version based on the given triple pattern directly corresponds to the desired result stream.
+Furthermore, we filter out local changes, as we are only interested in actual change with respect to the snapshot.
+
+For the second case, the start version does not corresponds to the snapshot version.
+The algorithm iterates over the triple pattern iteration scope of the addition and deletion trees in a sort-merge join-like operation,
+and only emits the triples that have a different addition/deletion flag for the two versions.
 
 #### Estimated count
 
-{:.todo}
-Write
+For count esimation we can also distinguish the two separate cases from previous section.
+
+For the first case, the start version corresponds to the snapshot version.
+A query for counting the number of triples for the start version is delegated to the snapshot,
+which we assume can happen efficiently.
+After that, the number of deletions and additions for the given triple pattern and version are queried,
+which can happen efficiently as described in [](#fundamentals).
+The number of snapshot triples summed up with the number of deletions and additions is the resulting estimated number of results.
+
+In the second case the start version does not correspond to the snapshot version.
+We estimate the total count as the sum of the additions and deletions for the given triple pattern in both versions.
+This may only be a rough estimate, but will always be an upper bound, as the triples that were changed twice within the version range and negate each other
+are also counted.
+For example, for querying within version 1 and 4, if triple A was added in version 2 but removed again in version 3,
+it should not be included in the delta triple count with respect to version range [1, 4].
+But according to our algorithm, this triple will be included twice in our counting, once as an addition and once as a deletion.
+Our count in this case will at least be two too high.
+For exact counting, this number of negated triples should be subtracted.
 
 #### Proof
 

@@ -21,6 +21,7 @@ and one streaming algorithm, which inserts the versions in small-chunks.
 The initial version of an RDF archive is stored as a _fully materialized snapshot_, for example using the HDT format.
 Each following version is stored as a _delta_ relative to the initial snapshot.
 All delta's are compressed in _addition and deletion trees_, where a _dictionary_ is used to compress triple components.
+Furthermore, we store an the _counts_ for certain triple pattern queries over _additions_.
 Finally, metadata about the complete archive is stored, containing information such as the total number of available versions.
 </figcaption>
 </figure>
@@ -42,7 +43,7 @@ Providing an implementation for a snapshot store is out of scope for this work,
 but existing techniques such as [HDT](cite:cites hdt) fulfill all these requirements.
 
 ### Delta Storage
-{:#delta-compression}
+{:#delta-storage}
 
 In order to cope with the newly introduced redundancies because of our alternative delta chain structure,
 we introduce a delta storage method similar to the TB storage strategy,
@@ -110,6 +111,36 @@ which can for example be a reserved bit.
 As the dictionary entries are text-based, they are likely to contain a lot of redundancies.
 That is why the dictionary can be compressed to reduce storage requirements.
 
+### Addition Counts
+{:#addition-counts}
+
+As mentioned before, in order to make the counting of matching addition triples for any triple pattern for any version more efficient,
+we propose to store an additional mapping from triple pattern and version to number of additions.
+This mapping must be calculated during ingestion time, so that counts during lookup time for any triple pattern
+at any version can be derived in constant time.
+For many triples and versions, the number of possible triple patterns can become very large,
+which can result in a large mapping store.
+To cope with this, we propose to only store the elements where their counts are larger than a certain threshold.
+Elements that are not stored will have to be counted during lookup time.
+This is however not a problem for reasonably low thresholds,
+because as mentioned in [](#fundamentals),
+we can efficiently limit the iteration scope in our indexes,
+so that triple patterns for which only a limited number of matches exist,
+iteration, and therefore the counts, can happen efficiently.
+The count treshold introduces a trade-off between the storage requirements and the required triple counting during lookups.
+
+### Deletion Counts
+{:#deletion counts}
+
+As mentioned in [](#delta-storage), each deletion is annotated with its relative position in the deletions for that version.
+We can exploit this information to perform deletion counting for any triple pattern and version.
+This can be done by looking up the largest possible triple for the given triple pattern in the deletions tree,
+which can be done in logarithmic time.
+If this doesn't result in a match, we follow the backward link to the element before that one in the tree.
+In this value, the position of the deletion in all deletions for the given value is available.
+Because we have queried the largest possible triple for that triple pattern in the given version,
+this will be the last deletion in the list, so its position corresponds to the total number of deletions in that case.
+
 ### Metadata
 {:#metadata}
 
@@ -128,7 +159,7 @@ The creation of snapshots at the start of each new chain and determining suitabl
 are considered as future work.
 
 Next to ingesting the added and removed triples,
-an ingestion algorithm must be able to calculate the appropriate metadata for the store as discussed in [](#delta-compression).
+an ingestion algorithm must be able to calculate the appropriate metadata for the store as discussed in [](#delta-storage).
 More specifically, an ingestion algorithm has the following requirements:
 <ul>
     <li>Addition triples must be stored in all addition trees</li>

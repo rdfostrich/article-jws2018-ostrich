@@ -35,7 +35,7 @@ Versioning also is a popular area in other domains, such as software development
 [Git](cite:cites git) is a distributed version control system, typically used in software development projects,
 which enables users to work of text documents independently, and synchronize their versions safely.
 Furthermore, it maintains a complete history of the documents by storing the *differences* between each version.
-Storing the differences between each version instead of maintaining fully materialized snapshots of each version
+Storing the differences, i.e. changesets/deltas, between each version instead of maintaining fully materialized snapshots of each version
 can significantly reduce the storage requirements for archives.
 Techniques like these are also used in existing RDF archiving solutions.
 

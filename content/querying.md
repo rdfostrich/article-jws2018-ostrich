@@ -42,7 +42,7 @@ Version Materialization algorithm for triple patterns that produces a triple str
 </figcaption>
 </figure>
 
-The reason why we can use the deletion's position in the changeset as offset in the snapshot
+The reason why we can use the deletion's position in the delta as offset in the snapshot
 is because this position represents the number of deletions that came before that triple inside the snapshot given a consistent triple order.
 
 For both the addition and deletion streams, local changes are filtered out.

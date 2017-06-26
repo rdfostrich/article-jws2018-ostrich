@@ -163,12 +163,12 @@ Additionally, a total version counter must be maintain for cases when the last v
 
 ### Ingestion
 
-{:.todo}
-Clarify distinction between store and delta-chain ingestion! (we assume one delta-chain atm)
-
 In the following two sections, we discuss an in-memory and a streaming ingestion algorithm.
 These algorithms both take a changeset — containing additions and deletions — as input,
 and ingest it to the store as a new version.
+Within the scope of this article, we only discuss ingestion of deltas in the delta chain following a snapshots.
+The creation of snapshots at the start of each new chain and determining suitable moments to create a snapshot instead of a delta
+are considered as future work.
 
 Next to ingesting the added and removed triples,
 an ingestion algorithm must be able to calculate the appropriate metadata for the store as discussed in [](#delta-compression).

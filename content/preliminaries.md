@@ -1,7 +1,8 @@
 ## Preliminaries
 {:#preliminaries}
 
-{:.todo} do we need to give some examples and figures for the storage and query types?
+{:.todo}
+do we need to give some examples and figures for the storage and query types?
 
 Several approaches exist for archiving Linked Data, which will be further discussed in [](#related-work-archiving).
 A survey about archiving [Linked Open Data](cite:cites archiving) categorizes these approaches

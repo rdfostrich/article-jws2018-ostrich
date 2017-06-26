@@ -116,6 +116,8 @@ That is why the dictionary can be compressed to reduce storage requirements.
 
 As mentioned before, in order to make the counting of matching addition triples for any triple pattern for any version more efficient,
 we propose to store an additional mapping from triple pattern and version to number of additions.
+Furthermore, for being able to retrieve the total number of additions across all versions,
+we also propose to store this value for all triple patterns.
 This mapping must be calculated during ingestion time, so that counts during lookup time for any triple pattern
 at any version can be derived in constant time.
 For many triples and versions, the number of possible triple patterns can become very large,
@@ -128,6 +130,9 @@ we can efficiently limit the iteration scope in our indexes,
 so that triple patterns for which only a limited number of matches exist,
 iteration, and therefore the counts, can happen efficiently.
 The count treshold introduces a trade-off between the storage requirements and the required triple counting during lookups.
+
+{:.todo}
+should we also mention how we calc this in the ingestion algo's? impl detail?
 
 ### Deletion Counts
 {:#deletion counts}

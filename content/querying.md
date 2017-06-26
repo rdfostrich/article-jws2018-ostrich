@@ -124,6 +124,9 @@ Furthermore, we introduce an equivalent query for estimating the number of resul
 
 #### Query
 
+{:.todo}
+mention offsets?
+
 For the first query case, where the start version corresponds to the snapshot version
 the algorithm is straightforward.
 Since we always store our deltas relative to the snapshot,
@@ -162,15 +165,37 @@ proof regular and count algo
 
 ### Version Query
 
+For the final query atom, version querying, we have to retrieve all triples across all versions,
+annotated with the versions in which they exist.
+In this work, we again focus on version queries for a single snapshot and delta chain.
+For multiple snapshots and delta chains, the following algorithms should simply be applied once for each snapshot and delta chain.
+In the following sections, we introduce an algorithm for performing triple pattern version queries
+and an algorithm for estimating the total number of matching triples for the former queries.
+
 #### Query
 
 {:.todo}
-Write
+mention offsets?
+
+Our version querying algorithm is again based on a sort-merge join-like operation.
+
+We start by iterating over the snapshot for the given triple pattern.
+Each snapshot triple is queried within the deletion tree.
+If such a deletion value can be found, the versions annotation contains all versions except for the versions
+for which the given triple was deleted with respect to the given snapshot.
+If no such deletion value was found, the triple has never been deleted,
+so the versions annotation simply contains all versions of the store.
+When the snapshot iterator has finished, we iterate over the addition tree in a similar way.
+Each addition triple is again queried within the deletions tree
+and the versions annotation can equivalently be derived.
 
 #### Estimated count
 
-{:.todo}
-Write
+Calculating the number of triples matching any triple pattern version query is trivial.
+We simply retrieve the count for the given triple pattern in the given snapshot
+and add the number of additions for the given triple pattern over all versions.
+The number of deletions should not be taking into account here,
+as this information is only required for determining the version annotation in the version query results.
 
 #### Proof
 

@@ -34,4 +34,4 @@ DM works best for CB solutions, because the deltas are already in the appropriat
 Finally, VQ works best for TB solutions, because the timestamp annotation directly corresponds to VQ's result format.
 
 {:.todo}
-explain example use cases and figures for VM, DM and VQ (why and how)
+explain example use cases and figures for VM, DM and VQ (why and how)?

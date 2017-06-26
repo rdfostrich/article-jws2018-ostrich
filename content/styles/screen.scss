@@ -99,8 +99,11 @@ main {
   h4 {
     font-weight: bold;
     margin: 0 1em 0 0;
-    float: left;
-    clear: left;
+    
+    &::before {
+      counter-increment: subsubsection;
+      content: counter(section) "." counter(subsection) "." counter(subsubsection) ". ";
+    }
   }
 
   // Paragraphs

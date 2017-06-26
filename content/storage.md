@@ -121,9 +121,6 @@ This process will also be further explained in [](#querying).
 {:.todo}
 more information about deletion positions + give example
 
-{:.todo}
-Mention offsets already somewhere before this.
-
 In summary, we store ten trees, five for both the additions and deletions.
 The trees use triples as keys, with five different triple component orders.
 The addition trees store version and local change information.

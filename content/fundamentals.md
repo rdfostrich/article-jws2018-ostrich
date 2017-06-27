@@ -51,12 +51,12 @@ Delta chain in which deltas are relative to the snapshot at the start of the cha
 ### Multiple Indexes
 
 Our storage approach consists of five different indexes are used for storing the additions and deletions
-in different triple component orders, namely: SPO, SOP, PSO, POS and OSP.
+in different triple component orders, namely: `SPO`, `SOP`, `PSO`, `POS` and `OSP`.
 The reason for five indexes instead of all six possible component orders,
 as is typically done in [other approaches](cite:cites rdf3x,hexastore),
 is because we only aim to evaluate all triple pattern queries efficiently without having to go over the whole index.
 Other approaches are typically also interested in the final triple order for more efficient joining of streams.
-If this would be needed, a sixth `POS` index could optionally be added.
+If this would be needed, a sixth `OPS` index could optionally be added.
 
 The five indexes that were mentioned are sufficient for optimally reducing the iteration scope of the lookup tree for any triple pattern.
 That is because for each possible triple pattern,

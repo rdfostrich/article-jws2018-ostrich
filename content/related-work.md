@@ -23,6 +23,8 @@ and 3 one-valued indexes (S, P, and O).
 A dictionary is used to compress common triple components.
 When evaluating SPARQL queries, the optimal indexes can be selected based on the query's triple patterns.
 Furthermore, the store allows update operations.
+In our storage approach, we will reuse the concept of multiple indexes
+and encoding triple components in a dictionary.
 
 [Hexastore](cite:cites hexastore) is similar in the sense that it uses six different B+Trees,
 one for each possible triple component order.
@@ -48,6 +50,7 @@ Its fast triple pattern queries and high compression rate make it
 the go-to backend storage method for [TPF](cite:cites ldf) servers.
 Approaches like [LOD Laundromat](lodlaundromat) combine HDT and TPF for hosting and publishing
 650K+ Linked Datasets containing 38M+ triples, proving its usefulness at large scale.
+We will reuse HDT snapshots as part of our storage solution.
 
 ### RDF Archiving
 {:#related-work-archiving}
@@ -60,6 +63,9 @@ and there is a need for [maintaining the history of the datasets](cite:cites arc
 RDF archiving has been an active area of research over the last couple of years.
 In this section, we discuss several existing RDF archiving systems, which are summarized in [](#rdf-archive-systems).
 We mention the basics of how they work, and what storage strategy they use as introduced in [](#preliminaries).
+The storage approach we propose is a hybrid between IC, CB and TB
+because we aim to evaluate all versioned query atoms (VM, DM and VQ) efficiently.
+The following approaches are either pure IC, CB or TB, or hybrid IC/CB.
 
 [SemVersion](cite:cites semversion) was one of the first works to look into tracking different versions of RDF graphs.
 SemVersion is based on Concurrent Versions System (CVS) concepts to maintain different versions of ontologies,
@@ -145,6 +151,7 @@ Individual copies (IC), Change-based (CB), Timestamp-based (TB) or a hybrid.
 </figure>
 
 ### RDF Archiving Benchmarks
+{:#related-work-benchmarks}
 
 {:.todo}
 Update BEAR reference when their journal paper is accepted.

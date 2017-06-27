@@ -159,6 +159,8 @@ Additionally, a total version counter must be maintain for cases when the last v
 In the following two sections, we discuss an in-memory and a streaming ingestion algorithm.
 These algorithms both take a changeset — containing additions and deletions — as input,
 and ingest it to the store as a new version.
+Note that the ingested changesets are regular changesets, i.e., they are relative to one another according to [](#regular-delta-chain).
+During ingestion, they will be transformed to the alternative delta chain structure as shown in [](#alternative-delta-chain).
 Within the scope of this article, we only discuss ingestion of deltas in the delta chain following a snapshots.
 The creation of snapshots at the start of each new chain and determining suitable moments to create a snapshot instead of a delta
 are considered as future work.

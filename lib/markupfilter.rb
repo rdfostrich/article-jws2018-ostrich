@@ -80,7 +80,8 @@ class MarkupFilter < Nanoc::Filter
   def create_labels content
     @reference_counts = {}
     main = content[%r{<main>.*</main>}m]
-    labels = main.scan(/<(\w+)([^>]*\s+id="([^"]+)"[^>]*)>/)
+    appendix = content[%r{<div id="appendix"[^>]*>.*</div>}m]
+    labels = (main + appendix).scan(/<(\w+)([^>]*\s+id="([^"]+)"[^>]*)>/)
                  .map do |tag, attribute_list, id|
       type = label_type_for tag.downcase.to_sym, attribute_list
       number = number_for type

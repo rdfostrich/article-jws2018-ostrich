@@ -1,0 +1,82 @@
+\usepackage[utf8]{inputenc}
+
+% Page setup
+\usepackage[a4paper,landscape,margin=2cm]{geometry}
+\usepackage{amsmath}
+
+% Typography
+\usepackage[scaled]{helvet}
+\let\familydefault\sfdefault
+
+\usepackage[usenames,svgnames]{xcolor}
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{arrows,positioning,shapes,calc,intersections}
+
+\definecolor{colorostrich}{RGB}{142, 23,  4}
+\definecolor{colorjena}{RGB}   { 62,111,186}
+\definecolor{colorhdt}{RGB}    {172,196, 75}
+
+\newcommand\plotfontsize{\fontsize{6}{6}\selectfont}
+\pgfplotsset{%
+  compat=1.6,
+  axis lines=left,
+  every axis/.append style={
+    font=\plotfontsize,
+  },
+  label style={
+    font=\plotfontsize\bfseries,
+  },
+  tick label style={
+    font=\plotfontsize,
+  },
+  discard if below/.style 2 args={
+      x filter/.append code={
+          \edef\tempa{\thisrow{#1}}
+          \edef\tempb{#2}
+          \ifdim\tempa pt<\tempb pt
+          \else
+              \def\pgfmathresult{inf}
+          \fi
+      }
+  },
+  discard if not/.style 2 args={
+      x filter/.append code={
+          \edef\tempa{\thisrow{#1}}
+          \edef\tempb{#2}
+          \ifx\tempa\tempb
+          \else
+              \def\pgfmathresult{inf}
+          \fi
+      }
+  },
+  %queryplot/.belongs to family=/pgfplots/scale, % Needed to change ymode in the following style
+  queryplot/.style={%
+      %ymode=log,
+      %log basis y=10,
+      log ticks with fixed point,
+      xtick=data,
+      xmin=0,
+      xmax=10,
+      ymin=0.01,
+      ymax=10000,
+      ylabel={Lookup (ms)},
+      width=8cm,
+      height=5cm,
+      every axis legend/.append style={at={(0.6,1)},anchor=north},
+      max space between ticks=12pt,try min ticks=2,
+      legend columns=4,
+      xlabel={Version},
+      legend image post style={sharp plot, line width=0.5pt},
+      scaled y ticks = false,
+      y tick label style={/pgf/number format/fixed, /pgf/number format/1000 sep = \thinspace},
+      legend entries = {OSTRICH,HDT-IC,HDT-CB,Jena-IC,Jena-CB,Jena-TB,Jena-CB/TB,}
+  },
+  main/.style={every mark/.append style={solid, fill=gray},thick,mark size=1},
+  ostrich/.style={color=colorostrich,main,mark=diamond*,mark options={solid,fill=colorostrich},discard if not={offset}{0}},
+  jenaic/.style={densely dashed,color=colorjena,main,mark=*,mark options={solid,fill=colorjena}},
+  jenacb/.style={densely dashed,color=colorjena,main,mark=square*,mark options={solid,fill=colorjena}},
+  jenatb/.style={densely dashed,color=colorjena,main,mark=triangle*,mark options={solid,fill=colorjena}},
+  jenacbtb/.style={densely dashed,color=colorjena,main,mark=diamond*,mark options={solid,fill=colorjena}},
+  hdtic/.style={color=colorhdt,main,mark=*,mark options={solid,fill=colorhdt}},
+  hdtcb/.style={color=colorhdt,main,mark=square*,mark options={solid,fill=colorhdt}},
+}

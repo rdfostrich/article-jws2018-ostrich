@@ -153,7 +153,7 @@ OSTRICH increasing offset: once low card and once high card, for S?? limit inf, 
     for VM, DM and VQ
 
 {:.todo}
-appendix: (each plot contains results for 7 storage approaches)
+appendix: (each plot contains results for 7 storage approaches, one plot for low and one for high cardinality)
     BEAR-A:
         VM: (10 versions)
             S??, ?P?, ??O, SP?, ?PO, S?O, SPO

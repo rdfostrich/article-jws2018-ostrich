@@ -63,7 +63,7 @@ header {
   }
 }
 
-main {
+main, #appendix {
   counter-reset: section;
 
   section > p, ul, ol, dl {
@@ -171,6 +171,21 @@ main {
     &:not(:hover) {
       color: #999;
       background: none;
+    }
+  }
+}
+
+#appendix {
+  h1 {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 1em 0 .5em;
+  }
+  // Sections
+  h2 {
+    &::before {
+      counter-increment: section;
+      content: counter(section, upper-alpha) ". ";
     }
   }
 }

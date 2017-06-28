@@ -72,17 +72,68 @@ We report the ingestion results, storage sizes and query evaluation times for al
 {:.todo}
 Write
 
+<figure id="results-ingestion-bear-a" class="table" markdown="1">
+
+| Approach        | Ingestion Time (min) | Size (GB) |
+| --------------- |:---------------------|:----------|
+| Raw (N-Triples) | /                    | 45        |
+| Raw (gzip)      | /                    | 3         |
+| OSTRICH         | 2463                 | 5,86      |
+| Jena IC         | TODO                 | TODO      |
+| Jena CB         | TODO                 | TODO      |
+| Jena TB         | TODO                 | TODO      |
+| Jena CB/TB      | TODO                 | TODO      |
+| HDT IC          | TODO                 | TODO      |
+| HDT CB          | TODO                 | TODO      |
+
+<figcaption markdown="block">
+Ingestion times and storage sizes for each of the RDF archive approaches for the first ten versions of BEAR-A.
+</figcaption>
+</figure>
+
+<figure id="results-ingestion-bear-b-daily" class="table" markdown="1">
+
+| Approach        | Ingestion Time (min) | Size (MB) |
+| --------------- |:---------------------|:----------|
+| Raw (N-Triples) | /                    | 583       |
+| Raw (gzip)      | /                    | 32        |
+| OSTRICH         | TODO                 | 23,6      |
+| Jena IC         | TODO                 | TODO      |
+| Jena CB         | TODO                 | TODO      |
+| Jena TB         | TODO                 | TODO      |
+| Jena CB/TB      | TODO                 | TODO      |
+| HDT IC          | TODO                 | TODO      |
+| HDT CB          | TODO                 | TODO      |
+
+<figcaption markdown="block">
+Ingestion times and storage sizes for each of the RDF archive approaches for BEAR-B daily.
+</figcaption>
+</figure>
+
+<figure id="results-ingestion-bear-b-hourly" class="table" markdown="1">
+
+| Approach        | Ingestion Time (min) | Size (MB) |
+| --------------- |:---------------------|:----------|
+| Raw (N-Triples) | /                    | 8929      |
+| Raw (gzip)      | /                    | 467       |
+| OSTRICH         | TODO                 | TODO      |
+| Jena IC         | TODO                 | TODO      |
+| Jena CB         | TODO                 | TODO      |
+| Jena TB         | TODO                 | TODO      |
+| Jena CB/TB      | TODO                 | TODO      |
+| HDT IC          | TODO                 | TODO      |
+| HDT CB          | TODO                 | TODO      |
+
+<figcaption markdown="block">
+Ingestion times and storage sizes for each of the RDF archive approaches for BEAR-B hourly.
+</figcaption>
+</figure>
+
 {:.todo}
-table ingestion: time + total size
-raw
-gzip
-OSTRICH
-Jena IC
-Jena CB
-Jena TB
-Jena CB/TB
-HDT IC
-HDT CB
+OSTRICH ingestion rate plot for increasing versions
+
+{:.todo}
+OSTRICH acc size plot for increasing versions
 
 {:.todo}
 Summary plots, all other detailed plots in appendix

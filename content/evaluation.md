@@ -129,15 +129,27 @@ Ingestion times and storage sizes for each of the RDF archive approaches for BEA
 </figcaption>
 </figure>
 
-{:.todo}
-OSTRICH ingestion rate plot for increasing versions
+<figure id="results-ostrich-ingestion-rate">
+<img src="img/results-ostrich-ingestion-rate.svg" alt="[OSTRICH ingestion rate]">
+<figcaption markdown="block">
+OSTRICH ingestion durations for each consecutive version in minutes for an increasing number of versions,
+showing a lineair growth.
+</figcaption>
+</figure>
 
-{:.todo}
-OSTRICH acc size plot for increasing versions
+<figure id="results-ostrich-ingestion-size">
+<img src="img/results-ostrich-ingestion-size.svg" alt="[OSTRICH ingestion sizes]">
+<figcaption markdown="block">
+Cumulative OSTRICH store sizes for each consecutive version in GB for an increasing number of versions,
+showing a lineair growth.
+</figcaption>
+</figure>
 
 {:.todo}
 Summary plots, all other detailed plots in appendix
-OSTRICH increasing limit: once low card and once high card, for S?? limit 1, ?P? limit 1, ??O limit 1, S?? limit inf, ?P? limit inf, ??O limit inf
+OSTRICH: once low card and once high card, for S?? limit inf, ?P? limit inf, ??O limit inf
+    for VM, DM and VQ
+OSTRICH increasing offset: once low card and once high card, for S?? limit inf, ?P? limit inf, ??O limit inf
     for VM, DM and VQ
 
 {:.todo}

@@ -98,3 +98,4 @@ tmp
 output
 *.log
 *.diff
+data

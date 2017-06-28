@@ -66,9 +66,52 @@ Ubuntu 14.04 machine with 128 GB of memory and a
 
 ### Results
 
-{:.todo}
-Write: we report ingestion rate (bear doesn't do this!), storage size and query eval times
+In this section, we present the results of our evaluation.
+We report the ingestion results, storage sizes and query evaluation times for all cases.
 
+{:.todo}
+Write
+
+{:.todo}
+table ingestion: time + total size
+raw
+gzip
+OSTRICH
+Jena IC
+Jena CB
+Jena TB
+Jena CB/TB
+HDT IC
+HDT CB
+
+{:.todo}
+Summary plots, all other detailed plots in appendix
+OSTRICH increasing limit: once low card and once high card, for S?? limit 1, ?P? limit 1, ??O limit 1, S?? limit inf, ?P? limit inf, ??O limit inf
+    for VM, DM and VQ
+
+{:.todo}
+appendix: (each plot contains results for 7 storage approaches)
+    BEAR-A:
+        VM: (10 versions)
+            S??, ?P?, ??O, SP?, ?PO, S?O, SPO
+        DM: (0 to 9 versions)
+            S??, ?P?, ??O, SP?, ?PO, S?O, SPO
+        VQ: (single)
+            S??, ?P?, ??O, SP?, ?PO, S?O, SPO
+    BEAR-B daily:
+        VM: (all versions)
+            ?P?, ?PO
+        DM: (0 to all other versions)
+            ?P?, ?PO
+        VQ: (single)
+            ?P?, ?PO
+    BEAR-B hourly:
+        VM: (all versions)
+            ?P?, ?PO
+        DM: (0 to all other versions)
+            ?P?, ?PO
+        VQ: (single)
+            ?P?, ?PO
 ### Discussion
 
 {:.todo}

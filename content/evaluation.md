@@ -35,13 +35,39 @@ The C/C++ implementation consists of more than 6000 lines of code and the corres
 
 ### Experimental Setup
 
-{:.todo}
-Write
+As mentioned before in [](#related-work-benchmarks), we evaluate our approach using the BEAR benchmark.
+To test the scalability of our approach for datasets with few and large versions, we use the BEAR-A benchmark.
+We use the ten first versions of the BEAR-A dataset, which contains an average of 17M triples per version.
+This dataset was compiled from the [Dynamic Linked Data Observatory](http://swse.deri.org/dyldo/).
+For testing for datasets with many smaller versions, we use BEAR-B with the daily and hourly granularities.
+The daily dataset contains 89 versions and the hourly dataset contains 1299 version,
+both of them have around 48K triples per version.
+
+For BEAR-A, we use all 7 of the provided querysets, each containing at most 50 triple pattern queries,
+once with a high result cardinality and once with a low result cardinality.
+These querysets correspond to all possible triple pattern materializations, except for triple patterns where each component is blank.
+For BEAR-B, only two querysets are provided, those that correspond to `?P?` and `?PO` queries.
+The number of BEAR-B queries is more limited, but they are derived from real-world DBpedia queries,
+which makes them useful for testing real-world applicability.
+All of these queries can be evaluated as VM queries on all versions,
+as DM between the first version and all other versions,
+and as VQ.
+
+For a complete comparison with other approaches, we re-evaluated BEAR's Jena and HDT-based RDF archive implementations.
+More specifically, we ran all BEAR-A queries against Jena with the IC, CB, TB and hybrid CB/TB implementation,
+and HDT with the IC and CB implementations
+using the BEAR-A dataset for ten versions.
+We did the same for BEAR-B with the daily and hourly dataset.
+Finally, we evaluated OSTRICH for the same queries and datasets.
+
+Our experiments were executed on a 64-bit
+Ubuntu 14.04 machine with 128 GB of memory and a
+24-core 2.40 GHz cpu.
 
 ### Results
 
 {:.todo}
-Write
+Write: we report ingestion rate (bear doesn't do this!), storage size and query eval times
 
 ### Discussion
 

@@ -1,8 +1,13 @@
 ## BEAR-A Query Evaluation results
 {:#appendix-bear-a}
 
+In this appendix section, we list all measured BEAR-A query evaluation durations.
+Each figure contains the durations for each storage approach, being
+OSTRICH, HDT-IC, HDT-CB, Jena-IC, Jena-CB, Jena-TB and Jena-CB/TB.
+The raw results that were used to generate these figures can be found at TODO.
+
 {:.todo}
-add text
+link to raw results.
 
 <figure id="result_beara-vm-s-low">
 <img src="img/query/result_beara-vm-s-low.svg" alt="[BEAR-A S?? low]" height="200em">

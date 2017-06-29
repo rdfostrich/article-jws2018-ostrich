@@ -10,7 +10,7 @@
 
 \usepackage[usenames,svgnames]{xcolor}
 \usepackage{tikz,pgfplots}
-\usetikzlibrary{arrows,positioning,shapes,calc,intersections}
+\usetikzlibrary{arrows,positioning,shapes,calc,intersections,patterns}
 
 \definecolor{colorostrich}{RGB}{142, 23,  4}
 \definecolor{colorjena}{RGB}   { 62,111,186}
@@ -49,10 +49,7 @@
           \fi
       }
   },
-  %queryplot/.belongs to family=/pgfplots/scale, % Needed to change ymode in the following style
   queryplot/.style={%
-      %ymode=log,
-      %log basis y=10,
       log ticks with fixed point,
       xtick=data,
       xmin=0,
@@ -71,6 +68,32 @@
       y tick label style={/pgf/number format/fixed, /pgf/number format/1000 sep = \thinspace},
       legend entries = {OSTRICH,HDT-IC,HDT-CB,Jena-IC,Jena-CB,Jena-TB,Jena-CB/TB,}
   },
+  barqueryplot/.style={%
+      ymajorgrids=true,
+      ybar,
+      bar width=7pt,
+      bar width=9pt,
+      enlargelimits=0.15,
+      log origin=infty,
+      log ticks with fixed point,
+      xtick style={draw=none},
+      xmin=-2,
+      xmax=8,
+      ymin=0.001,
+      ymax=10000,
+      xticklabels={,,},
+      ylabel={Lookup (ms)},
+      width=8cm,
+      height=5cm,
+      every axis legend/.append style={at={(0.5,0)},anchor=north},
+      legend style={draw=none,fill=none},
+      max space between ticks=12pt,try min ticks=2,
+      legend columns=7,
+      legend image post style={line width=0.5pt},
+      scaled y ticks = false,
+      y tick label style={/pgf/number format/fixed, /pgf/number format/1000 sep = \thinspace},
+      legend entries = {OSTRICH,\ HDT-IC,\ \ HDT-CB,\ Jena-IC,Jena-CB,Jena-TB,Jena-CB/TB,}
+  },
   main/.style={every mark/.append style={solid, fill=gray},thick,mark size=1},
   ostrich/.style={color=colorostrich,main,mark=diamond*,mark options={solid,fill=colorostrich},discard if not={offset}{0}},
   jenaic/.style={densely dashed,color=colorjena,main,mark=*,mark options={solid,fill=colorjena}},
@@ -79,4 +102,16 @@
   jenacbtb/.style={densely dashed,color=colorjena,main,mark=diamond*,mark options={solid,fill=colorjena}},
   hdtic/.style={color=colorhdt,main,mark=*,mark options={solid,fill=colorhdt}},
   hdtcb/.style={color=colorhdt,main,mark=square*,mark options={solid,fill=colorhdt}},
+  barmain/.style={},
+  barostrich/.style={fill=colorostrich,barmain},
+  barjenaic/.style={densely dashed,fill=colorjena,barmain},
+  barjenacb/.style={densely dashed,fill=colorjena,barmain},
+  barjenatb/.style={densely dashed,fill=colorjena,barmain},
+  barjenacbtb/.style={densely dashed,fill=colorjena,barmain},
+  barhdtic/.style={fill=colorhdt,barmain},
+  barhdtcb/.style={fill=colorhdt,barmain},
+  /pgfplots/ybar legend/.style={
+      /pgfplots/legend image code/.code={%
+         },
+  },
 }

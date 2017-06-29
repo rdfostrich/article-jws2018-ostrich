@@ -1,5 +1,5 @@
 #!/bin/bash
-storages="vm dm"
+storages="vm dm vq"
 queries="o-high o-low p-high p-low po-high po-low s-high s-low so-low sp-high sp-low spo"
 for storage in ${storages[@]}; do
     for query in ${queries[@]}; do

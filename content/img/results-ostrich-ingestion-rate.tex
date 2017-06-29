@@ -37,7 +37,7 @@
 \begin{document}
 \pagestyle{empty}
 \begin{tikzpicture}
-    \begin{axis}[width=7cm,height=3cm,xmax=10,ymax=500,ytick={100,200,300,400,500}]
+    \begin{axis}[width=7cm,height=3cm,xmax=10,ymax=500,ytick={100,200,300,400,500},ylabel={Duration (min)},xlabel={Version}]
         \addplot[color=one,thick,mark=*,mark options={solid,fill=one},mark size=0.3] table [x=version, y=durationmin, col sep=comma] {data/beara/ingest/ostrich.csv};
     \end{axis}
 

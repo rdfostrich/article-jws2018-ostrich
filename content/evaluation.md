@@ -130,7 +130,7 @@ Ingestion times and storage sizes for each of the RDF archive approaches for BEA
 </figure>
 
 <figure id="results-ostrich-ingestion-rate">
-<img src="img/results-ostrich-ingestion-rate.svg" alt="[OSTRICH ingestion rate]">
+<img src="img/results-ostrich-ingestion-rate.svg" alt="[OSTRICH ingestion rate]" height="150em">
 <figcaption markdown="block">
 OSTRICH ingestion durations for each consecutive version in minutes for an increasing number of versions,
 showing a lineair growth.
@@ -138,17 +138,36 @@ showing a lineair growth.
 </figure>
 
 <figure id="results-ostrich-ingestion-size">
-<img src="img/results-ostrich-ingestion-size.svg" alt="[OSTRICH ingestion sizes]">
+<img src="img/results-ostrich-ingestion-size.svg" alt="[OSTRICH ingestion sizes]" height="150em">
 <figcaption markdown="block">
 Cumulative OSTRICH store sizes for each consecutive version in GB for an increasing number of versions,
 showing a lineair growth.
 </figcaption>
 </figure>
 
+<figure id="results-beara-vm-sumary">
+<img src="img/query/results_beara-vm-summary.svg" alt="[BEAR-A VM]" height="200em">
+<figcaption markdown="block">
+Median VM query results for all triple patterns for all versions.
+</figcaption>
+</figure>
+
+<figure id="results-beara-dm-summary">
+<img src="img/query/results_beara-dm-summary.svg" alt="[BEAR-A DM]" height="200em">
+<figcaption markdown="block">
+Median DM query results for all triple patterns from version 0 to all other versions.
+</figcaption>
+</figure>
+
+<figure id="results-beara-summary">
+<img src="img/query/results_beara-vq-summary.svg" alt="[BEAR-A VQ]" height="200em">
+<figcaption markdown="block">
+Median VQ query results for all triple patterns.
+</figcaption>
+</figure>
+
 {:.todo}
 Summary plots, all other detailed plots in appendix
-OSTRICH: once low card and once high card, for S?? limit inf, ?P? limit inf, ??O limit inf
-    for VM, DM and VQ
 OSTRICH increasing offset: once low card and once high card, for S?? limit inf, ?P? limit inf, ??O limit inf
     for VM, DM and VQ
 

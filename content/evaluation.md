@@ -79,9 +79,9 @@ Write
 | Raw (N-Triples) | /                    | 45        |
 | Raw (gzip)      | /                    | 3         |
 | OSTRICH         | 2463                 | 5,86      |
-| Jena IC         | TODO                 | TODO      |
+| Jena IC         | 443                  | 32,04     |
 | Jena CB         | TODO                 | TODO      |
-| Jena TB         | TODO                 | TODO      |
+| Jena TB         | 1746                 | 80,35     |
 | Jena CB/TB      | TODO                 | TODO      |
 | HDT IC          | TODO                 | TODO      |
 | HDT CB          | TODO                 | TODO      |

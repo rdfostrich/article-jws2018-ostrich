@@ -1,27 +1,35 @@
 ## Introduction
 {:#introduction}
 
-The number of [Linked Open Datasets](cite:cites linkeddata) using the [RDF](cite:cites spec:rdf) data model is continuously increasing.
-RDF allows the formation of directed, labeled graphs, where all elements correspond to resources.
-These resources can either be IRIs or literals.
-These graphs are represented using _triples_, in which a subject is linked via a predicate to an object.
+In the area of data analysis,
+there is an ongoing need for maintaining the history of datasets.
+Motivations vary between looking up data at certain points in time,
+requesting evolving changes,
+or querying for the temporal validity of these data.
+With the continuously increasing number of [Linked Open Datasets](cite:cites linkeddata),
+this is an apparent issue for [RDF](cite:cites spec:rdf) data as well.
+RDF allows the formation of directed, labeled graphs of IRIs and literals, which makes it a common format to store Linked Data.
+These graphs are represented with _triples_, in which a subject is linked via a predicate to an object.
 While the RDF data model is atemporal, Linked Datasets typically [change over time](cite:cites datasetdynamics) on
 [dataset, schema and/or instance level](cite:cites diachronql). These refer to additions,
 changes or deletions of respectively complete datasets, ontologies and separate facts.
 While some evolving datasets, such as [DBpedia](dbpedia),
-are published as separate dumps per version, full queryable access over different versions is not always possible.
-That is because RDF stores provide no native versioning capabilities for datasets,
-instead, they only maintain the latest version of datasets when changes occur.
+are published as separate dumps per version,
+efficient access to prior versions is often limited.
 
-There is however a need for maintaining the history of datasets in the area of data analysis,
-such as looking up data at certain points in time,
-requesting changes over time,
-or querying for times this data was valid.
-Furthermore, this need is illustrated by a [survey on archiving Linked Open Data](cite:cites archiving).
-It is pointed out that the current RDF archiving approach have scalability issues when applied at Web-scale.
+A [survey on archiving Linked Open Data](cite:cites archiving) illustrated the need for native versioning capabilities,
+as current RDF archiving approaches have scalability issues at Web-scale.
+
+{:.todo}
+And these are not native?
+
 The authors state that an efficient RDF archive solution should have a scalable *storage model*,
 efficient *compression* and *indexing methods* that should enable expressive versioned querying.
 Furthermore, RDF archives should be publishable at a low cost, to make them queryable at Web-scale.
+
+{:.todo}
+Is this still in the survey or is it us? And why should they be published?
+
 For this, a low-cost solution such as the [Triple Pattern Fragments](cite:cites ldf) (TPF) interface
 would be ideal. By itself, the TPF interface is, just like the RDF data model, atemporal.
 That is why [VTPF](cite:cites vtpf) was introduced, a TPF feature that adds versioning capabilities to the interface.

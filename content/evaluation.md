@@ -82,9 +82,9 @@ Write
 | Jena IC         | 443                  | 32,04     |
 | Jena CB         | 226                  | 17,79     |
 | Jena TB         | 1746                 | 80,35     |
-| Jena CB/TB      | TODO                 | TODO      |
-| HDT IC          | TODO                 | TODO      |
-| HDT CB          | TODO                 | TODO      |
+| Jena CB/TB      | 679                  | 30,43     |
+| HDT IC          | 33,85                | 5,21      |
+| HDT CB          | 17,56                | 2,62      |
 
 <figcaption markdown="block">
 Ingestion times and storage sizes for each of the RDF archive approaches for the first ten versions of BEAR-A.

@@ -114,12 +114,12 @@
 <path clip-path='url(#clip4)' d='M104.836 86.1445H113.801V11.0703H104.836Z' fill='none' stroke='#000000' stroke-miterlimit='10.0375' stroke-width='0.399994'/>
 <path clip-path='url(#clip4)' d='M129.789 86.1445H138.754V30.7344H129.789Z' fill='#3e6fba'/>
 <path clip-path='url(#clip4)' d='M129.789 86.1445H138.754V30.7344H129.789Z' fill='none' stroke='#000000' stroke-dasharray='2.98883,1.99255' stroke-miterlimit='10.0375' stroke-width='0.399994'/>
-<path clip-path='url(#clip4)' d='M154.742 86.1445H163.711V11.0703H154.742Z' fill='#3e6fba'/>
-<path clip-path='url(#clip4)' d='M154.742 86.1445H163.711V11.0703H154.742Z' fill='none' stroke='#000000' stroke-dasharray='2.98883,1.99255' stroke-miterlimit='10.0375' stroke-width='0.399994'/>
-<path clip-path='url(#clip4)' d='M179.695 86.1445H188.664V11.0703H179.695Z' fill='#3e6fba'/>
-<path clip-path='url(#clip4)' d='M179.695 86.1445H188.664V11.0703H179.695Z' fill='none' stroke='#000000' stroke-dasharray='2.98883,1.99255' stroke-miterlimit='10.0375' stroke-width='0.399994'/>
-<path clip-path='url(#clip4)' d='M204.653 86.1445H213.617V11.0703H204.653Z' fill='#3e6fba'/>
-<path clip-path='url(#clip4)' d='M204.653 86.1445H213.617V11.0703H204.653Z' fill='none' stroke='#000000' stroke-dasharray='2.98883,1.99255' stroke-miterlimit='10.0375' stroke-width='0.399994'/>
+<path clip-path='url(#clip4)' d='M154.742 86.1445H163.711V32.793H154.742Z' fill='#3e6fba'/>
+<path clip-path='url(#clip4)' d='M154.742 86.1445H163.711V32.793H154.742Z' fill='none' stroke='#000000' stroke-dasharray='2.98883,1.99255' stroke-miterlimit='10.0375' stroke-width='0.399994'/>
+<path clip-path='url(#clip4)' d='M179.695 86.1445H188.664V-7.0273H179.695Z' fill='#3e6fba'/>
+<path clip-path='url(#clip4)' d='M179.695 86.1445H188.664V-7.0273H179.695Z' fill='none' stroke='#000000' stroke-dasharray='2.98883,1.99255' stroke-miterlimit='10.0375' stroke-width='0.399994'/>
+<path clip-path='url(#clip4)' d='M204.653 86.1445H213.617V35.0977H204.653Z' fill='#3e6fba'/>
+<path clip-path='url(#clip4)' d='M204.653 86.1445H213.617V35.0977H204.653Z' fill='none' stroke='#000000' stroke-dasharray='2.98883,1.99255' stroke-miterlimit='10.0375' stroke-width='0.399994'/>
 <g transform='matrix(0 -1 1 0 -22.3097 162.697)'>
 <use x='107.969' xlink:href='#g1-76' y='29.2419'/>
 <use x='111.426' xlink:href='#g1-111' y='29.2419'/>

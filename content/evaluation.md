@@ -116,7 +116,7 @@ Ingestion times and storage sizes for each of the RDF archive approaches for BEA
 | --------------- |:---------------------|:----------|
 | Raw (N-Triples) | /                    | 8929      |
 | Raw (gzip)      | /                    | 467       |
-| OSTRICH         | TODO                 | TODO      |
+| OSTRICH         | TODO                 | 710,41    |
 | Jena IC         | TODO                 | TODO      |
 | Jena CB         | TODO                 | TODO      |
 | Jena TB         | TODO                 | TODO      |
@@ -129,18 +129,37 @@ Ingestion times and storage sizes for each of the RDF archive approaches for BEA
 </figcaption>
 </figure>
 
-<figure id="results-ostrich-ingestion-rate">
-<img src="img/results-ostrich-ingestion-rate.svg" alt="[OSTRICH ingestion rate]" height="150em">
+<figure id="results-ostrich-ingestion-rate-beara">
+<img src="img/results-ostrich-ingestion-rate-beara.svg" alt="[BEAR-A OSTRICH ingestion rate]" height="150em">
 <figcaption markdown="block">
-OSTRICH ingestion durations for each consecutive version in minutes for an increasing number of versions,
+OSTRICH ingestion durations for each consecutive BEAR-A version in minutes for an increasing number of versions,
 showing a lineair growth.
 </figcaption>
 </figure>
 
-<figure id="results-ostrich-ingestion-size">
-<img src="img/results-ostrich-ingestion-size.svg" alt="[OSTRICH ingestion sizes]" height="150em">
+<figure id="results-ostrich-ingestion-size-beara">
+<img src="img/results-ostrich-ingestion-size-beara.svg" alt="[BEAR-A OSTRICH ingestion sizes]" height="150em">
 <figcaption markdown="block">
-Cumulative OSTRICH store sizes for each consecutive version in GB for an increasing number of versions,
+Cumulative OSTRICH store sizes for each consecutive BEAR-A version in GB for an increasing number of versions,
+showing a lineair growth.
+</figcaption>
+</figure>
+
+<figure id="results-ostrich-ingestion-rate-bearb-hourly">
+<img src="img/results-ostrich-ingestion-rate-bearb-hourly.svg" alt="[BEAR-B-hourly OSTRICH ingestion rate]" height="150em">
+<figcaption markdown="block">
+OSTRICH ingestion durations for each consecutive BEAR-B-hourly version in minutes for an increasing number of versions,
+showing a lineair growth.
+</figcaption>
+</figure>
+
+{:.todo}
+possible cause for weird behaviour around V 1200: large KC tree leaves causing a lot of reorganizations, which take a long time.
+
+<figure id="results-ostrich-ingestion-size-bearb-hourly">
+<img src="img/results-ostrich-ingestion-size-bearb-hourly.svg" alt="[BEAR-B-hourly OSTRICH ingestion sizes]" height="150em">
+<figcaption markdown="block">
+Cumulative OSTRICH store sizes for each consecutive BEAR-B-hourly version in GB for an increasing number of versions,
 showing a lineair growth.
 </figcaption>
 </figure>

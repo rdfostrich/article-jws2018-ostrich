@@ -7,7 +7,7 @@
 \begin{tikzpicture}
     \begin{semilogyaxis}[queryplot]
         
-        \addplot[ostrich] table [x=patch, y=lookup-mus-inf, col sep=comma] {data/beara/query/ostrich/\query/_average_\storage.csv};
+        \addplot[ostrich] table [x=patch, y=lookup-mus-inf, col sep=comma] {data/beara/query/ostrich/\query/_median_\storage.csv};
         
         \addplot[hdtic] table [x=version, y=ms, col sep=comma] {data/beara/query/hdt-ic/\query/\storage.csv};
         \addplot[hdtcb] table [x=version, y=ms, col sep=comma] {data/beara/query/hdt-cb/\query/\storage.csv};

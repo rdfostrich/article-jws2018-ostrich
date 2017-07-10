@@ -106,8 +106,8 @@
 <use x='123.8' xlink:href='#g3-48' y='29.2419'/>
 <use x='127.439' xlink:href='#g3-48' y='29.2419'/>
 </g>
-<path clip-path='url(#clip4)' d='M54.9258 86.1445H63.8945V22.0938H54.9258Z' fill='#8e1704'/>
-<path clip-path='url(#clip4)' d='M54.9258 86.1445H63.8945V22.0938H54.9258Z' fill='none' stroke='#000000' stroke-miterlimit='10.0375' stroke-width='0.399994'/>
+<path clip-path='url(#clip4)' d='M54.9258 86.1445H63.8945V24.9258H54.9258Z' fill='#8e1704'/>
+<path clip-path='url(#clip4)' d='M54.9258 86.1445H63.8945V24.9258H54.9258Z' fill='none' stroke='#000000' stroke-miterlimit='10.0375' stroke-width='0.399994'/>
 <path clip-path='url(#clip4)' d='M79.8828 86.1445H88.8476V34.5117H79.8828Z' fill='#acc44b'/>
 <path clip-path='url(#clip4)' d='M79.8828 86.1445H88.8476V34.5117H79.8828Z' fill='none' stroke='#000000' stroke-miterlimit='10.0375' stroke-width='0.399994'/>
 <path clip-path='url(#clip4)' d='M104.836 86.1445H113.801V36.668H104.836Z' fill='#acc44b'/>

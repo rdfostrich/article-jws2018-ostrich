@@ -7,7 +7,7 @@
 \begin{tikzpicture}
     \begin{semilogyaxis}[barqueryplot]
         
-        \addplot[barostrich] table [x expr=0,y=lookup-mus-inf, col sep=comma] {data/beara/query/ostrich/\query/_average_\storage.csv};
+        \addplot[barostrich] table [x expr=0,y=lookup-mus-inf, col sep=comma] {data/beara/query/ostrich/\query/_median_\storage.csv};
         
         \addplot[barhdtic] table [x expr=1,y=ms, col sep=comma] {data/beara/query/hdt-ic/\query/\storage.csv};
         \addplot[barhdtcb] table [x expr=2,y=ms, col sep=comma] {data/beara/query/hdt-cb/\query/\storage.csv};

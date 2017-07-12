@@ -68,6 +68,12 @@
       y tick label style={/pgf/number format/fixed, /pgf/number format/1000 sep = \thinspace},
       legend entries = {OSTRICH,HDT-IC,HDT-CB,Jena-IC,Jena-CB,Jena-TB,Jena-CB/TB,}
   },
+  queryplotbearbh/.style={%
+      queryplot,
+      xmax=1300,
+      xtick={200,400,600,800,1000,1200},
+      each nth point=10
+  },
   barqueryplot/.style={%
       ymajorgrids=true,
       ybar,

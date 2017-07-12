@@ -64,6 +64,16 @@ Our experiments were executed on a 64-bit
 Ubuntu 14.04 machine with 128 GB of memory and a
 24-core 2.40 GHz cpu.
 
+{:.todo}
+offset queries
+triple patterns - card:
+?s ?p ?o - 43907
+http://dbpedia.org/ontology/wikiPageRevisionLink - 7854
+http://dbpedia.org/ontology/wikiPageExtracted - 7825
+http://dbpedia.org/ontology/wikiPageRevisionID - 7844
+http://dbpedia.org/ontology/wikiPageLength - 6709
+http://dbpedia.org/ontology/wikiPageModified - 7854
+
 ### Results
 
 In this section, we present the results of our evaluation.
@@ -77,14 +87,14 @@ Write
 | Approach        | Ingestion Time (min) | Size (GB) |
 | --------------- |:---------------------|:----------|
 | Raw (N-Triples) | /                    | 45        |
-| Raw (gzip)      | /                    | 3         |
-| OSTRICH         | 2463                 | 5,86      |
-| Jena IC         | 443                  | 32,04     |
-| Jena CB         | 226                  | 17,79     |
+| Raw (gzip)      | /                    |  3        |
+| OSTRICH         | 2463                 |  5,86     |
+| Jena IC         |  443                 | 32,04     |
+| Jena CB         |  226                 | 17,79     |
 | Jena TB         | 1746                 | 80,35     |
-| Jena CB/TB      | 679                  | 30,43     |
-| HDT IC          | 33,85                | 5,21      |
-| HDT CB          | 17,56                | 2,62      |
+| Jena CB/TB      |  679                 | 30,43     |
+| HDT IC          |   33,85              |  5,21     |
+| HDT CB          |   17,56              |  2,62     |
 
 <figcaption markdown="block">
 Ingestion times and storage sizes for each of the RDF archive approaches for the first ten versions of BEAR-A.
@@ -115,14 +125,14 @@ Ingestion times and storage sizes for each of the RDF archive approaches for BEA
 | Approach        | Ingestion Time (min) | Size (MB) |
 | --------------- |:---------------------|:----------|
 | Raw (N-Triples) | /                    | 8929      |
-| Raw (gzip)      | /                    | 467       |
-| OSTRICH         | TODO                 | 710,41    |
-| Jena IC         | TODO                 | TODO      |
-| Jena CB         | TODO                 | TODO      |
-| Jena TB         | TODO                 | TODO      |
-| Jena CB/TB      | TODO                 | TODO      |
-| HDT IC          | TODO                 | TODO      |
-| HDT CB          | TODO                 | TODO      |
+| Raw (gzip)      | /                    |  467      |
+| OSTRICH         | 5680,09              |  710,41   |
+| Jena IC         |  142,26              | 6233,92   |
+| Jena CB         |  173,48              |  473,41   |
+| Jena TB         |   70,56              | 3678,89   |
+| Jena CB/TB      |    0,65              |   53,84   |
+| HDT IC          |    5,89              | 2127,57   |
+| HDT CB          |    0,07              |   24,39   |
 
 <figcaption markdown="block">
 Ingestion times and storage sizes for each of the RDF archive approaches for BEAR-B hourly.
@@ -167,21 +177,42 @@ showing a lineair growth.
 <figure id="results-beara-vm-sumary">
 <img src="img/query/results_beara-vm-summary.svg" alt="[BEAR-A VM]" height="200em">
 <figcaption markdown="block">
-Median VM query results for all triple patterns for all versions.
+Median BEAR-A VM query results for all triple patterns for all versions.
 </figcaption>
 </figure>
 
 <figure id="results-beara-dm-summary">
 <img src="img/query/results_beara-dm-summary.svg" alt="[BEAR-A DM]" height="200em">
 <figcaption markdown="block">
-Median DM query results for all triple patterns from version 0 to all other versions.
+Median BEAR-A DM query results for all triple patterns from version 0 to all other versions.
 </figcaption>
 </figure>
 
 <figure id="results-beara-summary">
 <img src="img/query/results_beara-vq-summary.svg" alt="[BEAR-A VQ]" height="200em">
 <figcaption markdown="block">
-Median VQ query results for all triple patterns.
+Median BEAR-A VQ query results for all triple patterns.
+</figcaption>
+</figure>
+
+<figure id="results-bearb-hourly-vm-sumary">
+<img src="img/query/results_bearb-hourly-vm-summary.svg" alt="[BEAR-B-hourly VM]" height="200em">
+<figcaption markdown="block">
+Median BEAR-B-hourly VM query results for all triple patterns for all versions.
+</figcaption>
+</figure>
+
+<figure id="results-bearb-hourly-dm-summary">
+<img src="img/query/results_bearb-hourly-dm-summary.svg" alt="[BEAR-B-hourly DM]" height="200em">
+<figcaption markdown="block">
+Median BEAR-B-hourly DM query results for all triple patterns from version 0 to all other versions.
+</figcaption>
+</figure>
+
+<figure id="results-bearb-hourly-summary">
+<img src="img/query/results_bearb-hourly-vq-summary.svg" alt="[BEAR-B-hourly VQ]" height="200em">
+<figcaption markdown="block">
+Median BEAR-B-hourly VQ query results for all triple patterns.
 </figcaption>
 </figure>
 
@@ -213,6 +244,7 @@ appendix: (each plot contains results for 7 storage approaches, one plot for low
             ?P?, ?PO
         VQ: (single)
             ?P?, ?PO
+
 ### Discussion
 
 {:.todo}

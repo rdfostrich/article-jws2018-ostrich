@@ -129,6 +129,22 @@ Ingestion times and storage sizes for each of the RDF archive approaches for BEA
 </figcaption>
 </figure>
 
+<figure id="results-ostrich-compressability" class="table" markdown="1">
+
+| Dataset       | Original Size (MB) | gzip (MB) | Space savings |
+| ------------- |:-------------------|:----------|-------------------|
+| BEAR-A        | 6000,64            | 4345,07   | 27,59%            |
+| BEAR-B daily  |   21,43            |    7,52   | 64,91%            |
+| BEAR-B hourly |  710,41            |  135,16   | 80,98%            |
+
+<figcaption markdown="block">
+Compressability of OSTRICH stores using gzip.
+</figcaption>
+</figure>
+
+{:.todo}
+compressability reason: the larger the tree values, the more can be compressed. BEAR-A has small (but many) tree values, less compression. BEAR-B-h has a lot of versions->large tree values->high compression.
+
 <figure id="results-ostrich-ingestion-rate-beara">
 <img src="img/results-ostrich-ingestion-rate-beara.svg" alt="[BEAR-A OSTRICH ingestion rate]" height="150em">
 <figcaption markdown="block">

@@ -216,6 +216,27 @@ Median BEAR-B-hourly VQ query results for all triple patterns.
 </figcaption>
 </figure>
 
+<figure id="results-offset-vm">
+<img src="img/query/results_offsets-vm.svg" alt="[Offsets VM]" height="200em">
+<figcaption markdown="block">
+Median VM query results for different offsets over all versions in the BEAR-A dataset.
+</figcaption>
+</figure>
+
+<figure id="results-offset-dm">
+<img src="img/query/results_offsets-dm.svg" alt="[Offsets DM]" height="200em">
+<figcaption markdown="block">
+Median DM query results for different offsets between version 0 and all other versions in the BEAR-A dataset.
+</figcaption>
+</figure>
+
+<figure id="results-offset-vq">
+<img src="img/query/results_offsets-vq.svg" alt="[Offsets VQ]" height="200em">
+<figcaption markdown="block">
+Median VQ query results for different offsets in the BEAR-A dataset.
+</figcaption>
+</figure>
+
 {:.todo}
 Summary plots, all other detailed plots in appendix
 OSTRICH increasing offset: once low card and once high card, for S?? limit inf, ?P? limit inf, ??O limit inf

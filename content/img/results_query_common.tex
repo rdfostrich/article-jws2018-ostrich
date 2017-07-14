@@ -74,6 +74,16 @@
       xtick={200,400,600,800,1000,1200},
       each nth point=10
   },
+  queryplotoffset/.style={%
+      queryplot,
+      smooth,
+      ymin=0,
+      xmax=4100,
+      xlabel={Offset},
+      xtick={2,8,32,128,512,2048},
+      ymax=1000,
+      legend entries = {OSTRICH,HDT-IC,Jena-IC,Jena-TB,}
+  },
   barqueryplot/.style={%
       ymajorgrids=true,
       ybar,
@@ -101,12 +111,14 @@
       legend entries = {OSTRICH,\ HDT-IC,\ \ HDT-CB,\ Jena-IC,Jena-CB,Jena-TB,Jena-CB/TB,}
   },
   main/.style={every mark/.append style={solid, fill=gray},thick,mark size=1},
-  ostrich/.style={color=colorostrich,main,mark=diamond*,mark options={solid,fill=colorostrich},discard if not={offset}{0}},
+  ostrichall/.style={color=colorostrich,main,mark=diamond*,mark options={solid,fill=colorostrich}},
+  ostrich/.style={ostrichall,discard if not={offset}{0}},
   jenaic/.style={densely dashed,color=colorjena,main,mark=*,mark options={solid,fill=colorjena}},
   jenacb/.style={densely dashed,color=colorjena,main,mark=square*,mark options={solid,fill=colorjena}},
   jenatb/.style={densely dashed,color=colorjena,main,mark=triangle*,mark options={solid,fill=colorjena}},
   jenacbtb/.style={densely dashed,color=colorjena,main,mark=diamond*,mark options={solid,fill=colorjena}},
   hdtic/.style={color=colorhdt,main,mark=*,mark options={solid,fill=colorhdt}},
+  hdticnaive/.style={color=colorhdt,main,mark=triangle*,mark options={fill=colorhdt}},
   hdtcb/.style={color=colorhdt,main,mark=square*,mark options={solid,fill=colorhdt}},
   barmain/.style={},
   barostrich/.style={fill=colorostrich,barmain},

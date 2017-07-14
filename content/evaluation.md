@@ -64,16 +64,6 @@ Our experiments were executed on a 64-bit
 Ubuntu 14.04 machine with 128 GB of memory and a
 24-core 2.40 GHz cpu.
 
-{:.todo}
-offset queries
-triple patterns - card:
-?s ?p ?o - 43907
-http://dbpedia.org/ontology/wikiPageRevisionLink - 7854
-http://dbpedia.org/ontology/wikiPageExtracted - 7825
-http://dbpedia.org/ontology/wikiPageRevisionID - 7844
-http://dbpedia.org/ontology/wikiPageLength - 6709
-http://dbpedia.org/ontology/wikiPageModified - 7854
-
 ### Results
 
 In this section, we present the results of our evaluation.
@@ -106,14 +96,14 @@ Ingestion times and storage sizes for each of the RDF archive approaches for the
 | Approach        | Ingestion Time (min) | Size (MB) |
 | --------------- |:---------------------|:----------|
 | Raw (N-Triples) | /                    | 583       |
-| Raw (gzip)      | /                    | 32        |
-| OSTRICH         | TODO                 | 23,6      |
-| Jena IC         | TODO                 | TODO      |
-| Jena CB         | TODO                 | TODO      |
-| Jena TB         | TODO                 | TODO      |
-| Jena CB/TB      | TODO                 | TODO      |
-| HDT IC          | TODO                 | TODO      |
-| HDT CB          | TODO                 | TODO      |
+| Raw (gzip)      | /                    |  32       |
+| OSTRICH         | 13,18                |  21,43    |
+| Jena IC         |  8,91                | 415,32    |
+| Jena CB         |  9,53                |  42,82    |
+| Jena TB         |  0,35                |  23,61    |
+| Jena CB/TB      |  0,35                |  22,83    |
+| HDT IC          |  0,39                | 142,08    |
+| HDT CB          |  0,02                |   5,96    |
 
 <figcaption markdown="block">
 Ingestion times and storage sizes for each of the RDF archive approaches for BEAR-B daily.
@@ -195,6 +185,27 @@ Median BEAR-A VQ query results for all triple patterns.
 </figcaption>
 </figure>
 
+<figure id="results-bearb-daily-vm-sumary">
+<img src="img/query/results_bearb-daily-vm-summary.svg" alt="[BEAR-B-daily VM]" height="200em">
+<figcaption markdown="block">
+Median BEAR-B-daily VM query results for all triple patterns for all versions.
+</figcaption>
+</figure>
+
+<figure id="results-bearb-daily-dm-summary">
+<img src="img/query/results_bearb-daily-dm-summary.svg" alt="[BEAR-B-daily DM]" height="200em">
+<figcaption markdown="block">
+Median BEAR-B-daily DM query results for all triple patterns from version 0 to all other versions.
+</figcaption>
+</figure>
+
+<figure id="results-bearb-daily-summary">
+<img src="img/query/results_bearb-daily-vq-summary.svg" alt="[BEAR-B-daily VQ]" height="200em">
+<figcaption markdown="block">
+Median BEAR-B-daily VQ query results for all triple patterns.
+</figcaption>
+</figure>
+
 <figure id="results-bearb-hourly-vm-sumary">
 <img src="img/query/results_bearb-hourly-vm-summary.svg" alt="[BEAR-B-hourly VM]" height="200em">
 <figcaption markdown="block">
@@ -236,35 +247,6 @@ Median DM query results for different offsets between version 0 and all other ve
 Median VQ query results for different offsets in the BEAR-A dataset.
 </figcaption>
 </figure>
-
-{:.todo}
-Summary plots, all other detailed plots in appendix
-OSTRICH increasing offset: once low card and once high card, for S?? limit inf, ?P? limit inf, ??O limit inf
-    for VM, DM and VQ
-
-{:.todo}
-appendix: (each plot contains results for 7 storage approaches, one plot for low and one for high cardinality)
-    BEAR-A:
-        VM: (10 versions)
-            S??, ?P?, ??O, SP?, ?PO, S?O, SPO
-        DM: (0 to 9 versions)
-            S??, ?P?, ??O, SP?, ?PO, S?O, SPO
-        VQ: (single)
-            S??, ?P?, ??O, SP?, ?PO, S?O, SPO
-    BEAR-B daily:
-        VM: (all versions)
-            ?P?, ?PO
-        DM: (0 to all other versions)
-            ?P?, ?PO
-        VQ: (single)
-            ?P?, ?PO
-    BEAR-B hourly:
-        VM: (all versions)
-            ?P?, ?PO
-        DM: (0 to all other versions)
-            ?P?, ?PO
-        VQ: (single)
-            ?P?, ?PO
 
 ### Discussion
 

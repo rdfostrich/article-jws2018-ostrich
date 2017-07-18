@@ -55,8 +55,7 @@ which makes it possible to use implementations of this approach as the back-end 
 We provide OSTRICH as an open-source implementation of this approach.
 
 This article is structured as follows.
-In the next section, we start by introducing some [preliminary concepts](#preliminaries)
-required for introducing our problem statement in [](#problem-statement).
+In the next section, we start by introducing some [preliminary concepts and our problem statement](#motivation).
 After that, we introduce the related work in [](#related-work).
 Next, in [](#fundamentals), we introduce the basic concepts of our approach,
 followed by our storage approach in [](#storage) and the accompanied querying algorithms in [](#querying).

@@ -53,8 +53,13 @@ so they shouldn't be returned in materialized versions.
 and there is only a single snapshot and delta.
 In the following paragraphs, we explain the offset convergence loop of the algorithm in function of this data for different offsets.
 
-<figure id="query-vm-example" class="algorithm">
-<img src="img/query-vm-example.svg" alt="[query vm example]" height="70em">
+<figure id="query-vm-example" class="table" markdown="1">
+
+| *Snapshot*  | A | B | C | D | E | F |
+| ------------|---|---|---|---|---|---|
+| *Deletions* |   | B |   | D | E |   |
+| Positions   |   | 0 |   | 1 | 2 |   |
+
 <figcaption markdown="block">
 Simplified storage contents example where triples are represented as a single letter.
 The snapshot contains six elements, and the next version contains three deletions.

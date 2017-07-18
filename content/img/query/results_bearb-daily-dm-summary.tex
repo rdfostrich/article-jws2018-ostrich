@@ -4,7 +4,7 @@
 \begin{document}
 \pagestyle{empty}
 \begin{tikzpicture}
-    \begin{semilogyaxis}[queryplotbearbd]
+    \begin{semilogyaxis}[queryplotbearbd,mark repeat={5}]
         
         \addplot[ostrich,discard if not={patch_start}{0}] table [x=patch_end, y=lookup-mus, col sep=comma] {data/bearb-daily/query/ostrich/_median_\storage.csv};
         

@@ -5,7 +5,7 @@
 \begin{document}
 \pagestyle{empty}
 \begin{tikzpicture}
-    \begin{semilogyaxis}[barqueryplot]
+    \begin{semilogyaxis}[barqueryplot,mark repeat={15}]
         
         \addplot[barostrich] table [x expr=0,y=lookup-mus-inf, col sep=comma] {data/bearb-hourly/query/ostrich/\query/_median_\storage.csv};
         

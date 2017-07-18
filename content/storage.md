@@ -252,7 +252,7 @@ and `N` the number of triples in the new changeset.
 {:#streaming-ingestion}
 
 Because of the unbounded memory requirements of the [batch ingestion algorithm](#batch-ingestion),
-we also introduce a more complex streaming ingestion algorithm in [](#algorithm-ingestion-streaming).
+we also introduce a more complex streaming ingestion algorithm.
 It also takes a changeset stream and store as input parameters,
 with as additional on the stream that its contents must be sorted in SPO-order.
 This is so that the algorithm can assume a consistent order and act as a sort-merge join operation.
@@ -291,13 +291,6 @@ Finally, in the seventh case, the triple already existed as both an addition and
 and is equal to our new triple.
 This means that if the latest triple was an addition, it becomes a deletion, and the other way around,
 and the local change flag can be inherited.
-
-<figure id="algorithm-ingestion-streaming" class="algorithm">
-````/algorithms/ingestion-streaming.txt````
-<figcaption markdown="block">
-In-memory streaming ingestion algorithm
-</figcaption>
-</figure>
 
 The theoretical memory requirements for this algorithm are much lower than the [batch variant](#batch-ingestion).
 That is because instead of loading the complete new changeset in memory,

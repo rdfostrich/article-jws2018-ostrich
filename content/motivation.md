@@ -47,18 +47,21 @@ explain example use cases and figures for VM, DM and VQ (why and how)?
 {:#problem-statement}
 
 In [previous work](cite:cites tpfarchives), we discussed the requirements for enabling queries over RDF archives using the TPF framework
-for VM, DM and VQ queries.
+for VM, DM and VQ queries, with the aim of reaching low-cost RDF archive publication. These requirements are the following:
 <ol>
     <li>An extension of the TPF interface for versioning query types.</li>
     <li>A storage solution supporting the query atoms.</li>
     <li>A TPF client that is able to consume the TPF interface extension.</li>
 </ol>
-The first task was handled through the introducing of [VTPF](cite:cites vtpf),
+The first task was handled through the introduction of [VTPF](cite:cites vtpf),
 which is a TPF interface feature for enabling queryable access to RDF archives through VM, DM and VQ triple pattern queries.
 The third task is already partially solved by VTPF, as it is designed in such a way that each version of the dataset
-is exposed through a separate virtual TPF interface, which allows clients to target each version as a separate datasource.
+is exposed through a separate virtual TPF interface, which allows existing TPF clients to target each version as a separate datasource.
 
-In this work, we focus on the second task, storing and querying VM, DM and VQ.
+In this work, we focus on the second task, storing and evaluating VM, DM and VQ queries.
+As the publication cost for these archives must be as low as possible,
+we focus on lowering query evaluation times by processing and storing more data during ingestion time.
+That is because this processing then happens only once per version, instead of every time during lookup.
 Additionally, as the TPF interface returns triple pattern query results in pages, query results within our store should also be pageable.
 This can be achieved by considering the query results as a pull-based stream that can be started at any given offset,
 and limited when sufficient elements have been consumed.
@@ -67,7 +70,7 @@ not every triple should necessarily be kept in memory,
 because each resulting element can be consumed and processed by a consumer on-demand.
 This leads us to the following research question:
 <q id="research-question">How can we efficiently store RDF archives while enabling VM, DM and VQ triple pattern queries with efficient offsets?</q>
-The following parts can be identified in this research question:
+The following requirements can be identified in this research question:
 <ul>
     <li>An efficient RDF archive storage technique.</li>
     <li>VM, DM and VQ triple pattern querying algorithms on top of this storage technique.</li>
@@ -75,14 +78,18 @@ The following parts can be identified in this research question:
 </ul>
 In this work, we introduce solutions to each of these parts in order to come up with an answer to our research question.
 
-We introduce the following qualitative hypotheses about our storage technique:
+We introduce the following qualitative hypotheses about our technique:
 <ol>
-    <li id="hypothesis-qualitative-storage">Storage requirements are less than IC-based approaches.</li>
-    <li id="hypothesis-qualitative-querying">VM and DM triple pattern query evaluation efficiency is independent of the selected versions.</li>
-</ol>
-Furthermore, we introduce the following quantitative hypothesis which will be evaluated in this article:
-<ol>
-    <li id="hypothesis-quantitative-storage">Storing 165M triples across 10 version requires less than 6GB.</li>
-    <li id="hypothesis-quantitative-ingestion">Ingestion of 165M triples across 10 version can be done at an average rate of 1 triple per millisecond.</li>
-    <li id="hypothesis-quantitative-querying">Evaluation of any VM, DM and VQ triple pattern query can be done in less than 10ms.</li>
+<li id="hypothesis-qualitative-querying">
+VM and DM triple pattern query evaluation efficiency is independent of the selected versions.
+</li>
+<li id="hypothesis-qualitative-ic" markdown="1">
+Our approach requires *less* storage space than IC-based approaches, but query evaluation is *slower*.
+</li>
+<li id="hypothesis-qualitative-cb" markdown="1">
+Our approach requires *more* storage space than CB-based approaches, but query evaluation is *faster*.
+</li>
+<li id="hypothesis-qualitative-ingestion">
+Average query evaluation times are lower than other approaches at the cost of increased ingestion time.
+</li>
 </ol>

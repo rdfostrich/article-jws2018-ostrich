@@ -58,7 +58,17 @@ More specifically, we ran all BEAR-A queries against Jena with the IC, CB, TB an
 and HDT with the IC and CB implementations
 using the BEAR-A dataset for ten versions.
 We did the same for BEAR-B with the daily and hourly dataset.
-Finally, we evaluated OSTRICH for the same queries and datasets.
+After that, we evaluated OSTRICH for the same queries and datasets.
+
+We additionally evaluated the ingestion rates and storage sizes for all approaches,
+which was not part of the original BEAR benchmark.
+Furthermore, we compared the ingestion rate for the two different ingestion algorithms of OSTRICH.
+The batch-based algorithm ran out of memory for larger amounts of versions,
+so we used the streaming-based algorithm for all further evaluations.
+
+Finally, we evaluated the offset capabilities of OSTRICH
+by comparing it with custom offset implementations for the other approaches.
+We evaluated ??? queries with offsets ranging from 2 to 4096 with a limit of 10 results.
 
 Our experiments were executed on a 64-bit
 Ubuntu 14.04 machine with 128 GB of memory and a
@@ -69,8 +79,12 @@ Ubuntu 14.04 machine with 128 GB of memory and a
 In this section, we present the results of our evaluation.
 We report the ingestion results, storage sizes and query evaluation times for all cases.
 
-{:.todo}
-Write
+Tables [4](#results-ingestion-bear-a), [5](#results-ingestion-bear-b-daily) and [6](#results-ingestion-bear-b-hourly)
+show the ingestion times and storage requirements for the different approaches for the three different benchmarks.
+For BEAR-A, the HDT-based approaches outperform OSTRICH both in terms of ingestion time and storage space.
+The Jena-based approaches ingest faster than OSTRICH, but require more storage space.
+For BEAR-B-daily, OSTRICH requires less storage space than all other approaches except for HDT-CB at the cost of slower ingestion.
+For BEAR-B-hourly, only HDT-CB, Jena-CB and Jena-CB/TB require less space than OSTRICH.
 
 <figure id="results-ingestion-bear-a" class="table" markdown="1">
 
@@ -129,6 +143,9 @@ Ingestion times and storage sizes for each of the RDF archive approaches for BEA
 </figcaption>
 </figure>
 
+[](#results-ostrich-compressability) shows the compressability of OSTRICH datasets,
+which shows that datasets with more versions are more prone to space savings using compression techniques like gzip.
+
 <figure id="results-ostrich-compressability" class="table" markdown="1">
 
 | Dataset       | Original Size (MB) | gzip (MB) | Space savings |
@@ -142,8 +159,14 @@ Compressability of OSTRICH stores using gzip.
 </figcaption>
 </figure>
 
-{:.todo}
-compressability reason: the larger the tree values, the more can be compressed. BEAR-A has small (but many) tree values, less compression. BEAR-B-h has a lot of versions->large tree values->high compression.
+[](#results-ostrich-ingestion-rate-beara) shows the ingestion rate for each consecutive version for BEAR-A,
+while [#results-ostrich-ingestion-size-beara] shows the corresponding increasing storage sizes.
+Analogously, [](#results-ostrich-ingestion-rate-bearb-hourly) shows the ingestion rate for BEAR-B-hourly,
+and [](#results-ostrich-ingestion-size-bearb-hourly) shows its storage sizes.
+For BEAR-A, a linear trend for both ingestion duration and storage space for each consecutive version can observed.
+For BEAR-B-hourly, these slightly increase for larger versions.
+Furthermore, [](#results-ostrich-ingestion-rate-bearb-hourly) shows that the OSTRICH ingestion algorithm becomes slower around version 1200,
+showing a limitation of this system.
 
 <figure id="results-ostrich-ingestion-rate-beara">
 <img src="img/results-ostrich-ingestion-rate-beara.svg" alt="[BEAR-A OSTRICH ingestion rate]" height="150em">
@@ -169,9 +192,6 @@ showing a lineair growth.
 </figcaption>
 </figure>
 
-{:.todo}
-possible cause for weird behaviour around V 1200: large KC tree leaves causing a lot of reorganizations, which take a long time.
-
 <figure id="results-ostrich-ingestion-size-bearb-hourly">
 <img src="img/results-ostrich-ingestion-size-bearb-hourly.svg" alt="[BEAR-B-hourly OSTRICH ingestion sizes]" height="150em">
 <figcaption markdown="block">
@@ -179,6 +199,31 @@ Cumulative OSTRICH store sizes for each consecutive BEAR-B-hourly version in GB 
 showing a lineair growth.
 </figcaption>
 </figure>
+
+[](#results-ostrich-ingestion-rate-beara-compare) compares the BEAR-A ingestion rate of the streaming and batch algorithms.
+While the batch algorithm is faster than the streaming algorithm for the first 9 versions,
+the batch algorithm quickly becomes slower after that, and runs out of memory after version 10, even on a machine with 128 GB of memory.
+The ingestion duration in case of the streaming algorithm on the other hand continues to grow linearly.
+
+<figure id="results-ostrich-ingestion-rate-beara-compare">
+<img src="img/results-ostrich-ingestion-rate-beara-compare.svg" alt="[Comparison of OSTRICH ingestion algorithms]" height="150em">
+<figcaption markdown="block">
+Comparison of the OSTRICH stream and batch-based ingestion durations.
+The streaming algorithm starts of slower than the batch algorithm but grows linearly,
+while the batch algorithm consumes a lot of memory, resulting in slower ingestion after version 8 and an out-of-memory error after version 10.
+</figcaption>
+</figure>
+
+Tables [9](#results-beara-vm-sumary), [10](#results-beara-dm-summary) and [11](#results-beara-vq-summary) respectively
+summarize the VM, DM and VQ query durations of all BEAR-A queries on the ten first versions of the BEAR-A dataset for the different approaches.
+HDT-IC clearly outperforms all other approaches in all cases,
+while the Jena-based approaches are slower than the HDT-based approaches and OSTRICH in all cases.
+OSTRICH is faster than HDT-CB for VM queries, and sligthly slower for both DM and VQ queries.
+For DM queries, HDT-CB does however continuously become slower for larger versions, while the lookup times for OSTRICH remain constant.
+From version 7, OSTRICH is faster than HDT-CB.
+[Appendix A](#appendix-bear-a) contains more detailed plots for each BEAR-A queryset,
+in which we can see that all approaches collectively become slower for queries with a higher result cardinality,
+and that predicate-queries are also significantly slower for all approaches.
 
 <figure id="results-beara-vm-sumary">
 <img src="img/query/results_beara-vm-summary.svg" alt="[BEAR-A VM]" height="200em">
@@ -194,12 +239,22 @@ Median BEAR-A DM query results for all triple patterns from version 0 to all oth
 </figcaption>
 </figure>
 
-<figure id="results-beara-summary">
+<figure id="results-beara-vq-summary">
 <img src="img/query/results_beara-vq-summary.svg" alt="[BEAR-A VQ]" height="200em">
 <figcaption markdown="block">
 Median BEAR-A VQ query results for all triple patterns.
 </figcaption>
 </figure>
+
+Tables [12](#results-bearb-daily-vm-sumary), [13](#results-bearb-daily-dm-summary) and [14](#results-bearb-daily-vq-summary)
+contain the query duration results for the BEAR-B queries on the complete BEAR-B-daily dataset for the different approaches.
+Jena-based approaches are again slower than both the HDT-based ones and OSTRICH.
+For VM queries, OSTRICH is slower than HDT-IC, but faster than HDT-CB, which becomes slower for larger versions.
+For DM queries, OSTRICH is faster than HDT-CB for the second half of the versions, and slightly faster HDT-IC.
+The difference between HDT-IC and OSTRICH is however insignificant in this case, as can be seen in [Appendix B](#appendix-bear-b-daily).
+For VQ queries, OSTRICH is significantly faster than all other approaches.
+[Appendix B](#appendix-bear-b-daily) contains more detailed plots for this case,
+in which we can see that predicate-queries are again consistently slower for all approaches.
 
 <figure id="results-bearb-daily-vm-sumary">
 <img src="img/query/results_bearb-daily-vm-summary.svg" alt="[BEAR-B-daily VM]" height="200em">
@@ -215,12 +270,21 @@ Median BEAR-B-daily DM query results for all triple patterns from version 0 to a
 </figcaption>
 </figure>
 
-<figure id="results-bearb-daily-summary">
+<figure id="results-bearb-daily-vq-summary">
 <img src="img/query/results_bearb-daily-vq-summary.svg" alt="[BEAR-B-daily VQ]" height="200em">
 <figcaption markdown="block">
 Median BEAR-B-daily VQ query results for all triple patterns.
 </figcaption>
 </figure>
+
+Tables [12](#results-bearb-hourly-vm-sumary), [13](#results-bearb-hourly-dm-summary) and [14](#results-hourly-daily-vq-summary)
+show the query duration results for the BEAR-B queries on the complete BEAR-B-hourly dataset for all approaches.
+OSTRICH again outperforms Jena-based approaches in all cases.
+HDT-IC is faster for VM queries than OSTRICH, but HDT-CB is slower, except for the first 100 versions.
+For DM queries, OSTRICH is comparable to HDT-IC, and faster than HDT-CB, except for the first 100 versions.
+Finally, OSTRICH outperforms all HDT-based approaches for VQ queries.
+[Appendix C](#appendix-bear-b-hourly) contains the more detailed plots
+with the same conclusion as before that predicate-queries are slower.
 
 <figure id="results-bearb-hourly-vm-sumary">
 <img src="img/query/results_bearb-hourly-vm-summary.svg" alt="[BEAR-B-hourly VM]" height="200em">
@@ -236,17 +300,31 @@ Median BEAR-B-hourly DM query results for all triple patterns from version 0 to 
 </figcaption>
 </figure>
 
-<figure id="results-bearb-hourly-summary">
+<figure id="results-bearb-hourly-vq-summary">
 <img src="img/query/results_bearb-hourly-vq-summary.svg" alt="[BEAR-B-hourly VQ]" height="200em">
 <figcaption markdown="block">
 Median BEAR-B-hourly VQ query results for all triple patterns.
 </figcaption>
 </figure>
 
+In order to evaluate the offset capabilities of OSTRICH, we implemented custom offset features into each of the other approaches.
+Only for VM queries in HDT-IC an efficient implementation (HDT-IC+) could be made because of HDT's native offset capabilities.
+In all other cases, naive offsets had to be implemented by iterating over the result stream
+until a number of elements equal to the desired offset were consumed.
+[](#results-offset-vm) shows that OSTRICH offsets remain below 1ms,
+while other approaches grow beyond that for larger offsets, except for HDT-IC+.
+HDT-CB, Jena-CB and Jena-CB/TB are not included in this and the following figures
+because they require full materialization before offsets can be applied, which is expensive.
+For DM queries, all approaches have growing evaluating times for larger offsets, including OSTRICH.
+Finally, OSTRICH has VQ evaluation times that are approximately independent of the offset value,
+while other approaches again have growing evaluation times.
+
 <figure id="results-offset-vm">
 <img src="img/query/results_offsets-vm.svg" alt="[Offsets VM]" height="200em">
 <figcaption markdown="block">
 Median VM query results for different offsets over all versions in the BEAR-A dataset.
+HDT-IC+ refers to the efficient offset implementation based on HDT's native offset capabilities.
+HDT-CB, Jena-CB and Jena-CB/TB were not included due to evaluation times larger than one minute.
 </figcaption>
 </figure>
 
@@ -254,6 +332,7 @@ Median VM query results for different offsets over all versions in the BEAR-A da
 <img src="img/query/results_offsets-dm.svg" alt="[Offsets DM]" height="200em">
 <figcaption markdown="block">
 Median DM query results for different offsets between version 0 and all other versions in the BEAR-A dataset.
+HDT-CB, Jena-CB and Jena-CB/TB were not included due to evaluation times larger than one minute.
 </figcaption>
 </figure>
 
@@ -261,10 +340,24 @@ Median DM query results for different offsets between version 0 and all other ve
 <img src="img/query/results_offsets-vq.svg" alt="[Offsets VQ]" height="200em">
 <figcaption markdown="block">
 Median VQ query results for different offsets in the BEAR-A dataset.
+HDT-CB, Jena-CB and Jena-CB/TB were not included due to evaluation times larger than one minute.
 </figcaption>
 </figure>
 
 ### Discussion
 
 {:.todo}
-Write
+ingestion
+possible cause for weird behaviour around V 1200: large KC tree leaves causing a lot of reorganizations, which take a long time.
+
+{:.todo}
+compression: large tree values (more versions) are more prone to compression
+
+{:.todo}
+ingestion algos
+
+{:.todo}
+query eval
+
+{:.todo}
+offsets

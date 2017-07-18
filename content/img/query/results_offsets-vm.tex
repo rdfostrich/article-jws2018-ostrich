@@ -4,12 +4,12 @@
 \begin{document}
 \pagestyle{empty}
 \begin{tikzpicture}
-    \begin{axis}[queryplotoffset,xmode=log,ymode=log,legend entries = {OSTRICH,HDT-IC,HDT-IC-naive,Jena-IC,Jena-TB,}]
+    \begin{axis}[queryplotoffset,xmode=log,ymode=log,legend entries = {OSTRICH,HDT-IC+,HDT-IC,Jena-IC,Jena-TB,}]
         
         \addplot[ostrichall] table [x=offset, y=ms, col sep=comma] {data/offset/query/ostrich/spo/_median_\storage.csv};
         
-        \addplot[hdtic] table [x=offset, y=ms, col sep=comma] {data/offset/query/hdt-ic/spo/_median_\storage.csv};
-        \addplot[hdticnaive] table [x=offset, y=ms, col sep=comma] {data/offset/query/hdt-ic-naive/spo/_median_\storage.csv};
+        \addplot[hdticp] table [x=offset, y=ms, col sep=comma] {data/offset/query/hdt-ic/spo/_median_\storage.csv};
+        \addplot[hdtic] table [x=offset, y=ms, col sep=comma] {data/offset/query/hdt-ic-naive/spo/_median_\storage.csv};
         
         \addplot[jenaic] table [x=offset, y=ms, col sep=comma] {data/offset/query/jena-ic/spo/_median_\storage.csv};
         \addplot[jenatb] table [x=offset, y=ms, col sep=comma] {data/offset/query/jena-tb/spo/_median_\storage.csv};

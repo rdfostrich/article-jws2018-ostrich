@@ -412,8 +412,28 @@ i.e., a streaming algorithm with a larger buffer size, which is faster, but does
 
 #### Query Evaluation
 
-{:.todo}
-query eval
+The results from previous section show that the OSTRICH query evaluation efficiency is faster than all Jena-based approaches,
+mostly faster than HDT-CB, and mostly slower than HDT-IC.
+In all cases, OSTRICH lookup times remain constant independent of version for VM and DM queries,
+which is why we *accept* our [first hypothesis](#hypothesis-qualitative-querying).
+For VM queries, OSTRICH is consistently slower than HDT-IC, and faster than HDT-CB.
+For DM queries, OSTRICH is comparable to HDT-IC, and faster than HDT-CB when the for higher versions.
+Finally, VQ queries in OSTRICH are comparable to HDT-CB and slower than HDT-CB when the number of dataset versions is low,
+but quickly becomes significantly more efficient than all other approaches for increasing an number of versions.
+
+In the case of BEAR-A, OSTRICH requires more storage space than HDT-IC, and query evaluation is slower,
+which is why we *reject* [Hypothesis 2](#hypothesis-qualitative-ic) in this case.
+For BEAR-B-daily and BEAR-B-hourly, we can however *accept* this hypothesis,
+because OSTRICH requires less storage space than HDT-IC in those cases, and is slower.
+
+For BEAR-A, we again *reject* [Hypothesis 3](#hypothesis-qualitative-cb),
+because even though OSTRICH requires more storage space than HDT-CB, query evaluation is slower.
+For BEAR-B-daily and BEAR-B-hourly, we can again *accept* this hypothesis,
+because OSTRICH requires more storage space, and is faster.
+
+Finally, we *accept* our [final hypothesis](#hypothesis-qualitative-ingestion) for the BEAR-B cases,
+which states that average query evaluation times are lower than other non-IC approaches at the cost of increased ingestion times.
+For BEAR-A, this does not hold true.
 
 #### Offsets
 

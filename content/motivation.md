@@ -90,6 +90,6 @@ Our approach requires *less* storage space than IC-based approaches, but query e
 Our approach requires *more* storage space than CB-based approaches, but query evaluation is *faster*.
 </li>
 <li id="hypothesis-qualitative-ingestion">
-Average query evaluation times are lower than other approaches at the cost of increased ingestion time.
+Average query evaluation times are lower than other non-IC approaches at the cost of increased ingestion time.
 </li>
 </ol>

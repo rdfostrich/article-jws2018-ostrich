@@ -26,7 +26,8 @@ In future work, the TPF client will be extended to also support DM and VQ SPARQL
 
 With OSTRICH, we provide a good candidate for publishing and querying RDF archives at Web-scale.
 Several opportunities exist for improving this technique in future work,
-such as improving the ingestion efficiency, supporting dynamic snapshot creation and improving the DM offset efficiency.
+such as improving the ingestion efficiency, supporting dynamic snapshot creation since we only support a single snapshot and delta chain,
+and improving the DM offset efficiency.
 Furthermore, branching and merging of different version chains can be investigated.
 
 Our approach succeeds in reducing the cost for publishing RDF archives on the Web.

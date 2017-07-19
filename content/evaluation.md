@@ -353,7 +353,7 @@ HDT-CB, Jena-CB and Jena-CB/TB were not included due to evaluation times larger 
 ### Discussion
 
 In this section, we interpret and discuss the results from previous section.
-We discuss the ingestion, query evaluation and offset efficiency.
+We discuss the ingestion, query evaluation, offset efficiency and test our hypotheses.
 
 #### Ingestion
 For all evaluated cases, OSTRICH is slower than all other approaches when ingesting new data.
@@ -414,6 +414,32 @@ i.e., a streaming algorithm with a larger buffer size, which is faster, but does
 
 The results from previous section show that the OSTRICH query evaluation efficiency is faster than all Jena-based approaches,
 mostly faster than HDT-CB, and mostly slower than HDT-IC.
+VM queries in OSTRICH are always slower than HDT-IC,
+because HDT can very efficiently query a single materialized snapshot in this case,
+while OSTRICH requires more operations for materializing.
+VM queries in OSTRICH are however always faster than HDT-CB, because the latter has to reconstruct complete delta chains,
+while OSTRICH only has to reconstruct a single delta relative to the snapshot.
+For DM queries, OSTRICH is slower or comparable to HDT-IC, slower than HDT-CB for early version, but faster for later versions.
+This slowing down of HDT-CB for DM queries is again caused by reconstruction of delta chains.
+For VQ queries, OSTRICH outperforms all other approaches for datasets with larger amounts of versions.
+For BEAR-A, which contains only 10 versions in our case,
+the HDT-based approaches are slightly faster because only a small amount of versions need to be iterated.
+
+#### Offsets
+
+One of our initial requirements was to design a system that allows efficient offsetting of VM, DM and VQ result streams.
+As shown in last section, for both VM and VQ queries, the lookup times for various offsets remain approximately constant.
+For VM queries, this can fluctuate slightly for certain offsets due to the loop section inside the VM algorithm
+for determining the starting position inside the snapshot and deletion tree.
+For DM queries, we do however observe an increase in lookup times for larger offsets.
+That is because the current DM algorithm naively offsets these streams by simply iterating
+over the stream until a number of elements equal to the desired offset have been consumed.
+Furthermore, other IC and TB approaches outperform OSTRICH's DM result stream offsetting.
+This introduces a new point of improvement for future work,
+seeing whether or not OSTRICH would allow more efficient DM offsets by adjusting either the algorithm or the storage format.
+
+#### Hypotheses
+
 In all cases, OSTRICH lookup times remain constant independent of version for VM and DM queries,
 which is why we *accept* our [first hypothesis](#hypothesis-qualitative-querying).
 For VM queries, OSTRICH is consistently slower than HDT-IC, and faster than HDT-CB.
@@ -434,16 +460,3 @@ because OSTRICH requires more storage space, and is faster.
 Finally, we *accept* our [final hypothesis](#hypothesis-qualitative-ingestion) for the BEAR-B cases,
 which states that average query evaluation times are lower than other non-IC approaches at the cost of increased ingestion times.
 For BEAR-A, this does not hold true.
-
-#### Offsets
-
-One of our initial requirements was to design a system that allows efficient offsetting of VM, DM and VQ result streams.
-As shown in last section, for both VM and VQ queries, the lookup times for various offsets remain approximately constant.
-For VM queries, this can fluctuate slightly for certain offsets due to the loop section inside the VM algorithm
-for determining the starting position inside the snapshot and deletion tree.
-For DM queries, we do however observe an increase in lookup times for larger offsets.
-That is because the current DM algorithm naively offsets these streams by simply iterating
-over the stream until a number of elements equal to the desired offset have been consumed.
-Furthermore, other IC and TB approaches outperform OSTRICH's DM result stream offsetting.
-This introduces a new point of improvement for future work,
-seeing whether or not OSTRICH would allow more efficient DM offsets by adjusting either the algorithm or the storage format.

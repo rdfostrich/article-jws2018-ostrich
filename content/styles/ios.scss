@@ -676,6 +676,10 @@ table {
 th {
   border-bottom:1px solid;
 }
+thead {
+  /* Chrome shows duplicate thead rows on the same page: https://bugs.chromium.org/p/chromium/issues/detail?id=24826 */
+  display: table-row-group;
+}
 table thead td:first-child,
 table tfoot td:first-child {
   border:0;

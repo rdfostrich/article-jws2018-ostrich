@@ -84,10 +84,10 @@ We introduce the following qualitative hypotheses about our technique:
 VM and DM triple pattern query evaluation efficiency is independent of the selected versions.
 </li>
 <li id="hypothesis-qualitative-ic" markdown="1">
-Our approach requires *less* storage space than IC-based approaches, but query evaluation is *slower* for VM and *faster* for DM and VQ.
+Our approach requires *less* storage space than IC-based approaches, but query evaluation is *slower* for VM and *faster* or *equal* for DM and VQ.
 </li>
 <li id="hypothesis-qualitative-cb" markdown="1">
-Our approach requires *more* storage space than CB-based approaches, but query evaluation is *faster*.
+Our approach requires *more* storage space than CB-based approaches, but query evaluation is *faster* or *equal*.
 </li>
 <li id="hypothesis-qualitative-ingestion">
 Average query evaluation times are lower than other non-IC approaches at the cost of increased ingestion time.

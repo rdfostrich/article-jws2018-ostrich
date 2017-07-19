@@ -17,19 +17,12 @@ While some evolving datasets, such as [DBpedia](dbpedia),
 are published as separate dumps per version,
 efficient access to prior versions is often limited.
 
-A [survey on archiving Linked Open Data](cite:cites archiving) illustrated the need for native versioning capabilities,
+A [survey on archiving Linked Open Data](cite:cites archiving) illustrated the need for improved versioning capabilities,
 as current RDF archiving approaches have scalability issues at Web-scale.
-
-{:.todo}
-And these are not native?
-
 The authors state that an efficient RDF archive solution should have a scalable *storage model*,
 efficient *compression* and *indexing methods* that should enable expressive versioned querying.
-Furthermore, RDF archives should be publishable at a low cost, to make them queryable at Web-scale.
 
-{:.todo}
-Is this still in the survey or is it us? And why should they be published?
-
+Like any Linked Dataset, RDF archives should be publishable at a low cost to make them queryable at Web-scale.
 For this, a low-cost solution such as the [Triple Pattern Fragments](cite:cites ldf) (TPF) interface
 would be ideal. By itself, the TPF interface is, just like the RDF data model, atemporal.
 That is why [VTPF](cite:cites vtpf) was introduced, a TPF feature that adds versioning capabilities to the interface.

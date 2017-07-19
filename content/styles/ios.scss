@@ -673,10 +673,8 @@ table {
   /*display:inline-block;*/
   width:calc(100% - 2px);
 }
-table,
-th,
-td {
-  border:1px solid;
+th {
+  border-bottom:1px solid;
 }
 table thead td:first-child,
 table tfoot td:first-child {

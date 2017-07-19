@@ -440,6 +440,14 @@ seeing whether or not OSTRICH would allow more efficient DM offsets by adjusting
 
 #### Hypotheses
 
+In [](#problem-statement), we introduced four hypothesis, which we will validate in this section based on our experimental results.
+We will only consider the comparison between OSTRICH and HDT-based approaches,
+as OSTRICH outperforms the Jena-based approaches for all cases in terms of lookup times.
+These validations were done using R, for which the source code can be found at TODO.
+
+{:.todo}
+Add source code link
+
 For our [first hypothesis](#hypothesis-qualitative-querying), we expect OSTRICH lookup times remain independent of version for VM and DM queries.
 We validate this hypothesis by building a linear model with as reponse the lookup time,
 and as factors version and number of results.
@@ -466,10 +474,34 @@ results has influence in the last three cases.
 </figcaption>
 </figure>
 
-In the case of BEAR-A, OSTRICH requires more storage space than HDT-IC, and query evaluation is slower,
-which is why we *reject* [Hypothesis 2](#hypothesis-qualitative-ic) in this case.
-For BEAR-B-daily and BEAR-B-hourly, we can however *accept* this hypothesis,
-because OSTRICH requires less storage space than HDT-IC in those cases, and is slower.
+[Hypothesis 2](#hypothesis-qualitative-ic) states that OSTRICH requires *less* storage space than IC-based approaches,
+but query evaluation is *slower* for VM and *faster* for DM and VQ.
+Results from previous section showed that for BEAR-A, OSTRICH requires *more* storage space than HDT-IC,
+while for BEAR-B-daily and BEAR-B-hourly it requires *less* space.
+That means that we can already *reject* Hypothesis 2 for BEAR-B.
+In order to validate that query evaluation is slower for VM but faster for DM and VQ,
+we compared the means using the two-sample t-test, for which the results can be found in [](#hypo-test-2).
+In all cases, the means are not equal with a confidence of 95%, and HDT-IC is faster for VM queries,
+but slower for DM and VQ queries.
+We can therefore *accept* Hypothesis 2 for BEAR-B-daily and BEAR-B-hourly.
+
+<figure id="hypo-test-2" class="table" markdown="1">
+
+| Dataset       | Query      | p         | mean(ostrich) < mean(hdtic) |
+| ------------- |:-----------|:----------|-----------------------------|
+| BEAR-B-daily  | VM         | < 2.2e-16 | ✕                           |
+| BEAR-B-daily  | DM         | < 2.2e-16 | ✓                           |
+| BEAR-B-daily  | VQ         | < 2.2e-16 | ✓                           |
+| BEAR-B-hourly | VM         | < 2.2e-16 | ✕                           |
+| BEAR-B-hourly | DM         | < 2.2e-16 | ✓                           |
+| BEAR-B-hourly | VQ         | < 2.2e-16 | ✓                           |
+
+<figcaption markdown="block">
+P-values for the two-sample t-test for testing equal means between OSTRICH and HDT-IC lookup times
+for VM, DM and VQ queries in BEAR-B-daily and BEAR-B-hourly.
+The last column indicates whether or not the actual lookup time mean of OSTRICH is less than HDT-IC.
+</figcaption>
+</figure>
 
 For BEAR-A, we again *reject* [Hypothesis 3](#hypothesis-qualitative-cb),
 because even though OSTRICH requires more storage space than HDT-CB, query evaluation is slower.

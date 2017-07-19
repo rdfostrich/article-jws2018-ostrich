@@ -440,12 +440,31 @@ seeing whether or not OSTRICH would allow more efficient DM offsets by adjusting
 
 #### Hypotheses
 
-In all cases, OSTRICH lookup times remain constant independent of version for VM and DM queries,
-which is why we *accept* our [first hypothesis](#hypothesis-qualitative-querying).
-For VM queries, OSTRICH is consistently slower than HDT-IC, and faster than HDT-CB.
-For DM queries, OSTRICH is comparable to HDT-IC, and faster than HDT-CB when the for higher versions.
-Finally, VQ queries in OSTRICH are comparable to HDT-CB and slower than HDT-CB when the number of dataset versions is low,
-but quickly becomes significantly more efficient than all other approaches for increasing an number of versions.
+For our [first hypothesis](#hypothesis-qualitative-querying), we expect OSTRICH lookup times remain independent of version for VM and DM queries.
+We validate this hypothesis by building a linear model with as reponse the lookup time,
+and as factors version and number of results.
+Using linear regression, we measure the results from [](#hypo-test-1), which shows that for all cases,
+we can accept the zero-hypothesis that the version factor has no influence on the models with a confidence of 99%.
+Based on these results, we *accept* our [first hypothesis](#hypothesis-qualitative-querying).
+
+<figure id="hypo-test-1" class="table" markdown="1">
+
+| Dataset       | Query      | Version (p)     | Results (p)     |
+| ------------- |:-----------|:----------------|-----------------|
+| BEAR-A        | VM         | **0.960**       | **0.570**       |
+| BEAR-A        | DM         | **0.301**       | **0.320**       |
+| BEAR-B-daily  | VM         | **0.694**       | **0.697**       |
+| BEAR-B-daily  | DM         | **0.0391**      |   2.13e-09      |
+| BEAR-B-hourly | VM         | **0.568319**    |   0.000574      |
+| BEAR-B-hourly | DM         | **0.259**       |   2e-16         |
+
+<figcaption markdown="block">
+P-values for the linear regression model factors with as reponse the lookup time,
+and as factors version and number of results for each of the three benchmarks for VM and DM queries.
+For all cases, the version factor has no significant influence on the models,
+results has influence in the last three cases.
+</figcaption>
+</figure>
 
 In the case of BEAR-A, OSTRICH requires more storage space than HDT-IC, and query evaluation is slower,
 which is why we *reject* [Hypothesis 2](#hypothesis-qualitative-ic) in this case.

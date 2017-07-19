@@ -511,7 +511,7 @@ In BEAR-A, VQ queries in OSTRICH are not faster for BEAR-A, and VM queries in OS
 which is why we *reject* Hypothesis 3 for these datasets, even though only 1 in the three query atoms are not fulfilled.
 For BEAR-B-hourly, OSTRICH is faster than HDT-CB in all cases, so for this dataset we *accept* Hypothesis 3.
 
-<figure id="hypo-test-2" class="table" markdown="1">
+<figure id="hypo-test-3" class="table" markdown="1">
 
 | Dataset       | Query      | p           | mean(ostrich) =< mean(hdtcb) |
 | ------------- |:-----------|:------------|-----------------------------|
@@ -532,6 +532,8 @@ The last column indicates whether or not the actual lookup time mean of OSTRICH 
 </figcaption>
 </figure>
 
-Finally, we *accept* our [final hypothesis](#hypothesis-qualitative-ingestion) for the BEAR-B cases,
-which states that average query evaluation times are lower than other non-IC approaches at the cost of increased ingestion times.
-For BEAR-A, this does not hold true.
+Finally, in our [final hypothesis](#hypothesis-qualitative-ingestion),
+we state that average query evaluation times are lower than other non-IC approaches at the cost of increased ingestion times.
+In all cases, the ingestion time for OSTRICH is higher than the other approaches,
+and as shown in [](#hypo-test-3), query evaluation times for non-IC approaches are lower for BEAR-B-hourly.
+This means that we *accept* Hypothesis 4 for BEAR-B-hourly, and *reject* it for BEAR-A and BEAR-B-daily.

@@ -437,5 +437,13 @@ For BEAR-A, this does not hold true.
 
 #### Offsets
 
-{:.todo}
-offsets
+One of our initial requirements was to design a system that allows efficient offsetting of VM, DM and VQ result streams.
+As shown in last section, for both VM and VQ queries, the lookup times for various offsets remain approximately constant.
+For VM queries, this can fluctuate slightly for certain offsets due to the loop section inside the VM algorithm
+for determining the starting position inside the snapshot and deletion tree.
+For DM queries, we do however observe an increase in lookup times for larger offsets.
+That is because the current DM algorithm naively offsets these streams by simply iterating
+over the stream until a number of elements equal to the desired offset have been consumed.
+Furthermore, other IC and TB approaches outperform OSTRICH's DM result stream offsetting.
+This introduces a new point of improvement for future work,
+seeing whether or not OSTRICH would allow more efficient DM offsets by adjusting either the algorithm or the storage format.

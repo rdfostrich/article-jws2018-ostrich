@@ -10,7 +10,7 @@ followed by our problem statement.
 
 [Fernández et. al. define an _RDF archive_](cite:cites bear) as a set of version-annotated triples,
 where a version-annotated triple is an RDF triple that is annotated with a label representing the version in which this triple holds.
-A _RDF version_ `i` of an RDF archive is then defined as the set of all triples in the RDF archive that are annotated with the label `i`.
+An _RDF version_ `i` of an RDF archive is then defined as the set of all triples in the RDF archive that are annotated with the label `i`.
 
 Several approaches exist for archiving Linked Data, which will be further discussed in [](#related-work-archiving).
 A survey about archiving [Linked Open Data](cite:cites archiving) categorizes these approaches
@@ -25,23 +25,25 @@ each change or set of changes.</li>
 The storage of RDF archives typically goes hand-in-hand with querying.
 [Five foundational query atoms were introduced](cite:cites bear) that cover the retrieval demands in RDF archiving.
 <ol>
-    <li><em>Version materialization (VM)</em> retrieves data using queries targeted at a single version.</li>
-    <li><em>Delta materialization (DM)</em> retrieves query result differences (i.e. changesets) between two versions.</li>
-    <li><em>Version query (VQ)</em> annotates query results with the versions in which they are valid.</li>
-    <li><em>Cross-version join (CV)</em> joins the results of two queries between versions.</li>
-    <li><em>Change materialization (CM)</em> returns a list of versions in which a given query produces
-consecutively different results.</li>
+    <li markdown="1">_Version materialization (VM)_ retrieves data using queries targeted at a single version. Example: _Which books were present in the library yesterday?_
+</li>
+    <li markdown="1">_Delta materialization (DM)_ retrieves query result differences (i.e. changesets) between two versions. Example: _Which books were returned or taken from the library between yesterday and now?_
+</li>
+    <li markdown="1">_Version query (VQ)_ annotates query results with the versions in which they are valid. Example: _At what times was book X present in the library?_
+</li>
+    <li markdown="1">_Cross-version join (CV)_ joins the results of two queries between versions. Example: _What books were present in the library yesterday and today?_
+</li>
+    <li markdown="1">_Change materialization (CM)_ returns a list of versions in which a given query produces
+consecutively different results. Example: _At what times was book X returned or taken from the library?_
+</li>
 </ol>
-As discussed in [previous work](cite:cites tpfarchives), CV and CM queries can be simulated in terms of the other ones.
+As discussed in [previous work](cite:cites tpfarchives), CV and CM queries can be expressed in terms of the other ones.
 That is why for the remainder of this article, we will focus on VM, DM and VQ queries.
 
-As [mentioned before](cite:cites tpfarchives), there is a correspondence between the storage strategies and the query atoms.
-Namely, VM performs best for storage solutions based on IC, because there is indexing on version.
-DM works best for CB solutions, because the deltas are already in the appropriate format for DM query results.
-Finally, VQ works best for TB solutions, because the timestamp annotation directly corresponds to VQ's result format.
-
-{:.todo}
-explain example use cases and figures for VM, DM and VQ (why and how)?
+As [mentioned in earlier work](cite:cites tpfarchives), there is a correspondence between the storage strategies and the query atoms.
+Namely, VM corresponds to storage solutions based on IC, because there is indexing on version.
+DM corresponds to CB solutions, because the deltas are already in the appropriate format for DM query results.
+Finally, VQ corresponds to TB solutions, because the timestamp annotation directly corresponds to VQ's result format.
 
 ### Problem Statement
 {:#problem-statement}
@@ -50,7 +52,7 @@ In [previous work](cite:cites tpfarchives), we discussed the requirements for en
 for VM, DM and VQ queries, with the aim of reaching low-cost RDF archive publication. These requirements are the following:
 <ol>
     <li>An extension of the TPF interface for versioning query types.</li>
-    <li>A storage solution supporting the query atoms.</li>
+    <li>A storage solution supporting these query types.</li>
     <li>A TPF client that is able to consume the TPF interface extension.</li>
 </ol>
 The first task was handled through the introduction of [VTPF](cite:cites vtpf),
@@ -78,10 +80,10 @@ The following requirements can be identified in this research question:
 </ul>
 In this work, we introduce solutions to each of these parts in order to come up with an answer to our research question.
 
-We introduce the following qualitative hypotheses about our technique:
+We introduce the following hypotheses for the approach that we introduce in this work:
 <ol>
 <li id="hypothesis-qualitative-querying">
-VM and DM triple pattern query evaluation efficiency is independent of the selected versions.
+The evaluation efficiency of VM and DM triple pattern queries is independent of the selected versions.
 </li>
 <li id="hypothesis-qualitative-ic" markdown="1">
 Our approach requires *less* storage space than IC-based approaches, but query evaluation is *slower* for VM and *faster* or *equal* for DM and VQ.

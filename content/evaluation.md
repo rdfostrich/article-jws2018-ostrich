@@ -487,14 +487,14 @@ We can therefore *accept* Hypothesis 2 for BEAR-B-daily and BEAR-B-hourly.
 
 <figure id="hypo-test-2" class="table" markdown="1">
 
-| Dataset       | Query      | p         | mean(ostrich) =< mean(hdtic) |
-| ------------- |:-----------|:----------|-----------------------------|
-| BEAR-B-daily  | VM         | < 2.2e-16 | ✕                           |
-| BEAR-B-daily  | DM         | < 2.2e-16 | ✓                           |
-| BEAR-B-daily  | VQ         | < 2.2e-16 | ✓                           |
-| BEAR-B-hourly | VM         | < 2.2e-16 | ✕                           |
-| BEAR-B-hourly | DM         | < 2.2e-16 | ✓                           |
-| BEAR-B-hourly | VQ         | < 2.2e-16 | ✓                           |
+| Dataset       | Query      | p         | O <= H |
+| ------------- |:-----------|:----------|--------|
+| BEAR-B-daily  | VM         | < 2.2e-16 | ✕      |
+| BEAR-B-daily  | DM         | < 2.2e-16 | ✓      |
+| BEAR-B-daily  | VQ         | < 2.2e-16 | ✓      |
+| BEAR-B-hourly | VM         | < 2.2e-16 | ✕      |
+| BEAR-B-hourly | DM         | < 2.2e-16 | ✓      |
+| BEAR-B-hourly | VQ         | < 2.2e-16 | ✓      |
 
 <figcaption markdown="block">
 P-values for the two-sample t-test for testing equal means between OSTRICH and HDT-IC lookup times
@@ -513,17 +513,17 @@ For BEAR-B-hourly, OSTRICH is faster than HDT-CB in all cases, so for this datas
 
 <figure id="hypo-test-3" class="table" markdown="1">
 
-| Dataset       | Query      | p           | mean(ostrich) =< mean(hdtcb) |
-| ------------- |:-----------|:------------|-----------------------------|
-| BEAR-A        | VM         |   1.68e-05  | ✓                           |
-| BEAR-A        | DM         | < 2.2e-16   | ✓                           |
-| BEAR-A        | VQ         | < 2.2e-16   | ✕                           |
-| BEAR-B-daily  | VM         | < 2.2e-16   | ✕                           |
-| BEAR-B-daily  | DM         | **0.02863** | ✓                           |
-| BEAR-B-daily  | VQ         | < 2.2e-16   | ✓                           |
-| BEAR-B-hourly | VM         | < 2.2e-16   | ✓                           |
-| BEAR-B-hourly | DM         | < 2.2e-16   | ✓                           |
-| BEAR-B-hourly | VQ         | < 2.2e-16   | ✓                           |
+| Dataset       | Query      | p           | O <= H |
+| ------------- |:-----------|:------------|--------|
+| BEAR-A        | VM         |   1.68e-05  | ✓      |
+| BEAR-A        | DM         | < 2.2e-16   | ✓      |
+| BEAR-A        | VQ         | < 2.2e-16   | ✕      |
+| BEAR-B-daily  | VM         | < 2.2e-16   | ✕      |
+| BEAR-B-daily  | DM         | **0.02863** | ✓      |
+| BEAR-B-daily  | VQ         | < 2.2e-16   | ✓      |
+| BEAR-B-hourly | VM         | < 2.2e-16   | ✓      |
+| BEAR-B-hourly | DM         | < 2.2e-16   | ✓      |
+| BEAR-B-hourly | VQ         | < 2.2e-16   | ✓      |
 
 <figcaption markdown="block">
 P-values for the two-sample t-test for testing equal means between OSTRICH and HDT-CB lookup times

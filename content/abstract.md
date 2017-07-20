@@ -32,3 +32,4 @@ This allows data owners to store and query multiple versions of their dataset ef
 <!-- Perspectives -->
 which lowers the barrier towards historical dataset publication and analysis at a low cost.
 
+<span id="keywords"><span class="title">Keywords:</span> Linked Data, RDF archiving, Semantic Data Versioning, storage, querying</span>

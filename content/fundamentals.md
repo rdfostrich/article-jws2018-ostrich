@@ -3,26 +3,26 @@
 
 In this section, we introduce some fundamental concepts
 that are required in our storage approach and its accompanying querying algorithms.
-We discuss a hybrid IC/CB/TB storage approach,
+We discuss our hybrid IC/CB/TB storage approach,
 the reason for using multiple indexes,
 having local change metadata,
-and methods for providing addition and deletion counts.
+and methods for storing addition and deletion counts.
 
 ### Snapshot and Delta Chain
 {:#snapshot-delta-chain}
 
-As mention before in [](#preliminaries), we can distinguish individual copies (IC),
+As mentioned before in [](#preliminaries), we can distinguish individual copies (IC),
 change-based (CB) or timestamp-based storage strategies in RDF archiving solutions.
 While IC is optimal for querying specific version, it introduces a lot of storage overhead when there is are redundancies between each version.
 On the other hand, CB is good for querying differences between versions, but is less efficient for querying specific versions as it requires
 reconstructing versions based on a complete delta chain.
 In this section, we discuss the hybrid IC/CB approach that our approach is based on.
 
-[TailR](cite:cites tailr) is also hybrid IC/CB approach, in which delta chain lengths are limited
-to reduce the effort of reconstructing arbitrary versions in long chains.
+[TailR](cite:cites tailr) is a hybrid IC/CB approach in which delta chain lengths are limited
+to reduce the cost of reconstructing arbitrary versions in long chains.
 This is done by starting each chain with a fully materialized snapshot, followed by deltas, as shown in [](#regular-delta-chain).
 When the chain becomes too long, or other conditions are fulfilled, the chain stops
-and a new fully materialized snapshot is created for the next version.
+and a new snapshot is created for the next version.
 
 <figure id="regular-delta-chain">
 <img src="img/regular-delta-chain.svg" alt="[regular delta chain]">
@@ -34,8 +34,8 @@ Delta chain in which deltas are relative to the previous delta, as is done in [T
 Results show that this is an effective way of [reducing version reconstruction times](cite:cites tailr),
 but within the delta chain, an increase in version reconstruction times can still be observed.
 In order to avoid these increasing reconstruction times,
-we modify the delta chain structure slightly to make these times constant _independent_ of version.
-We do this by instead of making deltas relative to each preceding delta,
+we modify the delta chain structure slightly to make these times constant _independent_ of version, similar to [aggregated deltas](cite:cites vmrdf).
+Instead of making deltas relative to each preceding delta,
 we make them relative to the closest preceding snapshot in the chain, as shown in [](#alternative-delta-chain).
 This allows version reconstruction to require only at most one delta and one snapshot for any version.
 While this does increase possible redundancies within delta chains, this can easily be compressed away,
@@ -50,7 +50,7 @@ Delta chain in which deltas are relative to the snapshot at the start of the cha
 
 ### Multiple Indexes
 
-Our storage approach consists of five different indexes are used for storing the additions and deletions
+Our storage approach consists of five different indexes that are used for storing additions and deletions
 in different triple component orders, namely: `SPO`, `SOP`, `PSO`, `POS` and `OSP`.
 The reason for five indexes instead of all six possible component orders,
 as is typically done in [other approaches](cite:cites rdf3x,hexastore),
@@ -64,9 +64,9 @@ there exists an index at which the first triple component can be located in loga
 and the terminating element of the result stream can be identified without necessarily having to go to the last value of the tree.
 
 The optimal index can always be identified by reordering the triple components of the incoming triple pattern
-in such a way that all variable components come after the materialized components, while ensuring the SPO order within these two groups.
+in such a way that all variable components come after the materialized components, while ensuring `SPO` order within these two groups.
 After that, the index that corresponds to the given triple component order can be used.
-As an `OPS` index is not required, triple components for this can be reordered to `POS` without a loss of expressivity.
+An `OPS` index is not required because triple components for this can be reordered to `POS` without a loss of expressivity.
 [](#triple-pattern-index-mapping) shows an overview of which triple patterns can be mapped to which index.
 
 For example, for an `S?O` query, the components are reordered to `SO?`, which corresponds to the `SOP` index.
@@ -114,11 +114,11 @@ because storage of the local changes requires the storage of one additional flag
 
 ### Addition and Deletion counts
 
-Parts of the following querying algorithm depend on efficiently counting
+Parts of our querying algorithms depend on the ability to efficiently count
 the number of additions or deletions in a delta.
-The naive way of doing this would be to simply iterate over all triples in a delta,
+A naive way of doing this would be to simply iterate over all triples in a delta,
 and counting all those matching the triple pattern and version.
-This has a linear time complexity, so this will not perform well for large stores.
+This has a linear time complexity in terms of the total number of triples, so this will not perform well for large stores.
 We propose two separate approaches for enabling efficient addition and deletion counting in deltas.
 
 For additions, we propose to store an additional mapping from triple pattern and version to number of additions

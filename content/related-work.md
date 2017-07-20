@@ -4,7 +4,7 @@
 In this section, we discuss existing solutions and techniques for indexing and compression in RDF storage.
 After that, we compare different RDF archiving solutions.
 Finally, we discuss the BEAR and EvoGen benchmarks,
-of which we will use the former to benchmark the approach we present in this work.
+of which we will use the former to evaluate the approach we present in this work.
 
 ### RDF Indexing and Compression
 
@@ -21,7 +21,7 @@ on a clustered B+Tree with 18 indexes in which triples are sorted lexicographica
 6 aggregated indexes (SP, SO, PS, PO, OS, and OP)
 and 3 one-valued indexes (S, P, and O).
 A dictionary is used to compress common triple components.
-When evaluating SPARQL queries, the optimal indexes can be selected based on the query's triple patterns.
+When evaluating SPARQL queries, optimal indexes can be selected based on the query's triple patterns.
 Furthermore, the store allows update operations.
 In our storage approach, we will reuse the concept of multiple indexes
 and encoding triple components in a dictionary.
@@ -43,41 +43,38 @@ It consists of 3 main components:
     <li>Dictionary: Mapping between triple components and unique IDs for reducing storage requirements of triples.</li>
     <li>Triples: Storage of the actual triples based on the IDs of the triple components.</li>
 </ul>
-HDT archives are read-only, which leads to its high compressability,
+HDT archives are read-only, which leads to its high efficiency and compressability,
 but makes it unsuitable for cases where datasets change frequently,
 as HDT files should be regenerated completely.
 Its fast triple pattern queries and high compression rate make it
 the go-to backend storage method for [TPF](cite:cites ldf) servers.
 Approaches like [LOD Laundromat](lodlaundromat) combine HDT and TPF for hosting and publishing
 650K+ Linked Datasets containing 38M+ triples, proving its usefulness at large scale.
-We will reuse HDT snapshots as part of our storage solution.
+Because of these reasons, we will reuse HDT snapshots as part of our storage solution.
 
 ### RDF Archiving
 {:#related-work-archiving}
-
-{:.todo}
-Add rough evaluation results to each part, to motivate the choice on what to compare with (BEAR).
 
 As Linked Open Datasets typically [change over time](cite:cites datasetdynamics)
 and there is a need for [maintaining the history of the datasets](cite:cites archiving),
 RDF archiving has been an active area of research over the last couple of years.
 In this section, we discuss several existing RDF archiving systems, which are summarized in [](#rdf-archive-systems).
-We mention the basics of how they work, and what storage strategy they use as introduced in [](#preliminaries).
-The storage approach we propose is a hybrid between IC, CB and TB
+We mention the basics of how they work, and what storage strategy they use, as introduced in [](#preliminaries).
+The storage approach we propose in this work is a hybrid between IC, CB and TB
 because we aim to evaluate all versioned query atoms (VM, DM and VQ) efficiently.
 The following approaches are either pure IC, CB or TB, or hybrid IC/CB.
 
 [SemVersion](cite:cites semversion) was one of the first works to look into tracking different versions of RDF graphs.
 SemVersion is based on Concurrent Versions System (CVS) concepts to maintain different versions of ontologies,
-such as diff, branching and merging
-Their approach consists of a separation of language-specific features with ontology versioning from general features with RDF versioning.
+such as diff, branching and merging.
+Their approach consists of a separation of language-specific features with ontology versioning from general features together with RDF versioning.
 The authors omit implementation details on triple storage and retrieval.
 
 Based on the Theory of Patches from [Darcs software management system](darcs),
-[Cassidy et. al.](cite:cites vcrdf) propose to store graph changes as a series of patches, which makes it a CB approach.
+[Cassidy et. al.](cite:cites vcrdf) propose to store changes to graphs as a series of patches, which makes it a CB approach.
 In the paper, they describe operations on versioned graphs such as reverse, revert and merge.
 They provide an implementation of their approach using the Redland python library and MySQL
-by representing each patch as named graphs and serializing them as TriG.
+by representing each patch as named graphs and serializing them in TriG.
 Furthermore, a preliminary evaluation shows that their implementation is significantly slower
 than a native RDF store. They suggest a native implementation of the approach to avoid some of the overhead.
 
@@ -119,7 +116,7 @@ Their implementation is based on B+Trees that are indexed in six ways  GSPO, GPO
 Each B+Tree value indicates the revisions in which a particular quad exists, which makes it a TB approach.
 
 [TailR](cite:cites tailr) is an HTTP archive for Linked Data pages based
-on the [Memento](cite:cites memento) for retrieving prior versions of certain URIs.
+on the [Memento protocol](cite:cites memento) for retrieving prior versions of certain HTTP resources.
 It is a hybrid CB/IC approach as it starts by storing a dataset snapshot,
 after which only deltas are stored for each consecutive version.
 When delta chains become long, a new snapshot is created to avoid long version reconstruction times.
@@ -160,7 +157,8 @@ Update BEAR reference when their journal paper is accepted.
 It is based on three real-world datasets from different domains:
 <ul>
     <li>BEAR-A: 58 weekly snapshots from the [Dynamic Linked Data Observatory](cite:cites datasetdynamics).</li>
-    <li>BEAR-B: 100 most volatile resources from [DBpedia Live](cite:cites dbpedialive) over the course of three months.</li>
+    <li>BEAR-B: The 100 most volatile resources from [DBpedia Live](cite:cites dbpedialive) over the course of three months
+        as three different granularities: instant, hour and day</li>
     <li>BEAR-C: Dataset descriptions from the [Open Data Portal Watch](cite:cites opendataportalwatch) project over the course of 32 weeks.</li>
 </ul>
 The 58 versions of BEAR-A contain between 30M and 66M triples per version, with an average change ratio of 31%.
@@ -174,13 +172,14 @@ BEAR provides baseline RDF archive implementations based on [HDT](cite:cites hdt
 for the IC, CB, TB approaches, but also hybrid IC/CB and TB/CB approaches.
 The hybrid approaches are based on snapshots followed by delta chains, as implemented by [TailR](cite:cites tailr).
 Due to HDT not supporting quads, the TB and TB/CB approaches could not be implemented in the HDT baseline implementations.
-Baseline results show that IC for both Jena and HDT requires more storage space than the raw compressed data for the three datasets.
-CB results in less storage space for both approaches for BEAR-A and BEAR-C, but not for BEAR-B because that dataset is so dynamic that
+Results show that IC for both Jena and HDT requires more storage space than the raw compressed deltas for the three datasets.
+CB results in less storage space for both approaches for BEAR-A and BEAR-B, but not for BEAR-C because that dataset is so dynamic that
 the deltas require more storage space than they would in with IC.
-Jena-TB results in the least storage space for Jena, it does however fail for BEAR-B because of the large amount of versions
+Jena-TB results in the least storage space of Jena-based approaches,
+it does however fail for BEAR-B-instant because of the large amount of versions
 as Jena is less efficient for many graphs.
 The hybrid approaches are evaluated with different delta chain lengths and expectedly show
-that shorter delta chains lead to storage sizes similar to IC, and longer delta chains lead to sizes similar to CB or TB.
+that shorter delta chains lead to results similar to IC, and longer delta chains lead are similar to CB or TB.
 The queries for BEAR-A and BEAR-B show that
 IC results in constant evaluation times for any version,
 CB times increase for each following version,
@@ -190,17 +189,17 @@ The IC/CB hybrid approaches similarly show increasing evaluation times for each 
 with a drop each time a new snapshot is created.
 The IC/TB hybrid Jena approach has slowly increasing evaluation times for each version,
 but they are significantly lower than the regular TB approach.
-The queries of BEAR-C can currently not be solved by the archiving strategies in a straightforward way,
+The queries of BEAR-C currently can not be solved by the archiving strategies in a straightforward way,
 but they are designed to help foster the development of future RDF archiving solutions.
 While queries of BEAR-A and BEAR-B are just triple pattern queries and therefore do not cover the full SPARQL spectrum,
 they provide the basis for more complex queries, as is proven by the [TPF framework](cite:cites ldf),
 which makes them sufficient for benchmarking.
 
 [EvoGen](cite:cites evogen) is an RDF archive systems benchmark that is based on the synthetic [LUBM dataset generator](cite:cites lubm).
-They extended the LUBM generator with additional classes and properties for introducing dataset evolution on schema-level.
+It is an extension of the LUBM generator with additional classes and properties for introducing dataset evolution on schema-level.
 EvoGen enables the user to tweak parameters of the dataset and query generation process,
-for instance to change the dataset dynamicity and the number of versions.
+for example to change the dataset dynamicity and the number of versions.
 
 While EvoGen offers more flexibility than BEAR in terms of configurability.
 BEAR provides real-world datasets and baseline implementations which lowers the barrier towards its usage.
-That is why in this work we will use the BEAR dataset for benchmarking our system.
+That is why we will use the BEAR dataset in this work for benchmarking our system.

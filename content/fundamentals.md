@@ -49,6 +49,7 @@ Delta chain in which deltas are relative to the snapshot at the start of the cha
 </figure>
 
 ### Multiple Indexes
+{:#indexes}
 
 Our storage approach consists of three different indexes that are used for storing additions and deletions
 in different triple component orders, namely: `SPO`, `POS` and `OSP`.
@@ -94,6 +95,7 @@ Overview of which triple patterns can be queried inside which index to optimally
 </figure>
 
 ### Local Changes
+{:#local-changes}
 
 When materializing versions by combining a delta with its snapshot,
 it is important to know whether or not the delta element is relative to the snapshot or a previous delta.
@@ -113,6 +115,7 @@ On the other hand, it requires less storage space,
 because storage of the local changes requires the storage of one additional flag per triple per version.
 
 ### Addition and Deletion counts
+{:#addition-deletion-counts}
 
 Parts of our querying algorithms depend on the ability to efficiently count
 the number of additions or deletions in a delta.

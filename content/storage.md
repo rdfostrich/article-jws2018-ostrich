@@ -7,13 +7,13 @@ We focus on the part of answering our research question on how to efficiently st
 In order to handle VM, DM and VQ queries efficiently, our storage solution is a hybrid IC/CB/TB triple store, as introduced in last section.
 In summary, our approach consists of an initial dataset snapshot followed by a delta chain ([TailR](cite:cites tailr)),
 where this chain is compressed in B+Trees for TB-storage ([Dydra](cite:cites dydra)).
-Furthermore, we store additional metadata for convenience and improving lookup times ([HDT](cite:cites hdt)).
+Furthermore, we store additional metadata for improving lookup times ([HDT](cite:cites hdt)).
 Triple components are encoded in a dictionary for improved compression ([HDT](cite:cites hdt))
 and we provide multiple indexes for different triple component orders ([RDF-3X](cite:cites rdf3x), [Hexastore](cite:cites hexastore)).
 [](#storage-overview) shows and overview of these main components, which will be explained in more detail in the following sections.
 We end of this section with a description of two ingestion algorithms for this storage approach;
 one batch algorithm, which requires loading the versions in-memory,
-and one streaming algorithm, which inserts the versions in small-chunks.
+and one memory-efficient streaming algorithm, which inserts the versions in small-chunks.
 
 <figure id="storage-overview">
 <img src="img/storage-overview.svg" alt="[storage overview]">
@@ -21,7 +21,7 @@ and one streaming algorithm, which inserts the versions in small-chunks.
 The initial version of an RDF archive is stored as a _fully materialized snapshot_, for example using the HDT format.
 Each following version is stored as a _delta_ relative to the initial snapshot.
 All delta's are compressed in _addition and deletion trees_, where a _dictionary_ is used to compress triple components.
-Furthermore, we store an the _counts_ for certain triple pattern queries over _additions_.
+Furthermore, we store the _counts_ for certain triple pattern queries over _additions_.
 Finally, metadata about the complete archive is stored, containing information such as the total number of available versions.
 </figcaption>
 </figure>
@@ -39,23 +39,24 @@ we assume the following requirements for the snapshot storage:
     <li>Total result counts for any triple pattern query should be resolvable efficiently.</li>
 </ol>
 
+These requirements are needed for ensuring the efficiency of the querying algorithms that will be introduced in [](#querying).
 Providing an implementation for a snapshot store is out of scope for this work,
 but existing techniques such as [HDT](cite:cites hdt) fulfill all these requirements.
 
 ### Delta Storage
 {:#delta-storage}
 
-In order to cope with the newly introduced redundancies because of our alternative delta chain structure,
+In order to cope with the newly introduced redundancies in our delta chain structure,
 we introduce a delta storage method similar to the TB storage strategy,
 which is able to compress redundancies within consecutive deltas.
 
 The additions and deletions of deltas require different metadata in our querying algorithms,
 which will be explained in [](#querying).
-That is why we store these in separate addition and deletion stores,
-all additions and deletions from the complete delta chain are respectively stored together.
+That is why we store these in separate addition and deletion stores.
+All additions and deletions from the complete delta chain are respectively stored together.
 We use a tree structure (such as a B+Tree) for these addition and deletion stores,
-where the keys correspond to triples, and the values correspond to version information,
-which are similar to timestamps as in TB solutions.
+where the keys correspond to triples and the values correspond to version information,
+which are similar to timestamps in TB solutions.
 Even though triples can exist in multiple deltas in the same chain,
 they will only be stored once in the trees because their value contains information about version membership.
 
@@ -63,10 +64,10 @@ In order to improve the efficiency during triple pattern query evaluation,
 we store the trees in different triple component orders,
 similar to [RDF-3X](cite:cites rdf3x) and [Hexastore](cite:cites hexastore).
 Our approach consists of three orders per addition and deletion tree: SPO, POS and OSP.
-In [](#querying), we will illustrate why these three indexes are sufficient for optimally resolving any triple pattern.
+These three indexes are sufficient for optimally resolving any triple pattern, as discussed in [](#indexes).
 
-Furthermore, in order to further speed up query evaluation,
-we add metadata to each triple indicating whether or not the triple is a _local change_.
+In order to further speed up query evaluation,
+we add metadata to each triple indicating whether or not the triple is a _local change_, as mentioned in [](#local-changes).
 A triple is a local change in a certain version if it was already either added or removed in an earlier version.
 This local change information helps the querying algorithm to determine when to ignore a triple or not,
 which will be further explained in [](#querying).
@@ -76,11 +77,8 @@ we add metadata about the relative position of each triple inside the delta to t
 This position information has two purposes:
 1) it allows the querying algorithm to exploit offset capabilities of the snapshot store
 to resolve offsets for any triple pattern against any version;
-and 2) it allows deletion counts for any triple pattern and version to be done efficiently.
+and 2) it allows deletion counts for any triple pattern and version to be determined efficiently.
 This process will also be further explained in [](#querying).
-
-{:.todo}
-more information about deletion positions + give example
 
 In summary, we store six trees, three for both the additions and deletions.
 The trees use triples as keys, with three different triple component orders.
@@ -109,13 +107,14 @@ some form of dictionary identification must be encoded inside the ID,
 which can for example be a reserved bit.
 
 As the dictionary entries are text-based, they are likely to contain a lot of redundancies.
-That is why the dictionary can be compressed to reduce storage requirements.
+That is why the dictionary can be compressed to reduce storage space.
 
 ### Addition Counts
 {:#addition-counts}
 
-As mentioned before, in order to make the counting of matching addition triples for any triple pattern for any version more efficient,
-we propose to store an additional mapping from triple pattern and version to number of additions.
+As mentioned before in [](#addition-deletion-counts),
+in order to make the counting of matching addition triples for any triple pattern for any version more efficient,
+we propose to store an additional mapping from triple pattern and version to the number of matching additions.
 Furthermore, for being able to retrieve the total number of additions across all versions,
 we also propose to store this value for all triple patterns.
 This mapping must be calculated during ingestion time, so that counts during lookup time for any triple pattern
@@ -125,23 +124,20 @@ which can result in a large mapping store.
 To cope with this, we propose to only store the elements where their counts are larger than a certain threshold.
 Elements that are not stored will have to be counted during lookup time.
 This is however not a problem for reasonably low thresholds,
-because as mentioned in [](#fundamentals),
-we can efficiently limit the iteration scope in our indexes,
-so that triple patterns for which only a limited number of matches exist,
+because as mentioned in [](#addition-deletion-counts),
+We can efficiently limit the iteration scope in our indexes,
+so that for triple patterns for which only a limited number of matches exist,
 iteration, and therefore the counts, can happen efficiently.
-The count treshold introduces a trade-off between the storage requirements and the required triple counting during lookups.
-
-{:.todo}
-should we also mention how we calc this in the ingestion algo's? impl detail?
+The count threshold introduces a trade-off between the storage requirements and the required triple counting during lookups.
 
 ### Deletion Counts
 {:#deletion counts}
 
-As mentioned in [](#delta-storage), each deletion is annotated with its relative position in the deletions for that version.
+As mentioned in [](#delta-storage), each deletion is annotated with its relative position in all deletions for that version.
 We can exploit this information to perform deletion counting for any triple pattern and version.
 This can be done by looking up the largest possible triple for the given triple pattern in the deletions tree,
 which can be done in logarithmic time.
-If this doesn't result in a match, we follow the backward link to the element before that one in the tree.
+If this doesn't result in a match, we follow backward links to the elements before that one in the tree.
 In this value, the position of the deletion in all deletions for the given value is available.
 Because we have queried the largest possible triple for that triple pattern in the given version,
 this will be the last deletion in the list, so its position corresponds to the total number of deletions in that case.
@@ -156,17 +152,18 @@ Additionally, a total version counter must be maintain for cases when the last v
 
 ### Ingestion
 
-In the following two sections, we discuss an in-memory and a streaming ingestion algorithm.
+In the following two sections, we discuss an in-memory batch and a streaming ingestion algorithm.
 These algorithms both take a changeset — containing additions and deletions — as input,
 and ingest it to the store as a new version.
 Note that the ingested changesets are regular changesets, i.e., they are relative to one another according to [](#regular-delta-chain).
 During ingestion, they will be transformed to the alternative delta chain structure as shown in [](#alternative-delta-chain).
-Within the scope of this article, we only discuss ingestion of deltas in the delta chain following a snapshots.
+Within the scope of this article, we only discuss ingestion of deltas in a single delta chain following a snapshot.
 The creation of snapshots at the start of each new chain and determining suitable moments to create a snapshot instead of a delta
-are considered as future work.
+is considered as future work.
 
 Next to ingesting the added and removed triples,
-an ingestion algorithm must be able to calculate the appropriate metadata for the store as discussed in [](#delta-storage).
+an ingestion algorithm for our storage approach must be able to calculate
+the appropriate metadata for the store as discussed in [](#delta-storage).
 More specifically, an ingestion algorithm has the following requirements:
 <ul>
     <li>Addition triples must be stored in all addition trees</li>
@@ -175,10 +172,10 @@ More specifically, an ingestion algorithm has the following requirements:
     <li>Deletions must be annotated with their position for all triple patterns</li>
 </ul>
 
-### Batch Ingestion
+#### Batch Ingestion
 {:#batch-ingestion}
 
-Our naive first algorithm to ingest data into the store loads everything in memory,
+Our first algorithm to ingest data into the store naively loads everything in memory,
 and inserts the data accordingly.
 The advantage of this algorithm is its simplicity and the possibility to do straightforward optimizations during ingestion.
 The main disadvantage is the high memory consumption requirement for large versions.
@@ -189,10 +186,10 @@ which is required for the batch ingestion.
 [](#algorithm-ingestion-batch-merge) shows the pseudocode of an algorithm for merging a changeset into another changeset,
 and returning the resulting merged changeset.
 First, all contents of the original changeset are copied into the new changeset.
-After that, an iteration over all the triples of the second changeset is started.
-If the changeset already contained the given triple, the local change flag is set to negation of the local change flag in the first changeset.
+After that, an iteration over all triples of the second changeset is started.
+If the changeset already contained the given triple, the local change flag is set to the negation of the local change flag in the first changeset.
 Otherwise, the triple is added to the new changeset, and the local change flag is set to `false`.
-Finally, in both cases, the addition flag of the triple in the new changeset is copied from the second changeset.
+Finally, in both cases the addition flag of the triple in the new changeset is copied from the second changeset.
 
 <figure id="algorithm-ingestion-batch-merge" class="algorithm">
 ````/algorithms/ingestion-batch-merge.txt````
@@ -203,7 +200,7 @@ In-memory changeset merging algorithm
 
 Secondly, we also introduce an algorithm for incrementally calculating the position of a deletion within a changeset in [](#algorithm-positions).
 For this, we externally maintain mappings from triple to a counter for each possible triple pattern.
-For the `? ? ?` triple pattern, we only have to maintain a single counter, as each triple will match with this.
+For the `???` triple pattern, we only have to maintain a single counter, as each triple will match with this.
 In total, we maintain seven triple patterns per triple, we don't maintain a counter for the triple itself as its value is always 1.
 For a given triple, the position of all its possible triple patterns are incremented in the counters.
 The current counter values for all those triple patterns are returned.
@@ -223,7 +220,7 @@ After that, it loads the previous changeset in memory,
 which is required for merging it together with the new changeset using the algorithm from [](#algorithm-ingestion-batch-merge).
 After that, we have the complete new changeset loaded in memory.
 Now, we load each added triple into the addition trees, together with their version and local change flag.
-After that, we can finally start with deletion ingestion.
+After that, we can initiate deletion ingestion.
 We start by iterating over all deleted triples in the new changeset
 and calculating the position of the deletion using the algorithm from [](#algorithm-positions).
 We can now ingest the given triple in the deletion trees with their version, local change flag and positions.
@@ -241,25 +238,24 @@ it can require a large amount of memory for a number of reasons.
 2) Loading the complete previous changeset;
 3) Combining and loading the previous and new changesets;
 4) Maintaining counters for the deletions in all possible triple patterns.
-As deltas are stored relatively to snapshots, their size can grow for an increasing number of versions,
+As deltas are stored relative to snapshots, their size can grow for an increasing number of versions,
 which directly leads to larger memory requirements.
-The effects of this memory requirement will be evaluated in [](#evaluate).
 The theoretical time complexity of this algorithm is `O(P + N)`,
 with `P` the number of triples in the previous changeset,
 and `N` the number of triples in the new changeset.
 
-### Streaming Ingestion
+#### Streaming Ingestion
 {:#streaming-ingestion}
 
 Because of the unbounded memory requirements of the [batch ingestion algorithm](#batch-ingestion),
 we also introduce a more complex streaming ingestion algorithm.
 It also takes a changeset stream and store as input parameters,
-with as additional on the stream that its contents must be sorted in SPO-order.
+with as additional requirement on the stream that its contents must be sorted in SPO-order.
 This is so that the algorithm can assume a consistent order and act as a sort-merge join operation.
 
 In summary, the algorithm performs a sort-merge join over three streams in SPO-order:
-1) the input changeset (N);
-2) the existing deletions (D) over all versions;
+1) the input changeset (N)
+2) the existing deletions (D) over all versions
 and 3) the existing additions (A) over all versions.
 The algorithm iterates over all streams together, until all of them are finished.
 The smallest triple over all stream heads is handled in each iteration,
@@ -276,9 +272,9 @@ and can be categorized in seven different cases:
 
 The two first cases are the simplest ones,
 for these, the deletion and addition information can respectively be copied to the new version.
-For the deletion in this case, and all other cases as well, new positions must be calculated.
+For the deletion, new positions must be calculated in this and all other cases.
 In the third case, a triple is added or removed that was not present before,
-so it can either be added as a non-local change addition or deletion.
+so it can either be added as a non-local change addition or a non-local change deletion.
 In the fourth case, the new triple already existed as a deletion.
 If the triple is an addition, it must be added as a local change.
 If it is a deletion, it simply overwrites the existing deletion.
@@ -292,7 +288,7 @@ and is equal to our new triple.
 This means that if the latest triple was an addition, it becomes a deletion, and the other way around,
 and the local change flag can be inherited.
 
-The theoretical memory requirements for this algorithm are much lower than the [batch variant](#batch-ingestion).
+The theoretical memory requirement for this algorithm is much lower than the [batch variant](#batch-ingestion).
 That is because instead of loading the complete new changeset in memory,
 we now need to load at most three triples — the heads of each stream — in memory.
 Furthermore, we still need to maintain the position counters for the deletions in all triple patterns.

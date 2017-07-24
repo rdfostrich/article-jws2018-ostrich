@@ -50,28 +50,28 @@ Delta chain in which deltas are relative to the snapshot at the start of the cha
 
 ### Multiple Indexes
 
-Our storage approach consists of five different indexes that are used for storing additions and deletions
-in different triple component orders, namely: `SPO`, `SOP`, `PSO`, `POS` and `OSP`.
+Our storage approach consists of three different indexes that are used for storing additions and deletions
+in different triple component orders, namely: `SPO`, `POS` and `OSP`.
 The reason for five indexes instead of all six possible component orders,
 as is typically done in [other approaches](cite:cites rdf3x,hexastore),
 is because we only aim to evaluate all triple pattern queries efficiently without having to go over the whole index.
 Other approaches are typically also interested in the final triple order for more efficient joining of streams.
-If this would be needed, a sixth `OPS` index could optionally be added.
+If this would be needed, `OPS`, `PSO` and `SOP` indexes could optionally be added.
 
-The five indexes that were mentioned are sufficient for optimally reducing the iteration scope of the lookup tree for any triple pattern.
+The three indexes that were mentioned are sufficient for optimally reducing the iteration scope of the lookup tree for any triple pattern.
 That is because for each possible triple pattern,
 there exists an index at which the first triple component can be located in logarithmic time,
 and the terminating element of the result stream can be identified without necessarily having to go to the last value of the tree.
 
 The optimal index can always be identified by reordering the triple components of the incoming triple pattern
-in such a way that all variable components come after the materialized components, while ensuring `SPO` order within these two groups.
-After that, the index that corresponds to the given triple component order can be used.
-An `OPS` index is not required because triple components for this can be reordered to `POS` without a loss of expressivity.
+by ensuring that all variable components come before the non-variable ones.
+After that, an index that corresponds to the given triple component order can be used.
+`OPS`, `PSO` and `SOP` indexes are not required because triple components for this can be reordered without a loss of expressivity.
 [](#triple-pattern-index-mapping) shows an overview of which triple patterns can be mapped to which index.
 
-For example, for an `S?O` query, the components are reordered to `SO?`, which corresponds to the `SOP` index.
-In this case, the first `SO?` triple can be found in logarithmic time.
-From the moment a triple is found where the object is larger than `O`,
+For example, for an `S?O` query, the components are reordered to `OS?`, which corresponds to the `OSP` index.
+In this case, the first `OS?` triple can be found in logarithmic time.
+From the moment a triple is found where the object is larger than `S`,
 we can terminate the stream because no new matching triples will be found.
 
 <figure id="triple-pattern-index-mapping" class="table" markdown="1">
@@ -80,10 +80,10 @@ we can terminate the stream because no new matching triples will be found.
 | -------------- |-------|
 | S P O          | SPO   |
 | S P ?          | SPO   |
-| S ? O          | SOP   |
+| S ? O          | OSP   |
 | S ? ?          | SPO   |
 | ? P O          | POS   |
-| ? P ?          | PSO   |
+| ? P ?          | POS   |
 | ? ? O          | OSP   |
 | ? ? ?          | SPO   |
 

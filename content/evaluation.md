@@ -86,7 +86,8 @@ All raw results and the scripts that were used to process them are available on 
 
 Tables [4](#results-ingestion-bear-a), [5](#results-ingestion-bear-b-daily) and [6](#results-ingestion-bear-b-hourly)
 show the ingestion times and storage requirements for the different approaches for the three different benchmarks.
-For BEAR-A, the HDT-based approaches outperform OSTRICH both in terms of ingestion time and storage space.
+For BEAR-A, the HDT-based approaches outperform OSTRICH both in terms of ingestion time.
+Only HDT-CB requires less storage space.
 The Jena-based approaches ingest faster than OSTRICH, but require more storage space.
 For BEAR-B-daily, OSTRICH requires less storage space than all other approaches except for HDT-CB at the cost of slower ingestion.
 For BEAR-B-hourly, only HDT-CB, Jena-CB and Jena-CB/TB require less space than OSTRICH.
@@ -97,7 +98,7 @@ For BEAR-B-hourly, only HDT-CB, Jena-CB and Jena-CB/TB require less space than O
 | --------------- |:---------------------|:----------|
 | Raw (N-Triples) | /                    | 45        |
 | Raw (gzip)      | /                    |  3        |
-| OSTRICH         | 2463                 |  5,86     |
+| OSTRICH         | 2256                 |  4,48     |
 | Jena-IC         |  443                 | 32,04     |
 | Jena-CB         |  226                 | 17,79     |
 | Jena-TB         | 1746                 | 80,35     |
@@ -116,7 +117,7 @@ Ingestion times and storage sizes for each of the RDF archive approaches for the
 | --------------- |:---------------------|:----------|
 | Raw (N-Triples) | /                    | 583       |
 | Raw (gzip)      | /                    |  32       |
-| OSTRICH         | 13,18                |  21,43    |
+| OSTRICH         | 12.36                |  16,87    |
 | Jena-IC         |  8,91                | 415,32    |
 | Jena-CB         |  9,53                |  42,82    |
 | Jena-TB         |  0,35                |  23,61    |
@@ -135,7 +136,7 @@ Ingestion times and storage sizes for each of the RDF archive approaches for BEA
 | --------------- |:---------------------|:----------|
 | Raw (N-Triples) | /                    | 8929      |
 | Raw (gzip)      | /                    |  467      |
-| OSTRICH         | 5680,09              |  710,41   |
+| OSTRICH         | 5680,09              |  450,59   |
 | Jena-IC         |  142,26              | 6233,92   |
 | Jena-CB         |  173,48              |  473,41   |
 | Jena-TB         |   70,56              | 3678,89   |
@@ -148,6 +149,8 @@ Ingestion times and storage sizes for each of the RDF archive approaches for BEA
 </figcaption>
 </figure>
 
+{:.todo} Update final OSTRICH ingestion time for BEAR-B-hourly
+
 [](#results-ostrich-compressability) shows the compressability of OSTRICH datasets,
 which shows that datasets with more versions are more prone to space savings using compression techniques like gzip.
 
@@ -155,9 +158,9 @@ which shows that datasets with more versions are more prone to space savings usi
 
 | Dataset       | Original Size (MB) | gzip (MB) | Space savings |
 | ------------- |:-------------------|:----------|-------------------|
-| BEAR-A        | 6000,64            | 4345,07   | 27,59%            |
-| BEAR-B-daily  |   21,43            |    7,52   | 64,91%            |
-| BEAR-B-hourly |  710,41            |  135,16   | 80,98%            |
+| BEAR-A        | 4587,52            | 3272,50   | 28,66%            |
+| BEAR-B-daily  |   16,87            |    5,42   | 67,87%            |
+| BEAR-B-hourly |  450,59            |   86,12   | 80,88%            |
 
 <figcaption markdown="block">
 Compressability of OSTRICH stores using gzip.
@@ -400,7 +403,7 @@ If pure compression is required without querying capabilities,
 OSTRICH's format is still beneficial as is shown in [](#results-ostrich-compressability).
 For the BEAR-B cases, OSTRICH can be compressed more than gzip on raw N-Triples,
 which is because of the increased redundancy in B+Tree values.
-Furthermore, compressing BEAR-B-hourly saves even more space (80,98%) than BEAR-B-daily (64,91%),
+Furthermore, compressing BEAR-B-hourly saves even more space (80,88%) than BEAR-B-daily (67,87%),
 because of the same reason, BEAR-B-hourly contains 1299 versions, while BEAR-B-daily contains 89 versions.
 
 We compared the streaming and batch-based ingestion algorithm in [](#results-ostrich-ingestion-rate-beara-compare).
@@ -446,10 +449,7 @@ seeing whether or not OSTRICH would allow more efficient DM offsets by adjusting
 In [](#problem-statement), we introduced four hypothesis, which we will validate in this section based on our experimental results.
 We will only consider the comparison between OSTRICH and HDT-based approaches,
 as OSTRICH outperforms the Jena-based approaches for all cases in terms of lookup times.
-These validations were done using R, for which the source code can be found at TODO.
-
-{:.todo}
-Add source code link
+These validations were done using R, for which the source code can be found on [GitHub](https://github.com/rdfostrich/ostrich-bear-results/).
 
 For our [first hypothesis](#hypothesis-qualitative-querying), we expect OSTRICH lookup times remain independent of version for VM and DM queries.
 We validate this hypothesis by building a linear model with as reponse the lookup time,
@@ -479,19 +479,22 @@ results has influence in the last three cases.
 
 [Hypothesis 2](#hypothesis-qualitative-ic) states that OSTRICH requires *less* storage space than IC-based approaches,
 but query evaluation is *slower* for VM and *faster* or *equal* for DM and VQ.
-Results from previous section showed that for BEAR-A, OSTRICH requires *more* storage space than HDT-IC,
-while for BEAR-B-daily and BEAR-B-hourly it requires *less* space.
-That means that we can already *reject* Hypothesis 2 for BEAR-B.
+Results from previous section showed that for BEAR-A, BEAR-B-daily and BEAR-B-hourly,
+OSTRICH requires *less* space than HDT-IC.
 In order to validate that query evaluation is slower for VM but faster for DM and VQ,
 we compared the means using the two-sample t-test, for which the results can be found in [](#hypo-test-2).
-In all cases, the means are not equal with a confidence of 95%, and HDT-IC is faster for VM queries,
-but slower for DM and VQ queries.
-We can therefore *accept* Hypothesis 2 for BEAR-B-daily and BEAR-B-hourly.
+In all cases, the means are not equal with a confidence of 95%.
+For BEAR-B-daily and BEAR-B-hourly, HDT-IC is faster for VM queries, but slower for DM and VQ queries.
+For BEAR-A, HDT-IC is faster for all query typs.
+We can therefore *accept* Hypothesis 2 for BEAR-B-daily and BEAR-B-hourly, but *reject* it for BEAR-A.
 
 <figure id="hypo-test-2" class="table" markdown="1">
 
 | Dataset       | Query      | p         | O <= H |
 | ------------- |:-----------|:----------|--------|
+| BEAR-A        | VM         | 1.387e-05 | ✕      |
+| BEAR-A        | DM         | < 2.2e-16 | ✕      |
+| BEAR-A        | VQ         | < 2.2e-16 | ✕      |
 | BEAR-B-daily  | VM         | < 2.2e-16 | ✕      |
 | BEAR-B-daily  | DM         | < 2.2e-16 | ✓      |
 | BEAR-B-daily  | VQ         | < 2.2e-16 | ✓      |

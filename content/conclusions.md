@@ -6,8 +6,8 @@ Our storage technique is a hybrid of the IC/CB/TB approaches, because we store s
 These delta chains are stored together in a timestamp-based tree.
 The evaluation of our OSTRICH implementation shows that this technique offers a new trade-off in terms of ingestion time, storage size and lookup times.
 By preprocessing and storing additional data during ingestion, we can reduce lookup times for VM, DM and VQ queries compared to CB and TB approaches.
-Furthermore, for datasets with larger amounts of versions, our approach requires less storage space than IC approaches,
-at the cost of slightly slower VM queries, but comparable DM queries.
+Our approach requires less storage space than IC approaches, at the cost of slightly slower VM queries, but comparable DM queries.
+Furthermore, it is faster than CB approaches, at the cost of more storage space.
 Additionally, VQ queries become increasingly more efficient for datasets with larger amounts of versions compared to IC, CB and TB approaches.
 
 With lookup times of 1ms or less in most cases, OSTRICH is an ideal candidate for Web querying,

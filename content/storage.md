@@ -62,8 +62,8 @@ they will only be stored once in the trees because their value contains informat
 In order to improve the efficiency during triple pattern query evaluation,
 we store the trees in different triple component orders,
 similar to [RDF-3X](cite:cites rdf3x) and [Hexastore](cite:cites hexastore).
-Our approach consists of five orders per addition and deletion tree: SPO, SOP, PSO, POS and OSP.
-In [](#querying), we will illustrate why these five indexes are sufficient for optimally resolving any triple pattern.
+Our approach consists of three orders per addition and deletion tree: SPO, POS and OSP.
+In [](#querying), we will illustrate why these three indexes are sufficient for optimally resolving any triple pattern.
 
 Furthermore, in order to further speed up query evaluation,
 we add metadata to each triple indicating whether or not the triple is a _local change_.
@@ -82,8 +82,8 @@ This process will also be further explained in [](#querying).
 {:.todo}
 more information about deletion positions + give example
 
-In summary, we store ten trees, five for both the additions and deletions.
-The trees use triples as keys, with five different triple component orders.
+In summary, we store six trees, three for both the additions and deletions.
+The trees use triples as keys, with three different triple component orders.
 The addition trees store version and local change information.
 The deletion trees store the same, but additionally also relative snapshot positions.
 
@@ -94,7 +94,7 @@ A typical technique in [RDF storage solutions](cite:cites hdt,rdf3x,triplebit) i
 This is generally done for main two reasons:
 1) to reduce storage space if triple components are stored multiple times;
 2) to simplify and optimize querying.
-As our storage approach essentially stores each triple five or ten times,
+As our storage approach essentially stores each triple three or six times,
 a dictionary can definitely reduce storage space requirements.
 
 Each delta chain consists of two dictionaries, one for the snapshot and one for the deltas.

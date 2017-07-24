@@ -53,7 +53,7 @@ Delta chain in which deltas are relative to the snapshot at the start of the cha
 
 Our storage approach consists of three different indexes that are used for storing additions and deletions
 in different triple component orders, namely: `SPO`, `POS` and `OSP`.
-The reason for five indexes instead of all six possible component orders,
+The reason for three indexes instead of all six possible component orders,
 as is typically done in [other approaches](cite:cites rdf3x,hexastore),
 is because we only aim to evaluate all triple pattern queries efficiently without having to go over the whole index.
 Other approaches are typically also interested in the final triple order for more efficient joining of streams.
@@ -93,6 +93,11 @@ we can terminate the stream because no new matching triples will be found.
 Overview of which triple patterns can be queried inside which index to optimally reduce the iteration scope.
 </figcaption>
 </figure>
+
+Storage-wise, only one index, `SPO` for example, would be sufficient to achieve reduced storage space.
+The auxiliary `OSP` and `POS` indexes could be derived from this main index afterwards when querying is required.
+This technique is similar to the [HDT-FoQ](cite:cites hdtfoq) extension for HDT that adds additional indexes to a basic HDT file
+to enable faster querying for any triple pattern.
 
 ### Local Changes
 {:#local-changes}

@@ -15,6 +15,8 @@ In the scope of this work, OSTRICH currently supports a single snapshot and delt
 OSTRICH uses [HDT](cite:cites hdt) as snapshot technology as it conforms to all the [requirements](#snapshot-storage) for our approach.
 Furthermore, for our indexes we use [Kyoto Cabinet](http://fallabs.com/kyotocabinet/),
 which provides a highly efficient memory-mapped B+Tree implementation with compression support.
+OSTRICH immediately generates the main `SPO` index and the auxiliary `OSP` and `POS` indexes.
+In future work, OSTRICH can easily be modified to only generate the main index and delay auxiliary index generation to a later stage.
 Memory-mapping is required so that not all data must be loaded in-memory when queries are evaluated,
 which would not always possible for large datasets.
 For our delta dictionary, we extend HDT's dictionary implementation with adjustments to make it work with unsorted triple components.
@@ -86,6 +88,7 @@ All raw results and the scripts that were used to process them are available on 
 
 Tables [4](#results-ingestion-bear-a), [5](#results-ingestion-bear-b-daily) and [6](#results-ingestion-bear-b-hourly)
 show the ingestion times and storage requirements for the different approaches for the three different benchmarks.
+These tables also contain storage sizes for OSTRICH without the auxiliary `OSP` and `POS` indexes taken into account.
 For BEAR-A, the HDT-based approaches outperform OSTRICH both in terms of ingestion time.
 Only HDT-CB requires less storage space.
 The Jena-based approaches ingest faster than OSTRICH, but require more storage space.
@@ -99,6 +102,7 @@ For BEAR-B-hourly, only HDT-CB, Jena-CB and Jena-CB/TB require less space than O
 | Raw (N-Triples) | /                    | 45        |
 | Raw (gzip)      | /                    |  3        |
 | OSTRICH         | 2256                 |  4,48     |
+| OSTRICH-reduced | /                    |  3,19     |
 | Jena-IC         |  443                 | 32,04     |
 | Jena-CB         |  226                 | 17,79     |
 | Jena-TB         | 1746                 | 80,35     |
@@ -119,6 +123,7 @@ The additional size for HDT-indexes is shown separately.
 | Raw (N-Triples) | /                    | 583       |
 | Raw (gzip)      | /                    |  32       |
 | OSTRICH         | 12.36                |  16,87    |
+| OSTRICH-reduced | /                    |  12,32    |
 | Jena-IC         |  8,91                | 415,32    |
 | Jena-CB         |  9,53                |  42,82    |
 | Jena-TB         |  0,35                |  23,61    |
@@ -139,6 +144,7 @@ The additional size for HDT-indexes is shown separately.
 | Raw (N-Triples) | /                    | 8929      |
 | Raw (gzip)      | /                    |  467      |
 | OSTRICH         | 5680,09              |  450,59   |
+| OSTRICH-reduced | /                    |  TODO     |
 | Jena-IC         |  142,26              | 6233,92   |
 | Jena-CB         |  173,48              |  473,41   |
 | Jena-TB         |   70,56              | 3678,89   |
@@ -153,7 +159,7 @@ The additional size for HDT-indexes is shown separately.
 </figure>
 
 {:.todo}
-Update final OSTRICH ingestion time for BEAR-B-hourly
+Update final OSTRICH ingestion time for BEAR-B-hourly (also reduced size)
 
 [](#results-ostrich-compressability) shows the compressability of OSTRICH datasets,
 which indicates that datasets with more versions are more prone to space savings using compression techniques like gzip.
@@ -170,6 +176,9 @@ which indicates that datasets with more versions are more prone to space savings
 Compressability of OSTRICH stores using gzip.
 </figcaption>
 </figure>
+
+{:.todo}
+Redo compression measurements WITHOUT auxiliary `OSP` and `POS` indexes.
 
 [](#results-ostrich-ingestion-rate-beara) shows the ingestion rate for each consecutive version for BEAR-A,
 while [](#results-ostrich-ingestion-size-beara) shows the corresponding increasing storage sizes.

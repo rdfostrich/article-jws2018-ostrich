@@ -7,7 +7,7 @@ These delta chains are stored together in a timestamp-based tree.
 The evaluation of our OSTRICH implementation shows that this technique offers a new trade-off in terms of ingestion time, storage size and lookup times.
 By preprocessing and storing additional data during ingestion, we can reduce lookup times for VM, DM and VQ queries compared to CB and TB approaches.
 Our approach requires less storage space than IC approaches, at the cost of slightly slower VM queries, but comparable DM queries.
-Furthermore, it is faster than CB approaches, at the cost of more storage space.
+Furthermore, our technique is faster than CB approaches, at the cost of more storage space.
 Additionally, VQ queries become increasingly more efficient for datasets with larger amounts of versions compared to IC, CB and TB approaches.
 
 With lookup times of 1ms or less in most cases, OSTRICH is an ideal candidate for Web querying,
@@ -19,12 +19,12 @@ existing HDT snapshots can be loaded in by OSTRICH directly, and patched with ad
 OSTRICH fulfills our [requirements](cite:cites tpfarchives) for a back-end RDF archive storage solution
 for supporting versioning queries in the TPF framework.
 Together with the [VTPF](cite:cites vtpf) interface feature, RDF archives can be queried on the Web at a low cost,
-as demonstrated on [a public VTPF entrypoint](http://versioned.linkeddatafragments.org/bear).
+as demonstrated on [our public VTPF entrypoint](http://versioned.linkeddatafragments.org/bear).
 TPF only requires triple patterns as foundational query atoms,
 which means that TPF clients are able to evaluate full VM SPARQL queries using OSTRICH and VTPF.
 In future work, the TPF client will be extended to also support DM and VQ SPARQL queries.
 
-With OSTRICH, we provide a good candidate for publishing and querying RDF archives at Web-scale.
+With OSTRICH, we provide a technique for publishing and querying RDF archives at Web-scale.
 Several opportunities exist for improving this technique in future work,
 such as improving the ingestion efficiency, supporting dynamic snapshot creation since we only support a single snapshot and delta chain,
 and improving the DM offset efficiency.

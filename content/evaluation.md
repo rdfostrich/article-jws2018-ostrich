@@ -367,7 +367,13 @@ This is a direct consequence of our alternative delta chain method where all del
 That is the reason why when new deltas are inserted,
 the previous one must be fully materialized by iterating over all existing triples,
 because no version index exists.
-One future optimization could be to maintain the last version of each chain in a separate index for faster patching.
+These results should however be interpreted correctly,
+because all other approaches receive their input data in the appropriate format (IC, CB, TB, CB/TB),
+while OSTRICH doesn't.
+OSTRICH must convert CB input at runtime to the alternative CB structure where deltas are relative to the snapshot,
+which explains the larger ingestion times.
+A future optimization could be to maintain the last version of each chain in a separate index for faster patching.
+Or a new ingestion algorithm could be implemented that accepts input in the correct alternative CB format.
 Alternatively, a new snapshot could dynamically be created when ingestion time becomes too large.
 
 In [](#results-ostrich-ingestion-rate-bearb-hourly), we can observe large fluctuations in ingestion time around version 1200 of BEAR-B-hourly.

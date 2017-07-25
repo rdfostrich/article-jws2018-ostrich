@@ -11,29 +11,15 @@ and methods for storing addition and deletion counts.
 ### Snapshot and Delta Chain
 {:#snapshot-delta-chain}
 
-As mentioned before in [](#preliminaries), we can distinguish individual copies (IC),
+As mentioned before in [](#related-work), we can distinguish individual copies (IC),
 change-based (CB) or timestamp-based storage strategies in RDF archiving solutions.
 While IC is optimal for querying specific version, it introduces a lot of storage overhead when there is are redundancies between each version.
 On the other hand, CB is good for querying differences between versions, but is less efficient for querying specific versions as it requires
 reconstructing versions based on a complete delta chain.
-In this section, we discuss the hybrid IC/CB approach that our approach is based on.
 
-[TailR](cite:cites tailr) is a hybrid IC/CB approach in which delta chain lengths are limited
-to reduce the cost of reconstructing arbitrary versions in long chains.
-This is done by starting each chain with a fully materialized snapshot, followed by deltas, as shown in [](#regular-delta-chain).
-When the chain becomes too long, or other conditions are fulfilled, the chain stops
-and a new snapshot is created for the next version.
-
-<figure id="regular-delta-chain">
-<img src="img/regular-delta-chain.svg" alt="[regular delta chain]">
-<figcaption markdown="block">
-Delta chain in which deltas are relative to the previous delta, as is done in [TailR](cite:cites tailr).
-</figcaption>
-</figure>
-
-Results show that this is an effective way of [reducing version reconstruction times](cite:cites tailr),
-but within the delta chain, an increase in version reconstruction times can still be observed.
-In order to avoid these increasing reconstruction times,
+Therefore,
+we propose a hybrid IC/CB approach similar to [](#regular-delta-chain).
+However, to avoid increasing reconstruction times,
 we modify the delta chain structure slightly to make these times constant _independent_ of version, similar to [aggregated deltas](cite:cites vmrdf).
 Instead of making deltas relative to each preceding delta,
 we make them relative to the closest preceding snapshot in the chain, as shown in [](#alternative-delta-chain).

@@ -1,6 +1,12 @@
 ## Introduction
 {:#introduction}
 
+{:.todo}
+The intro contains good parts, but I don't find it overall convincing.
+It's not clear what the exact contributions of the paper are, they need to be more clear. Also, the title doesn't reflect them.
+To me Web-scale querying in this context means: a) servicing a low-cost interface, hence using virtual integration when doing archiving (see my paper), and b) attention to caching and data shipping by supporting paging through offsets. 
+
+
 In the area of data analysis,
 there is an ongoing need for maintaining the history of datasets.
 Motivations vary between looking up data at certain points in time,
@@ -48,8 +54,7 @@ which makes it possible to use implementations of this approach as the back-end 
 We provide OSTRICH as an open-source implementation of this approach.
 
 This article is structured as follows.
-In the next section, we start by introducing some [preliminary concepts and our problem statement](#motivation).
-After that, we introduce the related work in [](#related-work).
+In the next section, we start by introducing the related work in [](#related-work) and our problem statement in [](#problem-statement).
 Next, in [](#fundamentals), we introduce the basic concepts of our approach,
 followed by our storage approach in [](#storage) and the accompanied querying algorithms in [](#querying).
 After that, we present and discuss the evaluation of our implementation in [](#evaluation).

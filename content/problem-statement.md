@@ -1,6 +1,9 @@
 ## Problem statement
 {:#problem-statement}
 
+{:.todo}
+The problem statement doesn't really contain a problem. It's a bit missing from the intro as well. What is the exact problem we are solving? Up til now it's a single survey claiming archiving doens't happen at web-scale. We need arguments, details! 
+
 The storage of RDF archives typically goes hand-in-hand with querying.
 [Five foundational query atoms were introduced](cite:cites bear) that cover the retrieval demands in RDF archiving.
 <ol>

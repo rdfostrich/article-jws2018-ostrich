@@ -41,10 +41,12 @@ Storing the differences, i.e. changesets/deltas, between each version instead of
 can significantly reduce the storage requirements for archives.
 Techniques like these are also used in existing RDF archiving solutions.
 
-In this work, we tackle the problem of storing and querying RDF archives efficiently.
-We introduce a storage technique for compressing and indexing RDF archives,
-together with algorithms for querying these archives *at*, *over* and *for* different versions.
-These querying possibilities correspond to the capabilities of the VTPF interface,
+Existing RDF archiving solutions either perform well for versioned query evaluation at the cost of large storage space requirements,
+or they require less storage space at the cost of slower query evaluation.
+Furthermore, no existing solution performs well for all versioned query types, i.e., querying *at*, *over* and *for* different versions.
+We provide a technique that provides a new trade-off in terms of storage space and querying efficiency,
+and allows _all_ versioned query types to be evaluated efficiently as offsettable result streams.
+These versioned querying possibilities correspond to the capabilities of the VTPF interface,
 which makes it possible to use implementations of this approach as the back-end for RDF archives that are published and queryable at a low cost.
 We provide OSTRICH as an open-source implementation of this approach,
 which we extensively evaluate by comparing it with other approaches using an existing RDF archiving benchmark.

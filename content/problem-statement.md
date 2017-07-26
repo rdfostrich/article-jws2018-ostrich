@@ -1,8 +1,7 @@
 ## Problem statement
 {:#problem-statement}
 
-{:.todo}
-The problem statement doesn't really contain a problem. It's a bit missing from the intro as well. What is the exact problem we are solving? Up til now it's a single survey claiming archiving doens't happen at web-scale. We need arguments, details! 
+In this section, we present the problem we aim to solve, together with hypotheses about our corresponding solution.
 
 The storage of RDF archives typically goes hand-in-hand with querying.
 [Five foundational query atoms were introduced](cite:cites bear) that cover the retrieval demands in RDF archiving.
@@ -20,15 +19,25 @@ consecutively different results. Example: _At what times was book X returned or 
 </li>
 </ol>
 
-
 {:.todo}
 Explain the prior work below, referencing is not enough. Also, there a bit much of "in prior work..."
 
 In this article, we will focus on VM, DM and VQ queries, as CV and CM queries can be expressed in [terms of the other ones](cite:cites tpfarchives).
-There exist a correspondence between the storage strategies from [](#related-work) and the query atoms.
-Namely, VM corresponds to storage solutions based on IC, because there is indexing on version.
-DM corresponds to CB solutions, because the deltas are already in the appropriate format for DM query results.
-Finally, VQ corresponds to TB solutions, because the timestamp annotation directly corresponds to VQ's result format.
+There exist a correspondence between the IC, CB and TB storage strategies and these query atoms.
+Namely, VM queries are efficient in storage solutions that based on IC, because there is indexing on version.
+On the other hand, IC-based solutions may introduce a lot of overhead in terms of storage space because each version is stored separately.
+Furthermore, DM and VQ queries are less efficient for IC solutions.
+That is because DM queries require two fully-materialized versions to be compared on-the-fly,
+and VQ requires _all_ versions to be queried at the same time.
+DM queries can be efficient in CB solutions if the query version ranges correspond to the stored delta ranges.
+In all other cases, as well as for VM and VQ queries, the desired versions must be materialized on-the-fly,
+which will take increasingly more time for longer delta chains.
+CB solutions do however typically require less storage space than VM if there is sufficient overlap between each consecutive version.
+Finally, VQ queries perform well form TB solutions because the timestamp annotation directly corresponds to VQ's result format.
+VM and DM queries in this case are typically less efficient than for IC approaches, due to the missing version index.
+Furthermore, TB solutions can require less storage space compared to VM if the change ratio of the dataset is not too large.
+In summary, IC, CB and TB approaches can perform well for certain query types, but they can be slow for others.
+On the other hand, this efficiency typically comes at the cost of large storage overhead, as is the case for IC-based approaches.
 
 In [previous work](cite:cites tpfarchives), we discussed the requirements for enabling queries over RDF archives using the TPF framework
 for VM, DM and VQ queries, with the aim of reaching low-cost RDF archive publication. These requirements are the following:
@@ -42,13 +51,14 @@ which is a TPF interface feature for enabling queryable access to RDF archives t
 The third task is already partially solved by VTPF, as it is designed in such a way that each version of the dataset
 is exposed through a separate virtual TPF interface, which allows existing TPF clients to target each version as a separate datasource.
 
-In this work, we focus on the second task, storing and evaluating VM, DM and VQ queries.
+In this work, we focus on the second task, storing and evaluating VM, DM and VQ queries efficiently.
 As the publication cost for these archives must be as low as possible,
 we focus on lowering query evaluation times by processing and storing more data during ingestion time.
 That is because this processing then happens only once per version, instead of every time during lookup.
 Additionally, as the TPF interface returns triple pattern query results in pages, query results within our store should also be pageable.
 This can be achieved by considering the query results as a pull-based stream that can be started at any given offset,
 and limited when sufficient elements have been consumed.
+The ability to achieve such stream subsets is limited in existing solutions.
 Furthermore, the advantage of pull-based streams is that for large amounts of query results,
 not every triple should necessarily be kept in memory,
 because each resulting element can be consumed and processed by a consumer on-demand.

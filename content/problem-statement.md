@@ -19,9 +19,6 @@ consecutively different results. Example: _At what times was book X returned or 
 </li>
 </ol>
 
-{:.todo}
-Explain the prior work below, referencing is not enough. Also, there a bit much of "in prior work..."
-
 In this article, we will focus on VM, DM and VQ queries, as CV and CM queries can be expressed in [terms of the other ones](cite:cites tpfarchives).
 There exist a correspondence between the IC, CB and TB storage strategies and these query atoms.
 Namely, VM queries are efficient in storage solutions that based on IC, because there is indexing on version.

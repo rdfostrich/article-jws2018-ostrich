@@ -1,10 +1,6 @@
 ## Introduction
 {:#introduction}
 
-{:.todo}
-The intro contains good parts, but I don't find it overall convincing.
-
-
 In the area of data analysis,
 there is an ongoing need for maintaining the history of datasets.
 Motivations vary between looking up data at certain points in time,
@@ -25,6 +21,7 @@ A [survey on archiving Linked Open Data](cite:cites archiving) illustrated the n
 as current RDF archiving approaches have scalability issues at Web-scale.
 The authors state that an efficient RDF archive solution should have a scalable *storage model*,
 efficient *compression* and *indexing methods* that should enable expressive versioned querying.
+The performance of existing solutions in each of these areas is limited and should be improved.
 
 Like any Linked Dataset, RDF archives should be publishable at a low cost to make them queryable at Web-scale.
 For this, a low-cost solution such as the [Triple Pattern Fragments](cite:cites ldf) (TPF) interface
@@ -49,7 +46,8 @@ We introduce a storage technique for compressing and indexing RDF archives,
 together with algorithms for querying these archives *at*, *over* and *for* different versions.
 These querying possibilities correspond to the capabilities of the VTPF interface,
 which makes it possible to use implementations of this approach as the back-end for RDF archives that are published and queryable at a low cost.
-We provide OSTRICH as an open-source implementation of this approach.
+We provide OSTRICH as an open-source implementation of this approach,
+which we extensively evaluate by comparing it with other approaches using an existing RDF archiving benchmark.
 
 This article is structured as follows.
 In the next section, we start by introducing the related work in [](#related-work) and our problem statement in [](#problem-statement).

@@ -3,8 +3,6 @@
 
 {:.todo}
 The intro contains good parts, but I don't find it overall convincing.
-It's not clear what the exact contributions of the paper are, they need to be more clear. Also, the title doesn't reflect them.
-To me Web-scale querying in this context means: a) servicing a low-cost interface, hence using virtual integration when doing archiving (see my paper), and b) attention to caching and data shipping by supporting paging through offsets. 
 
 
 In the area of data analysis,

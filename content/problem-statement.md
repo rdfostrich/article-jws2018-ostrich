@@ -1,26 +1,8 @@
-## Motivation
-{:#motivation}
+## Problem statement
+{:#problem-statement}
 
-In this section, we motivate the problem we aim to tackly by
-first introducing preliminary concepts about the RDF archiving domain,
-followed by our problem statement.
-
-### Preliminaries
-{:#preliminaries}
-
-[Fernández et. al. define an _RDF archive_](cite:cites bear) as a set of version-annotated triples,
-where a version-annotated triple is an RDF triple that is annotated with a label representing the version in which this triple holds.
-An _RDF version_ `i` of an RDF archive is then defined as the set of all triples in the RDF archive that are annotated with the label `i`.
-
-Several approaches exist for archiving Linked Data, which will be further discussed in [](#related-work-archiving).
-A survey about archiving [Linked Open Data](cite:cites archiving) categorizes these approaches
-into three non-orthogonal storage strategies.
-<ol>
-    <li>The <em>Independent copies (IC)</em> approach creates separate instantiations of datasets for
-each change or set of changes.</li>
-    <li>The <em>Change-based (CB)</em> approach instead only stores changes (i.e. changesets) between versions.</li>
-    <li>The <em>Timestamp-based (TB)</em> approach stores the temporal validity of facts.</li>
-</ol>
+{:.todo}
+The problem statement doesn't really contain a problem. It's a bit missing from the intro as well. What is the exact problem we are solving? Up til now it's a single survey claiming archiving doens't happen at web-scale. We need arguments, details! 
 
 The storage of RDF archives typically goes hand-in-hand with querying.
 [Five foundational query atoms were introduced](cite:cites bear) that cover the retrieval demands in RDF archiving.
@@ -37,16 +19,16 @@ The storage of RDF archives typically goes hand-in-hand with querying.
 consecutively different results. Example: _At what times was book X returned or taken from the library?_
 </li>
 </ol>
-As discussed in [previous work](cite:cites tpfarchives), CV and CM queries can be expressed in terms of the other ones.
-That is why for the remainder of this article, we will focus on VM, DM and VQ queries.
 
-As [mentioned in earlier work](cite:cites tpfarchives), there is a correspondence between the storage strategies and the query atoms.
+
+{:.todo}
+Explain the prior work below, referencing is not enough. Also, there a bit much of "in prior work..."
+
+In this article, we will focus on VM, DM and VQ queries, as CV and CM queries can be expressed in [terms of the other ones](cite:cites tpfarchives).
+There exist a correspondence between the storage strategies from [](#related-work) and the query atoms.
 Namely, VM corresponds to storage solutions based on IC, because there is indexing on version.
 DM corresponds to CB solutions, because the deltas are already in the appropriate format for DM query results.
 Finally, VQ corresponds to TB solutions, because the timestamp annotation directly corresponds to VQ's result format.
-
-### Problem Statement
-{:#problem-statement}
 
 In [previous work](cite:cites tpfarchives), we discussed the requirements for enabling queries over RDF archives using the TPF framework
 for VM, DM and VQ queries, with the aim of reaching low-cost RDF archive publication. These requirements are the following:
@@ -71,7 +53,9 @@ Furthermore, the advantage of pull-based streams is that for large amounts of qu
 not every triple should necessarily be kept in memory,
 because each resulting element can be consumed and processed by a consumer on-demand.
 This leads us to the following research question:
+
 <q id="research-question">How can we efficiently store RDF archives while enabling VM, DM and VQ triple pattern queries with efficient offsets?</q>
+
 The following requirements can be identified in this research question:
 <ul>
     <li>An efficient RDF archive storage technique.</li>

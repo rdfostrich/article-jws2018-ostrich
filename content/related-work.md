@@ -55,14 +55,25 @@ Because of these reasons, we will reuse HDT snapshots as part of our storage sol
 ### RDF Archiving
 {:#related-work-archiving}
 
-As Linked Open Datasets typically [change over time](cite:cites datasetdynamics)
-and there is a need for [maintaining the history of the datasets](cite:cites archiving),
-RDF archiving has been an active area of research over the last couple of years.
-In this section, we discuss several existing RDF archiving systems, which are summarized in [](#rdf-archive-systems).
-We mention the basics of how they work, and what storage strategy they use, as introduced in [](#preliminaries).
-The storage approach we propose in this work is a hybrid between IC, CB and TB
-because we aim to evaluate all versioned query atoms (VM, DM and VQ) efficiently.
-The following approaches are either pure IC, CB or TB, or hybrid IC/CB.
+Linked Open Datasets typically [change over time](cite:cites datasetdynamics),
+creating a need for [maintaining the history of the datasets](cite:cites archiving).
+Hence, RDF archiving has been an active area of research over the last couple of years.
+[Fernández et. al. define an _RDF archive_](cite:cites bear) as a set of version-annotated triples,
+where a version-annotated triple is an RDF triple that is annotated with a label representing the version in which this triple holds.
+An _RDF version_ `i` of an RDF archive is then defined as the set of all triples in the RDF archive that are annotated with the label `i`.
+
+Systems for archiving Linked Open Data are categorized
+into [three non-orthogonal storage strategies](cite:cites archiving):
+<ol>
+    <li>The <em>Independent copies (IC)</em> approach creates separate instantiations of datasets for
+each change or set of changes.</li>
+    <li>The <em>Change-based (CB)</em> approach instead only stores changes (i.e. changesets) between versions.</li>
+    <li>The <em>Timestamp-based (TB)</em> approach stores the temporal validity of facts.</li>
+</ol>
+In the following, we discuss several existing RDF archiving systems, which use either pure IC, CB or TB, or hybrid IC/CB.
+
+{:.todo}
+IC, CB, TP, and hybrid could be subtitles
 
 [SemVersion](cite:cites semversion) was one of the first works to look into tracking different versions of RDF graphs.
 SemVersion is based on Concurrent Versions System (CVS) concepts to maintain different versions of ontologies,
@@ -118,11 +129,23 @@ Each B+Tree value indicates the revisions in which a particular quad exists, whi
 [TailR](cite:cites tailr) is an HTTP archive for Linked Data pages based
 on the [Memento protocol](cite:cites memento) for retrieving prior versions of certain HTTP resources.
 It is a hybrid CB/IC approach as it starts by storing a dataset snapshot,
-after which only deltas are stored for each consecutive version.
-When delta chains become long, a new snapshot is created to avoid long version reconstruction times.
-This approach requires more storage space than pure delta-based approaches,
-but comes with the benefit of faster version reconstruction for many versions.
-Their implementation is based on a relation database system.
+after which only deltas are stored for each consecutive version, as shown in [](#regular-delta-chain).
+When the chain becomes too long, or other conditions are fulfilled, a new snapshot is created for the next version.
+This avoids long version reconstruction times.
+
+<figure id="regular-delta-chain">
+<img src="img/regular-delta-chain.svg" alt="[regular delta chain]">
+<figcaption markdown="block">
+Delta chain in which deltas are relative to the previous delta, as is done in [TailR](cite:cites tailr).
+</figcaption>
+</figure>
+
+Results show that this is an effective way of [reducing version reconstruction times](cite:cites tailr),
+in particular for many versions.
+Within the delta chain, however, an increase in version reconstruction times can still be observed.
+Furthermore, it requires more storage space than pure delta-based approaches.
+
+The author's implementation is based on a relation database system.
 Evaluation shows that resource lookup times for any version ranges between
 1 and 50 ms for 10 versions containing around 500K triples.
 In total, these versions require ~64MB of storage space.

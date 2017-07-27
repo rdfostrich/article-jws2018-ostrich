@@ -102,7 +102,7 @@ For BEAR-B-hourly, only HDT-CB, Jena-CB and Jena-CB/TB require less space than O
 | Raw (N-Triples) | /                    | 45        |
 | Raw (gzip)      | /                    |  3        |
 | OSTRICH         | 2256                 |  4,48     |
-| OSTRICH-reduced | /                    |  3,19     |
+| OSTRICH-reduced | /                    |  3,03     |
 | Jena-IC         |  443                 | 32,04     |
 | Jena-CB         |  226                 | 17,79     |
 | Jena-TB         | 1746                 | 80,35     |
@@ -143,8 +143,8 @@ The additional size for HDT-indexes is shown separately.
 | --------------- |:---------------------|:----------|
 | Raw (N-Triples) | /                    | 8929      |
 | Raw (gzip)      | /                    |  467      |
-| OSTRICH         | 5680,09              |  450,59   |
-| OSTRICH-reduced | /                    |  TODO     |
+| OSTRICH         | 4497.32              |  450,59   |
+| OSTRICH-reduced | /                    |  187,46   |
 | Jena-IC         |  142,26              | 6233,92   |
 | Jena-CB         |  173,48              |  473,41   |
 | Jena-TB         |   70,56              | 3678,89   |
@@ -158,11 +158,9 @@ The additional size for HDT-indexes is shown separately.
 </figcaption>
 </figure>
 
-{:.todo}
-Update final OSTRICH ingestion time for BEAR-B-hourly (also reduced size)
-
 [](#results-ostrich-compressability) shows the compressability of OSTRICH datasets,
 which indicates that datasets with more versions are more prone to space savings using compression techniques like gzip.
+[](#results-ostrich-reduced-compressability) shows that this compressibility increases slightly when reduced OSTRICH stores are used.
 
 <figure id="results-ostrich-compressability" class="table" markdown="1">
 
@@ -177,8 +175,18 @@ Compressability of OSTRICH stores using gzip.
 </figcaption>
 </figure>
 
-{:.todo}
-Redo compression measurements WITHOUT auxiliary `OSP` and `POS` indexes.
+<figure id="results-ostrich-reduced-compressability" class="table" markdown="1">
+
+| Dataset       | Original Size (MB) | gzip (MB) | Space savings |
+| ------------- |:-------------------|:----------|-------------------|
+| BEAR-A        | 3117,64            | 2155,13   | 30,87%            |
+| BEAR-B-daily  |   12,32            |    3,35   | 72,80%            |
+| BEAR-B-hourly |  187,46            |   34,92   | 81,37%            |
+
+<figcaption markdown="block">
+Compressability of reduced OSTRICH stores using gzip.
+</figcaption>
+</figure>
 
 [](#results-ostrich-ingestion-rate-beara) shows the ingestion rate for each consecutive version for BEAR-A,
 while [](#results-ostrich-ingestion-size-beara) shows the corresponding increasing storage sizes.
@@ -408,17 +416,19 @@ and is also slightly smaller than HDT-IC (1,49 times).
 For BEAR-B-daily, OSTRICH is 8,82 times smaller than HDT-IC, and it is 4,95 times smaller for BEAR-B-hourly.
 The CB and CB/TB approaches in most cases outperform OSTRICH in terms of storage space efficiency due
 to the additional metadata that OSTRICH stores per triple.
-For BEAR-B-daily, OSTRICH even requires less storage space than gzip on raw N-Triples.
+For BEAR-B-daily and BEAR-B-hourly, OSTRICH even requires less storage space than gzip on raw N-Triples.
 
 OSTRICH requires more space than gzip for BEAR-A on raw N-Triples,
 but it is able to provide an efficient query interface, which gzip doesn't.
 For the BEAR-B cases, OSTRICH requires less storage space than gzip.
 If pure compression is required without querying capabilities,
-OSTRICH's format is still beneficial as is shown in [](#results-ostrich-compressability).
+OSTRICH's format is still beneficial as is shown in [](#results-ostrich-compressability) and [](#results-ostrich-reduced-compressability).
 For the BEAR-B cases, OSTRICH requires less storage space more than gzip,
 which is because of the increased redundancy in B+Tree values.
 Furthermore, compressing BEAR-B-hourly saves even more space (80,88%) than BEAR-B-daily (67,87%),
 because of the same reason, BEAR-B-hourly contains 1299 versions, while BEAR-B-daily contains 89 versions.
+For reduced OSTRICH stores, where only the main `SPO` index is stored,
+this compressibility rate is even slightly higher.
 
 We compared the streaming and batch-based ingestion algorithm in [](#results-ostrich-ingestion-rate-beara-compare).
 The streaming algorithm has linearly increasing durations for each next version,

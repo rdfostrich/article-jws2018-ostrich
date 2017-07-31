@@ -10,8 +10,8 @@ where this chain is compressed in B+Trees for TB-storage ([Dydra](cite:cites dyd
 Furthermore, we store additional metadata for improving lookup times ([HDT](cite:cites hdt)).
 Triple components are encoded in a dictionary for improved compression ([HDT](cite:cites hdt))
 and we provide multiple indexes for different triple component orders ([RDF-3X](cite:cites rdf3x), [Hexastore](cite:cites hexastore)).
-[](#storage-overview) shows and overview of these main components, which will be explained in more detail in the following sections.
-We end of this section with a description of two ingestion algorithms for this storage approach;
+[](#storage-overview) shows an overview of these main components, which will be explained in more detail in the following sections.
+We end of this section with a description of two ingestion algorithms for this storage approach:
 one batch algorithm, which requires loading the versions in-memory,
 and one memory-efficient streaming algorithm, which inserts the versions in small-chunks.
 
@@ -33,10 +33,10 @@ As mention before, the start of each delta chain is a fully materialized snapsho
 In order to provide sufficient efficiency for VM, DM and VQ querying with respect to all versions in the chain,
 we assume the following requirements for the snapshot storage:
 <ol>
-    <li>Any triple pattern query must be resolvable efficiently as triple streams.</li>
-    <li>Offsets should be applyable to the result stream of any triple pattern query efficiently.</li>
-    <li>All triple components must be dictionary-encoded.</li>
-    <li>Total result counts for any triple pattern query should be resolvable efficiently.</li>
+    <li>Any triple pattern query _must_ be efficiently resolvable as triple streams.</li>
+    <li>Offsets _must_ be efficiently applicable to the result stream of any triple pattern query.</li>
+    <li>All triple components _must_ be dictionary-encoded.</li>
+    <li>Total result counts for all triple pattern queries _should_ be efficiently resolvable.</li>
 </ol>
 
 These requirements are needed for ensuring the efficiency of the querying algorithms that will be introduced in [](#querying).

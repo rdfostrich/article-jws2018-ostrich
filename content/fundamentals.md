@@ -13,7 +13,7 @@ and methods for storing addition and deletion counts.
 
 As mentioned before in [](#related-work), we can distinguish individual copies (IC),
 change-based (CB) or timestamp-based storage strategies in RDF archiving solutions.
-While IC is optimal for querying specific version, it introduces a lot of storage overhead when there is are redundancies between each version.
+While IC is optimal for querying specific version, it introduces a lot of storage overhead when there are redundancies between each version.
 On the other hand, CB is good for querying differences between versions, but is less efficient for querying specific versions as it requires
 reconstructing versions based on a complete delta chain.
 

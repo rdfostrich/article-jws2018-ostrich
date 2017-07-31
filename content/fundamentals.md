@@ -20,7 +20,7 @@ reconstructing versions based on a complete delta chain.
 Therefore,
 we propose a hybrid IC/CB approach similar to [](#regular-delta-chain).
 However, to avoid increasing reconstruction times,
-we modify the delta chain structure slightly to make these times constant _independent_ of version, similar to [aggregated deltas](cite:cites vmrdf).
+we modify the delta chain structure slightly to make these times constant, _independent_ of version, similar to [aggregated deltas](cite:cites vmrdf).
 Instead of making deltas relative to each preceding delta,
 we make them relative to the closest preceding snapshot in the chain, as shown in [](#alternative-delta-chain).
 This allows version reconstruction to require only at most one delta and one snapshot for any version.
@@ -95,10 +95,10 @@ is cancelled out when materializing against version 2.
 
 One way of doing this is by checking both the addition and deletion trees for a given triple and version,
 and determining the element with the smallest version.
-All elements with version larger than this smallest version will be local changes.
+All elements with a version larger than this smallest version will be local changes.
 
 An alternative approach would be to precalculate this information
-and store it on each value, as is done in our [storage approach](#storage).
+and store it for each value, as is done in our [storage approach](#storage).
 
 The first approach always requires lookups in both trees,
 even if only the additions or deletions are queried.

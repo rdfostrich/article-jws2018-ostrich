@@ -184,6 +184,10 @@ It is based on three real-world datasets from different domains:
         as three different granularities: instant, hour and day</li>
     <li>BEAR-C: Dataset descriptions from the [Open Data Portal Watch](cite:cites opendataportalwatch) project over the course of 32 weeks.</li>
 </ul>
+
+{:.todo}
+VM/DM/VQ have not yet been explained at this point.
+
 The 58 versions of BEAR-A contain between 30M and 66M triples per version, with an average change ratio of 31%.
 BEAR-A provides triple pattern queries for VM, DM and VQ for both result sets with a low and a high cardinality.
 The queries are selected in such a way that they will be evaluated over triples of a certain dynamicity,

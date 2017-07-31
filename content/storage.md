@@ -148,11 +148,11 @@ this will be the last deletion in the list, so its position corresponds to the t
 In order to allow querying algorithms to detect the total number of versions across all delta chains,
 we must store metadata regarding the delta chain version ranges.
 Assuming numerical version identifiers, a mapping can be maintained from version ID to delta chain.
-Additionally, a total version counter must be maintain for cases when the last version must be identified.
+Additionally, a total version counter must be maintained for cases when the last version must be identified.
 
 ### Ingestion
 
-In the following two sections, we discuss an in-memory batch and a streaming ingestion algorithm.
+In the following two subsections, we discuss an in-memory batch and a streaming ingestion algorithm.
 These algorithms both take a changeset — containing additions and deletions — as input,
 and ingest it to the store as a new version.
 Note that the ingested changesets are regular changesets, i.e., they are relative to one another according to [](#regular-delta-chain).

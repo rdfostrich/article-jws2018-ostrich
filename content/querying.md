@@ -14,14 +14,14 @@ In order to support this, we provide corresponding count estimation queries.
 #### Query
 
 [](#algorithm-querying-vm) introduces an algorithm for VM triple pattern queries based on our storage structure.
-It starts by determining the snapshot on which the given version is based on.
+It starts by determining the snapshot on which the given version is based.
 After that, this snapshot is queried for the given triple pattern and offset.
 If the given version is equal to the snapshot version, the snapshot iterator can be returned directly.
 In all other cases, this snapshot offset is only an estimation,
 and the actual snapshot offset can be larger if deletions were introduced before the actual offset.
 Because of that, we enter a loop that will converge to the actual snapshot offset.
 This loop starts by determining the triple at the current offset position in the snapshot.
-We then query the deletions tree with for the given triple pattern and version,
+We then query the deletions tree for the given triple pattern and version,
 and use the snapshot triple as offset.
 This triple-based offset is done by navigating through the tree to the smallest triple before or equal to the offset triple.
 If the query is not empty and the iterator has not yet ended,

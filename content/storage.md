@@ -225,6 +225,10 @@ We start by iterating over all deleted triples in the new changeset
 and calculating the position of the deletion using the algorithm from [](#algorithm-positions).
 We can now ingest the given triple in the deletion trees with their version, local change flag and positions.
 
+{:.todo}
+Don't call your variable _new_ in the algorithm, was highly confused.
+Also, changeset <-> changesetEncoded.
+
 <figure id="algorithm-ingestion-batch" class="algorithm">
 ````/algorithms/ingestion-batch.txt````
 <figcaption markdown="block">

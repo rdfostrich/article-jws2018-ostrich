@@ -93,6 +93,9 @@ it is important to know whether or not the delta element is relative to the snap
 Because a triple that for example was deleted in version 1, but re-added in version 2
 is cancelled out when materializing against version 2.
 
+{:.todo}
+First occurence of addition/deletion tree?
+
 One way of doing this is by checking both the addition and deletion trees for a given triple and version,
 and determining the element with the smallest version.
 All elements with a version larger than this smallest version will be local changes.

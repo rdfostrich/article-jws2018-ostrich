@@ -32,6 +32,10 @@ Finally, metadata about the complete archive is stored, containing information s
 As mention before, the start of each delta chain is a fully materialized snapshot.
 In order to provide sufficient efficiency for VM, DM and VQ querying with respect to all versions in the chain,
 we assume the following requirements for the snapshot storage:
+
+{:.todo}
+Using underscores for emphasis doesn't work in list below.
+
 <ol>
     <li>Any triple pattern query _must_ be efficiently resolvable as triple streams.</li>
     <li>Offsets _must_ be efficiently applicable to the result stream of any triple pattern query.</li>

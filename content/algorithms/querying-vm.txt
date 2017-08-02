@@ -1,30 +1,32 @@
-queryVm(store, tp, version, originalOffset)  {
+queryVm(store, tp, version, originalOffset) {
   snapshot = store.getSnapshot(version).query(tp, originalOffset)
   if (snapshot.getVersion() == version) {
     return snapshot
   }
-  additions = store.getAdditionsStream(tp, version)
   
-  loop = true
-  while (loop) {
-    loop = false
+  deletions = store.getDeletionStream(tp, version, NULL)
+  
+  offset = 0
+  do {
+    snapshot.offset(originalOffset + offset)
     if (snapshot.hasNext()) {
       offsetTriple = snapshot.next()
       deletions = store.getDeletionsStream(tp, version, offsetTriple)
       if (deletions.hasNext()) {
-        offset = deletions.peek().getPosition(tp) + 1
-      } else if (deletions.hasPrevious()) {
-        offset = deletions.exactCount()
+        offset = deletions.peek().getPosition(tp)
+        if (deletions.peek() == offsetTriple) {
+          offset += 1
+        }
       } else {
-        offset = 0
-      }
-      
-      if (snapshot.getCurrentOffset() != originalOffset + offset) {
-        snapshot.offset(originalOffset + offset)
-        loop = true
+        offset = deletions.exactCount()
       }
     }
+  } while (snapshot.getCurrentOffset() != originalOffset + offset)
+  
+  additions = store.getAdditionsStream(tp, version)
+  if (!snapshot.hasNext()) {
+    additions.offset(originalOffset - snapshot.count(tp) + deletions.exactCount())
   }
   
-  return PatchedSnapshotIterator(snapshot, deletions, additions, version)
+  return PatchedSnapshotIterator(snapshot, deletions, additions)
 }

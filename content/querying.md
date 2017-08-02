@@ -13,6 +13,9 @@ In order to support this, we provide corresponding count estimation queries.
 
 #### Query
 
+{:.todo}
+Needs to be really clear that local changes are ignored everywhere in this section.
+
 [](#algorithm-querying-vm) introduces an algorithm for VM triple pattern queries based on our storage structure.
 It starts by determining the snapshot on which the given version is based.
 After that, this snapshot is queried for the given triple pattern and offset.
@@ -43,6 +46,7 @@ Version Materialization algorithm for triple patterns that produces a triple str
 </figcaption>
 </figure>
 
+`PatchedSnapshotIterator` returns a stream that first merges the snapshot with the deletions and then appends the additions stream.
 For both the addition and deletion streams, local changes are filtered out.
 That is because local changes mean that these triple are cancelled out for the given version as explained in [](#fundamentals),
 so they shouldn't be returned in materialized versions.

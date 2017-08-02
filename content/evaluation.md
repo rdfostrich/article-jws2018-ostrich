@@ -10,10 +10,10 @@ Finally, we discuss these results.
 
 In this section, we describe OSTRICH, a software implementation of the storage and querying techniques that are described in this article.
 OSTRICH stands for _Offset-enabled STore for TRIple CHangesets_.
-It is implemented in C/C++ and is available on [GitHub](https://github.com/rdfostrich/ostrich/) under an open license.
+It is implemented in C/C++ and is available on [GitHub](https://github.com/rdfostrich/ostrich/){:.mandatory} under an open license.
 In the scope of this work, OSTRICH currently supports a single snapshot and delta chain.
 OSTRICH uses [HDT](cite:cites hdt) as snapshot technology as it conforms to all the [requirements](#snapshot-storage) for our approach.
-Furthermore, for our indexes we use [Kyoto Cabinet](http://fallabs.com/kyotocabinet/),
+Furthermore, for our indexes we use [Kyoto Cabinet](http://fallabs.com/kyotocabinet/){:.mandatory},
 which provides a highly efficient memory-mapped B+Tree implementation with compression support.
 OSTRICH immediately generates the main `SPO` index and the auxiliary `OSP` and `POS` indexes.
 In future work, OSTRICH can easily be modified to only generate the main index and delay auxiliary index generation to a later stage.
@@ -26,9 +26,9 @@ Finally, for storing our addition counts, we use the Hash Database of Kyoto Cabi
 We provide a developer-friendly C/C++ API for ingesting and querying data based on an OSTRICH store.
 Additionally, we provide command-line tools for ingesting data into an OSTRICH store,
 or evaluating VM, DM or VQ triple pattern queries for any given limit and offset against a store.
-Furthermore, we implemented [Node JavaScript bindings](https://github.com/rdfostrich/ostrich-node/) that
+Furthermore, we implemented [Node JavaScript bindings](https://github.com/rdfostrich/ostrich-node/){:.mandatory} that
 exposes the OSTRICH API for ingesting and querying to JavaScript applications.
-We used these bindings to [expose an OSTRICH store](http://versioned.linkeddatafragments.org/bear)
+We used these bindings to [expose an OSTRICH store](http://versioned.linkeddatafragments.org/bear){:.mandatory}
 containing a dataset with 30M triples in 10 versions using [TPF](cite:cites ldf), with the [VTPF feature](cite:cites vtpf).
 
 To ensure correctness, we implemented more than 500 passing unit tests in in the C/C++ and JavaScript implementations
@@ -39,7 +39,7 @@ The C/C++ implementation consists of more than 6000 lines of code and the corres
 
 As mentioned before in [](#related-work-benchmarks), we evaluate our approach using the BEAR benchmark.
 We modified the existing BEAR implementation slightly to allow offsets to be evaluated,
-this modified implementation is available on [GitHub](https://github.com/rdfostrich/BEAR/).
+this modified implementation is available on [GitHub](https://github.com/rdfostrich/BEAR/){:.mandatory}.
 To test the scalability of our approach for datasets with few and large versions, we use the BEAR-A benchmark.
 We use the ten first versions of the BEAR-A dataset, which contains an average of 17M triples per version.
 This dataset was compiled from the [Dynamic Linked Data Observatory](http://swse.deri.org/dyldo/).
@@ -82,7 +82,7 @@ Ubuntu 14.04 machine with 128 GB of memory and a
 
 In this section, we present the results of our evaluation.
 We report the ingestion results, query evaluation times for all cases and offset result.
-All raw results and the scripts that were used to process them are available on [GitHub](https://github.com/rdfostrich/ostrich-bear-results/).
+All raw results and the scripts that were used to process them are available on [GitHub](https://github.com/rdfostrich/ostrich-bear-results/){:.mandatory}.
 
 #### Ingestion
 
@@ -473,7 +473,7 @@ seeing whether or not OSTRICH would allow more efficient DM offsets by adjusting
 In [](#problem-statement), we introduced four hypothesis, which we will validate in this section based on our experimental results.
 We will only consider the comparison between OSTRICH and HDT-based approaches,
 as OSTRICH outperforms the Jena-based approaches for all cases in terms of lookup times.
-These validations were done using R, for which the source code can be found on [GitHub](https://github.com/rdfostrich/ostrich-bear-results/).
+These validations were done using R, for which the source code can be found on [GitHub](https://github.com/rdfostrich/ostrich-bear-results/){:.mandatory}.
 
 For our [first hypothesis](#hypothesis-qualitative-querying), we expect OSTRICH lookup times remain independent of version for VM and DM queries.
 We validate this hypothesis by building a linear regression model with as response the lookup time,

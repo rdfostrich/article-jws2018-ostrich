@@ -20,7 +20,7 @@ existing HDT snapshots can be loaded in by OSTRICH directly, and patched with ad
 OSTRICH fulfills our [requirements](cite:cites tpfarchives) for a back-end RDF archive storage solution
 for supporting versioning queries in the TPF framework.
 Together with the [VTPF](cite:cites vtpf) interface feature, RDF archives can be queried on the Web at a low cost,
-as demonstrated on [our public VTPF entrypoint](http://versioned.linkeddatafragments.org/bear).
+as demonstrated on [our public VTPF entrypoint](http://versioned.linkeddatafragments.org/bear){:.mandatory}.
 TPF only requires triple patterns as foundational query atoms,
 which means that TPF clients are able to evaluate full VM SPARQL queries using OSTRICH and VTPF.
 In future work, the TPF client will be extended to also support DM and VQ SPARQL queries.

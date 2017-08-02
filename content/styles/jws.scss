@@ -624,6 +624,16 @@ body {
 main {
   counter-reset:table 0;
 }
+// Links
+a {
+  // Display URL of mandatory links
+  &.mandatory {
+    &:after {
+      content: ' (' attr(href) ')';
+      font-style: italic;
+    }
+  }
+}
 figure,
 audio,
 video {

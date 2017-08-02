@@ -25,7 +25,7 @@ queryVm(store, tp, version, originalOffset) {
   
   additions = store.getAdditionsStream(tp, version)
   if (!snapshot.hasNext()) {
-    additions.offset(snapshot.count(tp) - deletions.exactCount())
+    additions.offset(originalOffset - snapshot.count(tp) + deletions.exactCount())
   }
   
   return PatchedSnapshotIterator(snapshot, deletions, additions)

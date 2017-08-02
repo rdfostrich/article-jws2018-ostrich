@@ -3,6 +3,7 @@
 
 In this article, we introduced a RDF archive storage method with accompanied algorithms for evaluating VM, DM and VQ queries.
 Our storage technique is a hybrid of the IC/CB/TB approaches, because we store sequences of snapshots followed by delta chains.
+Our current implementation does however only support a single snapshot and delta chain.
 These delta chains are stored together in a timestamp-based tree.
 The evaluation of our OSTRICH implementation shows that this technique offers a new trade-off in terms of ingestion time, storage size and lookup times.
 By preprocessing and storing additional data during ingestion, we can reduce lookup times for VM, DM and VQ queries compared to CB and TB approaches.

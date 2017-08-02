@@ -26,7 +26,7 @@ Furthermore, the store allows update operations.
 In our storage approach, we will reuse the concept of multiple indexes
 and encoding triple components in a dictionary.
 
-[Hexastore](cite:cites hexastore) is similar in the sense that it uses six different B+Trees,
+[Hexastore](cite:cites hexastore) is similar in the sense that it uses six different sorted lists,
 one for each possible triple component order.
 It also uses dictionary encoding to compress common triple components.
 
@@ -185,11 +185,8 @@ It is based on three real-world datasets from different domains:
     <li>BEAR-C: Dataset descriptions from the [Open Data Portal Watch](cite:cites opendataportalwatch) project over the course of 32 weeks.</li>
 </ul>
 
-{:.todo}
-VM/DM/VQ have not yet been explained at this point.
-
 The 58 versions of BEAR-A contain between 30M and 66M triples per version, with an average change ratio of 31%.
-BEAR-A provides triple pattern queries for VM, DM and VQ for both result sets with a low and a high cardinality.
+BEAR-A provides triple pattern queries for three different versioned query types for both result sets with a low and a high cardinality.
 The queries are selected in such a way that they will be evaluated over triples of a certain dynamicity,
 which requires the benchmarked systems to handle this dynamicity well.
 BEAR-B provides a small collection of triple pattern queries corresponding to the real-world usage of DBpedia.

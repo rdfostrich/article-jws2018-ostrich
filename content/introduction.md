@@ -10,6 +10,7 @@ With the continuously increasing number of [Linked Open Datasets](cite:cites lin
 this is an apparent issue for [RDF](cite:cites spec:rdf) data as well.
 RDF allows the formation of directed, labeled graphs of IRIs and literals, which makes it a common format to store Linked Data.
 These graphs are represented with _triples_, in which a subject is linked via a predicate to an object.
+When these triples are declared in named _graphs_, we can refer to them as _quads_, i.e., triples with a fourth graph element.
 While the RDF data model is atemporal, Linked Datasets typically [change over time](cite:cites datasetdynamics) on
 [dataset, schema and/or instance level](cite:cites diachronql). These refer to additions,
 changes or deletions of respectively complete datasets, ontologies and separate facts.

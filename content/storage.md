@@ -11,7 +11,7 @@ Furthermore, we store additional metadata for improving lookup times ([HDT](cite
 Triple components are encoded in a dictionary for improved compression ([HDT](cite:cites hdt))
 and we provide multiple indexes for different triple component orders ([RDF-3X](cite:cites rdf3x), [Hexastore](cite:cites hexastore)).
 [](#storage-overview) shows an overview of these main components, which will be explained in more detail in the following sections.
-We end of this section with a description of two ingestion algorithms for this storage approach:
+We end this section with a description of two ingestion algorithms for this storage approach:
 one batch algorithm, which requires loading the versions in-memory,
 and one memory-efficient streaming algorithm, which inserts the versions in small-chunks.
 

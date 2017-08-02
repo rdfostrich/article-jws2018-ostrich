@@ -50,7 +50,7 @@ is exposed through a separate virtual TPF interface, which allows existing TPF c
 
 In this work, we focus on the second task, storing and evaluating VM, DM and VQ queries efficiently.
 As the publication cost for these archives must be as low as possible,
-we focus on lowering query evaluation times by processing and storing more data during ingestion time.
+we focus on lowering query evaluation times by processing and storing more metadata during ingestion time.
 That is because this processing then happens only once per version, instead of every time during lookup.
 Additionally, as the TPF interface returns triple pattern query results in pages, query results within our store should also be pageable.
 This can be achieved by considering the query results as a pull-based stream that can be started at any given offset,

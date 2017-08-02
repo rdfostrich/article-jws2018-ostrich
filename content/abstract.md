@@ -16,10 +16,10 @@ In this article, we introduce a technique that is able to store RDF archives
 with a low storage overhead by compressing consecutive versions and adding metadata for reducing lookup times.
 Furthermore, we introduce algorithms based on this technique for efficiently evaluating
 queries *at* a certain version, *between* any two versions and *for* versions.
-Finally, we evaluate OSTRICH, an implementation of this technique using an RDF archiving benchmark.
+Finally, we evaluate OSTRICH, an implementation of this technique using the BEAR RDF archiving benchmark.
 <!-- Findings     -->
 Results show that our approach introduces a new trade-off regarding storage space, ingestion time and querying efficiency.
-By storing and processing more during ingestion time,
+By processing and storing more metadata during ingestion time,
 we can significantly lower the average lookup time for versioning queries when compared to other approaches.
 For many smaller dataset versions, our approach performs relatively better than for few larger dataset versions compared to other approaches.
 Furthermore, our approach enables efficient offsets in query result streams,

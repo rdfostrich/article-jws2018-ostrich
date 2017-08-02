@@ -72,11 +72,11 @@ so we used the streaming-based algorithm for all further evaluations.
 
 Finally, we evaluated the offset capabilities of OSTRICH
 by comparing it with custom offset implementations for the other approaches.
-We evaluated ??? queries with offsets ranging from 2 to 4096 with a limit of 10 results.
+We evaluated the blank triple pattern query with offsets ranging from 2 to 4096 with a limit of 10 results.
 
 Our experiments were executed on a 64-bit
 Ubuntu 14.04 machine with 128 GB of memory and a
-24-core 2.40 GHz cpu.
+24-core 2.40 GHz CPU.
 
 ### Results
 
@@ -195,7 +195,7 @@ and [](#results-ostrich-ingestion-size-bearb-hourly) shows its storage sizes.
 For BEAR-A, a linear trend for both ingestion duration and storage space for each consecutive version can observed.
 For BEAR-B-hourly, these slightly increase for larger versions.
 Furthermore, [](#results-ostrich-ingestion-rate-bearb-hourly) shows that the OSTRICH ingestion algorithm becomes slower around version 1200,
-showing a limitation of our system.
+showing a limitation of our system when only a single snapshot is used.
 
 <figure id="results-ostrich-ingestion-rate-beara">
 <img src="img/results-ostrich-ingestion-rate-beara.svg" alt="[BEAR-A OSTRICH ingestion rate]" height="150em">
@@ -476,10 +476,10 @@ as OSTRICH outperforms the Jena-based approaches for all cases in terms of looku
 These validations were done using R, for which the source code can be found on [GitHub](https://github.com/rdfostrich/ostrich-bear-results/).
 
 For our [first hypothesis](#hypothesis-qualitative-querying), we expect OSTRICH lookup times remain independent of version for VM and DM queries.
-We validate this hypothesis by building a linear regression model with as reponse the lookup time,
+We validate this hypothesis by building a linear regression model with as response the lookup time,
 and as factors version and number of results.
 [](#hypo-test-1) contains the influence of each factor, which shows that for all cases,
-we can accept the zero-hypothesis that the version factor has no influence on the models with a confidence of 99%.
+we can accept the null hypothesis that the version factor has no influence on the models with a confidence of 99%.
 Based on these results, we *accept* our [first hypothesis](#hypothesis-qualitative-querying).
 
 <figure id="hypo-test-1" class="table" markdown="1">
@@ -494,7 +494,7 @@ Based on these results, we *accept* our [first hypothesis](#hypothesis-qualitati
 | BEAR-B-hourly | DM         | **0.259**       |   2e-16         |
 
 <figcaption markdown="block">
-P-values for the linear regression model factors with the lookup time as reponse,
+P-values for the linear regression model factors with the lookup time as response,
 and version and number of results as factors for each of the three benchmarks for VM and DM queries.
 For all cases, the version factor has no significant influence on the models,
 results has influence in the last three cases.

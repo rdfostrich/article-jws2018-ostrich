@@ -278,6 +278,9 @@ and can be categorized in seven different cases:
     <li>A == D == N</li>
 </ol>
 
+{:.todo}
+Some inconsistencies between allowing duplicate deletions/additions in consecutive changesets.
+
 The two first cases are the simplest ones,
 for these, the deletion and addition information can respectively be copied to the new version.
 For the deletion, new positions must be calculated in this and all other cases.

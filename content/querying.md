@@ -13,6 +13,9 @@ In order to support this, we provide corresponding count estimation queries.
 
 #### Query
 
+{:.todo}
+Needs to be really clear that local changes are ignored everywhere in this section.
+
 [](#algorithm-querying-vm) introduces an algorithm for VM triple pattern queries based on our storage structure.
 It starts by determining the snapshot on which the given version is based.
 After that, this snapshot is queried for the given triple pattern and offset.

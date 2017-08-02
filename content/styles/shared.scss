@@ -18,3 +18,8 @@ main code {
 li p {
   display: inline;
 }
+
+.abbreviation {
+  text-transform: lowercase;
+  font-variant: small-caps;
+}

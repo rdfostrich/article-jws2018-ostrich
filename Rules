@@ -12,6 +12,7 @@ end
 
 ignore '/*.md'
 ignore '/*.bib'
+ignore '/*.csv'
 
 route '/**/*.{html,md}*' do
   if item.identifier =~ '/index.*'

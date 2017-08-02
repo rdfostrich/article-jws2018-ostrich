@@ -1,0 +1,28 @@
+abbreviation,full
+BEAR-A,
+BEAR-B,
+BEAR-C,
+BEAR,Benchmark of rdf Archives
+CB,Change-based
+CM,Change materialization
+CV,Cross-version join
+CVS,Concurrent Versions System
+DM,Delta materialization
+HDT-FoQ,hdt Focus on Querying
+HDT,Header Dictionary Triples
+HTTP,Hypertext Transfer Protocol
+IC,Independent copies
+IRI,
+LUBM,Lehigh University Benchmark
+OSTRICH,Offset-Enabled Triple Store for Changesets
+X-RDF-3X
+RDF-3X,
+RDFCSA,
+v-RDFCSA,
+RDF,Resource Description Framework
+SPARQL,SPARQL Procotol and RDF Query Language
+TB,Timestamp-based
+TPF,Triple Pattern Fragments
+VM,Version materialization
+VTPF,Versioned Triple Pattern Fragments
+VQ,Version query

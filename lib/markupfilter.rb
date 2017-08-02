@@ -1,8 +1,12 @@
+require 'csv'
+
 class MarkupFilter < Nanoc::Filter
   identifier :markupfilter
 
   def run(content, params = {})
     content = content.dup
+
+    explain_acronyms content
 
     hyphenate_iris content
 
@@ -17,6 +21,16 @@ class MarkupFilter < Nanoc::Filter
     move_heading_ids_to_section content
 
     content
+  end
+  
+  # Add tooltips to acronyms
+  def explain_acronyms content
+    acronyms = CSV.parse(@items['/acronyms.csv'].raw_content, :headers => true)
+    acronyms.each do |row|
+      content.gsub! %r{(?<=[^a-zA-Z0-9])#{row['abbreviation']}(?=[^a-zA-Z0-9])} do |match|
+        %{<span class='abbreviation' title='#{row['full']}'>#{row['abbreviation']}</span>}
+      end
+    end
   end
 
   # Hyphenate long IRIs

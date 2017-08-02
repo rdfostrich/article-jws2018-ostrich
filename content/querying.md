@@ -46,6 +46,7 @@ Version Materialization algorithm for triple patterns that produces a triple str
 </figcaption>
 </figure>
 
+PatchedSnapshotIterator returns a stream that first merges the snapshot with the deletions and then appends the additions stream.
 For both the addition and deletion streams, local changes are filtered out.
 That is because local changes mean that these triple are cancelled out for the given version as explained in [](#fundamentals),
 so they shouldn't be returned in materialized versions.

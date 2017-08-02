@@ -155,7 +155,7 @@ We estimate the total count as the sum of the additions and deletions for the gi
 This may only be a rough estimate, but will always be an upper bound, as the triples that were changed twice within the version range and negate each other
 are also counted.
 For example, for querying within version 1 and 4, if triple A was added in version 2 but removed again in version 3,
-it should not be included in the delta triple count with respect to version range _[1, 4]_.
+it should not be included in the delta triple count with respect to version range _\[1, 4\]_.
 But according to our algorithm, this triple will be included twice in our counting, once as an addition and once as a deletion.
 Our count in this case will at least be two too high.
 For exact counting, this number of negated triples should be subtracted.

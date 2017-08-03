@@ -198,7 +198,7 @@ Furthermore, [](#results-ostrich-ingestion-rate-bearb-hourly) shows that the OST
 showing a limitation of our system when only a single snapshot is used.
 
 <figure id="results-ostrich-ingestion-rate-beara">
-<img src="img/results-ostrich-ingestion-rate-beara.svg" alt="[BEAR-A OSTRICH ingestion rate]" height="150em">
+<img src="img/results-ostrich-ingestion-rate-beara.svg" alt="[bear-a ostrich ingestion rate]" height="150em">
 <figcaption markdown="block">
 OSTRICH ingestion durations for each consecutive BEAR-A version in minutes for an increasing number of versions,
 showing a lineair growth.
@@ -206,7 +206,7 @@ showing a lineair growth.
 </figure>
 
 <figure id="results-ostrich-ingestion-size-beara">
-<img src="img/results-ostrich-ingestion-size-beara.svg" alt="[BEAR-A OSTRICH ingestion sizes]" height="150em">
+<img src="img/results-ostrich-ingestion-size-beara.svg" alt="[bear-a ostrich ingestion sizes]" height="150em">
 <figcaption markdown="block">
 Cumulative OSTRICH store sizes for each consecutive BEAR-A version in GB for an increasing number of versions,
 showing a lineair growth.
@@ -214,14 +214,14 @@ showing a lineair growth.
 </figure>
 
 <figure id="results-ostrich-ingestion-rate-bearb-hourly">
-<img src="img/results-ostrich-ingestion-rate-bearb-hourly.svg" alt="[BEAR-B-hourly OSTRICH ingestion rate]" height="150em">
+<img src="img/results-ostrich-ingestion-rate-bearb-hourly.svg" alt="[bear-b-hourly ostrich ingestion rate]" height="150em">
 <figcaption markdown="block">
 OSTRICH ingestion durations for each consecutive BEAR-B-hourly version in minutes for an increasing number of versions.
 </figcaption>
 </figure>
 
 <figure id="results-ostrich-ingestion-size-bearb-hourly">
-<img src="img/results-ostrich-ingestion-size-bearb-hourly.svg" alt="[BEAR-B-hourly OSTRICH ingestion sizes]" height="150em">
+<img src="img/results-ostrich-ingestion-size-bearb-hourly.svg" alt="[bear-b-hourly ostrich ingestion sizes]" height="150em">
 <figcaption markdown="block">
 Cumulative OSTRICH store sizes for each consecutive BEAR-B-hourly version in GB for an increasing number of versions.
 </figcaption>
@@ -233,7 +233,7 @@ the batch algorithm quickly becomes slower after that, and runs out of memory af
 The ingestion duration in case of the streaming algorithm on the other hand continues to grow linearly without memory issues.
 
 <figure id="results-ostrich-ingestion-rate-beara-compare">
-<img src="img/results-ostrich-ingestion-rate-beara-compare.svg" alt="[Comparison of OSTRICH ingestion algorithms]" height="150em">
+<img src="img/results-ostrich-ingestion-rate-beara-compare.svg" alt="[Comparison of ostrich ingestion algorithms]" height="150em">
 <figcaption markdown="block">
 Comparison of the OSTRICH stream and batch-based ingestion durations.
 The streaming algorithm starts of slower than the batch algorithm but grows linearly,
@@ -255,21 +255,21 @@ in which we can see that all approaches collectively become slower for queries w
 and that predicate-queries are also significantly slower for all approaches.
 
 <figure id="results-beara-vm-sumary">
-<img src="img/query/results_beara-vm-summary.svg" alt="[BEAR-A VM]" height="200em">
+<img src="img/query/results_beara-vm-summary.svg" alt="[bear-a vm]" height="200em">
 <figcaption markdown="block">
 Median BEAR-A VM query results for all triple patterns for all versions.
 </figcaption>
 </figure>
 
 <figure id="results-beara-dm-summary">
-<img src="img/query/results_beara-dm-summary.svg" alt="[BEAR-A DM]" height="200em">
+<img src="img/query/results_beara-dm-summary.svg" alt="[bear-a dm]" height="200em">
 <figcaption markdown="block">
 Median BEAR-A DM query results for all triple patterns from version 0 to all other versions.
 </figcaption>
 </figure>
 
 <figure id="results-beara-vq-summary">
-<img src="img/query/results_beara-vq-summary.svg" alt="[BEAR-A VQ]" height="200em">
+<img src="img/query/results_beara-vq-summary.svg" alt="[bear-a vq]" height="200em">
 <figcaption markdown="block">
 Median BEAR-A VQ query results for all triple patterns.
 </figcaption>
@@ -286,21 +286,21 @@ For VQ queries, OSTRICH is significantly faster than all other approaches.
 in which we can see that predicate-queries are again consistently slower for all approaches.
 
 <figure id="results-bearb-daily-vm-sumary">
-<img src="img/query/results_bearb-daily-vm-summary.svg" alt="[BEAR-B-daily VM]" height="200em">
+<img src="img/query/results_bearb-daily-vm-summary.svg" alt="[bear-b-daily vm]" height="200em">
 <figcaption markdown="block">
 Median BEAR-B-daily VM query results for all triple patterns for all versions.
 </figcaption>
 </figure>
 
 <figure id="results-bearb-daily-dm-summary">
-<img src="img/query/results_bearb-daily-dm-summary.svg" alt="[BEAR-B-daily DM]" height="200em">
+<img src="img/query/results_bearb-daily-dm-summary.svg" alt="[bear-b-daily dm]" height="200em">
 <figcaption markdown="block">
 Median BEAR-B-daily DM query results for all triple patterns from version 0 to all other versions.
 </figcaption>
 </figure>
 
 <figure id="results-bearb-daily-vq-summary">
-<img src="img/query/results_bearb-daily-vq-summary.svg" alt="[BEAR-B-daily VQ]" height="200em">
+<img src="img/query/results_bearb-daily-vq-summary.svg" alt="[bear-b-daily vq]" height="200em">
 <figcaption markdown="block">
 Median BEAR-B-daily VQ query results for all triple patterns.
 </figcaption>
@@ -316,21 +316,21 @@ Finally, OSTRICH outperforms all HDT-based approaches for VQ queries.
 with the same conclusion as before that predicate-queries are slower.
 
 <figure id="results-bearb-hourly-vm-sumary">
-<img src="img/query/results_bearb-hourly-vm-summary.svg" alt="[BEAR-B-hourly VM]" height="200em">
+<img src="img/query/results_bearb-hourly-vm-summary.svg" alt="[bear-b-hourly vm]" height="200em">
 <figcaption markdown="block">
 Median BEAR-B-hourly VM query results for all triple patterns for all versions.
 </figcaption>
 </figure>
 
 <figure id="results-bearb-hourly-dm-summary">
-<img src="img/query/results_bearb-hourly-dm-summary.svg" alt="[BEAR-B-hourly DM]" height="200em">
+<img src="img/query/results_bearb-hourly-dm-summary.svg" alt="[bear-b-hourly dm]" height="200em">
 <figcaption markdown="block">
 Median BEAR-B-hourly DM query results for all triple patterns from version 0 to all other versions.
 </figcaption>
 </figure>
 
 <figure id="results-bearb-hourly-vq-summary">
-<img src="img/query/results_bearb-hourly-vq-summary.svg" alt="[BEAR-B-hourly VQ]" height="200em">
+<img src="img/query/results_bearb-hourly-vq-summary.svg" alt="[bear-b-hourly vq]" height="200em">
 <figcaption markdown="block">
 Median BEAR-B-hourly VQ query results for all triple patterns.
 </figcaption>
@@ -351,7 +351,7 @@ Finally, OSTRICH has VQ evaluation times that are approximately independent of t
 while other approaches again have growing evaluation times.
 
 <figure id="results-offset-vm">
-<img src="img/query/results_offsets-vm.svg" alt="[Offsets VM]" height="200em">
+<img src="img/query/results_offsets-vm.svg" alt="[Offsets vm]" height="200em">
 <figcaption markdown="block">
 Median VM query results for different offsets over all versions in the BEAR-A dataset.
 HDT-IC+ refers to the efficient offset implementation based on HDT's native offset capabilities.
@@ -360,7 +360,7 @@ HDT-CB, Jena-CB and Jena-CB/TB were not included due to evaluation times larger 
 </figure>
 
 <figure id="results-offset-dm">
-<img src="img/query/results_offsets-dm.svg" alt="[Offsets DM]" height="200em">
+<img src="img/query/results_offsets-dm.svg" alt="[Offsets dm]" height="200em">
 <figcaption markdown="block">
 Median DM query results for different offsets between version 0 and all other versions in the BEAR-A dataset.
 HDT-CB, Jena-CB and Jena-CB/TB were not included due to evaluation times larger than one minute.
@@ -368,7 +368,7 @@ HDT-CB, Jena-CB and Jena-CB/TB were not included due to evaluation times larger 
 </figure>
 
 <figure id="results-offset-vq">
-<img src="img/query/results_offsets-vq.svg" alt="[Offsets VQ]" height="200em">
+<img src="img/query/results_offsets-vq.svg" alt="[Offsets vq]" height="200em">
 <figcaption markdown="block">
 Median VQ query results for different offsets in the BEAR-A dataset.
 HDT-CB, Jena-CB and Jena-CB/TB were not included due to evaluation times larger than one minute.

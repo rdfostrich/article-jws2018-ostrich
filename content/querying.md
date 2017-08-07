@@ -13,9 +13,6 @@ In order to support this, we provide corresponding count estimation queries.
 
 #### Query
 
-{:.todo}
-Needs to be really clear that local changes are ignored everywhere in this section.
-
 [](#algorithm-querying-vm) introduces an algorithm for VM triple pattern queries based on our storage structure.
 It starts by determining the snapshot on which the given version is based.
 After that, this snapshot is queried for the given triple pattern and offset.
@@ -25,12 +22,12 @@ and the actual snapshot offset can be larger if deletions were introduced before
 Because of that, we enter a loop that will converge to the actual snapshot offset.
 This loop starts by determining the triple at the current offset position in the snapshot.
 We then query the deletions tree for the given triple pattern and version,
-and use the snapshot triple as offset.
+filter out local changes, and use the snapshot triple as offset.
 This triple-based offset is done by navigating through the tree to the smallest triple before or equal to the offset triple.
 If the query is not empty and the iterator has not yet ended,
 we use the deletion's position for the current triple pattern as new snapshot offset.
 If the query is not empty and the iterator has ended,
-we use the total number of deletions for the given triple pattern in this version as offset.
+we use the total number of deletions without local changes for the given triple pattern in this version as offset.
 Otherwise, if the deletion tree query has no results, we use zero as new snapshot offset.
 From the moment the snapshot offset doesn't change anymore, we have converged to the correct offset.
 After that, we return a simple iterator starting from that snapshot position,
@@ -38,6 +35,9 @@ which performs a sort-merge join-like operation that removes each triple from th
 which can be done efficiently because of the consistent SPO-ordering.
 Once the snapshot and deletion streams have finished,
 the iterator will start emitting addition triples at the end of the stream.
+For all streams, local changes are filtered out because local changes mean that
+these triple are cancelled out for the given version as explained in [](#fundamentals),
+so they should not be returned in materialized versions.
 
 <figure id="algorithm-querying-vm" class="algorithm">
 ````/algorithms/querying-vm.txt````
@@ -45,11 +45,6 @@ the iterator will start emitting addition triples at the end of the stream.
 Version Materialization algorithm for triple patterns that produces a triple stream with an offset in a given version.
 </figcaption>
 </figure>
-
-`PatchedSnapshotIterator` returns a stream that first merges the snapshot with the deletions and then appends the additions stream.
-For both the addition and deletion streams, local changes are filtered out.
-That is because local changes mean that these triple are cancelled out for the given version as explained in [](#fundamentals),
-so they shouldn't be returned in materialized versions.
 
 The reason why we can use the deletion's position in the delta as offset in the snapshot
 is because this position represents the number of deletions that came before that triple inside the snapshot given a consistent triple order.
@@ -159,7 +154,7 @@ We estimate the total count as the sum of the additions and deletions for the gi
 This may only be a rough estimate, but will always be an upper bound, as the triples that were changed twice within the version range and negate each other
 are also counted.
 For example, for querying within version 1 and 4, if triple A was added in version 2 but removed again in version 3,
-it should not be included in the delta triple count with respect to version range _\[1, 4\]_.
+it should not be included in the delta triple count with respect to version range `[1,4]`.
 But according to our algorithm, this triple will be included twice in our counting, once as an addition and once as a deletion.
 Our count in this case will at least be two too high.
 For exact counting, this number of negated triples should be subtracted.

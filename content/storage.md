@@ -33,14 +33,19 @@ As mention before, the start of each delta chain is a fully materialized snapsho
 In order to provide sufficient efficiency for VM, DM and VQ querying with respect to all versions in the chain,
 we assume the following requirements for the snapshot storage:
 
-{:.todo}
-Using underscores for emphasis doesn't work in list below.
-
 <ol>
-    <li>Any triple pattern query _must_ be efficiently resolvable as triple streams.</li>
-    <li>Offsets _must_ be efficiently applicable to the result stream of any triple pattern query.</li>
-    <li>All triple components _must_ be dictionary-encoded.</li>
-    <li>Total result counts for all triple pattern queries _should_ be efficiently resolvable.</li>
+<li markdown="1">
+Any triple pattern query _must_ be resolvable as triple streams.
+</li>
+<li markdown="1">
+Offsets _must_ be applicable to the result stream of any triple pattern query.
+</li>
+<li markdown="1">
+All triple components _must_ be dictionary-encoded.
+</li>
+<li markdown="1">
+Cardinality estimates for all triple pattern queries _must_ be resolvable.
+</li>
 </ol>
 
 These requirements are needed for ensuring the efficiency of the querying algorithms that will be introduced in [](#querying).

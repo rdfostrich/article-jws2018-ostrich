@@ -160,6 +160,8 @@ In the following two subsections, we discuss an in-memory batch and a streaming 
 These algorithms both take a changeset — containing additions and deletions — as input,
 and ingest it to the store as a new version.
 Note that the ingested changesets are regular changesets, i.e., they are relative to one another according to [](#regular-delta-chain).
+Furthermore, we assume that the ingested changesets are valid changesets, i.e.,
+they don't contain impossible triple sequences such as a triple that is removed in two versions without having an addition inbetween.
 During ingestion, they will be transformed to the alternative delta chain structure as shown in [](#alternative-delta-chain).
 Within the scope of this article, we only discuss ingestion of deltas in a single delta chain following a snapshot.
 The creation of snapshots at the start of each new chain and determining suitable moments to create a snapshot instead of a delta
@@ -277,9 +279,6 @@ and can be categorized in seven different cases:
     <li>A == D and A &lt; N</li>
     <li>A == D == N</li>
 </ol>
-
-{:.todo}
-Some inconsistencies between allowing duplicate deletions/additions in consecutive changesets.
 
 The two first cases are the simplest ones,
 for these, the deletion and addition information can respectively be copied to the new version.

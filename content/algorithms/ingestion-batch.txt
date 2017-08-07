@@ -1,18 +1,18 @@
-ingestBatch(new, store)  {
-  newVersion = store.getLastVersion() + 1
-  changeset  = new
+ingestBatch(changeset, store)  {
+  version   = store.getLastVersion() + 1
+  changeset = changeset
       .read()
       .sort()
       .encode(store.getDictionary(newVersion))
   lastChangeset   = store.getLastChangeset()
-  mergedChangeset = mergeChangesets(lastChangeset, changesetEncoded)
+  mergedChangeset = mergeChangesets(lastChangeset, changeset)
   
   for (triple, localChange : mergedChangeset.getAdditions()) {
-    store.addAddition(triple, newVersion, localChange)
+    store.addAddition(triple, version, localChange)
   }
   
   for (triple, localChange : mergedChangeset.getDeletions()) {
     positions = calculatePositions(triple)
-    store.addDeletion(triple, newVersion, localChange, positions)
+    store.addDeletion(triple, version, localChange, positions)
   }
 }

@@ -44,7 +44,7 @@ Techniques like these are also used in existing RDF archiving solutions.
 
 Existing RDF archiving solutions either perform well for versioned query evaluation at the cost of large storage space requirements,
 or they require less storage space at the cost of slower query evaluation.
-Furthermore, no existing solution performs well for all versioned query types, i.e., querying *at*, *over* and *for* different versions.
+Furthermore, no existing solution performs well for all versioned query types, i.e., querying *at*, *between* and *for* different versions.
 We provide a technique that provides a new trade-off in terms of storage space and querying efficiency,
 and allows _all_ versioned query types to be evaluated efficiently as offsettable result streams.
 These versioned querying possibilities correspond to the capabilities of the VTPF interface,

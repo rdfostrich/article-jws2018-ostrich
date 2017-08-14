@@ -20,7 +20,7 @@ consecutively different results. Example: _At what times was book X returned or 
 </ol>
 
 In this article, we will focus on VM, DM and VQ queries, as CV and CM queries can be expressed in [terms of the other ones](cite:cites tpfarchives).
-There exist a correspondence between the IC, CB and TB storage strategies and these query atoms.
+There exist a correspondence between the independent copies (IC), change-based (CB) and timestamp-based (TB) storage strategies and these query atoms.
 Namely, VM queries are efficient in storage solutions that based on IC, because there is indexing on version.
 On the other hand, IC-based solutions may introduce a lot of overhead in terms of storage space because each version is stored separately.
 Furthermore, DM and VQ queries are less efficient for IC solutions.
@@ -48,7 +48,7 @@ which is a TPF interface feature for enabling queryable access to RDF archives t
 The third task is already partially solved by VTPF, as it is designed in such a way that each version of the dataset
 is exposed through a separate virtual TPF interface, which allows existing TPF clients to target each version as a separate datasource.
 
-In this work, we focus on the second task, storing and evaluating VM, DM and VQ queries efficiently.
+In this work, we focus on the second task, storing and evaluating version materialization (VM), delta materialization (DM) and version (VQ) queries efficiently.
 As the publication cost for these archives must be as low as possible,
 we focus on lowering query evaluation times by processing and storing more metadata during ingestion time.
 That is because this processing then happens only once per version, instead of every time during lookup.

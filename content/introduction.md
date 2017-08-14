@@ -26,7 +26,10 @@ The performance of existing solutions in each of these areas is limited and shou
 
 Like any Linked Dataset, RDF archives should be publishable at a low cost to make them queryable at Web-scale.
 For this, a low-cost solution such as the [Triple Pattern Fragments](cite:cites ldf) (TPF) interface
-would be ideal. By itself, the TPF interface is, just like the RDF data model, atemporal.
+would be ideal. TPF enables publication of Linked Datasets using a REST interface that accepts paged triple pattern queries,
+with which clients can evaluate full SPARQL queries client-side.
+This technique proves to lower server load when compared to traditional SPARQL endpoints.
+By itself, the TPF interface is, just like the RDF data model, atemporal.
 That is why [VTPF](cite:cites vtpf) was introduced, a TPF feature that adds versioning capabilities to the interface.
 It enables low-cost publication of versioned datasets, in contrast to endpoints using [temporal SPARQL extensions](cite:cites tsparql,sparqlst).
 Furthermore, [datetime content-negotation support was added to TPF](cite:cites mementoldf) using [Memento](cite:cites memento),

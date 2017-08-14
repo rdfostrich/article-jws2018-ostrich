@@ -515,7 +515,7 @@ we compared the means using the two-sample t-test, for which the results can be 
 In all cases, the means are not equal with a confidence of 95%.
 For BEAR-B-daily and BEAR-B-hourly, HDT-IC is faster for VM queries, but slower for DM and VQ queries.
 For BEAR-A, HDT-IC is faster for all query types.
-We can therefore *accept* Hypothesis 2 for BEAR-B-daily and BEAR-B-hourly, but *reject* it for BEAR-A.
+We therefore *reject* Hypothesis 2, as it does not apply for BEAR-A, but it is valid for BEAR-B-daily and BEAR-B-hourly.
 
 <figure id="hypo-test-2" class="table" markdown="1">
 
@@ -543,8 +543,8 @@ storage space than CB-based approaches, but query evaluation is *faster* or *equ
 In all cases OSTRICH requires more storage space than HDT-CB.
 For the query evaluation, we again compare the means in [](#hypo-test-3) using the same test.
 In BEAR-A, VQ queries in OSTRICH are not faster for BEAR-A, and VM queries in OSTRICH are not faster for BEAR-B-daily,
-which is why we *reject* Hypothesis 3 for these datasets, even though only 1 in the three query atoms are not fulfilled.
-For BEAR-B-hourly, OSTRICH is faster than HDT-CB in all cases, so for this dataset we *accept* Hypothesis 3.
+which is why we *reject* Hypothesis 3.
+However, only 1 in the three query atoms are not fulfilled, and OSTRICH is faster than HDT-CB for BEAR-B-hourly.
 
 <figure id="hypo-test-3" class="table" markdown="1">
 
@@ -571,4 +571,4 @@ Finally, in our [final hypothesis](#hypothesis-qualitative-ingestion),
 we state that average query evaluation times are lower than other non-IC approaches at the cost of increased ingestion times.
 In all cases, the ingestion time for OSTRICH is higher than the other approaches,
 and as shown in [](#hypo-test-3), query evaluation times for non-IC approaches are lower for BEAR-B-hourly.
-This means that we *accept* Hypothesis 4 for BEAR-B-hourly, and *reject* it for BEAR-A and BEAR-B-daily.
+This means that we *reject* Hypothesis 4 because it only holds for BEAR-B-hourly and not for BEAR-A and BEAR-B-daily.

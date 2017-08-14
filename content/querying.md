@@ -115,8 +115,8 @@ Version Materialization count estimation algorithm for triple patterns in a give
 
 #### Proof
 
-We need to prove that the result of [](#algorithm-querying-vm) 
-is a stream that returns all triples for the given version, 
+In this section, we prove that the result of [](#algorithm-querying-vm) 
+is a stream that correctly returns all triples for the given version, 
 starting at the given offset.
 
 ##### _Algorithm description_
@@ -130,19 +130,17 @@ except those present in the given deletions stream.
 Afterwards all elements from the additions stream are appended.
 
 ##### _Proof_
-Due to the way the version stream is composed,
-there are 2 possible situations for the starting triple of the output stream:
+There are 2 possible cases for the starting triple of the output stream:
  1. the triple is part of the snapshot stream, or,
  2. the triple is part of the additions stream.
 
-Also due to the way the stream is composed,
-a triple is in the first situation if its index is smaller than `|snapshot|` - `|deletions|`,
+A triple is in the first case if its index is smaller than `|snapshot|` - `|deletions|`,
 and in the second situation if its index is equal or larger.
-These 2 situations also correspond to the main `if`-statement in the algorithm.
+These 2 cases also correspond to the main `if`-statement in the algorithm.
 
-In the first situation we have to find the triple in the `snapshot` stream
+In the first case we have to find the triple in the `snapshot` stream
 for which the index in the version stream would be `originalOffset`.
-The difference between the two streams, is that `snapshot` still contains all elements to be deleted.
+The difference between the two streams, is that `snapshot` still contains all elements to be deleted for the current version.
 Since the stream is sorted, the index of this triple in `snapshot` is
 `originalOffset` + `offset`, with `offset` being the number of deletions
 preceding that triple in `snapshot`.
@@ -154,15 +152,13 @@ we are guaranteed for the loop to end.
 Afterwards the output is a `PatchedSnapshotIterator` starting at the correct `snapshot` index,
 appended with all additions, which is what we required.
 
-In the second situation the triple needs to be in the stream of `additions` stream.
+In the second case the starting triple is in the stream of `additions`.
 The number of elements preceding the `additions` elements, 
 is the number of `snapshot` elements minus the `deletions`,
 which is exactly what is calculated in the `else`-statement.
-The `snapshot` stream also gets set to its end,
-meaning the `PatchedSnapshotIterator` will only output `additions` elements,
+The `snapshot` stream is finalized by offsetting it after its last element,
+which will cause the `PatchedSnapshotIterator` to only output `additions` elements
 starting from the calculated index, which is also what we required.
-
-
 
 ### Delta Materialization
 

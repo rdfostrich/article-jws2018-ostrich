@@ -89,10 +89,10 @@ main, #appendix {
     font-weight: bold;
     margin: 1.5em 0 .5em;
 
+    counter-increment: section;
     counter-reset: subsection;
 
     &::before {
-      counter-increment: section;
       content: counter(section) ". ";
     }
   }
@@ -102,8 +102,10 @@ main, #appendix {
     font-size: 1.2em;
     font-weight: bold;
 
+    counter-increment: subsection;
+    counter-reset: subsubsection;
+
     &::before {
-      counter-increment: subsection;
       content: counter(section) "." counter(subsection) ". ";
     }
   }
@@ -113,8 +115,9 @@ main, #appendix {
     font-weight: bold;
     margin: 0 1em 0 0;
     
+    counter-increment: subsubsection;
+    
     &::before {
-      counter-increment: subsubsection;
       content: counter(section) "." counter(subsection) "." counter(subsubsection) ". ";
     }
   }

@@ -36,8 +36,9 @@ _independent_ of version, similar to [aggregated deltas](cite:cites vmrdf).
 Instead of making deltas relative to each preceding delta,
 we make them relative to the closest preceding snapshot in the chain, as shown in [](#alternative-delta-chain).
 This allows version reconstruction to require only at most one delta and one snapshot for any version.
-While this does increase possible redundancies within delta chains, this can easily be compressed away,
-which we discuss in [](#storage).
+While this does increase possible redundancies within delta chains
+due to each delta _inheriting_ the changes of its preceding delta,
+this can easily be compressed away, which we discuss in [](#storage).
 
 <figure id="alternative-delta-chain">
 <img src="img/alternative-delta-chain.svg" alt="[alternative delta chain]">

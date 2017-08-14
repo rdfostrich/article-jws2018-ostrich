@@ -4,27 +4,20 @@ queryVm(store, tp, version, originalOffset) {
     return snapshot
   }
   
-  deletions = store.getDeletionStream(tp, version, NULL)
-  
-  offset = 0
-  do {
-    snapshot.offset(originalOffset + offset)
-    if (snapshot.hasNext()) {
-      offsetTriple = snapshot.next()
-      deletions = store.getDeletionsStream(tp, version, offsetTriple)
-      if (deletions.hasNext()) {
-        offset = deletions.peek().getPosition(tp)
-        if (deletions.peek() == offsetTriple) {
-          offset += 1
-        }
-      } else {
-        offset = deletions.exactCount()
-      }
-    }
-  } while (snapshot.getCurrentOffset() != originalOffset + offset)
-  
   additions = store.getAdditionsStream(tp, version)
-  if (!snapshot.hasNext()) {
+  deletions = store.getDeletionStream(tp, version)
+  offset = 0
+  
+  if (originalOffset < snapshot.count(tp) - deletions.exactCount()) {
+    do {
+      snapshot.offset(originalOffset + offset)
+      offsetTriple = snapshot.peek()
+      deletions = store.getDeletionsStream(tp, version, offsetTriple)
+      offset = deletions.getOffset()
+    } while (snapshot.getCurrentOffset() != originalOffset + offset)
+  }
+  else {
+    snapshot.offset(snapshot.count(tp))
     additions.offset(originalOffset - snapshot.count(tp) + deletions.exactCount())
   }
   

@@ -311,7 +311,7 @@ Median BEAR-B-daily VQ query results for all triple patterns.
 </figcaption>
 </figure>
 
-Figures [12](#results-bearb-hourly-vm-sumary), [13](#results-bearb-hourly-dm-summary) and [14](#results-hourly-daily-vq-summary)
+Figures [15](#results-bearb-hourly-vm-sumary), [16](#results-bearb-hourly-dm-summary) and [17](#results-hourly-daily-vq-summary)
 show the query duration results for the BEAR-B queries on the complete BEAR-B-hourly dataset for all approaches.
 OSTRICH again outperforms Jena-based approaches in all cases.
 HDT-IC is faster for VM queries than OSTRICH, but HDT-CB is slower, except for the first 100 versions.

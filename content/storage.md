@@ -281,22 +281,20 @@ and can be categorized in seven different cases:
     <li>A == D == N</li>
 </ol>
 
-The two first cases are the simplest ones,
-for these, the deletion and addition information can respectively be copied to the new version.
+The two first cases are the simplest ones, in which the current deletion and addition are respectively the smallest.
+For these cases, the unchanged deletion and addition information can respectively be copied to the new version.
 For the deletion, new positions must be calculated in this and all other cases.
 In the third case, a triple is added or removed that was not present before,
 so it can either be added as a non-local change addition or a non-local change deletion.
-In the fourth case, the new triple already existed as a deletion.
-If the triple is an addition, it must be added as a local change.
-If it is a deletion, it simply overwrites the existing deletion.
+In the fourth case, the new triple already existed in the previous version as a deletion.
+If the new triple is an addition, it must be added as a local change.
 Similarly, in the fifth case the new triple already existed as an addition.
 So the triple must be deleted as a local change if the new triple is a deletion.
-It can be copied if it is an addition.
 In the sixth case, the triple existed as both an addition and deletion at some point.
-In this case, we copy over the one that existed at the latest version.
+In this case, we copy over the one that existed at the latest version, as it will still apply in the new version.
 Finally, in the seventh case, the triple already existed as both an addition and deletion,
 and is equal to our new triple.
-This means that if the latest triple was an addition, it becomes a deletion, and the other way around,
+This means that if the triple was an addition in the previous version, it becomes a deletion, and the other way around,
 and the local change flag can be inherited.
 
 The theoretical memory requirement for this algorithm is much lower than the [batch variant](#batch-ingestion).

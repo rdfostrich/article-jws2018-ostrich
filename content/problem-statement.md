@@ -30,7 +30,7 @@ DM queries can be efficient in CB solutions if the query version ranges correspo
 In all other cases, as well as for VM and VQ queries, the desired versions must be materialized on-the-fly,
 which will take increasingly more time for longer delta chains.
 CB solutions do however typically require less storage space than VM if there is sufficient overlap between each consecutive version.
-Finally, VQ queries perform well form TB solutions because the timestamp annotation directly corresponds to VQ's result format.
+Finally, VQ queries perform well for TB solutions because the timestamp annotation directly corresponds to VQ's result format.
 VM and DM queries in this case are typically less efficient than for IC approaches, due to the missing version index.
 Furthermore, TB solutions can require less storage space compared to VM if the change ratio of the dataset is not too large.
 In summary, IC, CB and TB approaches can perform well for certain query types, but they can be slow for others.
@@ -52,6 +52,7 @@ In this work, we focus on the second task, storing and evaluating version materi
 As the publication cost for these archives must be as low as possible,
 we focus on lowering query evaluation times by processing and storing more metadata during ingestion time.
 That is because this processing then happens only once per version, instead of every time during lookup.
+
 Additionally, as the TPF interface returns triple pattern query results in pages, query results within our store should also be pageable.
 This can be achieved by considering the query results as a pull-based stream that can be started at any given offset,
 and limited when sufficient elements have been consumed.
@@ -59,6 +60,7 @@ The ability to achieve such stream subsets is limited in existing solutions.
 Furthermore, the advantage of pull-based streams is that for large amounts of query results,
 not every triple should necessarily be kept in memory,
 because each resulting element can be consumed and processed by a consumer on-demand.
+
 This leads us to the following research question:
 
 <q id="research-question">How can we efficiently store RDF archives while enabling VM, DM and VQ triple pattern queries with efficient offsets?</q>

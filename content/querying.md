@@ -103,6 +103,8 @@ we introduce [](#algorithm-querying-vm-count).
 This straightforward algorithm depends on the efficiency of the snapshot to provide count estimations for a given triple pattern.
 Based on the snapshot count for the given triple pattern, the number of deletions for that version and triple pattern
 are subtracted and the number of additions are added.
+These last two can be resolved efficiently, as we precalculate
+and store expensive addition and deletion counts as explained in [](#addition-counts) and [](#deletion-counts).
 
 <figure id="algorithm-querying-vm-count" class="algorithm">
 ````/algorithms/querying-vm-count.txt````

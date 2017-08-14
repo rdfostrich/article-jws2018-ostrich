@@ -140,7 +140,7 @@ iteration, and therefore the counts, can happen efficiently.
 The count threshold introduces a trade-off between the storage requirements and the required triple counting during lookups.
 
 ### Deletion Counts
-{:#deletion counts}
+{:#deletion-counts}
 
 As mentioned in [](#delta-storage), each deletion is annotated with its relative position in all deletions for that version.
 We can exploit this information to perform deletion counting for any triple pattern and version.

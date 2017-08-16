@@ -120,6 +120,19 @@ is a stream that correctly returns all triples for the given version,
 starting at the given offset.
 
 ##### _Algorithm description_
+The first steps of the algorithm are initalization:
+<ul>
+<li markdown="1">
+`snapshot`: the stream of triples from the snapshot on which the given version is based,
+</li>
+<li markdown="1">
+`deletions`: the stream of triples that need to be deleted from `snapshot` for the given version,
+</li>
+<li markdown="1">
+`additions`: the stream of triples that need to be appended to `snapshot` for the given version.
+</li>
+</ul>
+
 During every iteration of the do/while loop,
 we extract the triple in the snapshot at the current index
 and count how many deletions are preceding that triple.
@@ -130,6 +143,9 @@ except those present in the given deletions stream.
 Afterwards all elements from the additions stream are appended.
 
 ##### _Proof_
+If the given version is equal to the snapshot version the result is `snapshot`,
+for the rest of the proof we assume the given version differs from the snapshot version.
+
 There are 2 possible cases for the starting triple of the output stream:
  1. the triple is part of the snapshot stream, or,
  2. the triple is part of the additions stream.

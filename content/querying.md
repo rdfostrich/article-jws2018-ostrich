@@ -147,8 +147,10 @@ If the given version is equal to the snapshot version the result is `snapshot`,
 for the rest of the proof we assume the given version differs from the snapshot version.
 
 There are 2 possible cases for the starting triple of the output stream:
- 1. the triple is part of the snapshot stream, or,
- 2. the triple is part of the additions stream.
+<ol>
+<li>the triple is part of the snapshot stream, or,</li>
+<li>the triple is part of the additions stream.</li>
+</ol>
 
 A triple is in the first case if its index is smaller than `|snapshot|` - `|deletions|`,
 and in the second situation if its index is equal or larger.

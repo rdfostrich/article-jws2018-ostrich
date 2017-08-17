@@ -3,8 +3,9 @@
 
 In this section, we present the problem we aim to solve, together with hypotheses about our corresponding solution.
 
-The storage of RDF archives typically goes hand-in-hand with querying.
-[Five foundational query atoms were introduced](cite:cites bear) that cover the retrieval demands in RDF archiving.
+The storage of RDF archives goes hand-in-hand with querying.
+[Five foundational query types were introduced](cite:cites bear) that cover the retrieval demands in RDF archiving,
+which are refered to by the authors as _query atoms_.
 <ol>
     <li markdown="1">_Version materialization (VM)_ retrieves data using queries targeted at a single version. Example: _Which books were present in the library yesterday?_
 </li>

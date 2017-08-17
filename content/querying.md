@@ -17,21 +17,34 @@ In order to support this, we provide corresponding count estimation queries.
 It starts by determining the snapshot on which the given version is based.
 After that, this snapshot is queried for the given triple pattern and offset.
 If the given version is equal to the snapshot version, the snapshot iterator can be returned directly.
-In all other cases, this snapshot offset is only an estimation,
+In all other cases, this snapshot offset could only an estimation,
 and the actual snapshot offset can be larger if deletions were introduced before the actual offset.
-Because of that, we enter a loop that will converge to the actual snapshot offset.
+
+Our algorithm returns a stream where triples originating from the snapshot always
+come before the triples that were added in later additions.
+Because of that, the mechanism for determining the correct offset in the
+snapshot, additions and deletions streams can be split up into two cases.
+The given offset lies within the range of either snapshot minus deletion triples or addition triples.
+At this point, the additions and deletions streams are initialized to the start position for the given triple pattern and version.
+
+In the first case, the offset lies within the snapshot and deletions range,
+we enter a loop that will converge to the actual snapshot offset if we have any deletions
+for the given triple pattern in the given version.
 This loop starts by determining the triple at the current offset position in the snapshot.
 We then query the deletions tree for the given triple pattern and version,
 filter out local changes, and use the snapshot triple as offset.
 This triple-based offset is done by navigating through the tree to the smallest triple before or equal to the offset triple.
-If the query is not empty and the iterator has not yet ended,
-we use the deletion's position for the current triple pattern as new snapshot offset.
-If the query is not empty and the iterator has ended,
-we use the total number of deletions without local changes for the given triple pattern in this version as offset.
-Otherwise, if the deletion tree query has no results, we use zero as new snapshot offset.
-From the moment the snapshot offset doesn't change anymore, we have converged to the correct offset.
-After that, we return a simple iterator starting from that snapshot position,
-which performs a sort-merge join-like operation that removes each triple from the snapshot that also appears in the deletion stream,
+We store an additional offset value, which corresponds to the current numerical offset inside the deletions stream.
+As long as the current snapshot offset is different from the sum of the original offset and the additional offset,
+we continue iterating this loop, which will continuously update this additional offset value.
+
+In the second case, the given offset lies within the additions range.
+Now, we terminate the snapshot stream by ofsetting it after its last element,
+and we relatively offset the additions stream.
+This offset is calculated as the original offset subtracted with the number of snapshot triples incremented with the number of deletions.
+
+Finally, we return a simple iterator starting from the three streams that could be offsetted.
+This iterator performs a sort-merge join operation that removes each triple from the snapshot that also appears in the deletion stream,
 which can be done efficiently because of the consistent SPO-ordering.
 Once the snapshot and deletion streams have finished,
 the iterator will start emitting addition triples at the end of the stream.

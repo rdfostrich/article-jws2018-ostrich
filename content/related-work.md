@@ -1,24 +1,26 @@
 ## Related Work
 {:#related-work}
 
-In this section, we discuss existing solutions and techniques for indexing and compression in RDF storage.
-After that, we compare different RDF archiving solutions.
+In this section, we discuss existing solutions and techniques for indexing and compression in RDF storage, without archiving support.
+Then, we compare different RDF archiving solutions.
 Finally, we discuss the BEAR and EvoGen benchmarks,
 of which we will use the former to evaluate the approach we present in this work.
 
-### RDF Indexing and Compression
+### General RDF Indexing and Compression
 
 RDF storage systems typically use indexing and compression techniques
-for respectively reducing query times and storage requirements.
+for reducing query times and storage space, respectively.
 These systems can either be based on existing database technologies,
 such as [relational databases](cite:cites virtuoso) or [document stores](cite:cites dsparq),
-or are based on techniques tailored to RDF.
+or on techniques tailored to RDF.
 For the remainder of this article, we focus on the latter.
 
 [RDF-3X](cite:cites rdf3x) is an RDF storage technique that is based
 on a clustered B+Tree with 18 indexes in which triples are sorted lexicographically.
-6 indexes exist for each possible triple component order (SPO, SOP, OSP, OPS, PSO and POS),
-6 aggregated indexes (SP, SO, PS, PO, OS, and OP)
+Given that a triple consists of
+a subject (S), predicate (P) and object (O),
+it includes 6 indexes for possible triple component orders (SPO, SOP, OSP, OPS, PSO and POS),
+6 aggregated indexes (SP, SO, PS, PO, OS, and OP),
 and 3 one-valued indexes (S, P, and O).
 A dictionary is used to compress common triple components.
 When evaluating SPARQL queries, optimal indexes can be selected based on the query's triple patterns.
@@ -29,26 +31,29 @@ and encoding triple components in a dictionary.
 [Hexastore](cite:cites hexastore) is similar in the sense that it uses six different sorted lists,
 one for each possible triple component order.
 It also uses dictionary encoding to compress common triple components.
-
-[Triplebit](cite:cites triplebit) is an alternative approach that is based on a two-dimensional storage matrix.
-The columns correspond to predicates, and the subjects and objects correspond to rows.
-This sparse matrix is compressed and dictionary encoded to reduce storage requirements significantly.
-Furthermore, its uses auxiliary index structures to improve index selection during query evaluation.
+[Triplebit](cite:cites triplebit) is an alternative approach based on a two-dimensional storage matrix.
+Columns correspond to predicates, and rows to subjects and objects.
+This sparse matrix is compressed and dictionary-encoded to reduce storage requirements.
+Furthermore, it uses auxiliary index structures to improve index selection during query evaluation.
 
 [HDT](cite:cites hdt) is a binary RDF representation that is highly compressed
 and provides indexing structures that enable efficient querying.
 It consists of 3 main components:
-<ul>
-    <li>Header: Metadata describing the dataset.</li>
-    <li>Dictionary: Mapping between triple components and unique IDs for reducing storage requirements of triples.</li>
-    <li>Triples: Storage of the actual triples based on the IDs of the triple components.</li>
-</ul>
-HDT archives are read-only, which leads to its high efficiency and compressability,
-but makes it unsuitable for cases where datasets change frequently,
-as HDT files should be regenerated completely.
+
+Header
+: metadata describing the dataset
+
+Dictionary
+: mapping between triple components and unique IDs for reducing storage requirements of triples
+
+Storage
+: actual triples based on the IDs of the triple components
+
+HDT archives are read-only, which leads to high efficiency and compressibility,
+but makes them unsuitable for cases where datasets change frequently.
 Its fast triple pattern queries and high compression rate make it
-the go-to backend storage method for [TPF](cite:cites ldf) servers.
-Approaches like [LOD Laundromat](lodlaundromat) combine HDT and TPF for hosting and publishing
+an appropriate backend storage method for [TPF](cite:cites ldf) servers.
+Approaches like [LOD Laundromat](lodlaundromat) <a class="reference needed"></a> combine HDT and TPF for hosting and publishing
 650K+ Linked Datasets containing 38M+ triples, proving its usefulness at large scale.
 Because of these reasons, we will reuse HDT snapshots as part of our storage solution.
 

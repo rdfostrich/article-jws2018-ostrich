@@ -11,6 +11,36 @@ figure {
     content: "TODO: ";
   }
 }
+.comment {
+  color: red;
+  font-style: italic;
+  &:before {
+    content: "[";
+  }
+  &[data-author]:before {
+    content: "[" attr(data-author) ": ";
+  }
+  &:after {
+    content: "]";
+  }
+}
+
+.spelling {
+  text-decoration: underline wavy red;
+}
+.grammar {
+  text-decoration: underline wavy darkgreen;
+}
+.rephrase {
+  text-decoration: underline wavy blue;
+}
+.reference.needed {
+  &:before {
+    content: "[?!]";
+    color: red;
+    font-weight: bold;
+  }
+}
 
 main code {
   font-family: "Ubuntu Mono", monospace;

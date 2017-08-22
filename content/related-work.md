@@ -53,7 +53,7 @@ HDT archives are read-only, which leads to high efficiency and compressibility,
 but makes them unsuitable for cases where datasets change frequently.
 Its fast triple pattern queries and high compression rate make it
 an appropriate backend storage method for [TPF](cite:cites ldf) servers.
-Approaches like [LOD Laundromat](lodlaundromat) <a class="reference needed"></a> combine HDT and TPF for hosting and publishing
+Approaches like [LOD Laundromat](cite:cites lodlaundromat) combine HDT and TPF for hosting and publishing
 650K+ Linked Datasets containing 38M+ triples, proving its usefulness at large scale.
 Because of these reasons, we will reuse HDT snapshots as part of our storage solution.
 

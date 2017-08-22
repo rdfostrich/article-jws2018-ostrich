@@ -3,10 +3,9 @@
 
 In the area of data analysis,
 there is an ongoing need for maintaining the history of datasets.
-<span class="rephrase">Motivations vary between</span> looking up data at certain points in time,
+This can be used for looking up data at certain points in time,
 requesting evolving changes,
-or querying for the temporal validity of these data.
-<a class="reference needed"></a>
+or querying for the temporal validity of these data [](cite:cites archiving).
 With the continuously increasing number of [Linked Open Datasets](cite:cites linkeddata),
 this is an apparent issue for [RDF](cite:cites spec:rdf) data as well.
 <span class="comment" data-author="RV">I don't see the need to start introducing RDF here. Kind of breaks the intro.</span>
@@ -29,15 +28,6 @@ Furthermore, no existing solution performs well for all versioned query types, i
 An efficient RDF archive solution should have a scalable *storage model*,
 efficient *compression* and *indexing methods* that should enable expressive versioned querying [](cite:cites archiving).
 The performance of existing solutions in each of these areas is limited and should be improved.
-
-<span class="comment" data-author="RV">The next paragraph is not necessary for the flow; consider moving it to RelWork.</span>
-Versioning also is a popular area in other domains, such as software development.
-[Git](cite:cites git) is a distributed version control system, typically used in software development projects,
-which enables users to work of text documents independently, and synchronize their versions safely.
-Furthermore, it maintains a complete history of the documents by storing the *differences* between each version.
-Storing the differences, i.e. changesets/deltas, between each version instead of maintaining fully materialized snapshots of each version
-can significantly reduce the storage requirements for archives.
-Techniques like these are also used in existing RDF archiving solutions.
 
 <span class="comment" data-author="RV">Similarly, here, the intro is drifting off. While all of this is true, it's not clear what point you want to make with this.</span>
 Many existing RDF archiving techniques allow the full expressivity of [SPARQL queries](cite:cites spec:sparqllang).
@@ -73,11 +63,7 @@ Our contributions are:
 2. efficient indexing methods and querying algorithms that allow triple pattern queries *at*, *between*, and *for* different versions to be evaluated efficiently;
 3. queries return result streams that can be offsetted and limited;
 4. OSTRICH, an open-source implementation of this approach; and
-5. an extensive evaluation of our technique <span class="comment" data-author="RV">or of OSTRICH?</span> compared to other approaches using an existing RDF archiving benchmark.
-
-<span class="comment" data-author="RV">Would remove.</span>
-These versioned querying possibilities correspond to the capabilities of the VTPF interface,
-which makes it possible to use implementations of this approach as the back-end for RDF archives that are published and queryable at a low cost.
+5. an extensive evaluation of OSTRICH compared to other approaches using an existing RDF archiving benchmark.
 
 This article is structured as follows.
 In the next section, we start by introducing the related work in [](#related-work) and our problem statement in [](#problem-statement).

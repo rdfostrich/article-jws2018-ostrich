@@ -25,33 +25,24 @@ An efficient RDF archive solution should have a scalable *storage model*,
 efficient *compression* and *indexing methods* that should enable expressive versioned querying [](cite:cites archiving).
 The performance of existing solutions in each of these areas is limited and should be improved.
 
-<span class="comment" data-author="RV">Similarly, here, the intro is drifting off. While all of this is true, it's not clear what point you want to make with this.</span>
-Many existing RDF archiving techniques allow the full expressivity of [SPARQL queries](cite:cites spec:sparqllang).
-SPARQL engines are typically used as a way to expose Web-access though [SPARQL endpoints](cite:cites spec:sparqlprot)
-to RDF datasets, or in this case, RDF archives.
-In practice, public SPARQL endpoints suffer from [low availability](cite:cites sparqlwebquerying).
-The [unbounded complexity of SPARQL queries](cite:cites sparqlcomplexity) combined
-with SPARQL endpoints being public requires a high server cost,
-which makes it expensive to host such an interface with high availability.
-As an alternative, low-cost interfaces such as the [Triple Pattern Fragments](cite:cites ldf) (TPF) can be used for publishing RDF datasets on the Web.
-TPF servers expose a REST interface that accepts paged triple pattern queries,
-with which clients can evaluate full SPARQL queries client-side.
-This technique proves to lower server load when compared to traditional SPARQL endpoints.
+The [SPARQL query language](cite:cites spec:sparqllang) is the standard for querying RDF data.
+The basis for most SPARQL query engines is the ability to query triples using triple patterns.
+As such, triple stores should allow triple pattern access for efficient lookups.
+This means that RDF archives should at least offer the same capabilities,
+possibly enhanced with additional version-related capabilities.
 
-<span class="comment" data-author="RV">Similarly, here, the intro is drifting off. While all of this is true, it's not clear what point you want to make with this.</span>
-By itself, the TPF interface is, just like the RDF data model, atemporal.
-That is why [VTPF](cite:cites vtpf) was introduced, a TPF feature that adds versioning capabilities to the interface.
-It enables low-cost publication of versioned datasets, in contrast to endpoints using [temporal SPARQL extensions](cite:cites tsparql,sparqlst).
-Furthermore, [datetime content-negotation support was added to TPF](cite:cites mementoldf) using [Memento](cite:cites memento),
-which is an HTTP framework that enables time-based access to HTTP resources.
-It does this by providing datetime content-negotiation for HTTP resources.
-With this, users can access past versions of resources, or in this case, datasets through TPF interfaces.
+SPARQL query engines can optimize query resolution when triple stores have more advanced capabilities.
+When query results are large for example, stream-based results can allow for more memory-efficient processing.
+Furthermore, if only a subset of such a large stream is needed,
+the capabilities of offsetting and limitting this stream for a certain number of triples reduces processing time.
+Not only can this be used behind a SPARQL endpoint, these capabilities also form the basis
+of the Web-friendly [Triple Pattern Fragments](cite:cites ldf) (TPF) interface,
+which provides access to RDF datasets using triple pattern queries where results are paged collections.
+The TPF interface also offers optional versioning capabilities using [VTPF](cite:cites vtpf),
+and [datetime content-negotation](cite:cites mementoldf) using [Memento](cite:cites memento).
 
-<span class="comment" data-author="RV">Okay, I see now… but that's too late. The branching of {archiving, SPARQL, availability, TPF, VTPF, another need for interface} was a bit too long.</span>
-As such, there is a need for an efficient RDF archive storage solution that can be used in the backend of such an interface.
-Since TPF enables paged triple pattern query results, such a store solution must enable offsettable and limited triple pattern queries,
-as is already possible using some atemporal triple stores such as [HDT](cite:cites hdt).
-An appropriate RDF archive storage solution should therefore also enable versioned triple pattern queries to be offsettable and limited.
+As such, there is a need for an efficient RDF archive storage solution that allows versioned triple pattern queries
+with result streams that have offset and limit capabilities.
 In this work, we introduce a storage technique that conforms to these requirements.
 Our contributions are:
 

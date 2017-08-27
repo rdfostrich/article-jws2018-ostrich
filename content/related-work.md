@@ -60,45 +60,66 @@ Because of these reasons, we will reuse HDT snapshots as part of our storage sol
 ### RDF Archiving
 {:#related-work-archiving}
 
-Versioning also is a popular area in many domains, such as software development.
+Versioning is a popular area in many domains, such as software development.
 [Git](cite:cites git) is a distributed version control system, typically used in software development projects,
 which enables users to work of text documents independently, and synchronize their versions safely.
 Furthermore, it maintains a complete history of the documents by storing the *differences* between each version.
 Storing the differences, i.e. changesets/deltas, between each version instead of maintaining fully materialized snapshots of each version
 can significantly reduce the storage requirements for archives.
 Techniques like these are also used in existing RDF archiving solutions.
+<a class="reference needed"></a>
 
 Linked Open Datasets typically [change over time](cite:cites datasetdynamics),
 creating a need for [maintaining the history of the datasets](cite:cites archiving).
 Hence, RDF archiving has been an active area of research over the last couple of years.
-[Fernández et. al. define an _RDF archive_](cite:cites bear) as a set of version-annotated triples,
-where a version-annotated triple is an RDF triple that is annotated with a label representing the version in which this triple holds.
-An _RDF version_ `i` of an RDF archive is then defined as the set of all triples in the RDF archive that are annotated with the label `i`.
+Fernández et al. define an [_RDF archive_](cite:cites bear) as a set of version-annotated triples,
+where a _version-annotated triple_ is an RDF triple that is annotated with a label representing the version in which this triple holds.
+An _RDF version_ <var>i</var> of an RDF archive is then defined as the set of all triples in the RDF archive that are annotated with the label <var>i</var>.
 
 Systems for archiving Linked Open Data are categorized
 into [three non-orthogonal storage strategies](cite:cites archiving):
-<ol>
-    <li>The <em>Independent copies (IC)</em> approach creates separate instantiations of datasets for
-each change or set of changes.</li>
-    <li>The <em>Change-based (CB)</em> approach instead only stores changes (i.e. changesets) between versions.</li>
-    <li>The <em>Timestamp-based (TB)</em> approach stores the temporal validity of facts.</li>
-</ol>
+
+- The **Independent copies (IC)** approach creates separate instantiations of datasets for
+each change or set of changes.
+- The **Change-based (CB)** approach instead only stores changes (i.e. changesets) between versions.
+- The **Timestamp-based (TB)** approach stores the temporal validity of facts.
+
 In the following, we discuss several existing RDF archiving systems, which use either pure IC, CB or TB, or hybrid IC/CB.
+[](#rdf-archive-systems) shows an overview of the discussed systems.
 
-{:.todo}
-IC, CB, TP, and hybrid could be subtitles
+<figure id="rdf-archive-systems" class="table" markdown="1">
 
+| Name                                        | IC | CB | TB |
+| ------------------------------------------- |:--:|:--:|:--:|
+| [SemVersion](cite:cites semversion)         | ✓  |    |    |
+| [Cassidy et. al.](cite:cites vcrdf)         |    | ✓  |    |
+| [R&WBase](cite:cites rwbase)                |    | ✓  |    |
+| [R43ples](cite:cites r43ples)               |    | ✓  |    |
+| [Hauptman et. al.](cite:cites vcld)         |    |    | ✓  |
+| [X-RDF-3X](cite:cites xrdf3x)               |    |    | ✓  |
+| [v-RDFCSA](cite:cites selfindexingarchives) |    |    | ✓  |
+| [Dydra](cite:cites dydra)                   |    |    | ✓  |
+| [TailR](cite:cites tailr)                   | ✓  | ✓  |    |
+
+<figcaption markdown="block">
+Overview of RDF archiving solutions with their corresponding storage strategy.
+Individual copies (IC), Change-based (CB), Timestamp-based (TB) or a hybrid.
+</figcaption>
+</figure>
+
+#### Independent copies approaches
 [SemVersion](cite:cites semversion) was one of the first works to look into tracking different versions of RDF graphs.
 SemVersion is based on Concurrent Versions System (CVS) concepts to maintain different versions of ontologies,
 such as diff, branching and merging.
 Their approach consists of a separation of language-specific features with ontology versioning from general features together with RDF versioning.
 The authors omit implementation details on triple storage and retrieval.
 
+#### Change-based approaches
 Based on the Theory of Patches from [Darcs software management system](darcs),
 [Cassidy et. al.](cite:cites vcrdf) propose to store changes to graphs as a series of patches, which makes it a CB approach.
 In the paper, they describe operations on versioned graphs such as reverse, revert and merge.
 They provide an implementation of their approach using the Redland python library and MySQL
-by representing each patch as named graphs and serializing them in TriG.
+by representing each patch as named graphs and serializing them in [TriG](cito:citesAsAuthority TriG).
 Furthermore, a preliminary evaluation shows that their implementation is significantly slower
 than a native RDF store. They suggest a native implementation of the approach to avoid some of the overhead.
 
@@ -118,6 +139,7 @@ It supports the same versioning features as R&WBase and introduces new SPARQL ke
 As reconstructing a version requires combining all changesets that came before,
 queries at a certain version are only usable for medium-sized datasets.
 
+#### Timestamp-based approaches
 [Hauptman et. al. introduce a similar delta-based storage approach](cite:cites vcld)
 by storing each triple in a different named graph as a storage TB approach.
 The identifying graph of each triple is used in a commit graph for SPARQL query evaluation at a certain version.
@@ -139,6 +161,7 @@ They introduce the REVISION keyword, which is similar to the GRAPH SPARQL keywor
 Their implementation is based on B+Trees that are indexed in six ways  GSPO, GPOS, GOSP, SPOG, POSG, OSPG.
 Each B+Tree value indicates the revisions in which a particular quad exists, which makes it a TB approach.
 
+#### Hybrid approaches
 [TailR](cite:cites tailr) is an HTTP archive for Linked Data pages based
 on the [Memento protocol](cite:cites memento) for retrieving prior versions of certain HTTP resources.
 It is a hybrid CB/IC approach as it starts by storing a dataset snapshot,
@@ -146,40 +169,20 @@ after which only deltas are stored for each consecutive version, as shown in [](
 When the chain becomes too long, or other conditions are fulfilled, a new snapshot is created for the next version.
 This avoids long version reconstruction times.
 
-<figure id="regular-delta-chain">
-<img src="img/regular-delta-chain.svg" alt="[regular delta chain]">
-<figcaption markdown="block">
-Delta chain in which deltas are relative to the previous delta, as is done in [TailR](cite:cites tailr).
-</figcaption>
-</figure>
-
 Results show that this is an effective way of [reducing version reconstruction times](cite:cites tailr),
 in particular for many versions.
 Within the delta chain, however, an increase in version reconstruction times can still be observed.
 Furthermore, it requires more storage space than pure delta-based approaches.
 
-The author's implementation is based on a relation database system.
+The authors' implementation is based on a relation database system.
 Evaluation shows that resource lookup times for any version ranges between
 1 and 50 ms for 10 versions containing around 500K triples.
 In total, these versions require ~64MB of storage space.
 
-<figure id="rdf-archive-systems" class="table" markdown="1">
-
-| Name                                        | IC | CB | TB |
-| ------------------------------------------- |:--:|:--:|:--:|
-| [SemVersion](cite:cites semversion)         | ✓  |    |    |
-| [Cassidy et. al.](cite:cites vcrdf)         |    | ✓  |    |
-| [R&WBase](cite:cites rwbase)                |    | ✓  |    |
-| [R43ples](cite:cites r43ples)               |    | ✓  |    |
-| [Hauptman et. al.](cite:cites vcld)         |    |    | ✓  |
-| [X-RDF-3X](cite:cites xrdf3x)               |    |    | ✓  |
-| [v-RDFCSA](cite:cites selfindexingarchives) |    |    | ✓  |
-| [Dydra](cite:cites dydra)                   |    |    | ✓  |
-| [TailR](cite:cites tailr)                   | ✓  | ✓  |    |
-
+<figure id="regular-delta-chain">
+<img src="img/regular-delta-chain.svg" alt="[regular delta chain]">
 <figcaption markdown="block">
-Overview of RDF archiving solutions with their corresponding storage strategy.
-Individual copies (IC), Change-based (CB), Timestamp-based (TB) or a hybrid.
+Delta chain in which deltas are relative to the previous delta, as is done in [TailR](cite:cites tailr).
 </figcaption>
 </figure>
 

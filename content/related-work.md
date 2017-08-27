@@ -189,17 +189,18 @@ Delta chain in which deltas are relative to the previous delta, as is done in [T
 ### RDF Archiving Benchmarks
 {:#related-work-benchmarks}
 
-{:.todo}
-Update BEAR reference when their journal paper is accepted.
-
 [BEAR](cite:cites bear) is a benchmark for RDF archive systems.
 It is based on three real-world datasets from different domains:
-<ul>
-    <li>BEAR-A: 58 weekly snapshots from the [Dynamic Linked Data Observatory](cite:cites datasetdynamics).</li>
-    <li>BEAR-B: The 100 most volatile resources from [DBpedia Live](cite:cites dbpedialive) over the course of three months
-        as three different granularities: instant, hour and day</li>
-    <li>BEAR-C: Dataset descriptions from the [Open Data Portal Watch](cite:cites opendataportalwatch) project over the course of 32 weeks.</li>
-</ul>
+
+BEAR-A
+: 58 weekly snapshots from the [Dynamic Linked Data Observatory](cite:cites datasetdynamics).
+
+BEAR-B
+: The 100 most volatile resources from [DBpedia Live](cite:cites dbpedialive) over the course of three months
+as three different granularities: instant, hour and day.
+
+BEAR-C
+: Dataset descriptions from the [Open Data Portal Watch](cite:cites opendataportalwatch) project over the course of 32 weeks.
 
 The 58 versions of BEAR-A contain between 30M and 66M triples per version, with an average change ratio of 31%.
 BEAR-A provides triple pattern queries for three different versioned query types for both result sets with a low and a high cardinality.
@@ -210,7 +211,7 @@ Finally, BEAR-C provides 10 complex SPARQL queries that were created with the he
 
 BEAR provides baseline RDF archive implementations based on [HDT](cite:cites hdt) and
 [Jena's](cite:cites jena) [TDB store](https://jena.apache.org/documentation/tdb/)
-for the IC, CB, TB approaches, but also hybrid IC/CB and TB/CB approaches.
+for the IC, CB, and TB approaches, but also hybrid IC/CB and TB/CB approaches.
 The hybrid approaches are based on snapshots followed by delta chains, as implemented by [TailR](cite:cites tailr).
 Due to HDT not supporting quads, the TB and TB/CB approaches could not be implemented in the HDT baseline implementations.
 
@@ -218,7 +219,8 @@ Results show that IC for both Jena and HDT requires more storage space than the 
 CB results in less storage space for both approaches for BEAR-A and BEAR-B, but not for BEAR-C because that dataset is so dynamic that
 the deltas require more storage space than they would in with IC.
 Jena-TB results in the least storage space of Jena-based approaches,
-it does however fail for BEAR-B-instant because of the large amount of versions
+however,
+it fails for BEAR-B-instant because of the large amount of versions
 as Jena is less efficient for many graphs.
 
 The hybrid approaches are evaluated with different delta chain lengths and expectedly show
@@ -246,4 +248,4 @@ for example to change the dataset dynamicity and the number of versions.
 
 While EvoGen offers more flexibility than BEAR in terms of configurability.
 BEAR provides real-world datasets and baseline implementations which lowers the barrier towards its usage.
-That is why we will use the BEAR dataset in this work for benchmarking our system.
+Hence, we will use the BEAR dataset in this work for benchmarking our system.

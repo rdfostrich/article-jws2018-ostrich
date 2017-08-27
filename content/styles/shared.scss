@@ -12,7 +12,10 @@ figure {
   }
 }
 .comment {
-  color: red;
+  &, & * {
+    color: red !important;
+  }
+
   font-style: italic;
   &:before {
     content: "[";

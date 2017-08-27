@@ -17,7 +17,7 @@ At the cost of increased ingestion times, fast lookup times are guaranteed in mo
 Furthermore, by reusing the highly efficient HDT technique for snapshots,
 existing HDT snapshots can be loaded in by OSTRICH directly, and patched with additional versions by OSTRICH afterwards.
 
-OSTRICH fulfills our [requirements](cite:cites tpfarchives) for a back-end RDF archive storage solution
+OSTRICH fulfills our [requirements](cite:cites tpfarchives) for a backend RDF archive storage solution
 for supporting versioning queries in the TPF framework.
 Together with the [VTPF](cite:cites vtpf) interface feature, RDF archives can be queried on the Web at a low cost,
 as demonstrated on [our public VTPF entrypoint](http://versioned.linkeddatafragments.org/bear){:.mandatory}.

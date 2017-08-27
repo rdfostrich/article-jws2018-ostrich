@@ -14,7 +14,7 @@ related work
         hdt
     archiving benchmarks
 OSTRICH
-storage (datastructure)
+storage (data structure)
 ingestion algo
 querying (algos for VM, DM and VQ + corresponding counts)
 VTPF (interface)

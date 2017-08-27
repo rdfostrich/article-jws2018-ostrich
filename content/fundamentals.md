@@ -21,7 +21,7 @@ we store additions and deletions in separate tree indexes.
 In order to support inter-delta DM queries, each addition and deletion value contains a _local change_ flag
 that indicates if the change is not relative to the snapshot.
 Finally, in order to provide cardinality estimation for any triple pattern,
-we store an additional count datastructure.
+we store an additional count data structure.
 
 In the following sections, we elaborate on the hybrid IC/CB/TB storage technique that our approach is based on,
 the reason for using multiple indexes,

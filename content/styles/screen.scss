@@ -311,21 +311,20 @@ pre {
 }
 
 table {
-  width: 100%;
-}
-th {
-  font-weight: bold;
-  border-bottom:1px solid;
-}
-table thead td:first-child, table tfoot td:first-child {
-  border:0;
-}
-th, td {
-  padding:0.25em;
-  text-align:left;
-}
-.comparison-columns tbody td {
-  text-align:center;
+  margin: 0 auto;
+
+  th, td {
+    text-align: left;
+    padding: 0 .5em;
+  }
+
+  th {
+    font-weight: bold;
+  }
+
+  thead {
+    border-bottom: 1px solid;
+  }
 }
 
 caption {

@@ -90,7 +90,7 @@ In the following, we discuss several existing RDF archiving systems, which use e
 <figure id="rdf-archive-systems" class="table" markdown="1">
 
 | Name                                        | IC | CB | TB |
-| ------------------------------------------- |:--:|:--:|:--:|
+| ------------------------------------------- |----|----|----|
 | [SemVersion](cite:cites semversion)         | ✓  |    |    |
 | [Cassidy et. al.](cite:cites vcrdf)         |    | ✓  |    |
 | [R&WBase](cite:cites rwbase)                |    | ✓  |    |
@@ -102,8 +102,8 @@ In the following, we discuss several existing RDF archiving systems, which use e
 | [TailR](cite:cites tailr)                   | ✓  | ✓  |    |
 
 <figcaption markdown="block">
-Overview of RDF archiving solutions with their corresponding storage strategy.
-Individual copies (IC), Change-based (CB), Timestamp-based (TB) or a hybrid.
+Overview of RDF archiving solutions with their corresponding storage strategy:
+Individual copies (IC), Change-based (CB), or Timestamp-based (TB).
 </figcaption>
 </figure>
 

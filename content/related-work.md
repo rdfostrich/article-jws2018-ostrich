@@ -66,8 +66,8 @@ which enables users to work of text documents independently, and synchronize the
 Furthermore, it maintains a complete history of the documents by storing the *differences* between each version.
 Storing the differences, i.e. changesets/deltas, between each version instead of maintaining fully materialized snapshots of each version
 can significantly reduce the storage requirements for archives.
-Techniques like these are also used in existing RDF archiving solutions.
-<a class="reference needed"></a>
+Techniques like these are also used in existing RDF archiving solutions,
+as will be explained in the remainder of this section.
 
 Linked Open Datasets typically [change over time](cite:cites datasetdynamics),
 creating a need for [maintaining the history of the datasets](cite:cites archiving).

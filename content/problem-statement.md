@@ -20,21 +20,24 @@ consecutively different results.
 Example: _At what times was book X returned or taken from the library?_
 
 In this article, we will focus on VM, DM, and VQ queries, as CV and CM queries can be expressed in [terms of the other ones](cite:cites tpfarchives).
+Furthermore, there exists a correspondence between these query atoms
+and the independent copies (IC), change-based (CB), and timestamp-based (TB) storage strategies.
 
-<span class="comment" data-author="RV">Would there be an organisation to make this paragraph easier to follow? Perhaps split into one paragraph per atom, or one paragraph per aspect (storeage, speed, …)?</span>
-There exists a correspondence between these query atoms and the independent copies (IC), change-based (CB), and timestamp-based (TB) storage strategies.
 Namely, VM queries are efficient in storage solutions that based on IC, because there is indexing on version.
 On the other hand, IC-based solutions may introduce a lot of overhead in terms of storage space because each version is stored separately.
 Furthermore, DM and VQ queries are less efficient for IC solutions.
 That is because DM queries require two fully-materialized versions to be compared on-the-fly,
 and VQ requires _all_ versions to be queried at the same time.
+
 DM queries can be efficient in CB solutions if the query version ranges correspond to the stored delta ranges.
 In all other cases, as well as for VM and VQ queries, the desired versions must be materialized on-the-fly,
 which will take increasingly more time for longer delta chains.
 CB solutions do however typically require less storage space than VM if there is sufficient overlap between each consecutive version.
+
 Finally, VQ queries perform well for TB solutions because the timestamp annotation directly corresponds to VQ's result format.
 VM and DM queries in this case are typically less efficient than for IC approaches, due to the missing version index.
 Furthermore, TB solutions can require less storage space compared to VM if the change ratio of the dataset is not too large.
+
 In summary, IC, CB and TB approaches can perform well for certain query types, but they can be slow for others.
 On the other hand, this efficiency typically comes at the cost of large storage overhead, as is the case for IC-based approaches.
 

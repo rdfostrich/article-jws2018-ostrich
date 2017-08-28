@@ -1,9 +1,10 @@
-## Fundamentals
+## Overview: Storage and Querying
 {:#fundamentals}
-<span class="comment" data-author="RV">I think the relation between this section and the next should be clarified. At first, I thought it was going to be a set of prerequisites. However, it seems to be a high-level overview of the storage, with the details coming in the next section. Think about a more appropriate title and a more precise scoping, with an explicit relation to the next section. See also my comment about the subsections below.</span>
 
-In this section, we introduce fundamental concepts
-that are required in our storage approach and its accompanying querying algorithms.
+In this section, we lay the groundwork for the following sections.
+We introduce fundamental concepts
+that are required in our storage approach, which will be explained in []{#storage},
+and its accompanying querying algorithms, which will be explained in []{#querying}.
 
 As mentioned before in [](#related-work), we can distinguish individual copies (IC),
 change-based (CB), or timestamp-based (TB) storage strategies in RDF archiving solutions,

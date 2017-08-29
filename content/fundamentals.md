@@ -6,20 +6,16 @@ We introduce fundamental concepts
 that are required in our storage approach, which will be explained in [](#storage),
 and its accompanying querying algorithms, which will be explained in [](#querying).
 
-As mentioned before in [](#related-work), we can distinguish individual copies (IC),
-change-based (CB), or timestamp-based (TB) storage strategies in RDF archiving solutions,
-each having their own advantages and disadvantages with respect to querying and storage.
-In order to resolve VM, DM, and VQ triple pattern queries efficiently while sti ll making smart use of storage space,
-our approach uses a hybrid IC/CB/TB storage technique.
-
-In summary, our approach consists of intermittent _fully materialized snapshots_, followed by _delta chains_.
-Each delta chain is stored in _tree indexes_ where values are dictionary-encoded and timestamped
+To combine smart use of storage space with efficient processing of VM, DM, and VQ triple pattern queries,
+we employ a hybrid approach between individual copies (IC), change-based (CB), and timestamp-based (TB) storage technique (as discussed in [](#related-work)).
+In summary, intermittent _fully materialized snapshots_ are followed by _delta chains_.
+Each delta chain is stored in _tree indexes_, where values are dictionary-encoded and timestamped
 in order to reduce storage requirements and lookup times.
-Furthermore, each index is replicated for three different triple component orders,
-that are sufficient for efficiently resolving any triple pattern query.
+Next, each index is replicated for three different triple component orders
+to ensure any triple pattern query can be resolved quickly.
 Since access patterns to additions and deletions in deltas differ between VM, DM, and VQ queries,
 we store additions and deletions in separate tree indexes.
-In order to support inter-delta DM queries, each addition and deletion value contains a _local change_ flag
+To support inter-delta DM queries, each addition and deletion value contains a _local change_ flag
 that indicates if the change is not relative to the snapshot.
 Finally, in order to provide cardinality estimation for any triple pattern,
 we store an additional count data structure.
@@ -35,14 +31,12 @@ and methods for storing addition and deletion counts.
 
 Our storage technique is partially based on a hybrid IC/CB approach similar to [](#regular-delta-chain).
 To avoid increasing reconstruction times,
-we modify the delta chain structure slightly to make these times constant,
-_independent_ of version, similar to [aggregated deltas](cite:cites vmrdf).
-Instead of making deltas relative to each preceding delta,
-we make them relative to the closest preceding snapshot in the chain, as shown in [](#alternative-delta-chain).
-This allows version reconstruction to require only at most one delta and one snapshot for any version.
-While this does increase possible redundancies within delta chains
+we modify the delta chain to incorporate [aggregated deltas](cite:cites vmrdf), _independent_ of a preceding version.
+Instead, deltas are relative to the closest preceding snapshot in the chain, as shown in [](#alternative-delta-chain).
+Hence, for any version, version reconstruction only requires at most one delta and one snapshot.
+Although this does increase possible redundancies within delta chains,
 due to each delta _inheriting_ the changes of its preceding delta,
-this can easily be compressed away, which we discuss in [](#storage).
+the overhead can be compensated with compression, which we discuss in [](#storage).
 
 <figure id="alternative-delta-chain">
 <img src="img/alternative-delta-chain.svg" alt="[alternative delta chain]">
@@ -59,9 +53,9 @@ in different triple component orders, namely: `SPO`, `POS` and `OSP`.
 These indexes are tree-based, which means the starting triple for any triple pattern can be found in logarithmic time,
 and next triples can be found by iterating through the links between each tree leaf.
 [](#triple-pattern-index-mapping) shows an overview of which triple patterns can be mapped to which index.
-The reason for three indexes instead of all six possible component orders,
-as is typically done in [other approaches](cite:cites rdf3x,hexastore),
-is because we only aim to reduce the iteration scope of the lookup tree for any triple pattern.
+In contrast to [other approaches](cite:cites rdf3x,hexastore),
+we use three indexes instead of all six possible component orders,
+because we only aim to reduce the iteration scope of the lookup tree for any triple pattern.
 For each possible triple pattern,
 we now have an index in which the first triple component can be located in logarithmic time,
 and the terminating element of the result stream can be identified without necessarily having iterate to the last value of the tree.
@@ -89,6 +83,9 @@ Overview of which triple patterns can be queried inside which index to optimally
 </figcaption>
 </figure>
 
+{:.todo}
+Miel either doesn't get the paragraph below or its relevancy.
+
 If RDF archive storage is the only concern, and querying is not a requirement,
 then only a single index would be sufficient.
 By storing only one index, such as `SPO`, the required storage space could be further reduced.
@@ -102,13 +99,11 @@ to enable faster querying for any triple pattern.
 {:#local-changes}
 
 A delta chain can contain multiple instances of each triple,
-because in one version a triple could be added,
-while in a later version that same triple could be removed.
-Those triples that revert a previous addition or deletion within the same delta chain are called _local changes_.
-We give special attention to these triples because they are important during query evaluation.
-
-Since determining the locality of changes can be costly,
-we pre-calculate this information during ingestion time and store it for each versioned triple,
+since the same triple could be added in one version and removed in a later one.
+Those triples that revert a previous addition or deletion within the same delta chain are called _local changes_
+and are important during query evaluation.
+Determining the locality of changes can be costly,
+thus we pre-calculate this information during ingestion time and store it for each versioned triple,
 so that this does not have to happen during query-time.
 
 When evaluating version materialization queries by combining a delta with its snapshot,

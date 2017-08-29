@@ -3,8 +3,7 @@
 
 In this section, we discuss existing solutions and techniques for indexing and compression in RDF storage, without archiving support.
 Then, we compare different RDF archiving solutions.
-Finally, we discuss the BEAR and EvoGen benchmarks,
-of which we will use the former to evaluate the approach we present in this work.
+Finally, we discuss suitable benchmarks and different query types for RDF archives.
 
 ### General RDF Indexing and Compression
 
@@ -249,3 +248,42 @@ for example to change the dataset dynamicity and the number of versions.
 While EvoGen offers more flexibility than BEAR in terms of configurability.
 BEAR provides real-world datasets and baseline implementations which lowers the barrier towards its usage.
 Hence, we will use the BEAR dataset in this work for benchmarking our system.
+
+### Query atoms
+
+To cover the retrieval demands in RDF archiving,
+[five foundational query types were introduced](cite:cites bear),
+which are referred to as _query atoms_:
+
+1. **Version materialization (VM)** retrieves data using queries targeted at a single version.
+Example: _Which books were present in the library yesterday?_
+2. **Delta materialization (DM)** retrieves query result differences (i.e. changesets) between two versions.
+Example: _Which books were returned or taken from the library between yesterday and now?_
+3. **Version query (VQ)** annotates query results with the versions in which they are valid.
+Example: _At what times was book X present in the library?_
+4. **Cross-version join (CV)** joins the results of two queries between versions.
+Example: _What books were present in the library yesterday and today?_
+5. **Change materialization (CM)** returns a list of versions in which a given query produces
+consecutively different results.
+Example: _At what times was book X returned or taken from the library?_
+
+There exists a correspondence between these query atoms
+and the independent copies (IC), change-based (CB), and timestamp-based (TB) storage strategies.
+
+Namely, VM queries are efficient in storage solutions that based on IC, because there is indexing on version.
+On the other hand, IC-based solutions may introduce a lot of overhead in terms of storage space because each version is stored separately.
+Furthermore, DM and VQ queries are less efficient for IC solutions.
+That is because DM queries require two fully-materialized versions to be compared on-the-fly,
+and VQ requires _all_ versions to be queried at the same time.
+
+DM queries can be efficient in CB solutions if the query version ranges correspond to the stored delta ranges.
+In all other cases, as well as for VM and VQ queries, the desired versions must be materialized on-the-fly,
+which will take increasingly more time for longer delta chains.
+CB solutions do however typically require less storage space than VM if there is sufficient overlap between each consecutive version.
+
+Finally, VQ queries perform well for TB solutions because the timestamp annotation directly corresponds to VQ's result format.
+VM and DM queries in this case are typically less efficient than for IC approaches, due to the missing version index.
+Furthermore, TB solutions can require less storage space compared to VM if the change ratio of the dataset is not too large.
+
+In summary, IC, CB and TB approaches can perform well for certain query types, but they can be slow for others.
+On the other hand, this efficiency typically comes at the cost of large storage overhead, as is the case for IC-based approaches.

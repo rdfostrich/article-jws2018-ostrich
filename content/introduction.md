@@ -17,7 +17,7 @@ are published as separate dumps per version,
 more direct and efficient access to prior versions is desired.
 
 Consequently,
-RDF archiving systems came about that, for instance, support query engines that use the standard [SPARQL query language](cite:cites spec:sparqllang).
+RDF archiving systems emerged that, for instance, support query engines that use the standard [SPARQL query language](cite:cites spec:sparqllang).
 In 2015, however, [a survey on archiving Linked Open Data](cite:cites archiving) illustrated the need for improved versioning capabilities,
 as current approaches have scalability issues at Web-scale.
 They either perform well for versioned query evaluation, at the cost of large storage space requirements,
@@ -42,8 +42,8 @@ this work introduces a storage technique with the following contributions:
 
 - a scalable versioned compressed RDF index with offset support and result streaming;
 - efficient query algorithms to evaluate triple pattern queries *at*, *between*, and *for* different versions;
-- an **open-source implementation** of this approach called OSTRICH;
-- an extensive **evaluation** of OSTRICH compared to other approaches using an existing RDF archiving benchmark.
+- an open-source implementation of this approach called OSTRICH;
+- an extensive evaluation of OSTRICH compared to other approaches using an existing RDF archiving benchmark.
 
 This article is structured as follows.
 In the next section, we start by introducing the related work in [](#related-work) and our problem statement in [](#problem-statement).

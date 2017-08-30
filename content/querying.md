@@ -39,11 +39,11 @@ As long as the current snapshot offset is different from the sum of the original
 we continue iterating this loop, which will continuously update this additional offset value.
 
 In the second case, the given offset lies within the additions range.
-Now, we terminate the snapshot stream by ofsetting it after its last element,
+Now, we terminate the snapshot stream by offsetting it after its last element,
 and we relatively offset the additions stream.
 This offset is calculated as the original offset subtracted with the number of snapshot triples incremented with the number of deletions.
 
-Finally, we return a simple iterator starting from the three streams that could be offsetted.
+Finally, we return a simple iterator starting from the three streams that could be offset.
 This iterator performs a sort-merge join operation that removes each triple from the snapshot that also appears in the deletion stream,
 which can be done efficiently because of the consistent SPO-ordering.
 Once the snapshot and deletion streams have finished,
@@ -59,11 +59,12 @@ Version Materialization algorithm for triple patterns that produces a triple str
 </figcaption>
 </figure>
 
-The reason why we can use the deletion's position in the delta as offset in the snapshot
-is because this position represents the number of deletions that came before that triple inside the snapshot given a consistent triple order.
+We can use the deletion's position in the delta as offset in the snapshot
+because this position represents the number of deletions that came before that triple inside the snapshot given a consistent triple order.
 [](#query-vm-example) shows simplified storage contents where triples are represented as a single letter,
 and there is only a single snapshot and delta.
 In the following paragraphs, we explain the offset convergence loop of the algorithm in function of this data for different offsets.
+<span class="comment" data-author="RV">Wait, are we discussing a specific example or in general? I'm lost structurally. If this is what I think it is, I propose a single header <q>Example</q> to place all of this under.</span>
 
 <figure id="query-vm-example" class="table" markdown="1">
 
@@ -71,6 +72,8 @@ In the following paragraphs, we explain the offset convergence loop of the algor
 | ------------|---|---|---|---|---|---|
 | *Deletions* |   | B |   | D | E |   |
 | Positions   |   | 0 |   | 1 | 2 |   |
+
+<span class="comment" data-author="RV">I don't get the emphasis in the table</span>
 
 <figcaption markdown="block">
 Simplified storage contents example where triples are represented as a single letter.
@@ -126,14 +129,14 @@ Version Materialization count estimation algorithm for triple patterns in a give
 </figcaption>
 </figure>
 
-#### Proof
+#### Correctness proof
 
 In this section, we prove that the result of [](#algorithm-querying-vm) 
 is a stream that correctly returns all triples for the given version, 
 starting at the given offset.
 
 ##### _Algorithm description_
-The first steps of the algorithm are initalization:
+The first steps of the algorithm are initialization:
 <ul>
 <li markdown="1">
 `snapshot`: the stream of triples from the snapshot on which the given version is based,
@@ -156,6 +159,7 @@ except those present in the given deletions stream.
 Afterwards all elements from the additions stream are appended.
 
 ##### _Proof_
+<span class="comment" data-author="RV">Weird sectioning to have a proof section in a proof section.</span>
 If the given version is equal to the snapshot version the result is `snapshot`,
 for the rest of the proof we assume the given version differs from the snapshot version.
 
@@ -165,7 +169,7 @@ There are 2 possible cases for the starting triple of the output stream:
 <li>the triple is part of the additions stream.</li>
 </ol>
 
-A triple is in the first case if its index is smaller than `|snapshot|` - `|deletions|`,
+A triple is in the first case if its index is smaller than `|snapshot|` − `|deletions|`,
 and in the second situation if its index is equal or larger.
 These 2 cases also correspond to the main `if`-statement in the algorithm.
 
@@ -231,12 +235,12 @@ are also counted.
 For example, for querying within version 1 and 4, if triple A was added in version 2 but removed again in version 3,
 it should not be included in the delta triple count with respect to version range `[1,4]`.
 But according to our algorithm, this triple will be included twice in our counting, once as an addition and once as a deletion.
-Our count in this case will at least be two too high.
+Our count in this case will at least be 2 too much.
 For exact counting, this number of negated triples should be subtracted.
 
 ### Version Query
 
-For the final query atom, version querying, we have to retrieve all triples across all versions,
+For version querying, the final query atom, we have to retrieve all triples across all versions,
 annotated with the versions in which they exist.
 In this work, we again focus on version queries for a single snapshot and delta chain.
 For multiple snapshots and delta chains, the following algorithms should simply be applied once for each snapshot and delta chain.

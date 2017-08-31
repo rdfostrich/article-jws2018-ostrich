@@ -2,17 +2,15 @@
 {:#storage}
 
 In this section, we introduce a storage approach for storing multiple versions of an RDF dataset.
-We focus on <del class="comment">the part of</del> answering our research question on how to efficiently store and query RDF archives, as introduced in [](#introduction).
-<span class="comment" data-author="RV">what other parts are there then?</span>
+We focus on the aspect of our research question on how to efficiently store and query RDF archives, as introduced in [](#introduction).
+In section [](#querying), we focus on the querying aspect.
 
-In order to handle VM, DM and VQ queries efficiently, our storage solution is a hybrid IC/CB/TB triple store, as introduced in last section.
-<span class="comment" data-author="RV">But that exact term wasn't mentioned, was it?</span>
-In summary, our approach consists of an initial dataset snapshot followed by a delta chain ([TailR](cite:cites tailr)),
-where this chain is compressed in B+Trees for TB-storage ([Dydra](cite:cites dydra)).
-Furthermore, we store additional metadata for improving lookup times ([HDT](cite:cites hdt)).
-Triple components are encoded in a dictionary for improved compression ([HDT](cite:cites hdt))
-and we provide multiple indexes for different triple component orders ([RDF-3X](cite:cites rdf3x), [Hexastore](cite:cites hexastore)).
-<span class="comment" data-author="RV">What do the tool names in parentheses mean? Do you mean to write <q>as in TailR</q>? I like the refs, but the exact nature of the relationship should be clear.</span>
+In order to handle VM, DM and VQ queries efficiently, our storage solution is a hybrid IC/CB/TB triple store, as explained in last section.
+In summary, our approach consists of an initial dataset snapshot followed by a delta chain (as in [TailR](cite:cites tailr)),
+where this chain is compressed in B+Trees for TB-storage (as in [Dydra](cite:cites dydra)).
+Furthermore, we store additional metadata for improving lookup times (as in [HDT](cite:cites hdt)).
+Triple components are encoded in a dictionary for improved compression (as in [HDT](cite:cites hdt))
+and we provide multiple indexes for different triple component orders (as in [RDF-3X](cite:cites rdf3x) and [Hexastore](cite:cites hexastore)).
 [](#storage-overview) shows an overview of these main components, which will be explained in more detail in the following sections.
 We end this section with a description of two ingestion algorithms for this storage approach:
 one batch algorithm, which requires loading the versions in-memory,
@@ -20,16 +18,12 @@ and one memory-efficient streaming algorithm, which inserts the versions in smal
 
 <figure id="storage-overview">
 <img src="img/storage-overview.svg" alt="[storage overview]">
-<span class="comment" data-author="RV">Excellent fig, just not clear where the metadata and addition counts belong. Are they stored together with the HDT? You might want to put a circle or so around them. Put the addition counts closest to where they belong.</span>
 <figcaption markdown="block">
-The initial version of an RDF archive is stored as a _fully materialized snapshot_, for example using the HDT format.
-<span class="comment" data-author="RV"><q>initial</q> as in <q>only the very first version</q>, or every once in a while?</span>
-Each following version is stored as a _delta_ relative to the initial snapshot.
+First, metadata about the complete archive is stored, containing information such as the total number of available versions.
+Furthermore, the very first version of a delta chain is stored as a _fully materialized snapshot_, for example using the HDT format.
+Each following version in the chain is stored as a _delta_ relative to the initial snapshot.
 All delta's are compressed in _addition and deletion trees_, where a _dictionary_ is used to compress triple components.
-Furthermore, we store the _counts_ for certain triple pattern queries over _additions_.
-<span class="comment" data-author="RV">so per version then?</span>
-Finally, metadata about the complete archive is stored, containing information such as the total number of available versions.
-<span class="comment" data-author="RV">so not per version then? might want to place this earlier, before you start about the deltas</span>
+Finally, we store the _counts_ for certain triple pattern queries over _additions_ for each version.
 </figcaption>
 </figure>
 
@@ -43,14 +37,12 @@ we assume the following requirements for the snapshot storage:
 - Any triple pattern query _must_ be resolvable as triple streams.
 - Offsets _must_ be applicable to the result stream of any triple pattern query.
 - All triple components _must_ be dictionary-encoded.
-- Cardinality estimates for all triple pattern queries _must_ be resolvable.
-
-<span class="comment" data-author="RV">what is <q>resolvable</q>?</span>
+- Cardinality estimation for all triple pattern queries _must_ be possible.
 
 These requirements are needed for ensuring the efficiency of the querying algorithms that will be introduced in [](#querying).
 Providing an implementation for a snapshot store is out of scope for this work,
 but existing techniques such as [HDT](cite:cites hdt) fulfill all these requirements.
-<span class="comment" data-author="RV"><q>As such, HDT is also what we will use in…</q></span>
+As such, HDT will be used in our implementation, which will be explained further in [](#implementation).
 
 ### Delta Storage
 {:#delta-storage}
@@ -58,7 +50,8 @@ but existing techniques such as [HDT](cite:cites hdt) fulfill all these requirem
 In order to cope with the newly introduced redundancies in our delta chain structure,
 we introduce a delta storage method similar to the TB storage strategy,
 which is able to compress redundancies within consecutive deltas.
-<span class="comment" data-author="RV">similar, but how (and why) different?</span>
+Instead of storing timestamped triples, as is done in a regular TB approach,
+we store timestamped triples annotated with addition or deletion.
 
 The additions and deletions of deltas require different metadata in our querying algorithms,
 which will be explained in [](#querying).
@@ -169,10 +162,6 @@ they don't contain impossible triple sequences such as a triple that is removed 
 During ingestion, they will be transformed to the alternative delta chain structure as shown in [](#alternative-delta-chain).
 <span class="comment" data-author="RV">I think we should explain the necessity of such an ingestion algorithm. I.e., we could do it naively, just always delta with the snapshot, but this is better.</span>
 Within the scope of this article, we only discuss ingestion of deltas in a single delta chain following a snapshot.
-<del class="comment" data-author="RV">
-The creation of snapshots at the start of each new chain and determining suitable moments to create a snapshot instead of a delta
-is considered as future work.
-</del>
 
 Next to ingesting the added and removed triples,
 an ingestion algorithm for our storage approach must be able to calculate
@@ -211,8 +200,8 @@ In-memory changeset merging algorithm
 </figcaption>
 </figure>
 
-Secondly, we also introduce an algorithm for incrementally calculating the position of a deletion within a changeset in [](#algorithm-positions).
-<span class="comment" data-author="RV">say why</span>
+Because our querying algorithms require the position of each deletion within a changeset,
+we introduce an algorithm for incrementally calculating this position in [](#algorithm-positions).
 For this, we externally maintain mappings from triple to a counter for each possible triple pattern.
 For the `???` triple pattern, we only have to maintain a single counter, as each triple will match with this.
 In total, we maintain seven triple patterns per triple, we don't maintain a counter for the triple itself as its value is always 1.
@@ -268,23 +257,20 @@ with as additional requirement on the stream that its contents must be sorted in
 This is so that the algorithm can assume a consistent order and act as a sort-merge join operation.
 
 In summary, the algorithm performs a sort-merge join over three streams in SPO-order:
-<span class="comment" data-author="RV">not well readable with all the parentheses</span>
-<span class="comment" data-author="RV">can't we just use a word for each of these letters, so that the expression also become more readable?</span>
-1) the input changeset (N)
-2) the existing deletions (D) over all versions
-and 3) the existing additions (A) over all versions.
+1) the stream of _input_ changeset elements
+2) the existing _deletions_ over all versions
+and 3) the existing _additions_ over all versions.
 The algorithm iterates over all streams together, until all of them are finished.
 The smallest triple over all stream heads is handled in each iteration,
 and can be categorized in seven different cases:
-<ol>
-    <li>D &lt; N and D &lt; A</li>
-    <li>A &lt; N and A &lt; D</li>
-    <li>N &lt; A and N &lt; D</li>
-    <li>N == D and N &lt; A</li>
-    <li>N == A and N &lt; D</li>
-    <li>A == D and A &lt; N</li>
-    <li>A == D == N</li>
-</ol>
+
+1. deletion < input _and_ deletion < addition
+2. addition < input _and_ addition < deletion
+3. input < addition _and_ input < deletion
+4. input == deletion _and_ input < addition
+5. input == addition _and_ input < deletion
+6. addition == deletion _and_ addition < input
+7. addition == deletion == input
 
 The two first cases are the simplest ones, in which the current deletion and addition are respectively the smallest.
 For these cases, the unchanged deletion and addition information can respectively be copied to the new version.

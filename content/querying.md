@@ -59,21 +59,20 @@ Version Materialization algorithm for triple patterns that produces a triple str
 </figcaption>
 </figure>
 
+#### Example
+
 We can use the deletion's position in the delta as offset in the snapshot
 because this position represents the number of deletions that came before that triple inside the snapshot given a consistent triple order.
 [](#query-vm-example) shows simplified storage contents where triples are represented as a single letter,
 and there is only a single snapshot and delta.
 In the following paragraphs, we explain the offset convergence loop of the algorithm in function of this data for different offsets.
-<span class="comment" data-author="RV">Wait, are we discussing a specific example or in general? I'm lost structurally. If this is what I think it is, I propose a single header <q>Example</q> to place all of this under.</span>
 
 <figure id="query-vm-example" class="table" markdown="1">
 
-| *Snapshot*  | A | B | C | D | E | F |
+| Snapshot    | A | B | C | D | E | F |
 | ------------|---|---|---|---|---|---|
-| *Deletions* |   | B |   | D | E |   |
+| Deletions   |   | B |   | D | E |   |
 | Positions   |   | 0 |   | 1 | 2 |   |
-
-<span class="comment" data-author="RV">I don't get the emphasis in the table</span>
 
 <figcaption markdown="block">
 Simplified storage contents example where triples are represented as a single letter.
@@ -82,13 +81,13 @@ Each deletion is annotated with its position.
 </figcaption>
 </figure>
 
-#### Offset 0
+##### _Offset 0_
 For offset zero, the snapshot is first queried for this offset,
 which results in a stream starting from `A`.
 Next, the deletions are queried with offset `A`, which results in no match,
 so the final snapshot stream starts from `A`.
 
-#### Offset 1
+##### _Offset 1_
 For an offset of one, the snapshot stream initially starts from `B`.
 After that, the deletions stream is offset to `B`, which results in a match.
 The original offset (1), is increased with the position of `B` (0) and the constant 1,
@@ -100,7 +99,7 @@ We offset the deletions stream to `C`, which again results in `B`.
 As this offset results in the same snapshot offset,
 we stop iterating and use the snapshot stream with offset 2 starting from `C`.
 
-#### Offset 2
+##### _Offset 2_
 For offset 2, the snapshot stream initially starts from `C`.
 After querying the deletions stream, we find `B`, with position 0.
 We update the snapshot offset to 2 + 0 + 1 = 3,
@@ -129,7 +128,7 @@ Version Materialization count estimation algorithm for triple patterns in a give
 </figcaption>
 </figure>
 
-#### Correctness proof
+#### Correctness
 
 In this section, we prove that the result of [](#algorithm-querying-vm) 
 is a stream that correctly returns all triples for the given version, 
@@ -159,7 +158,6 @@ except those present in the given deletions stream.
 Afterwards all elements from the additions stream are appended.
 
 ##### _Proof_
-<span class="comment" data-author="RV">Weird sectioning to have a proof section in a proof section.</span>
 If the given version is equal to the snapshot version the result is `snapshot`,
 for the rest of the proof we assume the given version differs from the snapshot version.
 

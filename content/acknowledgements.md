@@ -1,8 +1,9 @@
 ## Acknowledgements
 {:#acknowledgements}
 
-First, we would like to thank Christophe Billiet for providing his insights into temporal databases.
-Secondly, we thank Giorgos Flouris for his comments on the structure and contents of this article.
-Finally, we thank Javier D. Fernández for his help in setting up and running the BEAR benchmark.
+We would like to thank Christophe Billiet for providing his insights into temporal databases.
+We thank Giorgos Flouris for his comments on the structure and contents of this article,
+and Javier D. Fernández for his help in setting up and running the BEAR benchmark.
 The described research activities were funded by Ghent University, imec,
 Flanders Innovation & Entrepreneurship (AIO), and the European Union.
+Ruben Verborgh is a postdoctoral fellow of the Research Foundation -- Flanders.

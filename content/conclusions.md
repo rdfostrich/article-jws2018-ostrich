@@ -1,7 +1,7 @@
 ## Conclusions
 {:#conclusions}
 
-In this article, we introduced a RDF archive storage method with accompanied algorithms for evaluating VM, DM and VQ queries.
+In this article, we introduced a RDF archive storage method with accompanied algorithms for evaluating VM, DM and, VQ queries.
 Our storage technique is a hybrid of the IC/CB/TB approaches, because we store sequences of snapshots followed by delta chains.
 Our current implementation does however only support a single snapshot and delta chain.
 These delta chains are stored together in a timestamp-based tree.
@@ -38,3 +38,7 @@ Furthermore, branching and merging of different version chains can be investigat
 Our approach succeeds in reducing the cost for publishing RDF archives on the Web.
 This lowers the barrier towards intelligent clients in the [Semantic Web](cite:cites semanticweb) that require with *evolving* data,
 with the goal of time-sensitive querying over the ever-evolving Web of data.
+
+<span class="comment" data-author="RV">I'm missing the connection with the hypotheses, especially with all the rejects. For which cases is this good? How to consider whether or not to use this?</span>
+
+<span class="comment" data-author="RV">Future work should be added somewhere, as you do have a plan.</span>

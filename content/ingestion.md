@@ -1,7 +1,7 @@
 ## Ingestion
 {:#ingestion}
 
-In the following two subsections, we discuss an in-memory batch and a streaming ingestion algorithm.
+In this section, we discuss an in-memory batch and a streaming ingestion algorithm.
 These algorithms both take a changeset—containing additions and deletions—as input,
 and ingest it to the store as a new version.
 Note that the ingested changesets are regular changesets: they are relative to one another according to [](#regular-delta-chain).
@@ -22,7 +22,7 @@ More specifically, an ingestion algorithm has the following requirements:
     <li>Deletions must be annotated with their position for all triple patterns</li>
 </ul>
 
-#### Batch Ingestion
+### Batch Ingestion
 {:#batch-ingestion}
 
 Our first algorithm to ingest data into the store naively loads everything in memory,
@@ -95,7 +95,7 @@ The theoretical time complexity of this algorithm is `O(P + N)`,
 with `P` the number of triples in the previous changeset,
 and `N` the number of triples in the new changeset.
 
-#### Streaming Ingestion
+### Streaming Ingestion
 {:#streaming-ingestion}
 
 Because of the unbounded memory requirements of the [batch ingestion algorithm](#batch-ingestion),

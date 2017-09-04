@@ -4,6 +4,9 @@
 {:.todo}
 What is the problem exactly? This is not clear. I think it might be efficiently supporting TPF. All the info is somehow in here, but it needs a clearer flow.
 
+The primary goal of this work is to reach an RDF archiving solution that allows efficient querying
+so that it can be used as a storage method behind a low-cost Triple Pattern Fragments interface
+for publishing versioned datasets on the Web.
 In [previous work](cite:cites tpfarchives), we discussed the requirements for enabling queries over RDF archives using the TPF framework
 for VM, DM and VQ queries, with the aim of reaching low-cost RDF archive publication. These requirements are:
 

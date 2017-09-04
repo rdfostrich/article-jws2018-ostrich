@@ -40,17 +40,14 @@ The following requirements can be identified in this research question:
 - VM, DM and VQ triple pattern querying algorithms on top of this storage technique;
 - efficient offsetting of the VM, DM, and VQ query result streams.
 
-{:.todo}
-hypotheses contain unknown terms (evaluation efficiency, independent, ...) or invalid constructs ("faster or equally fast")
-
 In this work, we introduce solutions to each of these parts in order to come up with an answer to our research question.
 To this end, we introduce the following hypotheses:
 
 1. {:#hypothesis-qualitative-querying}
-The evaluation efficiency of VM and DM triple pattern queries is independent of the selected versions.
+The selected versions have no influence on the querying efficiency of VM and DM triple pattern queries in our approach.
 2. {:#hypothesis-qualitative-ic}
-Our approach requires *less* storage space than IC-based approaches, but query evaluation is *slower* for VM and *faster* or *equally fast* for DM and VQ.
+Our approach requires *less* storage space than IC-based approaches, but querying is *slower* for VM and *equal* or *faster* for DM and VQ.
 3. {:#hypothesis-qualitative-cb}
-Our approach requires *more* storage space than CB-based approaches, but query evaluation is *faster* or *equally fast*.
+Our approach requires *more* storage space than CB-based approaches, but querying is *equal* or *faster*.
 4. {:#hypothesis-qualitative-ingestion}
-Average query evaluation times are lower than other non-IC approaches, at the cost of increased ingestion time.
+Average query times are lower than other non-IC approaches, at the cost of increased ingestion time.

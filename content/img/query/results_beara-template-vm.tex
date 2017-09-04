@@ -5,7 +5,7 @@
 \begin{document}
 \pagestyle{empty}
 \begin{tikzpicture}
-    \begin{semilogyaxis}[queryplot]
+    \begin{semilogyaxis}[queryplot,every axis legend/.append style={at={(0.6,1.1)},anchor=north}]
         
         \addplot[ostrich] table [x=patch, y=lookup-mus-inf, col sep=comma] {data/beara/query/ostrich/\query/_median_\storage.csv};
         

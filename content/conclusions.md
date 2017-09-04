@@ -39,6 +39,4 @@ Our approach succeeds in reducing the cost for publishing RDF archives on the We
 This lowers the barrier towards intelligent clients in the [Semantic Web](cite:cites semanticweb) that require with *evolving* data,
 with the goal of time-sensitive querying over the ever-evolving Web of data.
 
-<span class="comment" data-author="RV">I'm missing the connection with the hypotheses, especially with all the rejects. For which cases is this good? How to consider whether or not to use this?</span>
-
 <span class="comment" data-author="RV">Future work should be added somewhere, as you do have a plan.</span>

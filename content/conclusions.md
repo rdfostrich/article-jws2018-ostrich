@@ -38,5 +38,3 @@ Furthermore, branching and merging of different version chains can be investigat
 Our approach succeeds in reducing the cost for publishing RDF archives on the Web.
 This lowers the barrier towards intelligent clients in the [Semantic Web](cite:cites semanticweb) that require with *evolving* data,
 with the goal of time-sensitive querying over the ever-evolving Web of data.
-
-<span class="comment" data-author="RV">Future work should be added somewhere, as you do have a plan.</span>

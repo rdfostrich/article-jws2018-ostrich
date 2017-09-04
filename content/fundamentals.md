@@ -83,11 +83,9 @@ Overview of which triple patterns can be queried inside which index to optimally
 </figcaption>
 </figure>
 
-{:.todo}
-Miel either doesn't get the paragraph below or its relevancy.
-
-If RDF archive storage is the only concern, and querying is not a requirement,
-then only a single index would be sufficient.
+This approach could also act as a pure RDF archiving solution,
+without (necessarily efficient) querying capabilities,
+in which case only a single index would be required.
 By storing only one index, such as `SPO`, the required storage space could be further reduced.
 If querying would become required afterwards,
 the auxiliary `OSP` and `POS` indexes could still be derived from this main index

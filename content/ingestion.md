@@ -1,5 +1,5 @@
 ## Ingestion
-{:#ingestion}
+{:#ingestions}
 
 In this section, we discuss an in-memory batch and a streaming ingestion algorithm.
 These algorithms both take a changeset—containing additions and deletions—as input,

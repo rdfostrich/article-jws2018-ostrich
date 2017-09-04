@@ -48,6 +48,7 @@ this work introduces a storage technique with the following contributions:
 This article is structured as follows.
 In the next section, we start by introducing the related work in [](#related-work) and our problem statement in [](#problem-statement).
 Next, in [](#fundamentals), we introduce the basic concepts of our approach,
-followed by our storage approach in [](#storage) and the accompanied querying algorithms in [](#querying).
+followed by our storage approach in [](#storage), our ingestion algorithms in [](#ingestions),
+and the accompanied querying algorithms in [](#querying).
 After that, we present and discuss the evaluation of our implementation in [](#evaluation).
 Finally, we present our conclusions in [](#conclusions).

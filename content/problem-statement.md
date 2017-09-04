@@ -1,43 +1,25 @@
 ## Problem statement
 {:#problem-statement}
 
-{:.todo}
-What is the problem exactly? This is not clear. I think it might be efficiently supporting TPF. All the info is somehow in here, but it needs a clearer flow.
-
-The primary goal of this work is to reach an RDF archiving solution that allows efficient querying
-so that it can be used as a storage method behind a low-cost Triple Pattern Fragments interface
-for publishing versioned datasets on the Web.
-In [previous work](cite:cites tpfarchives), we discussed the requirements for enabling queries over RDF archives using the TPF framework
-for VM, DM and VQ queries, with the aim of reaching low-cost RDF archive publication. These requirements are:
-
-1. a feature that extends the [TPF interface](cito:citesAsAuthority ldf) with versioning query types;
-2. a storage solution supporting these query types;
-3. a TPF client that is able to consume the versioning feature.
-
-The first task was handled through the introduction of [VTPF](cite:cites vtpf),
-which is an interface feature for enabling queryable access to RDF archives through VM, DM and VQ triple pattern queries.
-The third task is already partially solved by VTPF, as it is designed in such a way that each version of the dataset
-is exposed through a separate virtual TPF interface, which allows existing TPF clients to target each version as a separate datasource.
-
-In this article,
-we focus on storing and evaluating version materialization (VM), delta materialization (DM), and version (VQ) queries efficiently,
-as CV and CM queries can be expressed in [terms of the other ones](cite:cites tpfarchives).
-As the publication cost for these archives must be as low as possible,
-we focus on lowering query evaluation times by processing and storing more metadata during ingestion time.
-That is because this processing then happens only once per version, instead of every time during lookup.
-
-Additionally, as the TPF interface returns triple pattern query results in a _paginated_ way, query results within our store should also be pageable.
-This can be achieved by considering the query results as a pull-based stream that can be started at any given offset,
-and limited when sufficient elements have been consumed.
+As mentioned in [](#introduction), no RDF archiving solutions exist that allow
+efficient triple pattern querying _at_, _between_, and _for_ different versions,
+in combination with a scalable _storage model_ and efficient _compression_.
+In the context of query engines streams are typically used to return query results,
+on which offsets and limits can be applied to reduce processing time if only a subset is needed.
+As such, RDF archiving solutions should also allow query results to be returned as offsettable streams.
 The ability to achieve such stream subsets is limited in existing solutions.
-Furthermore, the advantage of pull-based streams is that for large amounts of query results,
-not every triple should necessarily be kept in memory,
-because each resulting element can be consumed and processed by a consumer on-demand.
 
 This leads us to the following research question:
 <q id="research-question">How can we store RDF archives to enable efficient VM, DM and VQ triple pattern queries with offsets?</q>
 
-The following requirements can be identified in this research question:
+In summary, aim to lower query evaluation times by processing and storing more metadata during ingestion time.
+That is because this processing then happens only once per version, instead of every time during lookup.
+This will increase ingestion times, but will improve the efficiency of performance-critical features
+within query engines and Linked Data interfaces.
+We focus on evaluating version materialization (VM), delta materialization (DM), and version (VQ) queries efficiently,
+as CV and CM queries can be expressed in [terms of the other ones](cite:cites tpfarchives).
+
+The following requirements can be identified in our research question:
 
 - an efficient RDF archive storage technique;
 - VM, DM and VQ triple pattern querying algorithms on top of this storage technique;

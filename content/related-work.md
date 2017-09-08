@@ -53,7 +53,7 @@ but makes them unsuitable for cases where datasets change frequently.
 Its fast triple pattern queries and high compression rate make it
 an appropriate backend storage method for [TPF](cite:cites ldf) servers.
 Approaches like [LOD Laundromat](cite:cites lodlaundromat) combine HDT and TPF for hosting and publishing
-650K+ Linked Datasets containing 38M+ triples, proving its usefulness at large scale.
+650K+ Linked Datasets containing 38B+ triples, proving its usefulness at large scale.
 Because of these reasons, we will reuse HDT snapshots as part of our storage solution.
 
 ### RDF Archiving
@@ -61,7 +61,7 @@ Because of these reasons, we will reuse HDT snapshots as part of our storage sol
 
 Versioning is a popular area in many domains, such as software development.
 [Git](cite:cites git) is a distributed version control system, typically used in software development projects,
-which enables users to work of text documents independently, and synchronize their versions safely.
+which enables users to work on text documents independently, and synchronize their versions safely.
 Furthermore, it maintains a complete history of the documents by storing the *differences* between each version.
 Storing the differences, i.e. changesets/deltas, between each version instead of maintaining fully materialized snapshots of each version
 can significantly reduce the storage requirements for archives.
@@ -173,7 +173,7 @@ in particular for many versions.
 Within the delta chain, however, an increase in version reconstruction times can still be observed.
 Furthermore, it requires more storage space than pure delta-based approaches.
 
-The authors' implementation is based on a relation database system.
+The authors' implementation is based on a relational database system.
 Evaluation shows that resource lookup times for any version ranges between
 1 and 50 ms for 10 versions containing around 500K triples.
 In total, these versions require ~64MB of storage space.
@@ -270,7 +270,7 @@ Example: _At what times was book X returned or taken from the library?_
 There exists a correspondence between these query atoms
 and the independent copies (IC), change-based (CB), and timestamp-based (TB) storage strategies.
 
-Namely, VM queries are efficient in storage solutions that based on IC, because there is indexing on version.
+Namely, VM queries are efficient in storage solutions that are based on IC, because there is indexing on version.
 On the other hand, IC-based solutions may introduce a lot of overhead in terms of storage space because each version is stored separately.
 Furthermore, DM and VQ queries are less efficient for IC solutions.
 That is because DM queries require two fully-materialized versions to be compared on-the-fly,
@@ -286,4 +286,4 @@ VM and DM queries in this case are typically less efficient than for IC approach
 Furthermore, TB solutions can require less storage space compared to VM if the change ratio of the dataset is not too large.
 
 In summary, IC, CB and TB approaches can perform well for certain query types, but they can be slow for others.
-On the other hand, this efficiency typically comes at the cost of large storage overhead, as is the case for IC-based approaches.
+On the other hand, this efficiency typically comes at the cost of a large storage overhead, as is the case for IC-based approaches.

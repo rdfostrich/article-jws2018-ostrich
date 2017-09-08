@@ -6,9 +6,9 @@ In this section, we introduce our hybrid IC/CB/TB storage approach for storing m
 Our approach consists of an initial dataset snapshot---stored in [HDT](cite:cites hdt)---followed by a delta chain [](cite:cites tailr).
 The delta chain uses multiple compressed B+Trees for a TB-storage strategy [](cite:cites dydra),
 applies dictionary-encoding to triples, and
-stores additional metadata to improve lookup times [](cite:cites hdt),
-We discuss each component in more detail,
-and describe two ingestion algorithms: a memory-intensive batch algorithm and a memory-efficient streaming algorithm.
+stores additional metadata to improve lookup times [](cite:cites hdt).
+In this section, we discuss each component in more detail.
+In the next section, we describe two ingestion algorithms based on this storage structure.
 
 <figure id="storage-overview">
 <img src="img/storage-overview.svg" alt="[storage overview]">
@@ -24,7 +24,7 @@ Finally, we store the _counts_ for certain triple pattern queries over _addition
 ### Snapshot storage
 {:#snapshot-storage}
 
-As mention before, the start of each delta chain is a fully materialized snapshot.
+As mentioned before, the start of each delta chain is a fully materialized snapshot.
 In order to provide sufficient efficiency for VM, DM and VQ querying with respect to all versions in the chain,
 we assume the following requirements for the snapshot storage:
 
@@ -44,7 +44,7 @@ As such, HDT will be used in our implementation, which will be explained further
 In order to cope with the newly introduced redundancies in our delta chain structure,
 we introduce a delta storage method similar to the TB storage strategy,
 which is able to compress redundancies within consecutive deltas.
-Instead of storing timestamped triples, as is done in a regular TB approach,
+Instead of storing plain timestamped triples, as is done in a regular TB approach,
 we store timestamped triples annotated with addition or deletion.
 
 The additions and deletions of deltas require different metadata in our querying algorithms,
@@ -64,7 +64,7 @@ A triple is a local change in a certain version if it was already either added o
 This local change information helps the querying algorithm to determine when to ignore a triple or not.
 
 The relative position of each triple inside the delta to the deletion trees speeds up the process of patching a snapshot's triple pattern subset for any given offset.
-This position information has two purposes:
+This position information serves two purposes:
 1) it allows the querying algorithm to exploit offset capabilities of the snapshot store
 to resolve offsets for any triple pattern against any version;
 and 2) it allows deletion counts for any triple pattern and version to be determined efficiently.
@@ -74,7 +74,7 @@ The use of the relative position and the local change flag will be further expla
 ### Delta Chain Dictionary
 {:#dictionary}
 
-A common technique in [RDF indexes](cite:cites hdt,rdf3x,triplebit) is using a dictionary for mapping triple components to numerical IDs.
+A common technique in [RDF indexes](cite:cites hdt,rdf3x,triplebit) is to use a dictionary for mapping triple components to numerical IDs.
 This is done for three main reasons:
 1) reduce storage space if triple components are stored multiple times;
 2) reducing I/O overhead when retrieving data;
@@ -118,7 +118,7 @@ The count threshold introduces a trade-off between the storage requirements and 
 
 As mentioned in [](#delta-storage), each deletion is annotated with its relative position in all deletions for that version.
 This position is exploited to perform deletion counting for any triple pattern and version.
-We lookup the largest possible triple for the given triple pattern in the deletions tree,
+We look up the largest possible triple for the given triple pattern in the deletions tree,
 which can be done in logarithmic time.
 If this doesn't result in a match, we follow backward links to the elements before that one in the tree.
 In this value, the position of the deletion in all deletions for the given value is available.

@@ -1,7 +1,7 @@
 ## Ingestion
 {:#ingestions}
 
-In this section, we discuss an in-memory batch and a streaming ingestion algorithm.
+In this section, we discuss two ingestion algorithms: a memory-intensive batch algorithm and a memory-efficient streaming algorithm.
 These algorithms both take a changeset—containing additions and deletions—as input,
 and ingest it to the store as a new version.
 Note that the ingested changesets are regular changesets: they are relative to one another according to [](#regular-delta-chain).

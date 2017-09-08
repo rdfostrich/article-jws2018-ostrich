@@ -28,7 +28,7 @@ efficient *compression*, and *indexing methods* that should enable expressive ve
 The performance of existing solutions in each of these areas is limited and should be improved.
 
 In this article,
-we argue that, due to their combined complexity, supporting both RDF archiving and SPARQL at once is difficult to scale.
+we argue that supporting both RDF archiving and SPARQL at once is, due to their combined complexity, difficult to scale.
 Instead, we propose an elementary, but efficient versioned _triple pattern_ index---the basic element of SPARQL---that query engines can use.
 In addition, we focus on the performance-critical features of supporting  _stream-based results_ and query _offset_.
 Stream-based results allow more memory-efficient processing when query results are large.
@@ -40,7 +40,7 @@ or [datetime content-negotiation](cite:cites mementoldf) using [Memento](cite:ci
 Concretely,
 this work introduces a storage technique with the following contributions:
 
-- a scalable versioned compressed RDF index with offset support and result streaming;
+- a scalable versioned and compressed RDF index with offset support and result streaming;
 - efficient query algorithms to evaluate triple pattern queries *at*, *between*, and *for* different versions;
 - an open-source implementation of this approach called OSTRICH;
 - an extensive evaluation of OSTRICH compared to other approaches using an existing RDF archiving benchmark.

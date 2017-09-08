@@ -52,7 +52,7 @@ we introduce an algorithm for incrementally calculating this position in [](#alg
 For this, we externally maintain mappings from triple to a counter for each possible triple pattern.
 For the `???` triple pattern, we only have to maintain a single counter, as each triple will match with this.
 In total, we maintain seven triple patterns per triple, we don't maintain a counter for the triple itself as its value is always 1.
-For a given triple, the position of all its possible triple patterns are incremented in the counters.
+For a given triple, the positions of all its possible triple patterns are incremented in the counters.
 The current counter values for all those triple patterns are returned.
 
 <figure id="algorithm-positions" class="algorithm">

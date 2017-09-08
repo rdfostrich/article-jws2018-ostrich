@@ -5,7 +5,7 @@ most attention is typically directed to their latest version.
 Nevertheless, useful information is present in or between previous versions.
 <!-- Need         -->
 In order to exploit this historical information in dataset analysis,
-we need to maintain history in RDF archives.
+we can maintain history in RDF archives.
 Existing approaches either require a lot of storage space,
 or they expose an insufficiently expressive or efficient interface
 with respect to querying demands.

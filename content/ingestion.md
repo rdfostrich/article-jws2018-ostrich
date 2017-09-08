@@ -8,7 +8,6 @@ Note that the ingested changesets are regular changesets: they are relative to o
 Furthermore, we assume that the ingested changesets are valid changesets:
 they don't contain impossible triple sequences such as a triple that is removed in two versions without having an addition in between.
 During ingestion, they will be transformed to the alternative delta chain structure as shown in [](#alternative-delta-chain).
-<span class="comment" data-author="RV">I think we should explain the necessity of such an ingestion algorithm. I.e., we could do it naively, just always delta with the snapshot, but this is better.</span>
 Within the scope of this article, we only discuss ingestion of deltas in a single delta chain following a snapshot.
 
 Next to ingesting the added and removed triples,

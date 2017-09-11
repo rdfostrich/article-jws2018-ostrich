@@ -17,9 +17,9 @@ OSTRICH uses [HDT](cite:cites hdt) as snapshot technology as it conforms to all 
 Furthermore, for our indexes we use [Kyoto Cabinet](http://fallabs.com/kyotocabinet/){:.mandatory},
 which provides a highly efficient memory-mapped B+Tree implementation with compression support.
 OSTRICH immediately generates the main `SPO` index and the auxiliary `OSP` and `POS` indexes.
-In future work, OSTRICH can easily be modified to only generate the main index and delay auxiliary index generation to a later stage.
+In future work, OSTRICH can be modified to only generate the main index and delay auxiliary index generation to a later stage.
 Memory-mapping is required so that not all data must be loaded in-memory when queries are evaluated,
-which would not always possible for large datasets.
+which would not always be possible for large datasets.
 For our delta dictionary, we extend HDT's dictionary implementation with adjustments to make it work with unsorted triple components.
 We compress this delta dictionary with [gzip](http://www.gzip.org/).
 Finally, for storing our addition counts, we use the Hash Database of Kyoto Cabinet, which is also memory-mapped.
@@ -36,14 +36,14 @@ containing a dataset with 30M triples in 10 versions using [TPF](cite:cites ldf)
 
 As mentioned before in [](#related-work-benchmarks), we evaluate our approach using the BEAR benchmark.
 We modified the existing BEAR implementation slightly to allow offsets to be evaluated,
-this modified implementation is available on [GitHub](https://github.com/rdfostrich/BEAR/tree/ostrich-eval-journal){:.mandatory}.
+this modified implementation is available on [GitHub](https://github.com/rdfostrich/bear/tree/ostrich-eval-journal){:.mandatory}.
 To test the scalability of our approach for datasets with few and large versions, we use the BEAR-A benchmark.
 We use the ten first versions of the BEAR-A dataset, which contains an average of 17M triples per version.
 This dataset was compiled from the [Dynamic Linked Data Observatory](http://swse.deri.org/dyldo/).
 To test for datasets with many smaller versions, we use BEAR-B with the daily and hourly granularities.
 The daily dataset contains 89 versions and the hourly dataset contains 1,299 versions,
 both of them have around 48K triples per version.
-Due to larger OSTRICH ingestion times, we did not evaluate BEAR-B-instant that has 21,046 versions.
+Due to higher OSTRICH ingestion times, we did not evaluate BEAR-B-instant that has 21,046 versions.
 Our experiments were executed on a 64-bit
 Ubuntu 14.04 machine with 128 GB of memory and a
 24-core 2.40 GHz CPU.
@@ -86,8 +86,8 @@ Tables [4](#results-ingestion-bear-a), [5](#results-ingestion-bear-b-daily) and 
 show the ingestion times and storage requirements for the different approaches for the three different benchmarks.
 OSTRICH-reduced shows the results without the auxiliary `OSP` and `POS` indexes.
 These results have been derived from the ingestion into a regular OSTRICH store,
-so ingestion time is not not explicitly measured, only storage size.
-For BEAR-A, the HDT-based approaches outperform OSTRICH both in terms of ingestion time.
+so ingestion time is not explicitly measured, only storage size.
+For BEAR-A, the HDT-based approaches outperform OSTRICH in terms of ingestion time.
 Only HDT-CB requires less storage space.
 The Jena-based approaches ingest faster than OSTRICH, but require more storage space.
 For BEAR-B-daily, OSTRICH requires less storage space than all other approaches except for HDT-CB at the cost of slower ingestion.
@@ -197,7 +197,7 @@ and [](#results-ostrich-ingestion-size-bearb-hourly) shows its storage sizes.
 For BEAR-A, a linear trend for both ingestion duration and storage space for each consecutive version can observed.
 For BEAR-B-hourly, these slightly increase for larger versions.
 Furthermore, [](#results-ostrich-ingestion-rate-bearb-hourly) shows that the OSTRICH ingestion algorithm becomes slower around version 1,200,
-showing a limitation of our system when only a single snapshot is used.
+showing a limitation of our system when only a single snapshot is used. In future work, a new snapshot could be created _before_ this point is reached.
 
 <figure id="results-ostrich-ingestion-rate-beara">
 <img src="img/results-ostrich-ingestion-rate-beara.svg" alt="[bear-a ostrich ingestion rate]" height="150em">
@@ -344,10 +344,10 @@ In order to evaluate the offset capabilities of OSTRICH, we implemented custom o
 Only for VM queries in HDT-IC an efficient implementation (HDT-IC+) could be made because of HDT's native offset capabilities.
 In all other cases, naive offsets had to be implemented by iterating over the result stream
 until a number of elements equal to the desired offset were consumed.
-[](#results-offset-vm) shows that OSTRICH offsets remain below 1ms,
+[](#results-offset-vm) shows that OSTRICH offset evaluation remain below 1ms,
 while other approaches grow beyond that for larger offsets, except for HDT-IC+.
 HDT-CB, Jena-CB and Jena-CB/TB are not included in this and the following figures
-because they require full materialization before offsets can be applied, which is expensive.
+because they require full materialization before offsets can be applied, which is expensive and would therefore take a very long time to evaluate.
 For DM queries, all approaches have growing evaluating times for larger offsets, including OSTRICH.
 Finally, OSTRICH has VQ evaluation times that are approximately independent of the offset value,
 while other approaches again have growing evaluation times.
@@ -585,7 +585,7 @@ unless the number of versions is low.
 In this section, we accepted one of the four hypotheses.
 As these are statistical hypotheses, these do not necessarily indicate negative results of our approach.
 Instead, they allow us to provide general guidelines on where our approach can be used effectively, and where not.
-In summary, OSTRICH is in most cases relatively more efficient than other approaches for querying for datasets with a large number of versions.
+In summary, OSTRICH is in most cases more efficient than other approaches for querying for datasets with a large number of versions.
 This is not the case when only VM queries are required, in which case IC-based storage provides faster querying at the cost of more storage space.
 Next to that, the number of versions in an OSTRICH store does not significantly influence the query times.
 Furthermore, OSTRICH requires less storage space than IC-based approaches, and more than CB-based approaches.

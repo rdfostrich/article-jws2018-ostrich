@@ -78,12 +78,12 @@ An _RDF version_ <var>i</var> of an RDF archive is then defined as the set of al
 Systems for archiving Linked Open Data are categorized
 into [three non-orthogonal storage strategies](cite:cites archiving):
 
-- The **Independent copies (IC)** approach creates separate instantiations of datasets for
+- The **Independent Copies (IC)** approach creates separate instantiations of datasets for
 each change or set of changes.
-- The **Change-based (CB)** approach instead only stores changes (i.e. changesets) between versions.
-- The **Timestamp-based (TB)** approach stores the temporal validity of facts.
+- The **Change-Based (CB)** approach instead only stores changes (i.e. changesets) between versions.
+- The **Timestamp-Based (TB)** approach stores the temporal validity of facts.
 
-In the following, we discuss several existing RDF archiving systems, which use either pure IC, CB or TB, or hybrid IC/CB.
+In the following sections, we discuss several existing RDF archiving systems, which use either pure IC, CB or TB, or hybrid IC/CB.
 [](#rdf-archive-systems) shows an overview of the discussed systems.
 
 <figure id="rdf-archive-systems" class="table" markdown="1">
@@ -130,7 +130,7 @@ While aggregated deltas result in fast delta queries, they introduce much storag
 [R&WBase](cite:cites rwbase) is a CB versioning system that adds an additional versioning layer to existing quad-stores.
 It adds the functionality of tagging, branching and merging for datasets.
 The graph element is used to represent the additions and deletions of patches,
-which are respectively the even and uneven graph id's.
+which are respectively the even and uneven graph ids.
 Queries are resolved by looking at the highest even graph number of triples.
 
 Graube et. al. introduce [R43ples](cite:cites r43ples) which stores changesets as separate named graphs, making it a CB system.
@@ -214,7 +214,7 @@ for the IC, CB, and TB approaches, but also hybrid IC/CB and TB/CB approaches.
 The hybrid approaches are based on snapshots followed by delta chains, as implemented by [TailR](cite:cites tailr).
 Due to HDT not supporting quads, the TB and TB/CB approaches could not be implemented in the HDT baseline implementations.
 
-Results show that IC for both Jena and HDT requires more storage space than the raw compressed deltas for the three datasets.
+Results show that IC for both Jena and HDT requires more storage space than the compressed deltas for the three datasets.
 CB results in less storage space for both approaches for BEAR-A and BEAR-B, but not for BEAR-C because that dataset is so dynamic that
 the deltas require more storage space than they would in with IC.
 Jena-TB results in the least storage space of Jena-based approaches,

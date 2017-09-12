@@ -12,7 +12,7 @@ The ability to achieve such stream subsets is limited in existing solutions.
 This leads us to the following research question:
 <q id="research-question">How can we store RDF archives to enable efficient VM, DM and VQ triple pattern queries with offsets?</q>
 
-In summary, aim to lower query evaluation times by processing and storing more metadata during ingestion time.
+In summary, we aim to lower query evaluation times by processing and storing more metadata during ingestion time.
 That is because this processing then happens only once per version, instead of every time during lookup.
 This will increase ingestion times, but will improve the efficiency of performance-critical features
 within query engines and Linked Data interfaces, such as querying with offsets.

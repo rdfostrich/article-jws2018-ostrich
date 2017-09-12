@@ -17,7 +17,7 @@ OSTRICH uses [HDT](cite:cites hdt) as snapshot technology as it conforms to all 
 Furthermore, for our indexes we use [Kyoto Cabinet](http://fallabs.com/kyotocabinet/){:.mandatory},
 which provides a highly efficient memory-mapped B+Tree implementation with compression support.
 OSTRICH immediately generates the main `SPO` index and the auxiliary `OSP` and `POS` indexes.
-In future work, OSTRICH can be modified to only generate the main index and delay auxiliary index generation to a later stage.
+In future work, OSTRICH could be modified to only generate the main index and delay auxiliary index generation to a later stage.
 Memory-mapping is required so that not all data must be loaded in-memory when queries are evaluated,
 which would not always be possible for large datasets.
 For our delta dictionary, we extend HDT's dictionary implementation with adjustments to make it work with unsorted triple components.
@@ -383,7 +383,7 @@ In this section, we interpret and discuss the results from previous section.
 We discuss the ingestion, query evaluation, offset efficiency and test our hypotheses.
 
 #### Ingestion
-For all evaluated cases, OSTRICH is slower than all other approaches when ingesting new data.
+For all evaluated cases, OSTRICH requires more effort for ingesting new data than the other approaches.
 Furthermore, for each additional version in a dataset, the ingestion time increases.
 This is a direct consequence of our alternative delta chain method where all deltas are relative to a snapshot.
 That is the reason why when new deltas are inserted,
@@ -476,7 +476,7 @@ seeing whether or not OSTRICH would allow more efficient DM offsets by adjusting
 
 #### Hypotheses
 
-In [](#problem-statement), we introduced four hypothesis, which we will validate in this section based on our experimental results.
+In [](#problem-statement), we introduced four hypotheses, which we will validate in this section based on our experimental results.
 We will only consider the comparison between OSTRICH and HDT-based approaches,
 as OSTRICH outperforms the Jena-based approaches for all cases in terms of lookup times.
 These validations were done using R, for which the source code can be found on [GitHub](https://github.com/rdfostrich/ostrich-bear-results/){:.mandatory}.
@@ -548,7 +548,7 @@ In all cases OSTRICH requires more storage space than HDT-CB.
 For the query evaluation, we again compare the means in [](#hypo-test-3) using the same test.
 In BEAR-A, VQ queries in OSTRICH are not faster for BEAR-A, and VM queries in OSTRICH are not faster for BEAR-B-daily,
 which is why we *reject* Hypothesis 3.
-However, only 1 in the three query atoms are not fulfilled, and OSTRICH is faster than HDT-CB for BEAR-B-hourly.
+However, only one in three query atoms are not fulfilled, and OSTRICH is faster than HDT-CB for BEAR-B-hourly.
 In general, OSTRICH requires more storage space than CB-based approaches,
 and query evaluation is faster unless the number of versions is low.
 

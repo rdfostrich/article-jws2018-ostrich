@@ -3,7 +3,8 @@ mergeChangesets(changesetOriginal, changesetIngest) {
   changesetNew.addAll(changesetOriginal)
   for (triple : changesetIngest.getTriples()) {
     if (changesetOriginal.contains(triple)) {
-      changesetNew.setLocalChange(triple, !changesetIngest.isLocalChange(triple))
+      localChange = !changesetIngest.isLocalChange(triple)
+      changesetNew.setLocalChange(triple, localChange)
     } else {
       changesetNew.add(triple)
       changesetNew.setLocalChange(triple, false)

@@ -46,9 +46,9 @@ this work introduces a storage technique with the following contributions:
 - an extensive evaluation of OSTRICH compared to other approaches using an existing RDF archiving benchmark.
 
 This article is structured as follows.
-In the next section, we start by introducing the related work in [](#related-work) and our problem statement in [](#problem-statement).
+In the next section, we start by introducing the related work and our problem statement in [](#problem-statement).
 Next, in [](#fundamentals), we introduce the basic concepts of our approach,
 followed by our storage approach in [](#storage), our ingestion algorithms in [](#ingestions),
-and the accompanied querying algorithms in [](#querying).
+and the accompanying querying algorithms in [](#querying).
 After that, we present and discuss the evaluation of our implementation in [](#evaluation).
 Finally, we present our conclusions in [](#conclusions).

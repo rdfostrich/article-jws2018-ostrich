@@ -15,10 +15,10 @@ an ingestion algorithm for our storage approach must be able to calculate
 the appropriate metadata for the store as discussed in [](#delta-storage).
 More specifically, an ingestion algorithm has the following requirements:
 <ul>
-    <li>Addition triples must be stored in all addition trees</li>
-    <li>Additions and deletions must be annotated with their version</li>
-    <li>Additions and deletions must be annotated with being a local change or not</li>
-    <li>Deletions must be annotated with their position for all triple patterns</li>
+    <li>addition triples must be stored in all addition trees;</li>
+    <li>additions and deletions must be annotated with their version;</li>
+    <li>additions and deletions must be annotated with being a local change or not;</li>
+    <li>deletions must be annotated with their position for all triple patterns.</li>
 </ul>
 
 ### Batch Ingestion
@@ -36,7 +36,8 @@ which is required for the batch ingestion.
 and returning the resulting merged changeset.
 First, all contents of the original changeset are copied into the new changeset.
 After that, an iteration over all triples of the second changeset is started.
-If the changeset already contained the given triple, the local change flag is set to the negation of the local change flag in the first changeset.
+If the changeset already contained the given triple, i.e., it is a local change,
+the local change flag is set to the negation of the local change flag in the first changeset.
 Otherwise, the triple is added to the new changeset, and the local change flag is set to `false`.
 Finally, in both cases the addition flag of the triple in the new changeset is copied from the second changeset.
 
@@ -83,11 +84,11 @@ In-memory batch ingestion algorithm
 </figure>
 
 Even though this algorithm is straightforward,
-it can require a large amount of memory for a number of reasons.
-1) Loading the complete new changeset;
-2) Loading the complete previous changeset;
-3) Combining and loading the previous and new changesets;
-4) Maintaining counters for the deletions in all possible triple patterns.
+it can require a large amount of memory for a number of reasons:
+1) loading the complete new changeset;
+2) loading the complete previous changeset;
+3) combining and loading the previous and new changesets;
+4) maintaining counters for the deletions in all possible triple patterns.
 As deltas are stored relative to snapshots, their size can grow for an increasing number of versions,
 which directly leads to larger memory requirements.
 The theoretical time complexity of this algorithm is `O(P + N)`,
@@ -98,13 +99,13 @@ and `N` the number of triples in the new changeset.
 {:#streaming-ingestion}
 
 Because of the unbounded memory requirements of the [batch ingestion algorithm](#batch-ingestion),
-we also introduce a more complex streaming ingestion algorithm.
-It also takes a changeset stream and store as input parameters,
+we introduce a more complex streaming ingestion algorithm.
+Just like the batch algorithm, it takes a changeset stream and store as input parameters,
 with as additional requirement on the stream that its contents must be sorted in SPO-order.
-This is so that the algorithm can assume a consistent order and act as a sort-merge join operation.
+This way the algorithm can assume a consistent order and act as a sort-merge join operation.
 
 In summary, the algorithm performs a sort-merge join over three streams in SPO-order:
-1) the stream of _input_ changeset elements
+1) the stream of _input_ changeset elements,
 2) the existing _deletions_ over all versions
 and 3) the existing _additions_ over all versions.
 The algorithm iterates over all streams together, until all of them are finished.
@@ -141,4 +142,4 @@ we now need to load at most three triples — the heads of each stream — in me
 Furthermore, we still need to maintain the position counters for the deletions in all triple patterns.
 While these counters could also become large, a smart implementation could perform memory-mapping
 to avoid storing everything in memory.
-The lower memory requirements comes at the cost of a higher logical complexity, but an equal time complexity.
+The lower memory requirements come at the cost of a higher logical complexity, but an equal time complexity.

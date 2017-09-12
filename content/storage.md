@@ -90,7 +90,7 @@ During triple encoding, the snapshot dictionary will always first be probed for 
 If there is a match, that ID is used for storing the delta's triple component.
 To identify the appropriate dictionary for triple decoding,
 some form of dictionary identification is encoded inside the ID, e.g., with a reserved bit.
-The text-based dictionary entries can be compressed to reduce storage space further, as they are likely to contain a lot of redundancies.
+The text-based dictionary entries can be compressed to reduce storage space further, as they are likely to contain many redundancies.
 
 ### Addition Counts
 {:#addition-counts}

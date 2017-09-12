@@ -239,7 +239,7 @@ The ingestion duration in case of the streaming algorithm on the other hand cont
 <figcaption markdown="block">
 Comparison of the OSTRICH stream and batch-based ingestion durations.
 The streaming algorithm starts of slower than the batch algorithm but grows linearly,
-while the batch algorithm consumes a lot of memory, resulting in slower ingestion after version 8 and an out-of-memory error after version 10.
+while the batch algorithm consumes a large amount of memory, resulting in slower ingestion after version 8 and an out-of-memory error after version 10.
 </figcaption>
 </figure>
 
@@ -410,7 +410,7 @@ Each version value requires 28 uncompressed bytes,
 which results in more than 32KB for a triple in 1,200 versions.
 At that point, the values start to form a bottleneck as only 1,024 elements
 can be loaded in-memory using the default page cache size of 32MB,
-which causes a lot of swapping.
+which causes a large amount of swapping.
 This could be solved by either tweaking the B+Tree parameters for this large amount of versions,
 reducing storage requirements for each value,
 or by dynamically creating a new snapshot.

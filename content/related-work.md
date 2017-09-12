@@ -125,7 +125,7 @@ than a native RDF store. They suggest a native implementation of the approach to
 [Im et. al.](cite:cites vmrdf) propose a CB patching system based on a relational database.
 In their approach, they use a storage scheme called *aggregated deltas*
 which associates the latest version with each of the previous ones.
-While aggregated deltas result in fast delta queries, they introduce a lot of storage overhead.
+While aggregated deltas result in fast delta queries, they introduce much storage overhead.
 
 [R&WBase](cite:cites rwbase) is a CB versioning system that adds an additional versioning layer to existing quad-stores.
 It adds the functionality of tagging, branching and merging for datasets.
@@ -271,7 +271,7 @@ There exists a correspondence between these query atoms
 and the independent copies (IC), change-based (CB), and timestamp-based (TB) storage strategies.
 
 Namely, VM queries are efficient in storage solutions that are based on IC, because there is indexing on version.
-On the other hand, IC-based solutions may introduce a lot of overhead in terms of storage space because each version is stored separately.
+On the other hand, IC-based solutions may introduce a large amount of overhead in terms of storage space because each version is stored separately.
 Furthermore, DM and VQ queries are less efficient for IC solutions.
 That is because DM queries require two fully-materialized versions to be compared on-the-fly,
 and VQ requires _all_ versions to be queried at the same time.

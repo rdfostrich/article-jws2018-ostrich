@@ -6,7 +6,7 @@ Nevertheless, useful information is present in or between previous versions.
 <!-- Need         -->
 In order to exploit this historical information in dataset analysis,
 we can maintain history in RDF archives.
-Existing approaches either require a lot of storage space,
+Existing approaches either require much storage space,
 or they expose an insufficiently expressive or efficient interface
 with respect to querying demands.
 <!-- Task         -->

@@ -35,7 +35,7 @@ Stream-based results allow more memory-efficient processing when query results a
 The capability to offset (and limit) a large stream reduces processing time if only a subset is needed.
 This index can be employed by a SPARQL endpoint, but also by the Web-friendly [Triple Pattern Fragments](cite:cites ldf) (TPF) interface:
 a Web API that provides access to RDF datasets by triple pattern and partitions the results in pages.
-Optional versioning capabilities are possible using [VTPF](cite:cites vtpf),
+Optional versioning capabilities are possible for Triple Pattern Fragments using [VTPF](cite:cites vtpf),
 or [datetime content-negotiation](cite:cites mementoldf) using [Memento](cite:cites memento).
 Concretely,
 this work introduces a storage technique with the following contributions:

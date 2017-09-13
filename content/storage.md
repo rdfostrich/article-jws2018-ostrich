@@ -121,7 +121,7 @@ As mentioned in [](#delta-storage), each deletion is annotated with its relative
 This position is exploited to perform deletion counting for any triple pattern and version.
 We look up the largest possible triple for the given triple pattern in the deletions tree,
 which can be done in logarithmic time.
-If this doesn't result in a match, we follow backward links to the elements before that one in the tree.
+If this does not result in a match, we follow backward links to the elements before that one in the tree.
 In this value, the position of the deletion in all deletions for the given value is available.
 Because we have queried the largest possible triple for that triple pattern in the given version,
 this will be the last deletion in the list, so its position corresponds to the total number of deletions in that case.

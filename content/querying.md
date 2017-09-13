@@ -13,10 +13,9 @@ In order to support this, we provide corresponding count estimation queries.
 
 Version Materialization (VM) is the most straightforward versioned query type,
 it allows you to query against a certain dataset version.
-In this section, we start by introducing our VM querying algorithm,
+In the following, we start by introducing our VM querying algorithm,
 after we give a simple example of this algorithm.
-After that, we introduce a corresponding algorithm to provide count estimation for VM query results,
-after we prove the correctness of our VM algorithm.
+After that, we prove the correctness of our VM algorithm and introduce a corresponding algorithm to provide count estimation for VM query results.
 
 #### Query
 
@@ -137,8 +136,8 @@ Version Materialization count estimation algorithm for triple patterns in a give
 
 #### Correctness
 
-In this section, we prove that the result of [](#algorithm-querying-vm) 
-is a stream that correctly returns all triples for the given version, 
+In this section, we prove that the result of [](#algorithm-querying-vm)
+is a stream that correctly returns all triples for the given version,
 starting at the given offset.
 
 ##### _Algorithm description_
@@ -193,7 +192,7 @@ Afterwards the output is a `PatchedSnapshotIterator` starting at the correct `sn
 appended with all additions, which is what we required.
 
 In the second case the starting triple is in the stream of `additions`.
-The number of elements preceding the `additions` elements, 
+The number of elements preceding the `additions` elements,
 is the number of `snapshot` elements minus the number of `deletions`,
 which is exactly what is calculated in the `else`-statement.
 The `snapshot` stream is finalized by offsetting it after its last element,

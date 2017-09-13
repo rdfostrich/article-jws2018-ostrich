@@ -391,7 +391,7 @@ the previous one must be fully materialized by iterating over all existing tripl
 because no version index exists.
 These results should however be interpreted correctly,
 because all other approaches receive their input data in the appropriate format (IC, CB, TB, CB/TB),
-while OSTRICH doesn't.
+while OSTRICH does not.
 OSTRICH must convert CB input at runtime to the alternative CB structure where deltas are relative to the snapshot,
 which explains the larger ingestion times.
 While CB is a typical format for exchanging versioned datasets,

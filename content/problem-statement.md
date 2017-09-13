@@ -28,9 +28,13 @@ To this end, we introduce the following hypotheses:
 
 1. {:#hypothesis-qualitative-querying}
 Our approach shows no influence of the selected versions on the querying efficiency of VM and DM triple pattern queries.
-2. {:#hypothesis-qualitative-ic}
-Our approach requires *less* storage space than state-of-the-art IC-based approaches, but querying is *slower* for VM and *equal* or *faster* for DM and VQ.
-3. {:#hypothesis-qualitative-cb}
-Our approach requires *more* storage space than state-of-the-art CB-based approaches, but querying is *equal* or *faster*.
-4. {:#hypothesis-qualitative-ingestion}
+2. {:#hypothesis-qualitative-ic-storage}
+Our approach requires *less* storage space than state-of-the-art IC-based approaches.
+3. {:#hypothesis-qualitative-ic-querying}
+For our approach, querying is *slower* for VM and *equal* or *faster* for DM and VQ than in state-of-the-art IC-based approaches.
+4. {:#hypothesis-qualitative-cb-storage}
+Our approach requires *more* storage space than state-of-the-art CB-based approaches.
+5. {:#hypothesis-qualitative-cb-querying}
+For our approach, but querying is *equal* or *faster* than in state-of-the-art CB-based approaches.
+6. {:#hypothesis-qualitative-ingestion}
 Our approach reduces average query time compared to other non-IC approaches at the cost of increased ingestion time.

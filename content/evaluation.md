@@ -35,8 +35,12 @@ containing a dataset with 30M triples in 10 versions using [TPF](cite:cites ldf)
 ### Experimental Setup
 
 As mentioned before in [](#related-work-benchmarks), we evaluate our approach using the BEAR benchmark.
-We modified the existing BEAR implementation slightly to allow offsets to be evaluated,
-this modified implementation is available on [GitHub](https://github.com/rdfostrich/bear/tree/ostrich-eval-journal){:.mandatory}.
+We extended the existing BEAR implementation for the evaluation of offsets.
+We did this by implementing custom offset features into each of the BEAR approaches.
+Only for VM queries in HDT-IC an efficient implementation (HDT-IC+) could be made because of HDT's native offset capabilities.
+In all other cases, naive offsets had to be implemented by iterating over the result stream
+until a number of elements equal to the desired offset were consumed.
+This modified implementation is available on [GitHub](https://github.com/rdfostrich/bear/tree/ostrich-eval-journal){:.mandatory}.
 To test the scalability of our approach for datasets with few and large versions, we use the BEAR-A benchmark.
 We use the ten first versions of the BEAR-A dataset, which contains an average of 17M triples per version.
 This dataset was compiled from the [Dynamic Linked Data Observatory](http://swse.deri.org/dyldo/).
@@ -340,11 +344,7 @@ Median BEAR-B-hourly VQ query results for all triple patterns.
 
 #### Offset
 
-In order to evaluate the offset capabilities of OSTRICH, we implemented custom offset features into each of the BEAR approaches.
-Only for VM queries in HDT-IC an efficient implementation (HDT-IC+) could be made because of HDT's native offset capabilities.
-In all other cases, naive offsets had to be implemented by iterating over the result stream
-until a number of elements equal to the desired offset were consumed.
-[](#results-offset-vm) shows that OSTRICH offset evaluation remain below 1ms,
+From our evaluation of offsets, [](#results-offset-vm) shows that OSTRICH offset evaluation remain below 1ms,
 while other approaches grow beyond that for larger offsets, except for HDT-IC+.
 HDT-CB, Jena-CB and Jena-CB/TB are not included in this and the following figures
 because they require full materialization before offsets can be applied, which is expensive and would therefore take a very long time to evaluate.

@@ -8,36 +8,36 @@ Finally, we discuss suitable benchmarks and different query types for RDF archiv
 ### General RDF Indexing and Compression
 
 RDF storage systems typically use indexing and compression techniques
-for reducing query times and storage space, respectively.
+for reducing query times and storage space.
 These systems can either be based on existing database technologies,
 such as [relational databases](cite:cites virtuoso) or [document stores](cite:cites dsparq),
 or on techniques tailored to RDF.
-For the remainder of this article, we focus on the latter.
+For the remainder of this article, we focus on the latter because of their direct relevance.
 
 [RDF-3X](cite:cites rdf3x) is an RDF storage technique that is based
 on a clustered B+Tree with 18 indexes in which triples are sorted lexicographically.
 Given that a triple consists of
 a subject (S), predicate (P) and object (O),
-it includes 6 indexes for possible triple component orders (SPO, SOP, OSP, OPS, PSO and POS),
-6 aggregated indexes (SP, SO, PS, PO, OS, and OP),
-and 3 one-valued indexes (S, P, and O).
+it includes six indexes for possible triple component orders (SPO, SOP, OSP, OPS, PSO and POS),
+six aggregated indexes (SP, SO, PS, PO, OS, and OP),
+and three one-valued indexes (S, P, and O).
 A dictionary is used to compress common triple components.
 When evaluating SPARQL queries, optimal indexes can be selected based on the query's triple patterns.
 Furthermore, the store allows update operations.
 In our storage approach, we will reuse the concept of multiple indexes
 and encoding triple components in a dictionary.
 
-[Hexastore](cite:cites hexastore) is similar in the sense that it uses six different sorted lists,
+[Hexastore](cite:cites hexastore) is a similar approach as it uses six different sorted lists,
 one for each possible triple component order.
-It also uses dictionary encoding to compress common triple components.
-[Triplebit](cite:cites triplebit) is an alternative approach based on a two-dimensional storage matrix.
+Also, it uses dictionary encoding to compress common triple components.
+An alternative is [Triplebit](cite:cites triplebit), which is based on a two-dimensional storage matrix.
 Columns correspond to predicates, and rows to subjects and objects.
 This sparse matrix is compressed and dictionary-encoded to reduce storage requirements.
 Furthermore, it uses auxiliary index structures to improve index selection during query evaluation.
 
 [HDT](cite:cites hdt) is a binary RDF representation that is highly compressed
 and provides indexing structures that enable efficient querying.
-It consists of 3 main components:
+It consists of three main components:
 
 Header
 : metadata describing the dataset
@@ -63,7 +63,7 @@ Versioning is a popular area in many domains, such as software development.
 [Git](cite:cites git) is a distributed version control system, typically used in software development projects,
 which enables users to work on text documents independently, and synchronize their versions safely.
 Furthermore, it maintains a complete history of the documents by storing the *differences* between each version.
-Storing the differences, i.e. changesets/deltas, between each version instead of maintaining fully materialized snapshots of each version
+Storing the differences, i.e., change sets or deltas, between each version instead of maintaining fully materialized snapshots of each version
 can significantly reduce the storage requirements for archives.
 Techniques like these are also used in existing RDF archiving solutions,
 as will be explained in the remainder of this section.
@@ -80,7 +80,7 @@ into [three non-orthogonal storage strategies](cite:cites archiving):
 
 - The **Independent Copies (IC)** approach creates separate instantiations of datasets for
 each change or set of changes.
-- The **Change-Based (CB)** approach instead only stores changes (i.e. changesets) between versions.
+- The **Change-Based (CB)** approach instead only stores change sets between versions.
 - The **Timestamp-Based (TB)** approach stores the temporal validity of facts.
 
 In the following sections, we discuss several existing RDF archiving systems, which use either pure IC, CB or TB, or hybrid IC/CB.
@@ -111,13 +111,13 @@ Individual copies (IC), Change-based (CB), or Timestamp-based (TB).
 SemVersion is based on Concurrent Versions System (CVS) concepts to maintain different versions of ontologies,
 such as diff, branching and merging.
 Their approach consists of a separation of language-specific features with ontology versioning from general features together with RDF versioning.
-The authors omit implementation details on triple storage and retrieval.
+Unfortunately, the implementation details on triple storage and retrieval are unknown.
 
 #### Change-based approaches
 Based on the Theory of Patches from [Darcs software management system](darcs),
 [Cassidy et. al.](cite:cites vcrdf) propose to store changes to graphs as a series of patches, which makes it a CB approach.
-In the paper, they describe operations on versioned graphs such as reverse, revert and merge.
-They provide an implementation of their approach using the Redland python library and MySQL
+They describe operations on versioned graphs such as reverse, revert and merge.
+An implementation of their approach is provided using the Redland python library and MySQL
 by representing each patch as named graphs and serializing them in [TriG](cito:citesAsAuthority TriG).
 Furthermore, a preliminary evaluation shows that their implementation is significantly slower
 than a native RDF store. They suggest a native implementation of the approach to avoid some of the overhead.
@@ -130,12 +130,12 @@ While aggregated deltas result in fast delta queries, they introduce much storag
 [R&WBase](cite:cites rwbase) is a CB versioning system that adds an additional versioning layer to existing quad-stores.
 It adds the functionality of tagging, branching and merging for datasets.
 The graph element is used to represent the additions and deletions of patches,
-which are respectively the even and uneven graph ids.
+which are respectively the even and uneven graph IDs.
 Queries are resolved by looking at the highest even graph number of triples.
 
-Graube et. al. introduce [R43ples](cite:cites r43ples) which stores changesets as separate named graphs, making it a CB system.
+Graube et. al. introduce [R43ples](cite:cites r43ples) which stores change sets as separate named graphs, making it a CB system.
 It supports the same versioning features as R&WBase and introduces new SPARQL keywords for these, such as REVISION, BRANCH and TAG.
-As reconstructing a version requires combining all changesets that came before,
+As reconstructing a version requires combining all change sets that came before,
 queries at a certain version are only usable for medium-sized datasets.
 
 #### Timestamp-based approaches
@@ -165,8 +165,8 @@ Each B+Tree value indicates the revisions in which a particular quad exists, whi
 on the [Memento protocol](cite:cites memento) for retrieving prior versions of certain HTTP resources.
 It is a hybrid CB/IC approach as it starts by storing a dataset snapshot,
 after which only deltas are stored for each consecutive version, as shown in [](#regular-delta-chain).
-When the chain becomes too long, or other conditions are fulfilled, a new snapshot is created for the next version.
-This avoids long version reconstruction times.
+When the chain becomes too long, or other conditions are fulfilled,
+a new snapshot is created for the next version to avoid long version reconstruction times.
 
 Results show that this is an effective way of [reducing version reconstruction times](cite:cites tailr),
 in particular for many versions.
@@ -257,7 +257,7 @@ which are referred to as _query atoms_:
 
 1. **Version materialization (VM)** retrieves data using queries targeted at a single version.
 Example: _Which books were present in the library yesterday?_
-2. **Delta materialization (DM)** retrieves query result differences (i.e. changesets) between two versions.
+2. **Delta materialization (DM)** retrieves query result change sets between two versions.
 Example: _Which books were returned or taken from the library between yesterday and now?_
 3. **Version query (VQ)** annotates query results with the versions in which they are valid.
 Example: _At what times was book X present in the library?_

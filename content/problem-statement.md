@@ -31,6 +31,6 @@ Our approach shows no influence of the selected versions on the querying efficie
 2. {:#hypothesis-qualitative-ic}
 Our approach requires *less* storage space than state-of-the-art IC-based approaches, but querying is *slower* for VM and *equal* or *faster* for DM and VQ.
 3. {:#hypothesis-qualitative-cb}
-Our approach requires *more* storage space than CB-based approaches, but querying is *equal* or *faster*.
+Our approach requires *more* storage space than state-of-the-art CB-based approaches, but querying is *equal* or *faster*.
 4. {:#hypothesis-qualitative-ingestion}
 Our approach reduces average query time compared to other non-IC approaches at the cost of increased ingestion time.

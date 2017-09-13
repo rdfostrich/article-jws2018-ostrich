@@ -94,11 +94,11 @@ show the ingestion times and storage requirements for the different approaches f
 OSTRICH-reduced shows the results without the auxiliary `OSP` and `POS` indexes.
 These results have been derived from the ingestion into a regular OSTRICH store,
 so ingestion time is not explicitly measured, only storage size.
-For BEAR-A, the HDT-based approaches outperform OSTRICH in terms of ingestion time.
-Only HDT-CB requires less storage space.
-The Jena-based approaches ingest faster than OSTRICH, but require more storage space.
+For BEAR-A, the HDT-based approaches outperform OSTRICH in terms of ingestion time, they are about two orders of magniture faster.
+Only HDT-CB requires slightly less storage space.
+The Jena-based approaches ingest one order of magnitude faster than OSTRICH, but require more storage space.
 For BEAR-B-daily, OSTRICH requires less storage space than all other approaches except for HDT-CB at the cost of slower ingestion.
-For BEAR-B-hourly, only HDT-CB, Jena-CB and Jena-CB/TB require less space than OSTRICH.
+For BEAR-B-hourly, only HDT-CB and Jena-CB/TB require about ten times less space than OSTRICH.
 
 <figure id="results-ingestion-bear-a" class="table" markdown="1">
 
@@ -255,8 +255,8 @@ while the batch algorithm consumes a large amount of memory, resulting in slower
 Figures [9](#results-beara-vm-sumary), [10](#results-beara-dm-summary) and [11](#results-beara-vq-summary) respectively
 summarize the VM, DM and VQ query durations of all BEAR-A queries on the ten first versions of the BEAR-A dataset for the different approaches.
 HDT-IC clearly outperforms all other approaches in all cases,
-while the Jena-based approaches are slower than the HDT-based approaches and OSTRICH in all cases.
-OSTRICH is faster than HDT-CB for VM queries, and slightly slower for both DM and VQ queries.
+while the Jena-based approaches are orders of magnitude slower than the HDT-based approaches and OSTRICH in all cases.
+OSTRICH is about two times faster than HDT-CB for VM queries, and slightly slower for both DM and VQ queries.
 For DM queries, HDT-CB does however continuously become slower for larger versions, while the lookup times for OSTRICH remain constant.
 From version 7, OSTRICH is faster than HDT-CB.
 [Appendix A](#appendix-bear-a) contains more detailed plots for each BEAR-A queryset,
@@ -318,9 +318,9 @@ Median BEAR-B-daily VQ query results for all triple patterns.
 Figures [15](#results-bearb-hourly-vm-sumary), [16](#results-bearb-hourly-dm-summary) and [17](#results-hourly-daily-vq-summary)
 show the query duration results for the BEAR-B queries on the complete BEAR-B-hourly dataset for all approaches.
 OSTRICH again outperforms Jena-based approaches in all cases.
-HDT-IC is faster for VM queries than OSTRICH, but HDT-CB is slower, except for the first 100 versions.
+HDT-IC is faster for VM queries than OSTRICH, but HDT-CB is significantly slower, except for the first 100 versions.
 For DM queries, OSTRICH is comparable to HDT-IC, and faster than HDT-CB, except for the first 100 versions.
-Finally, OSTRICH outperforms all HDT-based approaches for VQ queries.
+Finally, OSTRICH outperforms all HDT-based approaches for VQ queries by almost an order of magnitude.
 [Appendix C](#appendix-bear-b-hourly) contains the more detailed plots
 with the same conclusion as before that predicate-queries are slower.
 

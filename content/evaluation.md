@@ -47,7 +47,10 @@ This dataset was compiled from the [Dynamic Linked Data Observatory](http://swse
 To test for datasets with many smaller versions, we use BEAR-B with the daily and hourly granularities.
 The daily dataset contains 89 versions and the hourly dataset contains 1,299 versions,
 both of them have around 48K triples per version.
-Due to higher OSTRICH ingestion times, we did not evaluate BEAR-B-instant that has 21,046 versions.
+We did not evaluate BEAR-B-instant, because OSTRICH requires increasingly
+more time for each new version ingestion, as will be shown in the next section.
+As BEAR-B-hourly with 1,299 versions already takes more than three days to ingest,
+the 21,046 versions from BEAR-B-instant would require too much time to ingest.
 Our experiments were executed on a 64-bit
 Ubuntu 14.04 machine with 128 GB of memory and a
 24-core 2.40 GHz CPU.

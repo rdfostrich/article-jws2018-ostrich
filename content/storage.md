@@ -30,13 +30,14 @@ we assume the following requirements for the snapshot storage:
 
 - Any triple pattern query _must_ be resolvable as triple streams.
 - Offsets _must_ be applicable to the result stream of any triple pattern query.
-- All triple components _must_ be dictionary-encoded.
 - Cardinality estimation for all triple pattern queries _must_ be possible.
 
 These requirements are needed for ensuring the efficiency of the querying algorithms that will be introduced in [](#querying).
-Providing an implementation for a snapshot store is out of scope for this work,
-but existing techniques such as [HDT](cite:cites hdt) fulfill all these requirements.
-As such, HDT will be used in our implementation, which will be explained further in [](#implementation).
+For the implementation of snapshots,
+existing techniques such as [HDT](cite:cites hdt) fulfill all the requirements.
+Therefore,
+we do not introduce a new snapshot approach, but use HDT in our implementation.
+This will be explained further in [](#implementation).
 
 ### Delta Storage
 {:#delta-storage}

@@ -48,6 +48,17 @@ Dictionary
 Storage
 : actual triples based on the IDs of the triple components
 
+The dictionary component encodes triple components in four subsets.
+The first subset consists of triple components that exist both as subject and objects.
+The second and third subset respectively consists of the non-common subject and object component.
+The last subset consists of the predicate components.
+The storage part encodes triple components using the dictionary,
+compacts the triples in a sorted predicate and object adjacency list,
+and stores these adjacency list in a bitmap structure that efficiently
+indicates the borders of these consecutive adjacency list.
+By default, HDT only stores triples in the SPO-order.
+When querying is required, enhanced triple indexes are constructed
+to allow any triple pattern to be resolved efficiently.
 HDT archives are read-only, which leads to high efficiency and compressibility,
 but makes them unsuitable for cases where datasets change frequently.
 Its fast triple pattern queries and high compression rate make it

@@ -1,0 +1,180 @@
+Plan of action: https://docs.google.com/document/d/1TamMLNF3JXdiLws9zpqmGh65_KG4-k3vWNuZdxWQduA/edit#
+
+Ms. Ref. No.: JWS-D-17-00163 
+Title: Triple Storage for Random-Access Versioned Querying of RDF Archives 
+Journal of Web Semantics 
+
+Dear rtaelman, 
+
+Thank you for submitting your paper to the Journal of Web Semantics. 
+
+We have received reviewers' comments on your work, which are attached. While we can not accept it in its current form, we would be happy to receive a revised version, along with a document that lists the issues identified by the reviewers, and in each case gives either a description of the changes or additions made in order to address the issue, or an explanation of why the issue has not been addressed. 
+
+If we receive such a revision, then we will ask the same reviewers to read and comment on the manuscript and accompanying document. While this does not guarantee acceptance, if you can successfully address the issues raised in the reviewers' comments, then it is likely that your revised paper will be accepted. 
+
+The revised manuscript should be submitted by Feb 28, 2018. This tight deadline is important in order to complete the reviewing process in a timely manner; however, if you would like to submit a revised version, but there are good reasons why you cannot meet this deadline, then please inform us as soon as possible and we will consider granting a (short) extension. 
+
+To submit your revision, please do the following: 
+
+(1) Log into Elsevier's system at http://ees.elsevier.com/jws/ with role 'author', which should take you to the 'Author Main Menu'. 
+
+(2) Click 'Submissions Needing Revision' to see your paper. 
+
+(3) Mouse over the 'Action Links' in the first column and choose 'Edit Revision' if you are ready to submit your revised version or 'Decline to Revise' if you have decided not to submit a revised version for review. 
+
+(4) Proceed through the Web pages, updating your manuscripts metadata (e.g., title, abstract, authors) as appropriate and uploading the revised version of your paper. 
+
+(5) You will also be required to upload the 'Detailed Response to Reviewers' document as discussed above. This document can be in any of the formats that Elsevier accepts (e.g., PDF, word, eps). 
+
+(6) After uploading your revised paper and Response to Reviewers, you will be asked to approve the revision. 
+
+When submitting this revised manuscript, please ensure that you upload the source files (e.g. Word). Uploading a PDF file at this stage will create delays should your manuscript be finally accepted for publication as it is difficult to accurately extract text from a PDF and Re-keying leads to costly errors being introduced. 
+
+We hope that you will find the reviewer's comments useful in improving your paper and that you will submit a revised version to the Journal of Web Semantics. If you elect not to submit a revised version, we would appreciate your letting us know as soon as possible so that we can close the submission. 
+
+Please note that this journal offers a new, free service called AudioSlides: brief, webcast-style presentations that are shown next to published articles on ScienceDirect (see also http://www.elsevier.com/audioslides). If your paper is accepted for publication, you will automatically receive an invitation to create an AudioSlides presentation. 
+
+We look forward to receiving your revised manuscript. 
+
+Yours sincerely, 
+
+Abraham Bernstein, Ph.D. 
+Editor-in-Chief 
+Journal of Web Semantics 
+
+Note: While submitting the revised manuscript, please double check the author names provided in the submission so that authorship related changes are made in the revision stage. If your manuscript is accepted, any authorship change will involve approval from co-authors and respective editor handling the submission and this may cause a significant delay in publishing your manuscript. 
+
+Reviewers' comments: 
+
+Dear Rueben Taelman, 
+
+We would like to thank you for submitting your manuscript to the special issue. The reviewers are in agreement that the current state of the paper requires a major revision prior to being accepted for publication. The major concerns listed by all reviewers are: 
+(1) lack of formulation of the approach that makes the technical details more sound; 
+(2) scalability of approach, for example evaluate faster systems; 
+(3) lack of clarity which could be tackled by shortening the paper and make it more concise. Therefore, we will classify this review and manuscript as "Accept with major revision". 
+
+We expect to receive a revised paper within 4 weeks, which should address all of the issues raised by the reviewers, and not just the ones mentioned above. The revised manuscript will be checked against the first round of the reviews and will be assigned to the same reviewers for a second round of reviews. Please provide a letter to the reviewers detailing the improvements made for the resubmission. 
+
+Thank you and Best Regards, 
+MEPDaW Guest Editors 
+
+
+Reviewer #2: This article discusses efficient archiving and querying techniques for evolving RDF data. The authors, after presenting the problem and reviewing the state of the art, propose a novel methodology for storing, loading, indexing and querying RDF data in evolving contexts, i.e., with support for versioning. To this extent, the authors use a mix of existing and novel ideas in order to design and implement OSTIRCH, an RDF archiving system that efficiently stores and performs SPARQL query processing over different versions. The authors use a hybrid storage approach that handles fully materialized versions of queries, followed by deltas, and the system is evaluated over previously defined so-called query atoms, on an existing workbench for RDF archiving systems, BEAR. The paper is generally well written, and addresses an important field in a timely manner. Furthermore, the reuse and extension of notions (e.g. the query atoms) and implementations (e.g. BEAR) from the 
+state of the art is a very strong element of the approach. The storage approach is interesting, but I would like to see more proof that the system can scale to larger dataset sizes. Moreover, the experimental evaluation could be improved to include larger real-world datasets, as well as more competitive systems for comparison. E.g., OSTRICH can handle itself fine with the Jena-based baselines and HDT, but how about performance-based systems such as x-rdf3x or Dydra? These are mentioned in the related work section, but not included in the evaluation. 
+
+The Related Work section is relatively thorough, but could include references to recent state of the art works. E.g. in the sub-section where the authors are discussing general RDF indexing works, this should be extended to include recent advances in RDF indexing using emergent schema techniques such as [1-3]. Furthermore, the authors should include ref [5] from the paper in the discussion as it includes a similar set of query atoms and relevant notions. 
+
+The presentation of the paper could be improved. Even though the english is clear, the paper is far from concise in terms of length and the authors seem to overstretch the lack of page limit by replicating redundant information. I believe that the actual and useful content of the paper could be limited to 20-25 pages, which would also make the paper more concise and improve readability. Some of the figures describe the same experiments and can be combined into one figure/table in order to avoid replicating the same caption over and over. Also, the lines used in the figures are not clearly distinguishable and can be improved. Finally, the authors should introduce a running example with a sample dataset graph in order to discuss more clearly the types of queries and how the system handles the storage and query processing. As a final note, the overall novelty of the approach should be highlighted more clearly throughout the paper. 
+
+Some minor issues are as follows: 
+
+Section 2.2: Opening the section with general info on git is confusing. The authors should remove this from the discussion, or properly add a discussion on code/document versioning systems. 
+Section 2.2.2: A reference or explanation of "Theory of Patches from Darcs" should be added. 
+Section 3: "For our approach, but querying..." remove "but" 
+Figure 3: the caption is replicated from the main body, remove it. 
+Section 5.3: the inline numbering is off (2 is repeated two times) 
+Section 5.4: uncapitalize "We" 
+Tables 4-5-6: merge in one table. 
+Tables 7-8: merge in one table. (same with the figures that follow). 
+
+
+
+
+[1] Pham, Minh-Duc, et al. "Deriving an emergent relational schema from rdf data." Proceedings of the 24th International Conference on World Wide Web. International World Wide Web Conferences Steering Committee, 2015. 
+
+[2] Pham, Minh-Duc, and Peter Boncz. "Exploiting emergent schemas to make RDF systems more efficient." International Semantic Web Conference. Springer International Publishing, 2016. 
+
+[3] Meimaris, Marios, et al. "Extended Characteristic Sets: Graph Indexing for SPARQL Query Optimization." Data Engineering (ICDE), 2017 IEEE 33rd International Conference on. IEEE, 2017. 
+
+
+
+
+Reviewer #3: 
+The paper introduces a solution to deal with RDF Archives following an implementation, called OSTRICH. The paper is motivated by the paper[19] and its implementation and technical solution are heavily depended on HDT[16] from the same group of authors. 
+
+For the technical soundness, I would argue against authors' choice of using just 1 snapshot and multiple independent delta versions. Authors' justification for using independent delta version from a snapshot by pointing other papers like [27], [28] and [30] by saying that they incorporated these solutions. I'm looking into these papers, I don't think it's trivial to incorporate these solutions into this proposed solution not to mention that if they work at all with their storage models and follow-up algorithms. Unfortunately, the paper does not give any further details on this. 
+
+On the limitation caused by this storage design choice, author admitted that they have to limit the Delta materialisation within the single snapshot and delta chain that substantially weaken the solution's impact (Section 7.2). Moreover, this paper ignores how to deal with the situation that one snapshot is not enough to capture the history of the RDF archives and the delta chains are too long that negates all performance improvements offered. 
+
+To discuss the wider impact of the paper, the paper's evaluation only focuses on single-triple-pattern queries. It seems the scope of the paper only limits themselves to the query patterns that defined in[19]. In this regard, I would challenge its generality comparison with other solutions such as RDF-TX[1] which is mentioned in [19] but is not discussed this paper. For that, the paper tries to solve a narrower problem than that of [19], but it offers not very innovative and delicate technical solution that I'll discuss in following. 
+
+To go deeper technical details, the paper does not have a sufficient formulation of the problem even it has a descriptive problem statement. The data model and query operators are not clearly defined. Even authors can argue that it referred to paper[19], I would argue for the self-contained nature of the article, especially, a journal manuscript. To go a bit further on paper[19], I don't even think its formulations and definitions are enough for this journal version. I noticed that authors of paper[19] are now submitting a journal version to Semantic Web Journal which is under major revision. This version will negate the contributions of this manuscript. 
+
+For keeping addition counts on all triple patterns for any versions, I would argue the size and overhead of its will be substantial after a long chain of delta. Even authors indicate the they can use the threshold to defer the counting during lookup time but it's not clear to how the threshold is specified. Next, the section 5.2 on deletion count is quite vague to me. This leads to my doubt on the correctness of Algorithm 5. 
+
+In general most of technical content are read superficial to me. Various algorithms such Algorithm 2, 3 and 5 are trivial, I don't think reader can get anything useful from them. The proof on correctness in Section 7.1.4 is read weird to me. Section 5.4 on maintaining Delta Chain Dictionary just give the common details on dictionary encoding but left out what needs to be presented in terms of how to maintain the new RDF nodes and the RDF nodes related to deleted triples. Strangely, the Figure 3 how the label "Dict" with the dots connected to "+" and "-" but it's never described. 
+
+For the evaluation, the figures do not impress me when comparing with other HDT variations. I wonder why authors do not compare with x-RDF3X[25 and ignore RDF-TX[1]. 
+
+[1] Shi Gao, Jiaqi Gu, Carlo Zaniolo:RDF-TX: A Fast, User-Friendly System for Querying the History of RDF Knowledge Bases.EDBT 2016: 269-280 
+[16] Fernández, J.D., MartínezPrieto, M.A., Gutiérrez, C.,Polleres, A., Arias, M.: Binary RDF Representation for Publication and Exchange (HDT). Web Semantics: 
+Science, Services and Agents on the World Wide Web. 
+19, 22-41 (2013). 
+[19] Fernández, J.D., Umbrich, J., Polleres, A., Knuth, M.: Evaluating Query and Storage Strategies for RDF Archives. In: Proceedings of the 12th International Conference on Semantic Systems. ACM (2016). 
+[25] Neumann, T., Weikum, G.: xRDF3X: fast querying, high update rates, and consistency for RDF databases. Proceedings of the VLDB Endowment. 3, 256-263 
+(2010). 
+[27] Anderson, J., Bendiken, A.: Transactio ntime queries in dydra. In: Joint Proceedings of the 2nd Workshop on Managing the Evolution and Preservation of the Data Web (MEPDaW 2016) and the 3rd Workshop on 
+Linked Data Quality (LDQ 2016) colocated with 13th European Semantic Web Conference (ESWC 2016): MEPDaWLDQ. pp. 11-19 (2016). 
+[28] Meinhardt, P., Knuth, M., Sack, H.: TailR: a platform for preserving history on the web of data. In: Proceedings of the 11th International Conference on Semantic Systems. pp. 57-64. ACM (2015). 
+[30] Im, D.H.,Lee, S.W., Kim, H.J.: A version management framework for RDF triple stores. International Journal of Software Engineering and Knowledge Engineering. 22, 85-106 (2012). 
+
+
+
+Reviewer #4: Authors propose a new RDF store for versioned data. The approach is based on fully materialized snapshots followed by delta chains. Consecutive add and delete delta sets refer to the previous snapshot, and are multi-indexed, in SPO, OSP, and POS order. In addition, authors optimize queries by storing additional metadata during ingestion time, such as the local changes (triples that revert a previous modification) and counters for adds and deletes, hence that triple pattern estimation can be done in constant time. Authors provide a practical implementation, named OSTRICH, which is evaluated with different systems (HDT, Jena) and versioning strategies. To do so, they make use of an existing benchmark, named BEAR, which is tailored for OSTRICH. Results show that OSTRICH requires less space than other approaches using fully materialized snapshots (aka Independent Copies, IC), but slightly more than delta-based approaches (aka Changed-based, CB). As for query 
+resolution, compared to IC, OSTRICH is slower when querying a single point in time (version materialization) but comparable when resolving changes across versions. In turn, OSTRICH is, in general, faster than CB. Nonetheless, OSTRICH reports large ingestion times, which are particularly important when managing large number of versions. 
+
+The paper is timely, as RDF versioning is gaining increasingly attention, and the authors' approach is novel and report competitive space/performance tradeoff. In addition, the offset capabilities of OSTRICH position itself as a promising de-facto implementation of versioned TPF interfaces. 
+
+In contrast, the paper lacks of clarity and formality, further detailed below, hence I would suggest a major review. 
+
+== Related work == 
+
+The review of the state of the art concerning RDF indexing and compression in Section 2.1 seems a bit unorganized and incomplete. If the intention is to provide a full review of RDF native indexing, there are missing works such as: Jena, Blazegraph, GraphDB, RDF4J (formerly known as Sesame), RDFox, Stardog and Allegrograph. In fact, in Section 2.2.3 Sesame and Blazegraph are mentioned without a proper reference. 
+
+As for RDF indexing and compression, I would also suggest some interesting approaches: RDFCSA [1] and K2 -triples [2]. 
+
+Also, when authors describe the BEAR benchmark ([19] in the paper), they report different datasets BEAR-B, BEAR-C which are not in the cited paper. Are they maybe referring to a BEAR extension? Is there another work including those dataset, or where can they be found? 
+
+[1] N. Brisaboa, A. Cerdeira, A. Fariña, and G. Navarro. A compact RDF store using suffix arrays. In Proc. of SPIRE, pages 103-115, 2015. 
+[2] S. Alvarez-García, N. Brisaboa, J.D. Fernández, M.A. Martínez-Prieto, and G. Navarro. Compressed Vertical Partitioning for Efficient RDF Management. Knowl. Inf. Syst., 44(2):439-474, 2015. 
+
+== Approach == 
+
+Section 5.2 is too concise and the combination of triples, versions and metadata (in special the relative position) is hard to process and visualize. A figure could help understand the structure of information and metadata. In general, I would recommend to describe a small use case with few triples and versions, and follow the explanation with that. This can help when explaining 5.3 and 5.4, which is a bit obscure and hard to process now. 
+
+As for the SPO, OSP and POS indexes, is it similar or exactly the same as HDT-FoQ? If it's the same, then a minor explanation might be needed as I checked the related paper and, as far as I can see, the indexes are SPO, OPS and PSO. Is there a rationale for changing the order? 
+
+In 5.3. the codification of the dictionary is unclear, or vague. It is stated that "To identify the appropriate dictionary for triple decoding, some form of dictionary identification is encoded inside the ID, e.g., with a reserved bit.". A more precise specification must be provided, in special regarding the final encoding used in OSTRICH. 
+
+As already mentioned, sections 5.3 and, in special, 5.4 are hard to process with no formalization and/or a supporting figure. 
+
+The explanation of all Algorithms 1-5 could be simplify if authors add the line number and guide the reader reporting the line number of each step. 
+
+Also, I think there is something unclear in Algorithm 3, ".encode(store.getDictionary(newVersion))" , as: a) it is not clear what newVersion is in the case of a changeset stream, and b) I understood that the encoding is done also using the previous dictionary, which is not reflected there. In addition, I doubt about the reported complexity of the algorithm 3, O (P+N), as you need to sort the changeset, which typically is O (N logN). A more detailed analysis could be provided. 
+
+The algorithm in 6.2 is not formal enough. For example, the dictionary encoding step is not explicitly mentioned. Does it happen before or after the sort-merge join? In other words, is the SPO order based on the strings or the IDs? I would suggest to write the algorithm formally. 
+
+== Evaluation == 
+
+In the evaluation, it is stated that the dictionary is compressed using gzip. Then, does it need further decompression to be queried? 
+
+Regarding the scalability, the small dataset, BEAR-B, with a thousand versions already took three days to ingest. The justification (in the discussion) regarding the initial format of the input seems too short given that the dataset is really small. What would be the time if the right input is provided? Maybe adding a small evaluation on that might help understand the bottlenecks and why it is so slow compared to a "similar" HDT-CB approach. 
+
+The readability of Tables 4, 5, 6 can be improved, e.g. highlighted the fastest and smallest results. In general, the positioning of all tables and figures in the evaluation makes the reading harder. 
+
+The interpretation of Table 8 is a bit unclear. I understand that authors try to demonstrate that OSTRICH can serve as a pre-processing step to reduce the final size applying then gzip. If so, the size of HDT+gzip should also be compared. 
+
+== Other remarks == 
+
+In general the text has much room for improvement, it is too verbose and lacks of formality. 
+
+
+
+
+
+
+
+
+****************************************** 
+
+For further assistance, please visit our customer support site at http://help.elsevier.com/app/answers/list/p/7923. Here you can search for solutions on a range of topics, find answers to frequently asked questions and learn more about EES via interactive tutorials. You will also find our 24/7 support contact details should you need any further assistance from one of our customer support representatives. 

@@ -128,7 +128,7 @@ Their approach consists of a separation of language-specific features with ontol
 Unfortunately, the implementation details on triple storage and retrieval are unknown.
 
 #### Change-based approaches
-Based on the Theory of Patches from [Darcs software management system](darcs),
+Based on the Theory of Patches from the [Darcs software management system](cite:cites darcs),
 [Cassidy et. al.](cite:cites vcrdf) propose to store changes to graphs as a series of patches, which makes it a CB approach.
 They describe operations on versioned graphs such as reverse, revert and merge.
 An implementation of their approach is provided using the Redland python library and MySQL

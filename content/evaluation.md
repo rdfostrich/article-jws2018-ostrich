@@ -89,8 +89,8 @@ All raw results and the scripts that were used to process them are available on 
 
 #### Ingestion
 
-Tables [4](#results-ingestion-bear-a), [5](#results-ingestion-bear-b-daily) and [6](#results-ingestion-bear-b-hourly)
-show the ingestion times and storage requirements for the different approaches for the three different benchmarks.
+Tables [4](#results-ingestion-time) and [5](#results-ingestion-size)
+respectively show the ingestion times and storage requirements for the different approaches for the three different benchmarks.
 OSTRICH-reduced shows the results without the auxiliary `OSP` and `POS` indexes.
 These results have been derived from the ingestion into a regular OSTRICH store,
 so ingestion time is not explicitly measured, only storage size.
@@ -100,69 +100,40 @@ The Jena-based approaches ingest one order of magnitude faster than OSTRICH, but
 For BEAR-B-daily, OSTRICH requires less storage space than all other approaches except for HDT-CB at the cost of slower ingestion.
 For BEAR-B-hourly, only HDT-CB and Jena-CB/TB require about ten times less space than OSTRICH.
 
-<figure id="results-ingestion-bear-a" class="table" markdown="1">
+<figure id="results-ingestion-time" class="table" markdown="1">
 
-| Approach        | Ingestion Time (min) | Size (GB) |
-| --------------- |---------------------:|----------:|
-| Raw (N-Triples) | *N/A*                | 44.99     |
-| Raw (gzip)      | *N/A*                |  3.12     |
-| OSTRICH         | 2,256                |  4.48     |
-| OSTRICH-reduced | *N/A*                |  3.03     |
-| Jena-IC         |   443                | 32.04     |
-| Jena-CB         |   226                | 17.79     |
-| Jena-TB         | 1,746                | 80.35     |
-| Jena-CB/TB      |   679                | 30.43     |
-| HDT-IC          |    34                |  5.21 (+1.46) |
-| HDT-CB          |    18                |  2.62 (+0.79) |
+| Approach        | BEAR-A | BEAR-B-daily  | BEAR-B-hourly |
+| --------------- |-------:|--------------:|--------------:|
+| OSTRICH         | 2,256  | 12.36         | 4,497.32      |
+| Jena-IC         |   443  |  8.91         |  142.26       |
+| Jena-CB         |   226  |  9.53         |  173.48       |
+| Jena-TB         | 1,746  |  0.35         |   70.56       |
+| Jena-CB/TB      |   679  |  0.35         |    0.65       |
+| HDT-IC          |    34  |  0.39         |    5.89       |
+| HDT-CB          |    18  |  0.02         |    0.07       |
 
 <figcaption markdown="block">
-Ingestion times and storage sizes for each of the RDF archive approaches for the first ten versions of BEAR-A.
-The additional size for HDT-indexes is shown separately.
-Ingestion times are not applicable to the raw approaches, and are not measured separately for OSTRICH-reduced.
-The additional storage size for the HDT index files are provided between brackets.
+Ingestion times for each of the RDF archive approaches with BEAR-A, BEAR-B-daily and BEAR-B-hourly.
 </figcaption>
 </figure>
 
-<figure id="results-ingestion-bear-b-daily" class="table" markdown="1">
+<figure id="results-ingestion-size" class="table" markdown="1">
 
-| Approach        | Ingestion Time (min) | Size (MB) |
-| --------------- |---------------------:|----------:|
-| Raw (N-Triples) | *N/A*                | 556.44    |
-| Raw (gzip)      | *N/A*                |  30.98    |
-| OSTRICH         | 12.36                |  16.87    |
-| OSTRICH-reduced | *N/A*                |  12.32    |
-| Jena-IC         |  8.91                | 415.32    |
-| Jena-CB         |  9.53                |  42.82    |
-| Jena-TB         |  0.35                |  23.61    |
-| Jena-CB/TB      |  0.35                |  22.83    |
-| HDT-IC          |  0.39                | 142.08 (+6.71) |
-| HDT-CB          |  0.02                |   5.96 (+0.75) |
-
-<figcaption markdown="block">
-Ingestion times and storage sizes for each of the RDF archive approaches for BEAR-B daily.
-The additional size for HDT-indexes is shown separately.
-Ingestion times are not applicable to the raw approaches, and are not measured separately for OSTRICH-reduced.
-The additional storage size for the HDT index files are provided between brackets.
-</figcaption>
-</figure>
-
-<figure id="results-ingestion-bear-b-hourly" class="table" markdown="1">
-
-| Approach        | Ingestion Time (min) | Size (MB) |
-| --------------- |---------------------:|----------:|
-| Raw (N-Triples) | *N/A*                | 8,314.86  |
-| Raw (gzip)      | *N/A*                |   466.35  |
-| OSTRICH         | 4,497.32             |   450.59  |
-| OSTRICH-reduced | *N/A*                |   187.46  |
-| Jena-IC         |  142.26              | 6,233.92  |
-| Jena-CB         |  173.48              |   473.41  |
-| Jena-TB         |   70.56              | 3,678.89  |
-| Jena-CB/TB      |    0.65              |    53.84  |
-| HDT-IC          |    5.89              | 2,127.57 (+101.49) |
-| HDT-CB          |    0.07              |    24.39 (+10.29)  |
+| Approach        | BEAR-A            | BEAR-B-daily   | BEAR-B-hourly      |
+| --------------- |------------------:|---------------:|-------------------:|
+| Raw (N-Triples) | 46,069.76         | 556.44         | 8,314.86           |
+| Raw (gzip)      |  3,194.88         |  30.98         |   466.35           |
+| OSTRICH         |  4,587.52         |  16.87         |   450.59           |
+| OSTRICH-reduced |  3,102.72         |  12.32         |   187.46           |
+| Jena-IC         | 32,808.96         | 415.32         | 6,233.92           |
+| Jena-CB         | 18,216.96         |  42.82         |   473.41           |
+| Jena-TB         | 82,278.4          |  23.61         | 3,678.89           |
+| Jena-CB/TB      | 31,160.32         |  22.83         |    53.84           |
+| HDT-IC          |  5,335.04 (+1.46) | 142.08 (+6.71) | 2,127.57 (+101.49) |
+| HDT-CB          |  2,682.88 (+0.79) |   5.96 (+0.75) |    24.39 (+10.29)  |
 
 <figcaption markdown="block">
-Ingestion times and storage sizes for each of the RDF archive approaches for BEAR-B hourly.
+Storage sizes for each of the RDF archive approaches with BEAR-A, BEAR-B-daily and BEAR-B-hourly.
 The additional storage size for the HDT index files are provided between brackets.
 </figcaption>
 </figure>

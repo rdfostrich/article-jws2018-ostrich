@@ -89,6 +89,15 @@ Fernández et al. define an [_RDF archive_](cite:cites bear) as a set of version
 where a _version-annotated triple_ is an RDF triple that is annotated with a label representing the version in which this triple holds.
 An _RDF version_ <var>i</var> of an RDF archive is then defined as the set of all triples in the RDF archive that are annotated with the label <var>i</var>.
 
+The [DIACHRON data model](cite:cites diachronql) introduces the concept of _diachronic datasets_,
+i.e., datasets that contain diachronic entities, which are semantic entities that evolve over time.
+This data model formally defines a diachronic dataset as a set of dataset versions together with metadata annotations about this dataset.
+Each dataset version is defined as a set of records (i.e., tuples or triples), an associated schema,
+temporal information about this version and metadata specific to this version.
+Domain data must be reified in order to store it in the DIACHRON model.
+Due to the simplicity of RDF archive model compared to the domain-specific DIACHRON data model,
+we will use the former model for the remainder of this document.
+
 Systems for archiving Linked Open Data are categorized
 into [three non-orthogonal storage strategies](cite:cites archiving):
 
@@ -301,3 +310,7 @@ Furthermore, TB solutions can require less storage space compared to VM if the c
 
 In summary, IC, CB and TB approaches can perform well for certain query types, but they can be slow for others.
 On the other hand, this efficiency typically comes at the cost of a large storage overhead, as is the case for IC-based approaches.
+
+[DIACHRON QL](cite:cites diachronql) is a SPARQL query language extension
+based on the DIACHRON data model that provides functionality similar to these query atoms
+in order to query specific versions, changesets, or all versions.

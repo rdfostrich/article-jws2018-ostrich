@@ -75,7 +75,7 @@ A common technique in [RDF indexes](cite:cites hdt,rdf3x,triplebit) is to use a 
 This is done for three main reasons:
 1) reduce storage space if triple components are stored multiple times;
 2) reducing I/O overhead when retrieving data;
-2) simplify and optimize querying.
+3) simplify and optimize querying.
 As our storage approach essentially stores each triple three or six times,
 a dictionary can definitely reduce storage space requirements.
 

@@ -13,11 +13,7 @@ In the next section, we describe two ingestion algorithms based on this storage 
 <figure id="storage-overview">
 <img src="img/storage-overview.svg" alt="[storage overview]">
 <figcaption markdown="block">
-First, metadata about the complete archive is stored, containing information such as the total number of available versions.
-Furthermore, the very first version of a delta chain is stored as a _fully materialized snapshot_, for example using the HDT format.
-Each following version in the chain is stored as a _delta_ relative to the initial snapshot.
-All delta's are compressed in _addition and deletion trees_, where a _dictionary_ is used to compress triple components.
-Finally, we store the _counts_ for certain triple pattern queries over _additions_ for each version.
+Overview of the main components of our hybrid IC/CB/TB storage approach.
 </figcaption>
 </figure>
 

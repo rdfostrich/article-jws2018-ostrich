@@ -73,15 +73,6 @@ Because of these reasons, we will reuse HDT snapshots as part of our storage sol
 ### RDF Archiving
 {:#related-work-archiving}
 
-Versioning is a popular area in many domains, such as software development.
-[Git](cite:cites git) is a distributed version control system, typically used in software development projects,
-which enables users to work on text documents independently, and synchronize their versions safely.
-Furthermore, it maintains a complete history of the documents by storing the *differences* between each version.
-Storing the differences, i.e., change sets or deltas, between each version instead of maintaining fully materialized snapshots of each version
-can significantly reduce the storage requirements for archives.
-Techniques like these are also used in existing RDF archiving solutions,
-as will be explained in the remainder of this section.
-
 Linked Open Datasets typically [change over time](cite:cites datasetdynamics),
 creating a need for [maintaining the history of the datasets](cite:cites archiving).
 Hence, RDF archiving has been an active area of research over the last couple of years.

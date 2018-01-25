@@ -105,7 +105,7 @@ To cope with this, we propose to only store the elements where their counts are 
 Elements that are not stored will have to be counted during lookup time.
 This is however not a problem for reasonably low thresholds,
 because as mentioned in [](#addition-deletion-counts),
-We can efficiently limit the iteration scope in our indexes,
+we can efficiently limit the iteration scope in our indexes,
 so that for triple patterns for which only a limited number of matches exist,
 iteration, and therefore the counts, can happen efficiently.
 The count threshold introduces a trade-off between the storage requirements and the required triple counting during lookups.

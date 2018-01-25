@@ -140,31 +140,23 @@ The additional storage size for the HDT index files are provided between bracket
 
 [](#results-ostrich-compressability) shows the compressibility of OSTRICH datasets,
 which indicates that datasets with more versions are more prone to space savings using compression techniques like gzip.
-[](#results-ostrich-reduced-compressability) shows that this compressibility increases slightly when reduced OSTRICH stores are used.
+Furthermore, compressibility increases slightly when reduced OSTRICH stores are used.
 
 <figure id="results-ostrich-compressability" class="table" markdown="1">
 
 | Dataset       | Original Size (MB) | gzip (MB) | Space savings |
 | ------------- |-------------------:|----------:|------------------:|
+| **OSTRICH**{:.hr} ||||
 | BEAR-A        | 4,587.52           | 3,272.50  | 28.66%            |
 | BEAR-B-daily  |    16.87           |     5.42  | 67.87%            |
 | BEAR-B-hourly |   450.59           |    86.12  | 80.88%            |
-
-<figcaption markdown="block">
-Compressability of OSTRICH stores using gzip.
-</figcaption>
-</figure>
-
-<figure id="results-ostrich-reduced-compressability" class="table" markdown="1">
-
-| Dataset       | Original Size (MB) | gzip (MB) | Space savings |
-| ------------- |-------------------:|----------:|--------------:|
+| **OSTRICH reduced**{:.hr} ||||
 | BEAR-A        | 3,117.64           | 2,155.13  | 30.87%        |
 | BEAR-B-daily  |    12.32           |     3.35  | 72.80%        |
 | BEAR-B-hourly |   187.46           |    34.92  | 81.37%        |
 
 <figcaption markdown="block">
-Compressability of reduced OSTRICH stores using gzip.
+Compressability of regular and reduced OSTRICH stores using gzip.
 </figcaption>
 </figure>
 

@@ -667,7 +667,6 @@ figure.algorithm pre samp:before {
   counter-increment:precode;
 }
 
-
 table {
   border-collapse:collapse;
   
@@ -719,6 +718,12 @@ table {
   /*overflow:auto;*/
   /*display:inline-block;*/
   width:calc(100% - 2px);
+  
+  .hr {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid;
+  }
 }
 th {
   border-bottom:1px solid;

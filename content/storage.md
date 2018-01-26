@@ -3,8 +3,8 @@
 
 In this section, we introduce our hybrid IC/CB/TB storage approach for storing multiple versions of an RDF dataset.
 [](#storage-overview) shows an overview of the main components.
-Our approach consists of an initial dataset snapshot---stored in [HDT](cite:cites hdt)---followed by a delta chain [](cite:cites tailr).
-The delta chain uses multiple compressed B+Trees for a TB-storage strategy [](cite:cites dydra),
+Our approach consists of an initial dataset snapshot---stored in [HDT](cite:cites hdt)---followed by a delta chain (similar to [TailR](cite:cites tailr)).
+The delta chain uses multiple compressed B+Trees for a TB-storage strategy (similar to [Dydra](cite:cites dydra)),
 applies dictionary-encoding to triples, and
 stores additional metadata to improve lookup times [](cite:cites hdt).
 In this section, we discuss each component in more detail.

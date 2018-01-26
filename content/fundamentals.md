@@ -31,7 +31,7 @@ and methods for storing addition and deletion counts.
 
 Our storage technique is partially based on a hybrid IC/CB approach similar to [](#regular-delta-chain).
 To avoid increasing reconstruction times,
-we modify the delta chain to incorporate [aggregated deltas](cite:cites vmrdf), _independent_ of a preceding version.
+we modify the delta chain to be similar to [aggregated deltas](cite:cites vmrdf), i.e., _independent_ of a preceding version.
 Instead, deltas are relative to the closest preceding snapshot in the chain, as shown in [](#alternative-delta-chain).
 Hence, for any version, version reconstruction only requires at most one delta and one snapshot.
 Although this does increase possible redundancies within delta chains,

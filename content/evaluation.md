@@ -133,8 +133,34 @@ Ingestion times for each of the RDF archive approaches with BEAR-A, BEAR-B-daily
 | HDT-CB          |  2,682.88 (+0.79) |   5.96 (+0.75) |    24.39 (+10.29)  |
 
 <figcaption markdown="block">
-Storage sizes for each of the RDF archive approaches with BEAR-A, BEAR-B-daily and BEAR-B-hourly.
+Storage sizes for each of the RDF archive approaches in MB with BEAR-A, BEAR-B-daily and BEAR-B-hourly.
 The additional storage size for the HDT index files are provided between brackets.
+</figcaption>
+</figure>
+
+As mentioned in [](#addition-counts), we use a threshold to define which addition count values should be stored,
+and which ones should be evaluated at query time.
+For our experiments, we fixed this count threshold at 200,
+as for values higher than 200, the addition counts started having a noticable impact on the performance of count estimation.
+This threshold value means that when a triple pattern has 200 matching additions,
+then this count will be stored.
+[](#results-addition-counts) shows the storage space requirements of the addition counts.
+Results show that for BEAR-A and BEAR-B-hourly, the storage space is insignificant compared to the total space requirements.
+However, for BEAR-B-daily, addition counts take up 37.05% of the total size with still an acceptable absolute size,
+which is simply because the addition and deletion trees require relatively less space,
+because of the lower amount of versions.
+Within the scope of this work, we keep using this fixed threshold of 200.
+We consider investigating the impact of different threshold levels and methods for dynamically determining optimal levels future work.
+
+<figure id="results-addition-counts" class="table" markdown="1">
+
+| BEAR-A            | BEAR-B-daily   | BEAR-B-hourly      |
+|------------------:|---------------:|-------------------:|
+| 13.69 (0.29%)     | 6.25 (37.05%)  | 15.62 (3.46%)      |
+
+<figcaption markdown="block">
+Storage sizes of the OSTRICH addition count component in MB with BEAR-A, BEAR-B-daily and BEAR-B-hourly.
+The percentage of storage space that this component requires compared to the complete store is indicated between brackets.
 </figcaption>
 </figure>
 

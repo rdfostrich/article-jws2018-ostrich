@@ -30,6 +30,9 @@ The performance of existing solutions in each of these areas is limited and shou
 In this article,
 we argue that supporting both RDF archiving and SPARQL at once is, due to their combined complexity, difficult to scale.
 Instead, we propose an elementary, but efficient versioned _triple pattern_ index---the basic element of SPARQL---that query engines can use.
+As such, the aim of our solution is not to compete with existing versioned SPARQL engines,
+but to provide an alternative indexing structure with efficient triple pattern access
+that existing engines could use to improve the efficiency of more expressive SPARQL queries.
 In addition, we focus on the performance-critical features of supporting  _stream-based results_, query _offset_ and _cardinality estimation_.
 Stream-based results allow more memory-efficient processing when query results are large.
 The capability to offset (and limit) a large stream reduces processing time if only a subset is needed.

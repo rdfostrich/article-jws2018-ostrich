@@ -30,9 +30,10 @@ The performance of existing solutions in each of these areas is limited and shou
 In this article,
 we argue that supporting both RDF archiving and SPARQL at once is, due to their combined complexity, difficult to scale.
 Instead, we propose an elementary, but efficient versioned _triple pattern_ index---the basic element of SPARQL---that query engines can use.
-In addition, we focus on the performance-critical features of supporting  _stream-based results_ and query _offset_.
+In addition, we focus on the performance-critical features of supporting  _stream-based results_, query _offset_ and _cardinality estimation_.
 Stream-based results allow more memory-efficient processing when query results are large.
 The capability to offset (and limit) a large stream reduces processing time if only a subset is needed.
+Cardinality estimation is essential for efficient [query planning](cite:cites ldf,rdf3x) in certain query engines.
 This index can be employed by a SPARQL endpoint, but also by the Web-friendly [Triple Pattern Fragments](cite:cites ldf) (TPF) interface:
 a Web API that provides access to RDF datasets by triple pattern and partitions the results in pages.
 Optional versioning capabilities are possible for Triple Pattern Fragments using [VTPF](cite:cites vtpf),
@@ -41,7 +42,7 @@ Concretely,
 this work introduces a storage technique with the following contributions:
 
 - a scalable versioned and compressed RDF index with offset support and result streaming;
-- efficient query algorithms to evaluate triple pattern queries *at*, *between*, and *for* different versions;
+- efficient query algorithms to evaluate triple pattern queries and perform cardinality estimation *at*, *between*, and *for* different versions;
 - an open-source implementation of this approach called OSTRICH;
 - an extensive evaluation of OSTRICH compared to other approaches using an existing RDF archiving benchmark.
 

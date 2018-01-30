@@ -49,7 +49,8 @@ a dictionary can definitely reduce storage space requirements.
 Each delta chain consists of two dictionaries, one for the snapshot and one for the deltas.
 The snapshot dictionary consists of triple components that already existed in the snapshot.
 All other triple components are present in the delta dictionary.
-The dictionary ignores whether or not the triple is an addition or deletion.
+This dictionary is shared between the additions and deletions,
+as the dictionary ignores whether or not the triple is an addition or deletion.
 How this distinction is made will be explained in [](##delta-storage).
 The snapshot dictionary can be optimized and sorted, as it will not change over time.
 The delta dictionary is volatile, as each new version can introduce new mappings.

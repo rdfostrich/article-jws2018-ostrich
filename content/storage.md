@@ -47,14 +47,19 @@ As our storage approach essentially stores each triple three or six times,
 a dictionary can definitely reduce storage space requirements.
 
 Each delta chain consists of two dictionaries, one for the snapshot and one for the deltas.
+The snapshot dictionary consists of triple components that already existed in the snapshot.
+All other triple components are present in the delta dictionary.
+The dictionary ignores whether or not the triple is an addition or deletion.
+How this distinction is made will be explained in [](##delta-storage).
 The snapshot dictionary can be optimized and sorted, as it will not change over time.
 The delta dictionary is volatile, as each new version can introduce new mappings.
 
-During triple encoding, the snapshot dictionary will always first be probed for existence of the triple component.
+During triple encoding (i.e., ingestion), the snapshot dictionary will always first be probed for existence of the triple component.
 If there is a match, that ID is used for storing the delta's triple component.
 To identify the appropriate dictionary for triple decoding,
-a form of dictionary identification is encoded inside the ID, e.g., with a reserved bit.
-The text-based dictionary entries can be compressed to reduce storage space further, as they are likely to contain many redundancies.
+a reserved bit is used where `1` indicates snapshot dictionary
+and `0` indicates the delta dictionary.
+The text-based dictionary values can be compressed to reduce storage space further, as they are likely to contain many redundancies.
 
 [](#example-delta-storage-dict) contains example encodings of the triple components
 from the example in [](#example-archive).
@@ -92,7 +97,8 @@ We assume that the following URI prefixes: `ex: http://example.org`, `foaf: http
 
 <figcaption markdown="block">
 Example encoding of several triple components.
-IDs prefixed with `S` belong to the snapshot dictionary and those prefixed with `D` belong to the delta dictionary.
+Instead of the reserved bit, IDs prefixed with `S` belong to the snapshot dictionary
+and those prefixed with `D` belong to the delta dictionary.
 </figcaption>
 </figure>
 

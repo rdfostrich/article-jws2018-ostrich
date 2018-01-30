@@ -1,9 +1,0 @@
-queryVmCount(store, tp, version)  {
-  snapshotCount = store.getSnapshot(version).count(tp)
-  if (snapshot.getVersion() == version) {
-    return snapshotCount
-  }
-  additions = store.getAdditionCount(tp, version)
-  deletions = store.getDeletionCount(tp, version)
-  return snapshotCount - deletions + additions
-}

@@ -48,40 +48,25 @@ In-memory changeset merging algorithm
 </figcaption>
 </figure>
 
-Because our querying algorithms require the position of each deletion within a changeset,
-we introduce an algorithm for incrementally calculating this position in [](#algorithm-positions).
-For this, we externally maintain mappings from triple to a counter for each possible triple pattern.
-For the `???` triple pattern, we only have to maintain a single counter, as each triple will match with this.
-In total, we maintain seven triple patterns per triple, we don't maintain a counter for the triple itself as its value is always 1.
-For a given triple, the positions of all its possible triple patterns are incremented in the counters.
-The current counter values for all those triple patterns are returned.
+Because our querying algorithms require the relative position of each deletion within a changeset to be stored,
+we have to calculate these positions during ingestion.
+We do this using the helper function `calculatePositions(triple)`.
+This function depends on external mappings that persist over the duration of the ingestion phase
+that map from triple to a counter for each possible triple pattern.
+When this helper function is called for a certain triple,
+we increment the counters for the seven possible triple patterns of the triple,
+we don't maintain a counter for the triple itself as its value is always 1.
+Finally, the function returns a mapping for the current counter values of the seven triple patterns.
 
-<figure id="algorithm-positions" class="algorithm">
-````/algorithms/ingestion-positions.txt````
-<figcaption markdown="block">
-Algorithm for incrementally calculating the position of a deletion within a changeset.
-</figcaption>
-</figure>
-
-[](#algorithm-ingestion-batch) contains the pseudocode of the batch ingestion algorithm.
-It receives a changeset stream as input, and a reference to the current store.
-The algorithm starts by reading the whole stream in-memory, sorting it in SPO order,
+The batch ingestion algorithm starts by reading a complete changeset stream in-memory, sorting it in SPO order,
 and encoding all triple components using the dictionary.
-After that, it loads the previous changeset in memory,
+After that, it loads the changeset from the previous version in memory,
 which is required for merging it together with the new changeset using the algorithm from [](#algorithm-ingestion-batch-merge).
-After that, we have the complete new changeset loaded in memory.
+After that, we have the new changeset loaded in memory.
 Now, we load each added triple into the addition trees, together with their version and local change flag.
-After that, we can initiate deletion ingestion.
-We start by iterating over all deleted triples in the new changeset
-and calculating the position of the deletion using the algorithm from [](#algorithm-positions).
-We can now ingest the given triple in the deletion trees with their version, local change flag and positions.
-
-<figure id="algorithm-ingestion-batch" class="algorithm">
-````/algorithms/ingestion-batch.txt````
-<figcaption markdown="block">
-In-memory batch ingestion algorithm
-</figcaption>
-</figure>
+After that, we finally load each deleted triple into the deletion trees
+with their version, local change flag and positions.
+These positions are calculated using `calculatePositions(triple)`.
 
 Even though this algorithm is straightforward,
 it can require a large amount of memory for a number of reasons:

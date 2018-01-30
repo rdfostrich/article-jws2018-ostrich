@@ -120,19 +120,11 @@ so we use this last offset in our final snapshot stream.
 #### Estimated count
 
 In order to provide an estimated count for VM triple pattern queries,
-we introduce [](#algorithm-querying-vm-count).
-This straightforward algorithm depends on the efficiency of the snapshot to provide count estimations for a given triple pattern.
-Based on the snapshot count for the given triple pattern, the number of deletions for that version and triple pattern
+we introduce a straightforward algorithm that depends on the efficiency of the snapshot to provide count estimations for a given triple pattern.
+Based on the snapshot count for a given triple pattern, the number of deletions for that version and triple pattern
 are subtracted and the number of additions are added.
 These last two can be resolved efficiently, as we precalculate
 and store expensive addition and deletion counts as explained in [](#addition-counts) and [](#deletion-counts).
-
-<figure id="algorithm-querying-vm-count" class="algorithm">
-````/algorithms/querying-vm-count.txt````
-<figcaption markdown="block">
-Version Materialization count estimation algorithm for triple patterns in a given version.
-</figcaption>
-</figure>
 
 #### Correctness
 

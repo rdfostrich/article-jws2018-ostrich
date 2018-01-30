@@ -35,39 +35,6 @@ Therefore,
 we do not introduce a new snapshot approach, but use HDT in our implementation.
 This will be explained further in [](#implementation).
 
-### Delta Storage
-{:#delta-storage}
-
-In order to cope with the newly introduced redundancies in our delta chain structure,
-we introduce a delta storage method similar to the TB storage strategy,
-which is able to compress redundancies within consecutive deltas.
-Instead of storing plain timestamped triples, as is done in a regular TB approach,
-we store timestamped triples annotated with addition or deletion.
-
-The additions and deletions of deltas require different metadata in our querying algorithms,
-which will be explained in [](#querying).
-Additions and deletions are stored in separate stores,
-which hold all additions and deletions from the complete delta chain.
-Each store uses a B+Tree data structure,
-where a key corresponds to a triple and the value contains version information.
-The version information consists of a mapping from version to a local change flag and, in case of deletions, also the relative position of the triple inside the delta.
-Even though triples can exist in multiple deltas in the same chain,
-they will only be stored once.
-Each addition and deletion store uses three trees with a different triple component order (SPO, POS and OSP),
-which is sufficient for optimally resolving any triple pattern (as discussed in [](#indexes)).
-
-The local change flag indicates whether or not the triple is a _local change_, which, as mentioned in [](#local-changes), further improves query evaluation time.
-A triple is a local change in a certain version if it was already either added or removed in an earlier version.
-This local change information helps the querying algorithm to determine when to ignore a triple or not.
-
-The relative position of each triple inside the delta to the deletion trees speeds up the process of patching a snapshot's triple pattern subset for any given offset.
-This position information serves two purposes:
-1) it allows the querying algorithm to exploit offset capabilities of the snapshot store
-to resolve offsets for any triple pattern against any version;
-and 2) it allows deletion counts for any triple pattern and version to be determined efficiently.
-
-The use of the relative position and the local change flag will be further explained in [](#querying).
-
 ### Delta Chain Dictionary
 {:#dictionary}
 
@@ -86,8 +53,123 @@ The delta dictionary is volatile, as each new version can introduce new mappings
 During triple encoding, the snapshot dictionary will always first be probed for existence of the triple component.
 If there is a match, that ID is used for storing the delta's triple component.
 To identify the appropriate dictionary for triple decoding,
-some form of dictionary identification is encoded inside the ID, e.g., with a reserved bit.
+a form of dictionary identification is encoded inside the ID, e.g., with a reserved bit.
 The text-based dictionary entries can be compressed to reduce storage space further, as they are likely to contain many redundancies.
+
+[](#example-delta-storage-dict) contains example encodings of the triple components
+from the example in [](#example-archive).
+
+<figure id="example-archive" class="table" markdown="1">
+
+| Version | Triple                       |
+|--------:|------------------------------|
+| 0       | `ex:Bob foaf:name "Bobby"`   |
+|||
+| 1       | `ex:Alice foaf:name "Alice"` |
+| 1       | `ex:Bob foaf:name "Bobby"`   |
+||
+| 2       | `ex:Bob foaf:name "Bob"`     |
+||
+| 3       | `ex:Alice foaf:name "Alice"` |
+| 3       | `ex:Bob foaf:name "Bob"`     |
+
+<figcaption markdown="block">
+Example of a small RDF archive with 4 versions.
+We assume that the following URI prefixes: `ex: http://example.org`, `foaf: http://xmlns.com/foaf/0.1/`
+</figcaption>
+</figure>
+
+<figure id="example-delta-storage-dict" class="table" markdown="1">
+
+| Triple Component | ID   |
+|------------------|-----:|
+| `ex:Bob`         | `S0` |
+| `foaf:name`      | `S1` |
+| `"Bobby"`        | `S2` |
+| `ex:Alice`       | `D0` |
+| `"Alice"`        | `D1` |
+| `"Bob"`          | `D2` |
+
+<figcaption markdown="block">
+Example encoding of several triple components.
+IDs prefixed with `S` belong to the snapshot dictionary and those prefixed with `D` belong to the delta dictionary.
+</figcaption>
+</figure>
+
+### Delta Storage
+{:#delta-storage}
+
+In order to cope with the newly introduced redundancies in our delta chain structure,
+we introduce a delta storage method similar to the TB storage strategy,
+which is able to compress redundancies within consecutive deltas.
+Instead of storing plain timestamped triples, as is done in a regular TB approach,
+we store timestamped triples annotated with addition or deletion.
+
+The additions and deletions of deltas require different metadata in our querying algorithms,
+which will be explained in [](#querying).
+Additions and deletions are respectively stored in separate stores,
+which hold all additions and deletions from the complete delta chain.
+Each store uses a B+Tree data structure,
+where a key corresponds to a triple and the value contains version information.
+The version information consists of a mapping from version to a local change flag and,
+in case of deletions, also the relative position of the triple inside the delta.
+Even though triples can exist in multiple deltas in the same chain,
+they will only be stored once.
+Each addition and deletion store uses three trees with a different triple component order (SPO, POS and OSP),
+which is sufficient for optimally resolving any triple pattern (as discussed in [](#indexes)).
+
+The local change flag indicates whether or not the triple is a _local change_, which, as mentioned in [](#local-changes), further improves query evaluation time.
+A triple is a local change in a certain version in respectively the addition/deletion tree
+if it was already respectively removed/added in an earlier version.
+This local change information helps the querying algorithm to determine when to ignore a triple or not.
+
+The relative position of each triple inside the delta to the deletion trees speeds up the process
+of patching a snapshot's triple pattern subset for any given offset.
+In fact, seven relative positions are stored for each triple: one for each possible triple pattern (`SP?`, `S?O`, `S??`, `?PO`, `?P?`, `??O`, `???`),
+except for `SPO` since this position will always be 0 as each triple is stored only once.
+This position information serves two purposes:
+1) it allows the querying algorithm to exploit offset capabilities of the snapshot store
+to resolve offsets for any triple pattern against any version;
+and 2) it allows deletion counts for any triple pattern and version to be determined efficiently.
+
+The use of the relative position and the local change flag will be further explained in [](#querying).
+
+[](#example-delta-storage-additions) and [](#example-delta-storage-deletions) respectively represent
+the addition and deletion tree contents when the triples from the example in [](#example-archive) are stored.
+The local change flag is enabled for `D0;S1;D1` in the deletions tree for version 2, as it was previously added in version 1.
+The relative positions in the deletion tree for `S0;S1;S2` is not the same for versions 2 and 3,
+because in version 2, the triple `D0;S1;D1` also exists as a deletion, and when sorted, this comes before `S0;S1;S2` for triple patterns `?P?` and `???`.
+
+<figure id="example-delta-storage-additions" class="table" markdown="1">
+
+| T          | V | L |
+|------------|--:|---|
+| `D0;S1;D1` | 1 | F |
+|            | 3 | F |
+| `S0;S1;D2` | 2 | F |
+
+<figcaption markdown="block">
+Addition tree contents based on the example from [](#example-archive) using the dictionary encoding from [](#example-delta-storage-dict).
+Column `T` represents the keys of the tree, which contains triples based on the encoded triple components.
+The remaining columns represent the values, i.e., a mapping from version (`V`) to the local change flag (`L`).
+</figcaption>
+</figure>
+
+<figure id="example-delta-storage-deletions" class="table" markdown="1">
+
+| T          | V | L | `SP?` | `S?O` | `S??` | `?PO` | `?P?` | `??O` | `???` |
+|------------|--:|---|------:|------:|------:|------:|------:|------:|------:|
+| `D0;S1;D1` | 2 | T | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
+| `S0;S1;S2` | 2 | F | 0     | 0     | 0     | 0     | 1     | 0     | 1     |
+|            | 3 | F | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
+
+<figcaption markdown="block">
+Deletion tree contents based on the example from [](#example-archive) using the dictionary encoding from [](#example-delta-storage-dict).
+Column `T` represents the keys of the tree, which contains triples based on the encoded triple components.
+The remaining columns represent the values, i.e., a mapping from version (`V`) to the local change flag (`L`)
+and relative positions for all essential triple patterns.
+</figcaption>
+</figure>
 
 ### Addition Counts
 {:#addition-counts}
@@ -115,12 +197,18 @@ The count threshold introduces a trade-off between the storage requirements and 
 
 As mentioned in [](#delta-storage), each deletion is annotated with its relative position in all deletions for that version.
 This position is exploited to perform deletion counting for any triple pattern and version.
-We look up the largest possible triple for the given triple pattern in the deletions tree,
-which can be done in logarithmic time.
-If this does not result in a match, we follow backward links to the elements before that one in the tree.
-In this value, the position of the deletion in all deletions for the given value is available.
+We look up the largest possible triple (sorted alphabetically) for the given triple pattern in the deletions tree,
+which can be done in logarithmic time by navigating in the tree to the largest possible match for the given triple pattern.
+If this does not result in a match for the triple pattern, no matches exist for the given triple pattern, and the count is zero.
+Otherwise, we take one plus the relative position of the matched deletion for the given triple pattern.
 Because we have queried the largest possible triple for that triple pattern in the given version,
-this will be the last deletion in the list, so its position corresponds to the total number of deletions in that case.
+this will be the last deletion in the list, so this position corresponds to the total number of deletions in that case.
+
+For example, when we want to determine the deletion count for `? foaf:name ?` (encoded: `? S1 ?`) in version 2
+using the deletion tree contents from [](#example-delta-storage-deletions),
+we will find `S0;S1;S2` as largest triple in version 2.
+This triple has relative position `1` for `?P?`, so the total deletion count is `2` for this pattern.
+This is correct, as we have indeed two triples matching this pattern, namely `D0;S1;D1` and `S0;S1;S2`.
 
 ### Metadata
 {:#metadata}

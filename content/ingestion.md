@@ -76,7 +76,7 @@ it can require a large amount of memory for a number of reasons:
 4) maintaining counters for the deletions in all possible triple patterns.
 As deltas are stored relative to snapshots, their size can grow for an increasing number of versions,
 which directly leads to larger memory requirements.
-The theoretical time complexity of this algorithm is `O(P + N)`,
+The theoretical time complexity of this algorithm is `O(P + N log(N))` (`O(P + N)` if the new changeset is already sorted),
 with `P` the number of triples in the previous changeset,
 and `N` the number of triples in the new changeset.
 
@@ -127,4 +127,4 @@ we now need to load at most three triples — the heads of each stream — in me
 Furthermore, we still need to maintain the position counters for the deletions in all triple patterns.
 While these counters could also become large, a smart implementation could perform memory-mapping
 to avoid storing everything in memory.
-The lower memory requirements come at the cost of a higher logical complexity, but an equal time complexity.
+The lower memory requirements come at the cost of a higher logical complexity, but an equal time complexity (assuming sorted changesets).

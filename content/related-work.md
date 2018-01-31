@@ -4,6 +4,8 @@
 In this section, we discuss existing solutions and techniques for indexing and compression in RDF storage, without archiving support.
 Then, we compare different RDF archiving solutions.
 Finally, we discuss suitable benchmarks and different query types for RDF archives.
+This section does not contain an exhaustive list of all relevant solutions and techniques,
+instead, only those that are most relevant to this work are mentioned.
 
 ### General RDF Indexing and Compression
 

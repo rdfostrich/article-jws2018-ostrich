@@ -158,7 +158,7 @@ queries at a certain version are only usable for medium-sized datasets.
 [Hauptman et. al. introduce a similar delta-based storage approach](cite:cites vcld)
 by storing each triple in a different named graph as a storage TB approach.
 The identifying graph of each triple is used in a commit graph for SPARQL query evaluation at a certain version.
-Their implementation is based on Sesame and Blazegraph and is slower than snapshot-based approaches, but uses less disk space.
+Their implementation is based on [Sesame](cite:cites sesame) and [Blazegraph](cite:cites blazegraph) and is slower than snapshot-based approaches, but uses less disk space.
 
 [X-RDF-3X](cite:cites xrdf3x) is an extension of [RDF-3X](cite:cites rdf3x) which adds versioning support using the TB approach.
 On storage-level, each triple is annotated with a creation and deletion timestamp.

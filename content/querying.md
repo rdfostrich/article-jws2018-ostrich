@@ -129,7 +129,7 @@ and store expensive addition and deletion counts as explained in [](#addition-co
 #### Correctness
 
 In this section, we prove that [](#algorithm-querying-vm) results in the correct stream offset
-for any given version, triple pattern and offset.
+for any given version and triple pattern.
 
 ##### _Algorithm description_
 The algorithm is initialized as follows:
@@ -137,16 +137,16 @@ The algorithm is initialized as follows:
 * `snapshot`: stream of triples from the snapshot with largest version ID less than or equal to the given version,
 * `deletions`: stream of triples that are deleted from `snapshot` for the given version,
 * `additions`: stream of triples that are added to `snapshot` for the given version.
-* `offset`: The extra snapshot offset to take into account the deleted triples, initialized as `0`.
+* `offset`: The extra snapshot offset to take into account the `deletions` that need to be removed from `snapshot`, initialized as `0`.
 
 During every iteration of the do/while loop,
-we determine the triple in the snapshot at the current index (`originalOffset + offset`),
+we determine the triple in the snapshot at the index (`originalOffset + offset`),
 and count how many deletions are preceding that triple for the given triple pattern (i.e., the relative position).
-The `offset` is then set to that number of deletions.
+`offset` is then set to that number of deletions.
 
 When the do/while loop terminates,
 `PatchedSnapshotIterator` returns all elements from the given snapshot stream,
-minus the deletions, together with the additions that are appended at the end.
+minus the deletions, followed by the additions.
 
 ##### _Proof_
 Two cases can occur with regards to the version:
@@ -154,7 +154,7 @@ Two cases can occur with regards to the version:
 1. the version is equal to the snapshot version,
 2. the version is strictly larger than the snapshot version.
 
-In the first case, the output stream is the `snapshot` stream, which is trivially to be correct.
+In the first case, the output stream is the `snapshot` stream, which follows from the definition and the first if-statement.
 For the remainder of this proof, we will elaborate on the second case.
 
 The first triple in the output stream can originate from either the snapshot stream or the additions stream.
@@ -168,10 +168,10 @@ The difference between the two streams, is that `snapshot` still contains all el
 Since the stream is sorted, the index of this triple in `snapshot` is
 `originalOffset` + `offset`, with `offset` being the number of deletions
 preceding that triple in `snapshot`.
-The do/while loop iteratively determines this triple by (absolutely) offsetting the `snapshot` stream.
-Next, the loop updates the value of `offset`.
+The do/while loop iteratively determines this triple by (absolutely) offsetting the `snapshot` stream,
+and updates the value of `offset`.
 The loop only terminates when no new deletions were found since last iteration,
-and the value of `offset` can never decrease,
+and since the value of `offset` can never decrease,
 the loop is guaranteed to end.
 Afterwards the output is a `PatchedSnapshotIterator` starting at the correct `snapshot` index,
 minus the deletions,

@@ -20,9 +20,9 @@ After that, we prove the correctness of our VM algorithm and introduce a corresp
 #### Query
 
 [](#algorithm-querying-vm) introduces an algorithm for VM triple pattern queries based on our storage structure.
-It starts by determining the snapshot on which the given version is based.
+On line 2, it starts by determining the snapshot on which the given version is based.
 After that, this snapshot is queried for the given triple pattern and offset.
-If the given version is equal to the snapshot version, the snapshot iterator can be returned directly.
+If the given version is equal to the snapshot version, the snapshot iterator can be returned directly (line 3).
 In all other cases, this snapshot offset could only be an estimation,
 and the actual snapshot offset can be larger if deletions were introduced before the actual offset.
 
@@ -33,23 +33,23 @@ snapshot, additions and deletions streams can be split up into two cases.
 The given offset lies within the range of either snapshot minus deletion triples or within the range of addition triples.
 At this point, the additions and deletions streams are initialized to the start position for the given triple pattern and version.
 
-In the first case, when the offset lies within the snapshot and deletions range,
+In the first case, when the offset lies within the snapshot and deletions range, i.e., line 11,
 we enter a loop that converges to the actual snapshot offset based on the deletions
 for the given triple pattern in the given version.
-This loop starts by determining the triple at the current offset position in the snapshot.
-We then query the deletions tree for the given triple pattern and version,
+This loop starts by determining the triple at the current offset position in the snapshot (line 13, 14).
+On line 15, we then query the deletions tree for the given triple pattern and version,
 filter out local changes, and use the snapshot triple as offset.
 This triple-based offset is done by navigating through the tree to the smallest triple before or equal to the offset triple.
-We store an additional offset value, which corresponds to the current numerical offset inside the deletions stream.
+We store an additional offset value (line 16), which corresponds to the current numerical offset inside the deletions stream.
 As long as the current snapshot offset is different from the sum of the original offset and the additional offset,
-we continue iterating this loop, which will continuously update this additional offset value.
+we continue iterating this loop (line 17), which will continuously update this additional offset value.
 
-In the second case, the given offset lies within the additions range.
-Now, we terminate the snapshot stream by offsetting it after its last element,
-and we relatively offset the additions stream.
+In the second case, i.e., line 19, the given offset lies within the additions range.
+Now, we terminate the snapshot stream by offsetting it after its last element on line 20,
+and we relatively offset the additions stream on line 21.
 This offset is calculated as the original offset subtracted with the number of snapshot triples incremented with the number of deletions.
 
-Finally, we return a simple iterator starting from the three streams that could be offset.
+Finally, on line 24, we return a simple iterator starting from the three streams that could be offset.
 This iterator performs a sort-merge join operation that removes each triple from the snapshot that also appears in the deletion stream,
 which can be done efficiently because of the consistent SPO-ordering.
 Once the snapshot and deletion streams have finished,
@@ -154,34 +154,33 @@ Two cases can occur with regards to the version:
 1. the version is equal to the snapshot version,
 2. the version is strictly larger than the snapshot version.
 
-In the first case, the output stream is the `snapshot` stream, which follows from the definition and the first if-statement.
+In the first case (line 3), the output stream is the `snapshot` stream.
 For the remainder of this proof, we will elaborate on the second case.
 
 The first triple in the output stream can originate from either the snapshot stream or the additions stream.
-A triple originates from the snapshot stream if its index within the stream is smaller than `|snapshot|` − `|deletions|`,
-otherwise, it originates from the additions stream.
-These 2 cases also correspond to the main `if`-statement in the algorithm.
+A triple originates from the snapshot stream if its index within the stream is smaller than `|snapshot|` − `|deletions|` (line 11),
+otherwise, it originates from the additions stream (line 19).
 
-In the first case we have to find the triple in the `snapshot` stream
+In the first case (line 11) we have to find the triple in the `snapshot` stream
 for which the index in the output stream would be `originalOffset`.
 The difference between the two streams, is that `snapshot` still contains all elements to be deleted for the current version.
 Since the stream is sorted, the index of this triple in `snapshot` is
-`originalOffset` + `offset`, with `offset` being the number of deletions
+`originalOffset` + `offset` (line 13), with `offset` being the number of deletions
 preceding that triple in `snapshot`.
-The do/while loop iteratively determines this triple by (absolutely) offsetting the `snapshot` stream,
-and updates the value of `offset`.
-The loop only terminates when no new deletions were found since last iteration,
+The do/while loop iteratively determines this triple by (absolutely) offsetting the `snapshot` stream (line 13),
+and updates the value of `offset` (line 16).
+The loop only terminates when no new deletions were found since last iteration (line 17),
 and since the value of `offset` can never decrease,
 the loop is guaranteed to end.
 Afterwards the output is a `PatchedSnapshotIterator` starting at the correct `snapshot` index,
-minus the deletions,
+minus the deletions (line 24),
 appended with all additions, which is what we required.
 
-In the second case the starting triple is in the stream of `additions`.
+In the second case (line 19) the starting triple is in the stream of `additions`.
 The number of elements preceding the `additions` elements,
 is the number of `snapshot` elements minus the number of `deletions`,
-which is exactly what is calculated in the `else`-statement.
-The `snapshot` stream is finalized by offsetting it after its last element,
+which is exactly what is calculated on line 21.
+The `snapshot` stream is finalized by offsetting it after its last element (line 20),
 which will cause the `PatchedSnapshotIterator` to only output `additions` elements
 starting from the calculated index, which is also what we required.
 

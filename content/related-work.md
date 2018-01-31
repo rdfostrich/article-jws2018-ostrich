@@ -40,6 +40,16 @@ Columns correspond to predicates, and rows to subjects and objects.
 This sparse matrix is compressed and dictionary-encoded to reduce storage requirements.
 Furthermore, it uses auxiliary index structures to improve index selection during query evaluation.
 
+[K2-Triples](cite:cites k2triples) is another RDF storage technique that uses _k2-tree_
+structures to the data, which results in high compression rates.
+These structures allow SPARQL queries to be evaluated in memory without decompression the structures.
+
+[RDFCSA](cite:cites rdfcsa) is a compact RDF storage technique.
+It is a _self-index_ that stores the data together with its index, which results in less storage space than raw storage.
+Furthermore, it is built on the concept of _compressed suffix arrays_,
+which compresses text while still allowing pattern-based search on it.
+RDFCSA requires about twice the storage space compared to K2Triples, but it is faster for most queries.
+
 [HDT](cite:cites hdt) is a binary RDF representation that is highly compressed
 and provides indexing structures that enable efficient querying.
 It consists of three main components:

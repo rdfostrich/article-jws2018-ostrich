@@ -58,7 +58,7 @@ For all streams, local changes are filtered out because locally changed triples
 are cancelled out for the given version as explained in [](#fundamentals),
 so they should not be returned in materialized versions.
 
-<figure id="algorithm-querying-vm" class="algorithm">
+<figure id="algorithm-querying-vm" class="algorithm numbered">
 ````/algorithms/querying-vm.txt````
 <figcaption markdown="block">
 Version Materialization algorithm for triple patterns that produces a triple stream with an offset in a given version.

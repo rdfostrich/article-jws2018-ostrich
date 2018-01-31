@@ -261,10 +261,21 @@ pre {
   line-height: 1.2;
   overflow-x: scroll;
   overflow-y: hidden;
+}
+
+figure.numbered pre {
+  counter-reset: precode;
 
   code {
     font-size: .9em;
     letter-spacing: -.1pt;
+    
+    &::before {
+      color: lightgray;
+      left: -1.75em;
+      content: counter(precode) " ";
+      counter-increment: precode;
+    }
   }
 }
 

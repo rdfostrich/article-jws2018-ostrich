@@ -112,16 +112,19 @@ class MarkupFilter < Nanoc::Filter
     when :h3
       'Subsection'
     when :figure
-      case parse_attributes(attribute_list)[:class]
-      when 'algorithm'
-        'Algorithm'
-      when 'listing'
-        'Listing'
-      when 'table'
-        'Table'
-      else
-        'Fig.'
+      unless parse_attributes(attribute_list)[:class].nil?
+        for clazz in parse_attributes(attribute_list)[:class].split(' ') do
+          case clazz
+          when 'algorithm'
+            return 'Algorithm'
+          when 'listing'
+            return 'Listing'
+          when 'table'
+            return 'Table'
+          end
+        end
       end
+      'Fig.'
     else
       'Unknown'
     end

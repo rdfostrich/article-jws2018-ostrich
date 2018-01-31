@@ -34,14 +34,14 @@ we first introduce an in-memory changeset merging algorithm,
 which is required for the batch ingestion.
 [](#algorithm-ingestion-batch-merge) shows the pseudocode of an algorithm for merging a changeset into another changeset,
 and returning the resulting merged changeset.
-First, all contents of the original changeset are copied into the new changeset.
-After that, an iteration over all triples of the second changeset is started.
-If the changeset already contained the given triple, i.e., it is a local change,
+First, on line 3, all contents of the original changeset are copied into the new changeset.
+After that, an iteration over all triples of the second changeset is started on line 4.
+If the changeset already contained the given triple, i.e., it is a local change (line 5),
 the local change flag is set to the negation of the local change flag in the first changeset.
-Otherwise, the triple is added to the new changeset, and the local change flag is set to `false`.
-Finally, in both cases the addition flag of the triple in the new changeset is copied from the second changeset.
+Otherwise (line 8), the triple is added to the new changeset, and the local change flag is set to `false`.
+Finally, in both cases (line 12) the addition flag of the triple in the new changeset is copied from the second changeset.
 
-<figure id="algorithm-ingestion-batch-merge" class="algorithm">
+<figure id="algorithm-ingestion-batch-merge" class="algorithm numbered">
 ````/algorithms/ingestion-batch-merge.txt````
 <figcaption markdown="block">
 In-memory changeset merging algorithm

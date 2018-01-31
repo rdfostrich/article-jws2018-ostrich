@@ -111,12 +111,22 @@ we introduce a delta storage method similar to the TB storage strategy,
 which is able to compress redundancies within consecutive deltas.
 Instead of storing plain timestamped triples, as is done in a regular TB approach,
 we store timestamped triples annotated with addition or deletion.
+An overview of this storage technique is shown in [](#delta-storage-overview),
+which will be explained in detail hereafter.
+
+<figure id="delta-storage-overview">
+<img src="img/delta-storage-overview.svg" alt="[delta storage overview]">
+<figcaption markdown="block">
+Overview of the components for storing a delta chain.
+The value structure for the addition and deletion trees are indicated with the dashed nodes.
+</figcaption>
+</figure>
 
 The additions and deletions of deltas require different metadata in our querying algorithms,
 which will be explained in [](#querying).
 Additions and deletions are respectively stored in separate stores,
 which hold all additions and deletions from the complete delta chain.
-Each store uses a B+Tree data structure,
+Each store uses B+Tree data structures,
 where a key corresponds to a triple and the value contains version information.
 The version information consists of a mapping from version to a local change flag and,
 in case of deletions, also the relative position of the triple inside the delta.

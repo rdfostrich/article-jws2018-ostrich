@@ -90,8 +90,37 @@ By storing only one index, such as `SPO`, the required storage space could be fu
 If querying would become required afterwards,
 the auxiliary `OSP` and `POS` indexes could still be derived from this main index
 during a one-time processing phase before querying.
+
 This technique is similar to the [HDT-FoQ](cite:cites hdtfoq) extension for HDT that adds additional indexes to a basic HDT file
 to enable faster querying for any triple pattern.
+The main difference is that HDT-FoQ uses the indexes `OSP`, `PSO` and `OPS`,
+with a different triple pattern to index mapping as shown in [](#triple-pattern-index-mapping-hdt).
+We chose these indexes in order to achieve a more balanced distribution from triple patterns to index,
+which could lead to improved load balancing between indexes when queries are parallelized.
+Additionally, the mapping from patterns `S?O` to index `SPO` in HDT-FoQ will lead to suboptimal query evaluation
+when a large number of distinct predicates is present.
+HDT-FoQ uses `SPO` for five triple pattern groups, `OPS` for two and `PSO` for only a single group.
+Our approach uses `SPO` for 4 groups, `POS` for two and `OSP` for two.
+Future work is needed to evaluate the distribution for real-world queries.
+
+<figure id="triple-pattern-index-mapping-hdt" class="table" markdown="1">
+
+| Triple pattern | Index |
+| -------------- |-------|
+| `S P O`        | `SPO` |
+| `S P ?`        | `SPO` |
+| `S ? O`        | `SPO` |
+| `S ? ?`        | `SPO` |
+| `? P O`        | `OPS` |
+| `? P ?`        | `PSO` |
+| `? ? O`        | `OPS` |
+| `? ? ?`        | `SPO` |
+
+
+<figcaption markdown="block">
+Overview of which triple patterns are queried inside which index in HDT-FoQ.
+</figcaption>
+</figure>
 
 ### Local Changes
 {:#local-changes}

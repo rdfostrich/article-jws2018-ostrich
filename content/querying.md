@@ -172,6 +172,7 @@ and updates the value of `offset` (line 16).
 The loop only terminates when no new deletions were found since last iteration (line 17),
 and since the value of `offset` can never decrease,
 the loop is guaranteed to end.
+At this point, the head of the snapshot stream is now correctly pointing at the snapshot element at `originalOffset` with `offset` deletions preceding it.
 Afterwards the output is a `PatchedSnapshotIterator` starting at the correct `snapshot` index,
 minus the deletions (line 24),
 appended with all additions, which is what we required.

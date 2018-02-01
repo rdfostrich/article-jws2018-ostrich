@@ -110,10 +110,11 @@ For BEAR-B-hourly, only HDT-CB and Jena-CB/TB require about ten times less space
 | Jena-TB         | 1,746  |  0.35         |   70.56       |
 | Jena-CB/TB      |   679  |  0.35         |    0.65       |
 | HDT-IC          |    34  |  0.39         |    5.89       |
-| HDT-CB          |    18  |  0.02         |    0.07       |
+| HDT-CB          |   *18* | *0.02*        |   *0.07*      |
 
 <figcaption markdown="block">
 Ingestion times for each of the RDF archive approaches with BEAR-A, BEAR-B-daily and BEAR-B-hourly.
+The lowest times per dataset are indicated in italics.
 </figcaption>
 </figure>
 
@@ -130,11 +131,12 @@ Ingestion times for each of the RDF archive approaches with BEAR-A, BEAR-B-daily
 | Jena-TB         | 82,278.4          |  23.61         | 3,678.89           |
 | Jena-CB/TB      | 31,160.32         |  22.83         |    53.84           |
 | HDT-IC          |  5,335.04 (+1.46) | 142.08 (+6.71) | 2,127.57 (+101.49) |
-| HDT-CB          |  2,682.88 (+0.79) |   5.96 (+0.75) |    24.39 (+10.29)  |
+| HDT-CB          | *2,682.88 (+0.79)*|  *5.96 (+0.75)*|   *24.39 (+10.29)* |
 
 <figcaption markdown="block">
 Storage sizes for each of the RDF archive approaches in MB with BEAR-A, BEAR-B-daily and BEAR-B-hourly.
 The additional storage size for the HDT index files are provided between brackets.
+The lowest sizes per dataset are indicated in italics.
 </figcaption>
 </figure>
 

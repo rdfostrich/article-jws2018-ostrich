@@ -171,19 +171,17 @@ Furthermore, compressibility increases slightly when reduced OSTRICH stores are 
 
 <figure id="results-ostrich-compressability" class="table" markdown="1">
 
-| Dataset       | Original Size (MB) | gzip (MB) | Space savings |
-| ------------- |-------------------:|----------:|------------------:|
+| Dataset       | Original Size (MB)   | gzip (MB)            | Space savings   |
+| ------------- |---------------------:|---------------------:|----------------:|
 | **OSTRICH**{:.hr} ||||
-| BEAR-A        | 4,587.52           | 3,272.50  | 28.66%            |
-| BEAR-B-daily  |    16.87           |     5.42  | 67.87%            |
-| BEAR-B-hourly |   450.59           |    86.12  | 80.88%            |
-| **OSTRICH reduced**{:.hr} ||||
-| BEAR-A        | 3,117.64           | 2,155.13  | 30.87%        |
-| BEAR-B-daily  |    12.32           |     3.35  | 72.80%        |
-| BEAR-B-hourly |   187.46           |    34.92  | 81.37%        |
+| BEAR-A        | 3,117.64 (+1,469.88) | 2,155.13 (+1,117.37) | 30.87% (-2.21%) |
+| BEAR-B-daily  |    12.32 (+4.55)     |     3.35 (+2.07)     | 72.80% (-4.93%) |
+| BEAR-B-hourly |   187.46 (+263.13)   |    34.92 (+51.2)     | 81.37% (-0.49%) |
 
 <figcaption markdown="block">
 Compressability of regular and reduced OSTRICH stores using gzip.
+The additional storage size for the auxiliary OSTRICH indexes and HDT index files are provided between brackets.
+The lowest sizes per dataset are indicated in italics. (TODO!!!!)
 </figcaption>
 </figure>
 

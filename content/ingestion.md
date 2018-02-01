@@ -90,11 +90,11 @@ with as additional requirement on the stream that its contents must be sorted in
 This way the algorithm can assume a consistent order and act as a sort-merge join operation.
 
 In summary, the algorithm performs a sort-merge join over three streams in SPO-order:
-1) the stream of _input_ changeset elements,
+1) the stream of _input_ changeset elements that are encoded using the dictionary when each element is read,
 2) the existing _deletions_ over all versions
 and 3) the existing _additions_ over all versions.
 The algorithm iterates over all streams together, until all of them are finished.
-The smallest triple over all stream heads is handled in each iteration,
+The smallest triple (string-based) over all stream heads is handled in each iteration,
 and can be categorized in seven different cases:
 
 1. deletion < input _and_ deletion < addition

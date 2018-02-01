@@ -21,7 +21,7 @@ In future work, OSTRICH could be modified to only generate the main index and de
 Memory-mapping is required so that not all data must be loaded in-memory when queries are evaluated,
 which would not always be possible for large datasets.
 For our delta dictionary, we extend HDT's dictionary implementation with adjustments to make it work with unsorted triple components.
-We compress this delta dictionary with [gzip](http://www.gzip.org/).
+We compress this delta dictionary with [gzip](http://www.gzip.org/), which requires decompression during querying and ingestion.
 Finally, for storing our addition counts, we use the Hash Database of Kyoto Cabinet, which is also memory-mapped.
 
 We provide a developer-friendly C/C++ API for ingesting and querying data based on an OSTRICH store.

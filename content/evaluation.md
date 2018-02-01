@@ -120,17 +120,17 @@ The lowest times per dataset are indicated in italics.
 
 <figure id="results-ingestion-size" class="table" markdown="1">
 
-| Approach        | BEAR-A               | BEAR-B-daily   | BEAR-B-hourly      |
-| --------------- |---------------------:|---------------:|-------------------:|
-| Raw (N-Triples) | 46,069.76            | 556.44         | 8,314.86           |
-| Raw (gzip)      |  3,194.88            |  30.98         |   466.35           |
-| OSTRICH         |  3,102.72 (+1,484.8) |  12.32 (+4.55) |   187.46 (+263.13) |
-| Jena-IC         | 32,808.96            | 415.32         | 6,233.92           |
-| Jena-CB         | 18,216.96            |  42.82         |   473.41           |
-| Jena-TB         | 82,278.4             |  23.61         | 3,678.89           |
-| Jena-CB/TB      | 31,160.32            |  22.83         |    53.84           |
-| HDT-IC          |  5,335.04 (+1.46)    | 142.08 (+6.71) | 2,127.57 (+101.49) |
-| HDT-CB          | *2,682.88 (+0.79)*   |  *5.96 (+0.75)*|   *24.39 (+10.29)* |
+| Approach        | BEAR-A                | BEAR-B-daily   | BEAR-B-hourly      |
+| --------------- |----------------------:|---------------:|-------------------:|
+| Raw (N-Triples) | 46,069.76             | 556.44         | 8,314.86           |
+| Raw (gzip)      |  3,194.88             |  30.98         |   466.35           |
+| OSTRICH         |  3,102.72 (+1,484.8)  |  12.32 (+4.55) |   187.46 (+263.13) |
+| Jena-IC         | 32,808.96             | 415.32         | 6,233.92           |
+| Jena-CB         | 18,216.96             |  42.82         |   473.41           |
+| Jena-TB         | 82,278.4              |  23.61         | 3,678.89           |
+| Jena-CB/TB      | 31,160.32             |  22.83         |    53.84           |
+| HDT-IC          |  5,335.04 (+1,494.69) | 142.08 (+6.53) | 2,127.57 (+98.88)  |
+| HDT-CB          | *2,682.88 (+802.55)*  |  *5.96 (+0.25)*|   *24.39 (+0.75)*  |
 
 <figcaption markdown="block">
 Storage sizes for each of the RDF archive approaches in MB with BEAR-A, BEAR-B-daily and BEAR-B-hourly.
@@ -165,23 +165,42 @@ The percentage of storage space that this component requires compared to the com
 </figcaption>
 </figure>
 
-[](#results-ostrich-compressability) shows the compressibility of OSTRICH datasets,
-which indicates that datasets with more versions are more prone to space savings using compression techniques like gzip.
-Furthermore, compressibility increases slightly when reduced OSTRICH stores are used.
+[](#results-ostrich-compressability) shows the compressibility of datasets for the approaches that achieve better compression than gzipped N-Triples.
+We omitted the results from the Jena-based approaches in this table,
+as all compressed sizes were in all cases _two to three times larger_ than the N-Triples compression.
+When applying gzip directly on the raw N-Triples input already achieves significant space savings.
+However, OSTRICH, HDT-IC and HDT-CB are able to reduce the required storage space _even further_ when they are used as a pre-processing step before applying gzip.
+This shows that these approaches are better --storage-wise-- for the archival of versioned datasets.
+This table also shows that OSTRICH datasets with more versions are more prone to space savings
+using compression techniques like gzip compared to OSTRICH datasets with fewer versions.
+Furthermore, compressibility is reduced when auxiliary (both OSTRICH and HDT) indexes are compressed as well.
 
 <figure id="results-ostrich-compressability" class="table" markdown="1">
 
-| Dataset       | Original Size (MB)   | gzip (MB)            | Space savings   |
-| ------------- |---------------------:|---------------------:|----------------:|
+| Dataset       | Original Size (MB)   | gzip (MB)            | Space savings    |
+| ------------- |---------------------:|---------------------:|-----------------:|
+| **N-Triples**{:.hr} ||||
+| A             |46,069.76             | 3,194.88             | 93.07%           |
+| B-hourly      | 8,314.86             |   466.35             | 94.39%           |
+| B-daily       |   556.44             |    30.98             | 94.43%           |
 | **OSTRICH**{:.hr} ||||
-| BEAR-A        | 3,117.64 (+1,469.88) | 2,155.13 (+1,117.37) | 30.87% (-2.21%) |
-| BEAR-B-daily  |    12.32 (+4.55)     |     3.35 (+2.07)     | 72.80% (-4.93%) |
-| BEAR-B-hourly |   187.46 (+263.13)   |    34.92 (+51.2)     | 81.37% (-0.49%) |
+| A             | 3,117.64 (+1,469.88) | 2,155.13 (+1,117.37) | 30.87% (-2.21%)  |
+| B-hourly      |   187.46 (+263.13)   |    34.92 (+51.2)     | 81.37% (-0.49%)  |
+| B-daily       |    12.32 (+4.55)     |     3.35 (+2.07)     | 72.80% (-4.93%)  |
+| **HDT-IC**{:.hr} ||||
+| A             | 5,335.04 (+1.494.69) | 1,854.48 (+1,300.16) | 65.24% (-24.35%) |
+| B-hourly      | 2,127.57 (+98.88)    |   388.02 (+77.76)    | 81.76% (-2.68%)  |
+| B-daily       |   142.08 (+6.53)     |    25.69 (+5.11)     | 81.92% (-2,65%)  |
+| **HDT-CB**{:.hr} ||||
+| A             | 2,682.88 (+802.55)   |  *856.39 (+718.89)*  | 68.08% (-13,28%) |
+| B-hourly      |    24.39 (+0.75)     |    *2.86 (+0.99)*    | 88.27% (-2,50%)  |
+| B-daily       |     5.96 (+0.25)     |    *1.14 (+0.26)*    | 80.87% (-3.41%)  |
 
 <figcaption markdown="block">
-Compressability of regular and reduced OSTRICH stores using gzip.
+Compressability using gzip for all BEAR datasets using OSTRICH, HDT-IC, HDT-CB and natively as N-Triples.
+The columns represent the original size, the resulting size after applying gzip, and the relative space savings for this approach.
 The additional storage size for the auxiliary OSTRICH indexes and HDT index files are provided between brackets.
-The lowest sizes per dataset are indicated in italics. (TODO!!!!)
+The lowest compressed sizes per dataset are indicated in italics.
 </figcaption>
 </figure>
 

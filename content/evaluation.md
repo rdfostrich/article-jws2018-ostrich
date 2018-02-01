@@ -404,13 +404,23 @@ because all other approaches receive their input data in the appropriate format 
 while OSTRICH does not.
 OSTRICH must convert CB input at runtime to the alternative CB structure where deltas are relative to the snapshot,
 which explains the larger ingestion times.
-While CB is a typical format for exchanging versioned datasets,
-in order to get a better understanding of the ingestion efficiency of OSTRICH,
-we could measure conversion from CB to the alternative CB format separately,
-and measure the ingestion of this alternative format afterwards in future work.
-Another future optimization could be to maintain the last version of each chain in a separate index for faster patching.
+As an example, [](#triples-bearb-hourly-altcb) shows the number of triples in each BEAR-B-hourly version
+where the deltas have been transformed to the alternative delta structure that OSTRICH uses.
+Just like the first part of [](#results-ostrich-ingestion-rate-bearb-hourly), this graph also increases linearly,
+which indicates that the large number of triples that need to be handled for long delta chains is one of the main bottlenecks for OSTRICH.
+This is also the reason why OSTRICH has memory issues during ingestion at the end of such chains.
+One future optimization could be to maintain the last version of each chain in a separate index for faster patching.
 Or a new ingestion algorithm could be implemented that accepts input in the correct alternative CB format.
-Alternatively, a new snapshot could dynamically be created when ingestion time becomes too large.
+Alternatively, a new snapshot could dynamically be created when ingestion time becomes too large,
+which could for example for BEAR-B-hourly take place around version 1000.
+
+<figure id="triples-bearb-hourly-altcb">
+<img src="img/triples-bearb-hourly-altcb.svg" alt="[bear-b-hourly alternative cb]" height="150em">
+<figcaption markdown="block">
+Total number of triples for each BEAR-B-hourly version when converted to the alternative CB structure used by OSTRICH,
+i.e., each triple is an addition or deletion relative to the _first_ version instead of the _previous_ version.
+</figcaption>
+</figure>
 
 In [](#results-ostrich-ingestion-rate-bearb-hourly), we can observe large fluctuations in ingestion time around version 1,200 of BEAR-B-hourly.
 This is caused by the large amount of versions that are stored for each tree value.

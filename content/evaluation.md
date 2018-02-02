@@ -35,6 +35,12 @@ containing a dataset with 30M triples in 10 versions using [TPF](cite:cites ldf)
 ### Experimental Setup
 
 As mentioned before in [](#related-work-benchmarks), we evaluate our approach using the BEAR benchmark.
+We chose for this benchmark because it provides a complete set of tools and data for benchmarking RDF versioning systems,
+containing datasets, queries and easy-to-use engines to compare with.
+We were not able to extend this benchmark with other similar systems such as X-RDF-3X, RDF-TX and Dydra,
+because the source code of systems was either not publicly available,
+or the system would require additional implementation work to support the required query interface.
+
 We extended the existing BEAR implementation for the evaluation of offsets.
 We did this by implementing custom offset features into each of the BEAR approaches.
 Only for VM queries in HDT-IC an efficient implementation (HDT-IC+) could be made because of HDT's native offset capabilities.

@@ -67,6 +67,7 @@ Now, we load each added triple into the addition trees, together with their vers
 After that, we finally load each deleted triple into the deletion trees
 with their version, local change flag and positions.
 These positions are calculated using `calculatePositions(triple)`.
+For the sake of completeness, we included the algorithm in pseudo-code in [Appendix A](#appendix-algorithms).
 
 Even though this algorithm is straightforward,
 it can require a large amount of memory for a number of reasons:
@@ -88,6 +89,7 @@ we introduce a more complex streaming ingestion algorithm.
 Just like the batch algorithm, it takes a changeset stream and store as input parameters,
 with as additional requirement on the stream that its contents must be sorted in SPO-order.
 This way the algorithm can assume a consistent order and act as a sort-merge join operation.
+Just as for the batch algorithm, we included this algorithm in pseudo-code in [Appendix A](#appendix-algorithms).
 
 In summary, the algorithm performs a sort-merge join over three streams in SPO-order:
 1) the stream of _input_ changeset elements that are encoded using the dictionary when each element is read,

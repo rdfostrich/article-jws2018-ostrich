@@ -220,10 +220,13 @@ Delta chain in which deltas are relative to the previous delta, as is done in [T
 {:#related-work-benchmarks}
 
 [BEAR](cite:cites bear) is a benchmark for RDF archive systems.
-It is based on three real-world datasets from different domains:
+We use the extended dataset and queries that are provided on [BEAR website](https://aic.ai.wu.ac.at/qadlod/bear.html){:.mandatory},
+which are not yet part of an accepted publication at the time of writing,
+but still very useful for our evaluations.
+The BEAR benchmark is based on three real-world datasets from different domains:
 
 BEAR-A
-: 58 weekly snapshots from the [Dynamic Linked Data Observatory](cite:cites datasetdynamics).
+: 58 weekly snapshots from the [Dynamic Linked Data Observatory](cite:cites datasetdynamics). This is the main dataset from the article on [BEAR](cite:cites bear).
 
 BEAR-B
 : The 100 most volatile resources from [DBpedia Live](cite:cites dbpedialive) over the course of three months

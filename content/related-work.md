@@ -122,6 +122,7 @@ In the following sections, we discuss several existing RDF archiving systems, wh
 | [R43ples](cite:cites r43ples)               |    | ✓  |    |
 | [Hauptman et. al.](cite:cites vcld)         |    |    | ✓  |
 | [X-RDF-3X](cite:cites xrdf3x)               |    |    | ✓  |
+| [RDF-TX](cite:cites rdftx)                  |    |    | ✓  |
 | [v-RDFCSA](cite:cites selfindexingarchives) |    |    | ✓  |
 | [Dydra](cite:cites dydra)                   |    |    | ✓  |
 | [TailR](cite:cites tailr)                   | ✓  | ✓  |    |
@@ -173,6 +174,10 @@ Their implementation is based on [Sesame](cite:cites sesame) and [Blazegraph](ci
 [X-RDF-3X](cite:cites xrdf3x) is an extension of [RDF-3X](cite:cites rdf3x) which adds versioning support using the TB approach.
 On storage-level, each triple is annotated with a creation and deletion timestamp.
 This enables time-travel queries where only triples valid at the given time are returned.
+
+[RDF-TX](cite:cites rdftx) is an in-memory query engine that supports a temporal SPARQL querying extension.
+The system is based on compressed multi-version B+Trees that outperforms similar systems such as X-RDF-3X in terms of querying efficiency.
+The required storage space after indexing is similar to that of X-RDF-3X.
 
 [v-RDFCSA](cite:cites selfindexingarchives) is a self-indexing RDF archive mechanism,
 based on the RDF self-index [RDFCSA](cite:cites rdfcsa),

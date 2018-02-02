@@ -44,10 +44,12 @@ or [datetime content-negotiation](cite:cites mementoldf) using [Memento](cite:ci
 Concretely,
 this work introduces a storage technique with the following contributions:
 
-- a scalable versioned and compressed RDF index with offset support and result streaming;
-- efficient query algorithms to evaluate triple pattern queries and perform cardinality estimation *at*, *between*, and *for* different versions;
-- an open-source implementation of this approach called OSTRICH;
-- an extensive evaluation of OSTRICH compared to other approaches using an existing RDF archiving benchmark.
+- a scalable versioned and compressed RDF *index* with *offset* support and result *streaming*;
+- efficient *query algorithms* to evaluate triple pattern queries and perform cardinality estimation *at*, *between*, and *for* different versions, with optional *offsets*;
+- an open-source *implementation* of this approach called OSTRICH;
+- an extensive *evaluation* of OSTRICH compared to other approaches using an existing RDF archiving benchmark.
+
+The main novelty of this work is the combination of efficient offset-enabled queries over a new index structure for RDF archives.
 
 This article is structured as follows.
 In the next section, we start by introducing the related work and our problem statement in [](#problem-statement).

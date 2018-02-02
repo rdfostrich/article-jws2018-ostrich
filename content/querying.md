@@ -3,7 +3,9 @@
 
 In this section, we introduce algorithms for performing VM, DM and VQ triple pattern queries
 based on the storage structure introduced in [](#storage).
-Each of these querying algorithms is based on result streams, enabling offsets and limits.
+Each of these querying algorithms is based on result streams, enabling efficient offsets and limits.
+Instead of naively iterating over elements in order to achieve a certain offset,
+we provide techniques in our algorithms for achieving more efficient offsets by exploiting the index structure from [](#storage).
 Furthermore, querying algorithms typically use exact or estimated counts for triple patterns in their optimizer algorithms,
 such as [TPF](cite:cites ldf),
 for determining the order of triple patterns during evaluation.

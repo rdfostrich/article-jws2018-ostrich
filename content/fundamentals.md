@@ -21,7 +21,7 @@ Finally, in order to provide cardinality estimation for any triple pattern,
 we store an additional count data structure.
 
 In the following sections, we discuss the most important distinguishing features of our approach.
-We elaborate on the hybrid IC/CB/TB storage technique that our approach is based on,
+We elaborate on the novel hybrid IC/CB/TB storage technique that our approach is based on,
 the reason for using multiple indexes,
 having local change metadata,
 and methods for storing addition and deletion counts.

@@ -41,7 +41,7 @@ This will be explained further in [](#implementation).
 A common technique in [RDF indexes](cite:cites hdt,rdf3x,triplebit) is to use a dictionary for mapping triple components to numerical IDs.
 This is done for three main reasons:
 1) reduce storage space if triple components are stored multiple times;
-2) reducing I/O overhead when retrieving data;
+2) reducing I/O overhead when retrieving data; and
 3) simplify and optimize querying.
 As our storage approach essentially stores each triple three or six times,
 a dictionary can definitely reduce storage space requirements.
@@ -51,7 +51,7 @@ The snapshot dictionary consists of triple components that already existed in th
 All other triple components are present in the delta dictionary.
 This dictionary is shared between the additions and deletions,
 as the dictionary ignores whether or not the triple is an addition or deletion.
-How this distinction is made will be explained in [](##delta-storage).
+How this distinction is made will be explained in [](#delta-storage).
 The snapshot dictionary can be optimized and sorted, as it will not change over time.
 The delta dictionary is volatile, as each new version can introduce new mappings.
 
@@ -109,8 +109,8 @@ and those prefixed with `D` belong to the delta dictionary.
 In order to cope with the newly introduced redundancies in our delta chain structure,
 we introduce a delta storage method similar to the TB storage strategy,
 which is able to compress redundancies within consecutive deltas.
-Instead of storing plain timestamped triples, as is done in a regular TB approach,
-we store timestamped triples annotated with addition or deletion.
+In contrast to a regular TB approach, which stores plain timestamped triples,
+we store timestamped triples annotated with a flag for addition or deletion.
 An overview of this storage technique is shown in [](#delta-storage-overview),
 which will be explained in detail hereafter.
 
@@ -133,7 +133,7 @@ in case of deletions, also the relative position of the triple inside the delta.
 Even though triples can exist in multiple deltas in the same chain,
 they will only be stored once.
 Each addition and deletion store uses three trees with a different triple component order (SPO, POS and OSP),
-which is sufficient for optimally resolving any triple pattern (as discussed in [](#indexes)).
+which is sufficient for efficiently resolving any triple pattern (as discussed in [](#indexes)).
 
 The local change flag indicates whether or not the triple is a _local change_, which, as mentioned in [](#local-changes), further improves query evaluation time.
 A triple is a local change in a certain version in respectively the addition/deletion tree
@@ -203,9 +203,8 @@ which can result in a large mapping store.
 To cope with this, we propose to only store the elements where their counts are larger than a certain threshold.
 Elements that are not stored will have to be counted during lookup time.
 This is however not a problem for reasonably low thresholds,
-because as mentioned in [](#addition-deletion-counts),
-we can efficiently limit the iteration scope in our indexes,
-so that for triple patterns for which only a limited number of matches exist,
+because the iteration scope in our indexes can be limited efficiently, as mentioned in [](#addition-deletion-counts).
+Thus, for triple patterns for which only a limited number of matches exist,
 iteration, and therefore the counts, can happen efficiently.
 The count threshold introduces a trade-off between the storage requirements and the required triple counting during lookups.
 
@@ -230,7 +229,8 @@ This is correct, as we have indeed two triples matching this pattern, namely `D0
 ### Metadata
 {:#metadata}
 
-In order to allow querying algorithms to detect the total number of versions across all delta chains,
+Querying algorithms have to be able to detect the total number of versions across all delta chains.
+Therefore,
 we must store metadata regarding the delta chain version ranges.
-Assuming numerical version identifiers, a mapping can be maintained from version ID to delta chain.
-Additionally, a total version counter must be maintained for cases when the last version must be identified.
+Assuming that version identifiers are numerical, a mapping can be maintained from version ID to delta chain.
+Additionally, a counter of the total number of versions must be maintained for when the last version must be identified.

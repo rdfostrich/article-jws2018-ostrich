@@ -6,11 +6,13 @@ We introduce fundamental concepts
 that are required in our storage approach, which will be explained in [](#storage),
 and its accompanying querying algorithms, which will be explained in [](#querying).
 
+<div style="color: red">Miel: paragraph below is confusing about the tree indexes. Add more structue.</div>
+
 To combine smart use of storage space with efficient processing of VM, DM, and VQ triple pattern queries,
 we employ a hybrid approach between individual copies (IC), change-based (CB), and timestamp-based (TB) storage technique (as discussed in [](#related-work)).
 In summary, intermittent _fully materialized snapshots_ are followed by _delta chains_.
 Each delta chain is stored in _tree indexes_, where values are dictionary-encoded and timestamped
-in order to reduce storage requirements and lookup times.
+to reduce storage requirements and lookup times.
 Next, each index is replicated for three different triple component orders
 to ensure any triple pattern query can be resolved quickly.
 Since access patterns to additions and deletions in deltas differ between VM, DM, and VQ queries,
@@ -31,8 +33,8 @@ and methods for storing addition and deletion counts.
 
 Our storage technique is partially based on a hybrid IC/CB approach similar to [](#regular-delta-chain).
 To avoid increasing reconstruction times,
-we modify the delta chain to be similar to [aggregated deltas](cite:cites vmrdf), i.e., _independent_ of a preceding version.
-Instead, deltas are relative to the closest preceding snapshot in the chain, as shown in [](#alternative-delta-chain).
+we construct the delta chain in a [aggregated deltas](cite:cites vmrdf) fashion:
+each delta is _independent_ of a preceding delta and relative to the closest preceding snapshot in the chain, as shown in [](#alternative-delta-chain).
 Hence, for any version, version reconstruction only requires at most one delta and one snapshot.
 Although this does increase possible redundancies within delta chains,
 due to each delta _inheriting_ the changes of its preceding delta,
@@ -50,16 +52,16 @@ Delta chain in which deltas are relative to the snapshot at the start of the cha
 
 Our storage approach consists of three different indexes that are used for storing additions and deletions
 in different triple component orders, namely: `SPO`, `POS` and `OSP`.
-These indexes are tree-based, which means the starting triple for any triple pattern can be found in logarithmic time,
-and next triples can be found by iterating through the links between each tree leaf.
+These indexes are <span style="color: red">Miel: be more specific about tree-based. It's a balaced tree at least.</span>tree-based, thereby, the starting triple for any triple pattern can be found in logarithmic time.
+Consequently, the triples can be found by iterating through the links between each tree leaf.
 [](#triple-pattern-index-mapping) shows an overview of which triple patterns can be mapped to which index.
 In contrast to [other approaches](cite:cites rdf3x,hexastore),
 we use three indexes instead of all six possible component orders,
 because we only aim to reduce the iteration scope of the lookup tree for any triple pattern.
 For each possible triple pattern,
-we now have an index in which the first triple component can be located in logarithmic time,
-and the terminating element of the result stream can be identified without necessarily having iterate to the last value of the tree.
-Other approaches are typically also interested in ensuring the triple order of the result stream,
+we now have an index that locates the first triple component in logarithmic time,
+and identifies the terminating element of the result stream without necessarily having iterate to the last value of the tree.
+For some scenarios, it might be benefetial to ensure to order the triples in the result stream,
 so that more efficient stream joining algorithms can be used, such as sort-merge join.
 If this would be needed, `OPS`, `PSO` and `SOP` indexes could optionally be added
 so that all possible triple orders would be available.
@@ -83,15 +85,14 @@ Overview of which triple patterns can be queried inside which index to optimally
 </figcaption>
 </figure>
 
-This approach could also act as a pure RDF archiving solution,
-without (necessarily efficient) querying capabilities,
-in which case only a single index would be required.
-By storing only one index, such as `SPO`, the required storage space could be further reduced.
+<span style="color: red">Miel: which approach?</span>This approach could also act as a dedicated RDF archiving solution
+without (necessarily efficient) querying capabilities.
+In this case, only a single index would be required, such as `SPO`, which would reduce the required storage space even further.
 If querying would become required afterwards,
 the auxiliary `OSP` and `POS` indexes could still be derived from this main index
-during a one-time processing phase before querying.
+during a one-time, pre-querying processing phase.
 
-This technique is similar to the [HDT-FoQ](cite:cites hdtfoq) extension for HDT that adds additional indexes to a basic HDT file
+<span style="color: red">Miel: which technique?</span>This technique is similar to the [HDT-FoQ](cite:cites hdtfoq) extension for HDT that adds additional indexes to a basic HDT file
 to enable faster querying for any triple pattern.
 The main difference is that HDT-FoQ uses the indexes `OSP`, `PSO` and `OPS`,
 with a different triple pattern to index mapping as shown in [](#triple-pattern-index-mapping-hdt).
@@ -125,10 +126,10 @@ Overview of which triple patterns are queried inside which index in HDT-FoQ.
 ### Local Changes
 {:#local-changes}
 
-A delta chain can contain multiple instances of each triple,
-since the same triple could be added in one version and removed in a later one.
-Those triples that revert a previous addition or deletion within the same delta chain are called _local changes_
-and are important during query evaluation.
+A delta chain can contain multiple instances of the same triple,
+since it could be added in one version and removed in the next.
+Triples that revert a previous addition or deletion within the same delta chain, are called _local changes_
+, and are important for query evaluation.
 Determining the locality of changes can be costly,
 thus we pre-calculate this information during ingestion time and store it for each versioned triple,
 so that this does not have to happen during query-time.

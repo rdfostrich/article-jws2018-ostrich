@@ -28,19 +28,20 @@ efficient *compression*, and *indexing methods* that should enable expressive ve
 The performance of existing solutions in each of these areas is limited and should be improved.
 
 In this article,
-we argue that supporting both RDF archiving and SPARQL at once is, due to their combined complexity, difficult to scale.
-Instead, we propose an elementary, but efficient versioned _triple pattern_ index---the basic element of SPARQL---that query engines can use.
-As such, the aim of our solution is not to compete with existing versioned SPARQL engines,
-but to provide an alternative indexing structure with efficient triple pattern access
-that existing engines could use to improve the efficiency of more expressive SPARQL queries.
-In addition, we focus on the performance-critical features of supporting  _stream-based results_, query _offset_ and _cardinality estimation_.
+we argue that supporting both RDF archiving and SPARQL at once is difficult to scale due to their combined complexity.
+Instead, we propose an elementary, but efficient versioned _triple pattern_ index.
+A triple pattern is the basic element of SPARQL and, thus, can be used by query engines.
+
+<div style="color: red">I've rewritten the part below to be more strong. Needs som more finetuning</div>
+
+As such, our solution is applicable as:
+(a) an alternative index with efficient triple-pattern-based access for existing engines, in order to improve the efficiency of more expressive SPARQL queries; and
+(b) a data source for the Web-friendly [Triple Pattern Fragments](cite:cites ldf) (TPF) interface, i.e.,
+a Web API that provides access to RDF datasets by triple pattern and partitions the results in pages.
+Hence, we focus on the performance-critical features of _stream-based results_, query _offset_ and _cardinality estimation_.
 Stream-based results allow more memory-efficient processing when query results are large.
 The capability to offset (and limit) a large stream reduces processing time if only a subset is needed.
 Cardinality estimation is essential for efficient [query planning](cite:cites ldf,rdf3x) in certain query engines.
-This index can be employed by a SPARQL endpoint, but also by the Web-friendly [Triple Pattern Fragments](cite:cites ldf) (TPF) interface:
-a Web API that provides access to RDF datasets by triple pattern and partitions the results in pages.
-Optional versioning capabilities are possible for Triple Pattern Fragments using [VTPF](cite:cites vtpf),
-or [datetime content-negotiation](cite:cites mementoldf) using [Memento](cite:cites memento).
 Concretely,
 this work introduces a storage technique with the following contributions:
 
@@ -50,6 +51,9 @@ this work introduces a storage technique with the following contributions:
 - an extensive *evaluation* of OSTRICH compared to other approaches using an existing RDF archiving benchmark.
 
 The main novelty of this work is the combination of efficient offset-enabled queries over a new index structure for RDF archives.
+Note that we do not aim to compete with existing versioned SPARQL engines---full access to the language should be leveraged by umbrella engines, for instance by using Triple Pattern Fragments.
+Optional versioning capabilities are possible for TPF by using [VTPF](cite:cites vtpf),
+or [datetime content-negotiation](cite:cites mementoldf) through [Memento](cite:cites memento).
 
 This article is structured as follows.
 In the next section, we start by introducing the related work and our problem statement in [](#problem-statement).

@@ -1,6 +1,8 @@
 ## Querying
 {:#querying}
 
+<div style="color: red">Miel: choose a consistent style for referring to lines . Or you use them as subjects at the start of a paragraph (active sentence) and between brackets later, or always between brackets. Never 'i.e., line x,' though. I've rewritten some stuff here and there, but I think you should have a look at it first.</div>
+
 In this section, we introduce algorithms for performing VM, DM and VQ triple pattern queries
 based on the storage structure introduced in [](#storage).
 Each of these querying algorithms is based on result streams, enabling efficient offsets and limits.
@@ -35,7 +37,7 @@ snapshot, additions and deletions streams can be split up into two cases.
 The given offset lies within the range of either snapshot minus deletion triples or within the range of addition triples.
 At this point, the additions and deletions streams are initialized to the start position for the given triple pattern and version.
 
-In the first case, when the offset lies within the snapshot and deletions range, i.e., line 11,
+In the first case, when the offset lies within the snapshot and deletions range (line 11),
 we enter a loop that converges to the actual snapshot offset based on the deletions
 for the given triple pattern in the given version.
 This loop starts by determining the triple at the current offset position in the snapshot (line 13, 14).
@@ -46,7 +48,7 @@ We store an additional offset value (line 16), which corresponds to the current 
 As long as the current snapshot offset is different from the sum of the original offset and the additional offset,
 we continue iterating this loop (line 17), which will continuously update this additional offset value.
 
-In the second case, i.e., line 19, the given offset lies within the additions range.
+In the second case (line 19), the given offset lies within the additions range.
 Now, we terminate the snapshot stream by offsetting it after its last element on line 20,
 and we relatively offset the additions stream on line 21.
 This offset is calculated as the original offset subtracted with the number of snapshot triples incremented with the number of deletions.

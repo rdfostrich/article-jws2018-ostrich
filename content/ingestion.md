@@ -3,7 +3,7 @@
 
 In this section, we discuss two ingestion algorithms: a memory-intensive batch algorithm and a memory-efficient streaming algorithm.
 These algorithms both take a changeset—containing additions and deletions—as input,
-and ingest it to the store as a new version.
+and append it as a new version to the store.
 Note that the ingested changesets are regular changesets: they are relative to one another according to [](#regular-delta-chain).
 Furthermore, we assume that the ingested changesets are valid changesets:
 they don't contain impossible triple sequences such as a triple that is removed in two versions without having an addition in between.
@@ -34,12 +34,12 @@ we first introduce an in-memory changeset merging algorithm,
 which is required for the batch ingestion.
 [](#algorithm-ingestion-batch-merge) shows the pseudocode of an algorithm for merging a changeset into another changeset,
 and returning the resulting merged changeset.
-First, on line 3, all contents of the original changeset are copied into the new changeset.
-After that, an iteration over all triples of the second changeset is started on line 4.
-If the changeset already contained the given triple, i.e., it is a local change (line 5),
-the local change flag is set to the negation of the local change flag in the first changeset.
-Otherwise (line 8), the triple is added to the new changeset, and the local change flag is set to `false`.
-Finally, in both cases (line 12) the addition flag of the triple in the new changeset is copied from the second changeset.
+First, all contents of the original changeset are copied into the new changeset (line 3).
+After that, we iterate over all triples of the second changeset (line 4).
+If the changeset already contained the given triple---it is a local change (line 5),
+<span style="color:red">Miel: following sentence needs rephrasing?</span>the local change flag is set to the negation of the local change flag in the first changeset.
+Otherwise, the triple is added to the new changeset, and the local change flag is set to `false` (line 8-10).
+Finally, in both cases the addition flag of the triple in the new changeset is copied from the second changeset (line 12).
 
 <figure id="algorithm-ingestion-batch-merge" class="algorithm numbered">
 ````/algorithms/ingestion-batch-merge.txt````
@@ -54,8 +54,8 @@ We do this using the helper function `calculatePositions(triple)`.
 This function depends on external mappings that persist over the duration of the ingestion phase
 that map from triple to a counter for each possible triple pattern.
 When this helper function is called for a certain triple,
-we increment the counters for the seven possible triple patterns of the triple,
-we don't maintain a counter for the triple itself as its value is always 1.
+we increment the counters for the seven possible triple patterns of the triple.
+For the triple itself, we do not maintain a counter, as its value is always 1.
 Finally, the function returns a mapping for the current counter values of the seven triple patterns.
 
 The batch ingestion algorithm starts by reading a complete changeset stream in-memory, sorting it in SPO order,
@@ -87,7 +87,7 @@ and `N` the number of triples in the new changeset.
 Because of the unbounded memory requirements of the [batch ingestion algorithm](#batch-ingestion),
 we introduce a more complex streaming ingestion algorithm.
 Just like the batch algorithm, it takes a changeset stream and store as input parameters,
-with as additional requirement on the stream that its contents must be sorted in SPO-order.
+with the additional requirement that the stream's values must be sorted in SPO-order.
 This way the algorithm can assume a consistent order and act as a sort-merge join operation.
 Just as for the batch algorithm, we included this algorithm in pseudo-code in [Appendix A](#appendix-algorithms).
 
@@ -107,6 +107,8 @@ and can be categorized in seven different cases:
 6. addition == deletion _and_ addition < input
 7. addition == deletion == input
 
+<div style="color:red">Miel: I would merge the explanation below with the 7-item list in one description list.</div>
+
 The two first cases are the simplest ones, in which the current deletion and addition are respectively the smallest.
 For these cases, the unchanged deletion and addition information can respectively be copied to the new version.
 For the deletion, new positions must be calculated in this and all other cases.
@@ -124,8 +126,7 @@ This means that if the triple was an addition in the previous version, it become
 and the local change flag can be inherited.
 
 The theoretical memory requirement for this algorithm is much lower than the [batch variant](#batch-ingestion).
-That is because instead of loading the complete new changeset in memory,
-we now need to load at most three triples — the heads of each stream — in memory.
+That is because load at most three triples, i.e., the heads of each stream, in memory, instead of the complete new changeset.
 Furthermore, we still need to maintain the position counters for the deletions in all triple patterns.
 While these counters could also become large, a smart implementation could perform memory-mapping
 to avoid storing everything in memory.

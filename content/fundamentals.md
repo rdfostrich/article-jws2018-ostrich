@@ -52,7 +52,7 @@ Delta chain in which deltas are relative to the snapshot at the start of the cha
 
 Our storage approach consists of three different indexes that are used for storing additions and deletions
 in different triple component orders, namely: `SPO`, `POS` and `OSP`.
-These indexes are <span style="color: red">Miel: be more specific about tree-based. It's a balaced tree at least.</span>tree-based, thereby, the starting triple for any triple pattern can be found in logarithmic time.
+These indexes are B+Trees, thereby, the starting triple for any triple pattern can be found in logarithmic time.
 Consequently, the triples can be found by iterating through the links between each tree leaf.
 [](#triple-pattern-index-mapping) shows an overview of which triple patterns can be mapped to which index.
 In contrast to [other approaches](cite:cites rdf3x,hexastore),

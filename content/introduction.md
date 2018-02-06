@@ -32,15 +32,13 @@ we argue that supporting both RDF archiving and SPARQL at once is difficult to s
 Instead, we propose an elementary, but efficient versioned _triple pattern_ index.
 A triple pattern is the basic element of SPARQL and, thus, can be used by query engines.
 
-<div style="color: red">I've rewritten the part below to be more strong. Needs som more finetuning</div>
-
 As such, our solution is applicable as:
 (a) an alternative index with efficient triple-pattern-based access for existing engines, in order to improve the efficiency of more expressive SPARQL queries; and
 (b) a data source for the Web-friendly [Triple Pattern Fragments](cite:cites ldf) (TPF) interface, i.e.,
 a Web API that provides access to RDF datasets by triple pattern and partitions the results in pages.
-Hence, we focus on the performance-critical features of _stream-based results_, query _offset_ and _cardinality estimation_.
-Stream-based results allow more memory-efficient processing when query results are large.
-The capability to offset (and limit) a large stream reduces processing time if only a subset is needed.
+Hence, we focus on the performance-critical features of _stream-based results_, query result _offsets_ and _cardinality estimation_.
+Stream-based results allow more memory-efficient processing when query results are plentiful.
+The capability to efficiently offset (and limit) a large stream reduces processing time if only a subset is needed.
 Cardinality estimation is essential for efficient [query planning](cite:cites ldf,rdf3x) in certain query engines.
 Concretely,
 this work introduces a storage technique with the following contributions:

@@ -3,20 +3,20 @@
 
 In this section, we lay the groundwork for the following sections.
 We introduce fundamental concepts
-that are required in our storage approach, which will be explained in [](#storage),
-and its accompanying querying algorithms, which will be explained in [](#querying).
-
-<div style="color: red">Miel: paragraph below is confusing about the tree indexes. Add more structue.</div>
+that are required in our storage approach and its accompanying querying algorithms,
+which will be explained in [](#storage) and [](#querying), respectively.
 
 To combine smart use of storage space with efficient processing of VM, DM, and VQ triple pattern queries,
-we employ a hybrid approach between individual copies (IC), change-based (CB), and timestamp-based (TB) storage technique (as discussed in [](#related-work)).
+we employ a hybrid approach between the individual copies (IC), change-based (CB), and timestamp-based (TB) storage techniques (as discussed in [](#related-work)).
 In summary, intermittent _fully materialized snapshots_ are followed by _delta chains_.
-Each delta chain is stored in _tree indexes_, where values are dictionary-encoded and timestamped
+Each delta chain is stored in _six tree-based indexes_, where values are dictionary-encoded and timestamped
 to reduce storage requirements and lookup times.
-Next, each index is replicated for three different triple component orders
-to ensure any triple pattern query can be resolved quickly.
-Since access patterns to additions and deletions in deltas differ between VM, DM, and VQ queries,
-we store additions and deletions in separate tree indexes.
+These six indexes correspond to the combinations for storing three triple component orders
+separately for additions and deletions.
+The indexes for the three different triple component orders
+ensure that any triple pattern query can be resolved quickly.
+The additions and deletions are stored in separately
+because access patterns to additions and deletions in deltas differ between VM, DM, and VQ queries.
 To support inter-delta DM queries, each addition and deletion value contains a _local change_ flag
 that indicates if the change is not relative to the snapshot.
 Finally, in order to provide cardinality estimation for any triple pattern,
@@ -85,14 +85,14 @@ Overview of which triple patterns can be queried inside which index to optimally
 </figcaption>
 </figure>
 
-<span style="color: red">Miel: which approach?</span>This approach could also act as a dedicated RDF archiving solution
+Our approach could also act as a dedicated RDF archiving solution
 without (necessarily efficient) querying capabilities.
 In this case, only a single index would be required, such as `SPO`, which would reduce the required storage space even further.
 If querying would become required afterwards,
 the auxiliary `OSP` and `POS` indexes could still be derived from this main index
 during a one-time, pre-querying processing phase.
 
-<span style="color: red">Miel: which technique?</span>This technique is similar to the [HDT-FoQ](cite:cites hdtfoq) extension for HDT that adds additional indexes to a basic HDT file
+Our technique is similar to the [HDT-FoQ](cite:cites hdtfoq) extension for HDT that adds additional indexes to a basic HDT file
 to enable faster querying for any triple pattern.
 The main difference is that HDT-FoQ uses the indexes `OSP`, `PSO` and `OPS`,
 with a different triple pattern to index mapping as shown in [](#triple-pattern-index-mapping-hdt).

@@ -1,8 +1,6 @@
 ## Querying
 {:#querying}
 
-<div style="color: red">Miel: choose a consistent style for referring to lines . Or you use them as subjects at the start of a paragraph (active sentence) and between brackets later, or always between brackets. Never 'i.e., line x,' though. I've rewritten some stuff here and there, but I think you should have a look at it first.</div>
-
 In this section, we introduce algorithms for performing VM, DM and VQ triple pattern queries
 based on the storage structure introduced in [](#storage).
 Each of these querying algorithms is based on result streams, enabling efficient offsets and limits.
@@ -41,7 +39,7 @@ In the first case, when the offset lies within the snapshot and deletions range 
 we enter a loop that converges to the actual snapshot offset based on the deletions
 for the given triple pattern in the given version.
 This loop starts by determining the triple at the current offset position in the snapshot (line 13, 14).
-On line 15, we then query the deletions tree for the given triple pattern and version,
+We then query the deletions tree for the given triple pattern and version (line 15),
 filter out local changes, and use the snapshot triple as offset.
 This triple-based offset is done by navigating through the tree to the smallest triple before or equal to the offset triple.
 We store an additional offset value (line 16), which corresponds to the current numerical offset inside the deletions stream.
@@ -49,13 +47,13 @@ As long as the current snapshot offset is different from the sum of the original
 we continue iterating this loop (line 17), which will continuously update this additional offset value.
 
 In the second case (line 19), the given offset lies within the additions range.
-Now, we terminate the snapshot stream by offsetting it after its last element on line 20,
-and we relatively offset the additions stream on line 21.
+Now, we terminate the snapshot stream by offsetting it after its last element (line 20),
+and we relatively offset the additions stream (line 21).
 This offset is calculated as the original offset subtracted with the number of snapshot triples incremented with the number of deletions.
 
-Finally, on line 24, we return a simple iterator starting from the three streams that could be offset.
+Finally, we return a simple iterator starting from the three streams that could be offset (line 24).
 This iterator performs a sort-merge join operation that removes each triple from the snapshot that also appears in the deletion stream,
-which can be done efficiently because of the consistent SPO-ordering.
+which can be done efficiently because of the consistent `SPO`-ordering.
 Once the snapshot and deletion streams have finished,
 the iterator will start emitting addition triples at the end of the stream.
 For all streams, local changes are filtered out because locally changed triples
@@ -184,7 +182,7 @@ appended with all additions, which is what we required.
 In the second case (line 19) the starting triple is in the stream of `additions`.
 The number of elements preceding the `additions` elements,
 is the number of `snapshot` elements minus the number of `deletions`,
-which is exactly what is calculated on line 21.
+which is exactly what is calculated (line 21).
 The `snapshot` stream is finalized by offsetting it after its last element (line 20),
 which will cause the `PatchedSnapshotIterator` to only output `additions` elements
 starting from the calculated index, which is also what we required.

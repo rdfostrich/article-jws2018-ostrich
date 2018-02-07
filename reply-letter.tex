@@ -1,0 +1,368 @@
+\documentclass{letter}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper,margin=3cm,top=2.5cm]{geometry}
+\usepackage{microtype}
+\usepackage{csquotes}
+\linespread{1.3}
+
+\newcounter{section}
+\newcounter{subsection}[section]
+\setcounter{secnumdepth}{3}
+\makeatletter
+\newcommand\section{\@startsection {section}{1}{\z@}%
+                                   {-3.5ex \@plus -1ex \@minus -.2ex}%
+                                   {2.3ex \@plus.2ex}%
+                                   {\normalfont\Large\bfseries}}
+\newcommand\subsection{\@startsection{subsection}{2}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\large\bfseries}}
+\renewcommand \thesection{\@arabic\c@section}
+\renewcommand\thesubsection{\thesection.\@arabic\c@subsection}
+\makeatother
+
+\signature{Ruben Taelman\\on behalf of the authors}
+\address{imec -- Ghent University -- IDLab\\Technologiepark-Zwijnaarde 15\\B-9052 Gent\\Belgium}
+\begin{document}
+
+\begin{letter}{To the Editors of the Special Issue on\\Managing the Evolution and Preservation of the Data Web\\of the Journal of Web Semantics}
+\opening{Dear Editors and Reviewers,}
+
+\null\vspace{\baselineskip}
+
+{\parfillskip 0pt
+Thank you for your detailed and insightful comments.
+Please find attached to this letter a revised version of our submission entitled
+\enquote{Triple Storage for Random-Access Versioned Querying of RDF Archives}
+in which we have addressed your comments.
+}
+
+In particular, the following major changes were made:
+\begin{itemize}
+  \item Addition of formal definitions on RDF archiving and foundational query atoms.
+  \item Improvements to the VM algorithm proof to make it more sound and better understandable.
+  \item Inclusion of additional relevant related work.
+  \item Addition of a running example to illustrate the storage model and its algorithms.
+  \item Addition of a overview figure on the delta chain storage structure.
+  \item Improved discussion on the scalability of the ingestion algorithm.
+  \item An extended discussion on the differences with the indexes of HDT-FoQ.
+  \item A more elaborate discussion on the compressability by including HDT-based approaches in the evaluation.
+  \item Clarification and shortening of the text.
+  \item Improvements to figures and tables.
+\end{itemize}
+
+\textbf{Should we mention here as well that we were not able to compare with additional engines because none were available/usable?}
+
+{\parfillskip 0pt
+Hereafter, you can find detailed answers to your questions and remarks.
+Should you have any further questions or concerns, please do not hesitate to contact us.
+We look forward to hearing back from you and thank you in advance.
+}
+
+\null\vspace{\baselineskip}
+
+\closing{Sincerely,}
+
+\pagebreak
+\section{Review 2}
+
+Thank you for your insightful comments.
+
+\textbf{The storage approach is interesting, but I would like to see more proof that the system can scale to larger dataset sizes.}
+
+We used the BEAR-A and BEAR-B-hourly datasets to evaluate both extremes of dataset sizes.
+The first extreme (BEAR-A) contains a few very large versions (30 million triples for \emph{each version}).
+The second extreme (BEAR-B-hourly) has many (1299) smaller versions.
+To the best of our knowledge, these are the only available versioned datasets with real-world data
+that are this large.
+These datasets already sufficiently indicate the limitations of the ingestion algorithm in our system.
+Larger datasets would not be feasible to evaluate in a reasonable time.
+The results for BEAR-A show that OSTRICH ingests slowly for many very large versions,
+but it is still possible because of the memory-efficient streaming algorithm.
+The results for BEAR-B-hourly show that OSTRICH should not be used when the number of versions is very large.
+We have updated the text to clarify this.
+
+\textbf{OSTRICH can handle itself fine with the Jena-based baselines and HDT, but how about performance-based systems such as x-rdf3x or Dydra?}
+
+We contacted the authors of the similar engines X-RDF3X and RDF-TX.
+We did not receive a reply from the authors of RDF-TX, and no source code of the engine could be found.
+The source code of X-RDF3X \emph{is} available, but evaluation would require additional implementation work inside X-RDF3X
+to make time travel queries accessible to benchmarks, as has been confirmed by the author.
+Dydra is an non-open system that is used internally in a SaaS, which makes (open and reproducible) evaluations with this system not possible.
+We now also mention this in the text.
+
+\textbf{include recent advances in RDF indexing using emergent schema techniques such as [1-3]}
+
+We have included the mentioned related work on emergent relational schemas.
+
+\textbf{Furthermore, the authors should include ref [5] from the paper in the discussion as it includes a similar set of query atoms and relevant notions.}
+
+We added a paragraph on DIACHRON data model and query language to the related work section.
+
+\textbf{the paper is far from concise in terms of length}
+
+We reduced the paper's length by making the text more concise.
+
+\textbf{the lines used in the figures are not clearly distinguishable and can be improved.}
+
+We have updated all figures with different line styles in order to make them better distinguishable.
+
+\textbf{the authors should introduce a running example with a sample dataset graph in order to discuss more clearly the types of queries and how the system handles the storage and query processing}
+
+We included a running example throughout Section 5 on how the storage and indexing happens.
+A detailed example for the VM query algorithm was already present.
+Due to space restrictions, and the fact that they are rather simple, did not exemplify the DM and VQ query algorithms.
+
+\pagebreak
+\textbf{the overall novelty of the approach should be highlighted more clearly throughout the paper.}
+
+We have rewritten several parts of the text to clarify the novelty of our approach.
+The most significant changes related to this were made in sections 1, 3 and 9.
+
+\textbf{Section 2.2: Opening the section with general info on git is confusing. The authors should remove this from the discussion, or properly add a discussion on code/document versioning systems. }
+
+The paragraph on git has been removed, and the essential information from that paragraph has been incorporated in the following paragraph.
+
+\textbf{Section 2.2.2: A reference or explanation of "Theory of Patches from Darcs" should be added. }
+
+We added a reference to the "Theory of Patches from Darcs".
+
+\textbf{Section 3: "For our approach, but querying..." remove "but" }
+
+Thank you, the typo has been fixed.
+
+\textbf{Figure 3: the caption is replicated from the main body, remove it. }
+
+We simplified the caption on Figure 3.
+
+\textbf{Section 5.3: the inline numbering is off (2 is repeated two times) }
+
+The numbering has been fixed.
+
+\textbf{Section 5.4: uncapitalize "We" }
+
+We have uncapitalized "We".
+
+\textbf{Tables 4-5-6: merge in one table. }
+
+We looked into merging these tables into one,
+but it become too large and overwhelming.
+Instead, we merged these three tables in two tables (Tables 9 and 10),
+one for ingestion time and one for storage space, as these can be presented independently.
+
+\textbf{Tables 7-8: merge in one table. (same with the figures that follow). }
+
+We merged these tables in one table (Table 12).
+We did however not merge the figures (Figures 5+7, 6+8), as these have significantly different x-ranges,
+which would lead to the information from figures 5 and 6 to become hard to see.
+
+\pagebreak
+\section{Review 3}
+
+Thank you for your insightful comments.
+
+\textbf{Authors' justification for using independent delta version from a snapshot by pointing other papers like [27], [28] and [30] by saying that they incorporated these solutions. I'm looking into these papers, I don't think it's trivial to incorporate these solutions into this proposed solution not to mention that if they work at all with their storage models and follow-up algorithms. Unfortunately, the paper does not give any further details on this.}
+
+We believe this was a misunderstanding due to our text being not clear enough on this.
+Our approach does not \emph{incorporate} the mentioned solutions,
+instead, our approach is \emph{inspired} by their underlying techniques.
+This means that our approach is in no way compatible with their storage models and follow-up algorithms.
+We have updated the text (introduction of Section 5) to clarify this.
+
+\textbf{Moreover, this paper ignores how to deal with the situation that one snapshot is not enough to capture the history of the RDF archives and the delta chains are too long that negates all performance improvements offered.}
+\textbf{\ldots I would challenge its generality comparison with other solutions such as RDF-TX[1] which is mentioned in [19] but is not discussed this paper.}
+
+In Section 8.4.1, we discuss the limitations and effects of our ingestion algorithms.
+In this section, it becomes clear that a single snapshot + delta chain is indeed not sufficient for datasets with many versions,
+as has been noted by reviewer.
+In this section, we explicitly mention the following possibilities for future optimizations:
+\begin{itemize}
+    \item A new snapshot could dynamically be created when ingestion time becomes too large.
+    \item Maintain the last version of each chain in a separate index for faster patching.
+    \item A new ingestion algorithm could be implemented that accepts input in the correct alternative CB format.
+\end{itemize}
+
+\textbf{the paper's evaluation only focuses on single-triple-pattern queries}
+
+OSTRICH is not a versioned SPARQL engine, but a versioned triple index,
+with versioned triple pattern query support.
+As such, this is what we evaluate.
+Triple pattern queries form the smallest building block for evaluating SPARQL queries.
+Therefore, we do not aim to compete with existing versioned SPARQL engines,
+full access to the language should be leveraged by umbrella engines,
+for instance by using Triple Pattern Fragments.
+This has been clarified in the introduction section.
+Implementation inside SPARQL engines is planned for future work, but out-of-scope for this work.
+Next to triple pattern queries,
+we also evaluate the performance of the offset support for such queries,
+which is one of the main distinguishing factors of our approach.
+
+\textbf{the paper tries to solve a narrower problem than that of [19] \emph{(BEAR)}}
+
+We assume the reviewer meant that we do not solve the same problem as versioned SPARQL engines.
+This is correct, and is clarified in the introduction, as mentioned before.
+
+\textbf{The data model and query operators are not clearly defined.}
+
+We extended the formal definitions throughout the paper:
+\begin{itemize}
+    \item We have included the RDF archive data model to Section 2.2 based on [22].
+    \item We mentioned the formal definitions of the query atoms in Section 2.4 based on [22]. We adapted the original definitions slightly to make them more formal.
+\end{itemize}
+
+\textbf{I noticed that authors of paper[19] are now submitting a journal version to Semantic Web Journal which is under major revision. This version will negate the contributions of this manuscript.}
+
+The original BEAR paper ([19]), is the only peer-reviewed, accepted and published citable paper on the BEAR benchmark at the time of writing.
+When/if its journal version is accepted and published (to the same special issue we submitted this paper to),
+the original contributions from [19] will still remain valid, and citable.
+Therefore, the conclusions drawn from the BEAR evaluation in our work will still be valid.
+
+\textbf{Even authors indicate the they can use the threshold to defer the counting during lookup time but it's not clear to how the threshold is specified.}
+
+We defined this threshold empirically to be as high as possible, but still low enough not to have a significant impact on the overall count estimation.
+We now mention this in Section 8.3.1.
+To further motivate the effectiveness of this threshold value,
+we added evaluation results showing the impact of this threshold on the addition count size compared to the overall storage size.
+
+\textbf{section 5.2 on deletion count is quite vague to me }
+
+We have clarified the section on deletion counts (now Section 5.5).
+Furthermore, we introduced a running example for Section 5,
+using which we show an example on how this deletion count is stored and used.
+
+\textbf{Various algorithms such Algorithm 2, 3 and 5 are trivial}
+
+We removed algorithms 2 and 5, and now only discuss them in the text.
+We moved algorithm 3 to the appendix and mainly discuss it in the text.
+We did not completely remove algorithm 3 for consistency because of a similar comment
+of another reviewer requesting a full version of the streaming ingestion algorithm,
+which was also added to the appendix.
+
+\textbf{The proof on correctness in Section 7.1.4 is read weird to me.}
+
+We have rewritten parts of Section 7.1.4 to improve its readability and understandability.
+
+\textbf{Section 5.4 on maintaining Delta Chain Dictionary just give the common details on dictionary encoding but left out what needs to be presented in terms of how to maintain the new RDF nodes and the RDF nodes related to deleted triples.}
+
+We clarified this Section (now 5.2) by explaining that the dictionary does not make a distinction between additions and deletions,
+instead, additions and deletions are stored in separate indexes, with slightly different data structures.
+Furthermore, we now explain better that there are separate dictionaries for a snapshot and the delta chain.
+A reserved bit in the encoding is used where 1 indicates snapshot dictionary and 0 indicates the delta dictionary.
+
+\textbf{Figure 3 how the label "Dict" with the dots connected to "+" and "-" but it's never described.}
+
+We have clarified in the text that the delta chain dictionary is addition/deletion-agnostic.
+Both additions and deletions are stored in this same dictionary without making a distinction between them.
+
+\textbf{I wonder why authors do not compare with x-RDF3X[25 and ignore RDF-TX[1].}
+
+We contacted the authors of the similar engines X-RDF3X and RDF-TX.
+We did not receive a reply from the authors of RDF-TX, and no source code of the engine could be found.
+The source code of X-RDF3X \emph{is} available, but evaluation would require additional implementation work inside X-RDF3X
+to make time travel queries accessible to benchmarks, as has been confirmed by the author.
+Dydra is an non-open system that is used internally in a SaaS, which makes (open and reproducible) evaluations with this system not possible.
+We now also mention this in the text.
+
+\pagebreak
+\section{Review 4}
+
+Thank you for your insightful comments.
+
+\textbf{If the intention is to provide a full review of RDF native indexing, there are missing works such as: Jena, Blazegraph, GraphDB, RDF4J (formerly known as Sesame), RDFox, Stardog and Allegrograph.}
+
+Our aim was not to provide a full survey of the SOTA on native RDF indexing.
+Instead, we only mentioned the works that are relevant in some way to this work.
+We have also clarified this in the text.
+
+\textbf{Section 2.2.3 Sesame and Blazegraph are mentioned without a proper reference. }
+
+We added the missing references to Sesame and Blazegraph.
+
+\textbf{RDFCSA [1] and K2 -triples [2]}
+
+We included RDFCSA and K2-triples in the related work section.
+
+\textbf{Also, when authors describe the BEAR benchmark ([19] in the paper), they report different datasets BEAR-B, BEAR-C which are not in the cited paper. Are they maybe referring to a BEAR extension? Is there another work including those dataset, or where can they be found?}
+
+We use the extended dataset and queries that are provided on BEAR website (https://aic.ai.wu.ac.at/qadlod/bear.html),
+which are not yet part of an accepted publication at the time of writing,
+but still very useful for our evaluations.
+We have clarified this in the text.
+
+\textbf{Section 5.2 is too concise and the combination of triples, versions and metadata (in special the relative position) is hard to process and visualize. A figure could help understand the structure of information and metadata. In general, I would recommend to describe a small use case with few triples and versions, and follow the explanation with that. This can help when explaining 5.3 and 5.4, which is a bit obscure and hard to process now. }
+
+We added a running example for Section 5, which shows how data is indexed and stored in our approach.
+Furthermore, we added a figure to Section 5.3 to better illustrate how the delta chain is stored, structurally.
+
+\textbf{As for the SPO, OSP and POS indexes, is it similar or exactly the same as HDT-FoQ? \ldots Is there a rationale for changing the order?}
+
+In Section 4.2, we added more details on the difference between our indexes and HDT-FoQ.
+The reason why a different order is used is because we aimed for a more balanced distribution from triple patterns to index,
+as is shown in a new table in Section 4.2.
+
+\textbf{In 5.3. the codification of the dictionary is unclear, or vague. It is stated that "To identify the appropriate dictionary for triple decoding, some form of dictionary identification is encoded inside the ID, e.g., with a reserved bit.". A more precise specification must be provided, in special regarding the final encoding used in OSTRICH.}
+
+In Section 5.2, we have clarified that a reserved bit is used where 1 indicates that an encoding
+belongs to the snapshot dictionary and 0 indicates the delta dictionary.
+This section now also includes an example of this encoding.
+
+\textbf{5.3 and, in special, 5.4 are hard to process with no formalization and/or a supporting figure}
+
+The new structural overview figure and running example are added to clarify these sections (now Sections 5.2 and 5.3).
+
+\textbf{Algorithms 1-5 could be simplify if authors add the line number and guide the reader reporting the line number of each step}
+
+We added line numbers to algorithms 1 and 2, and refered to them from the text.
+All other algorithms were removed or moved to the appendix at the request of another reviewer due to their simplicity.
+
+\textbf{Also, I think there is something unclear in Algorithm 3, ".encode(store.getDictionary(newVersion))" , as: a) it is not clear what newVersion b) I understood that the encoding is done also using the previous dictionary, which is not reflected there.}
+
+a) newVersion if the (numerical) identifier of this new version.
+b) The dictionary is shared between all versions. The only difference between versions is that the initial snapshot uses a separate dictionary, all following versions use the same dictionary (or part of the snapshot dictionary)
+This is clarified in the text.
+
+\textbf{I doubt about the reported complexity of the algorithm 3, O (P+N), as you need to sort the changeset, which typically is O (N logN)}
+
+This complexity was indeed incorrect. We now mention the complexity with and without sorting separately.
+
+\textbf{The algorithm in 6.2 is not formal enough.}
+
+We added this algorithm in speudo-code to the appendix,
+and included additional details that are essential in the text.
+Conforming to a request from another reviewer, we did not include this pseudo-code to the main text because of its simplicity,
+but added it to the appendix.
+
+\textbf{In the evaluation, it is stated that the dictionary is compressed using gzip. Then, does it need further decompression to be queried?}
+
+In Section 8.1, we now mention that the delta dictionary requires decompression during querying and ingestion.
+
+\textbf{Regarding the scalability, the small dataset, BEAR-B, with a thousand versions already took three days to ingest. The justification (in the discussion) regarding the initial format of the input seems too short given that the dataset is really small. What would be the time if the right input is provided? Maybe adding a small evaluation on that might help understand the bottlenecks}
+
+In Section 8.4.1, we added more details regarding the long ingestion time for BEAR-B-hourly.
+We added a plot showing the number of effective triples per version in the alternative CB structure that need to be ingested into OSTRICH,
+which is the main bottleneck of the approach.
+This plot shows that for more versions, the number of triples that need to be added continuously grow,
+which is explains the continuously growing ingestion times.
+Ingesting this dataset in the correct format would not have lower ingestion times,
+as the number of triples would still be quite large, and the initial changesets would simply be a lot larger.
+In datasets were changes are always relative to a single fixed snapshots, i.e., directly corresponding to the alternative CB structure,
+would be a lot more efficient to represent in this structure, and therefore be more efficient to ingest with OSTRICH.
+In future work, such cases can be investigated.
+
+\textbf{The readability of Tables 4, 5, 6 can be improved, e.g. highlighted the fastest and smallest results.}
+
+We now indicate the best results in all tables.
+
+\textbf{the positioning of all tables and figures in the evaluation makes the reading harder.}
+
+We improved the positioning of tables and figures in the text to improve readability.
+
+\textbf{The interpretation of Table 8 is a bit unclear. I understand that authors try to demonstrate that OSTRICH can serve as a pre-processing step to reduce the final size applying then gzip. If so, the size of HDT+gzip should also be compared}
+
+In Section 8.3.1, we now clarified the aim of showing that OSTRICH can indeed serve as a pre-processing step to reduce storage size before applying gzip.
+In the table (now Table 12), we included the sizes when applying gzip on the HDT-based approaches.
+Furthermore, we also added the compressibility of raw N-Triples files to provide a baseline.
+
+\end{letter}
+\end{document}

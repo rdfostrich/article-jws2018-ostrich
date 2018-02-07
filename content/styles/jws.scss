@@ -643,7 +643,8 @@ video {
   text-align:center;
 }
 pre {
-  overflow:auto;
+  //Disabled because of a bug in Chrome (print-view) that causes pre's to be positioned on different pages.
+  //overflow:auto;
 }
 figure pre {
   text-align:left;

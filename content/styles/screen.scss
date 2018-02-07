@@ -273,6 +273,9 @@ figure.numbered pre {
     &::before {
       color: lightgray;
       left: -1.75em;
+      text-align: right;
+      display: inline-block;
+      width: 1.5em;
       content: counter(precode) " ";
       counter-increment: precode;
     }

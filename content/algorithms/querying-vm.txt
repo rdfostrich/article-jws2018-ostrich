@@ -18,7 +18,8 @@ queryVm(store, tp, version, originalOffset) {
   }
   else {
     snapshot.offset(snapshot.count(tp))
-    additions.offset(originalOffset - snapshot.count(tp) + deletions.exactCount(tp))
+    additions.offset(originalOffset - snapshot.count(tp)
+        + deletions.exactCount(tp))
   }
   
   return PatchedSnapshotIterator(snapshot, deletions, additions)

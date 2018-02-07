@@ -51,7 +51,7 @@ Now, we terminate the snapshot stream by offsetting it after its last element (l
 and we relatively offset the additions stream (line 21).
 This offset is calculated as the original offset subtracted with the number of snapshot triples incremented with the number of deletions.
 
-Finally, we return a simple iterator starting from the three streams that could be offset (line 24).
+Finally, we return a simple iterator starting from the three streams that could be offset (line 25).
 This iterator performs a sort-merge join operation that removes each triple from the snapshot that also appears in the deletion stream,
 which can be done efficiently because of the consistent `SPO`-ordering.
 Once the snapshot and deletion streams have finished,

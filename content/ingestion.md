@@ -98,31 +98,53 @@ The algorithm iterates over all streams together, until all of them are finished
 The smallest triple (string-based) over all stream heads is handled in each iteration,
 and can be categorized in seven different cases:
 
-1. deletion < input _and_ deletion < addition
-2. addition < input _and_ addition < deletion
-3. input < addition _and_ input < deletion
-4. input == deletion _and_ input < addition
-5. input == addition _and_ input < deletion
-6. addition == deletion _and_ addition < input
-7. addition == deletion == input
-
-<div style="color:red">Miel: I would merge the explanation below with the 7-item list in one description list.</div>
-
-The two first cases are the simplest ones, in which the current deletion and addition are respectively the smallest.
-For these cases, the unchanged deletion and addition information can respectively be copied to the new version.
-For the deletion, new positions must be calculated in this and all other cases.
-In the third case, a triple is added or removed that was not present before,
-so it can either be added as a non-local change addition or a non-local change deletion.
-In the fourth case, the new triple already existed in the previous version as a deletion.
+<ol>
+<li markdown="1">
+**deletion < input _and_ deletion < addition**
+<br />
+The current deletion is the smallest element.
+The unchanged deletion information can be copied to the new version.
+New relative positions must be calculated in this and all other cases where deletions are added.
+</li>
+<li markdown="1">
+**addition < input _and_ addition < deletion**
+<br />
+Similar to the previous case, the current addition is now the smallest element,
+and its information can be copied to the new version.
+</li>
+<li markdown="1">
+**input < addition _and_ input < deletion**
+<br />
+A triple is added or removed that was not present before,
+so it can respectively be added as a non-local change addition or a non-local change deletion.
+</li>
+<li markdown="1">
+**input == deletion _and_ input < addition**
+<br />
+In this case, the new triple already existed in the previous version as a deletion.
 If the new triple is an addition, it must be added as a local change.
-Similarly, in the fifth case the new triple already existed as an addition.
+</li>
+<li markdown="1">
+**input == addition _and_ input < deletion**
+<br />
+Similar as in the previous case, the new triple now already existed as an addition.
 So the triple must be deleted as a local change if the new triple is a deletion.
-In the sixth case, the triple existed as both an addition and deletion at some point.
+</li>
+<li markdown="1">
+**addition == deletion _and_ addition < input**
+<br />
+The triple existed as both an addition and deletion at some point.
 In this case, we copy over the one that existed at the latest version, as it will still apply in the new version.
-Finally, in the seventh case, the triple already existed as both an addition and deletion,
+</li>
+<li markdown="1">
+**addition == deletion == input**
+<br />
+Finally, the triple already existed as both an addition and deletion,
 and is equal to our new triple.
 This means that if the triple was an addition in the previous version, it becomes a deletion, and the other way around,
 and the local change flag can be inherited.
+</li>
+</ol>
 
 The theoretical memory requirement for this algorithm is much lower than the [batch variant](#batch-ingestion).
 That is because load at most three triples, i.e., the heads of each stream, in memory, instead of the complete new changeset.

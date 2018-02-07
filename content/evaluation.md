@@ -272,7 +272,7 @@ while the Jena-based approaches are orders of magnitude slower than the HDT-base
 OSTRICH is about two times faster than HDT-CB for VM queries, and slightly slower for both DM and VQ queries.
 For DM queries, HDT-CB does however continuously become slower for larger versions, while the lookup times for OSTRICH remain constant.
 From version 7, OSTRICH is faster than HDT-CB.
-[Appendix B](#appendix-bear-a) contains more detailed plots for each BEAR-A queryset,
+[Appendix A](#appendix-bear-a) contains more detailed plots for each BEAR-A queryset,
 in which we can see that all approaches collectively become slower for queries with a higher result cardinality,
 and that predicate-queries are also significantly slower for all approaches.
 
@@ -302,9 +302,9 @@ contain the query duration results for the BEAR-B queries on the complete BEAR-B
 Jena-based approaches are again slower than both the HDT-based ones and OSTRICH.
 For VM queries, OSTRICH is slower than HDT-IC, but faster than HDT-CB, which becomes slower for larger versions.
 For DM queries, OSTRICH is faster than HDT-CB for the second half of the versions, and slightly faster HDT-IC.
-The difference between HDT-IC and OSTRICH is however insignificant in this case, as can be seen in [Appendix C](#appendix-bear-b-daily).
+The difference between HDT-IC and OSTRICH is however insignificant in this case, as can be seen in [Appendix B](#appendix-bear-b-daily).
 For VQ queries, OSTRICH is significantly faster than all other approaches.
-[Appendix C](#appendix-bear-b-daily) contains more detailed plots for this case,
+[Appendix B](#appendix-bear-b-daily) contains more detailed plots for this case,
 in which we can see that predicate-queries are again consistently slower for all approaches.
 
 <figure id="results-bearb-daily-vm-sumary">

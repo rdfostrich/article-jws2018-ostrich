@@ -88,7 +88,7 @@ we introduce a more complex streaming ingestion algorithm.
 Just like the batch algorithm, it takes a changeset stream and store as input parameters,
 with the additional requirement that the stream's values must be sorted in SPO-order.
 This way the algorithm can assume a consistent order and act as a sort-merge join operation.
-Just as for the batch algorithm, we included this algorithm in pseudo-code in [Appendix A](#appendix-algorithms).
+Just as for the batch algorithm, we included this algorithm in pseudo-code in [Appendix D](#appendix-algorithms).
 
 In summary, the algorithm performs a sort-merge join over three streams in SPO-order:
 1) the stream of _input_ changeset elements that are encoded using the dictionary when each element is read,

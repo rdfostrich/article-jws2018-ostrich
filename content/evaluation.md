@@ -95,7 +95,7 @@ All raw results and the scripts that were used to process them are available on 
 
 #### Ingestion
 
-Tables [4](#results-ingestion-time) and [5](#results-ingestion-size)
+Tables [9](#results-ingestion-time) and [10](#results-ingestion-size)
 respectively show the ingestion times and storage requirements for the different approaches for the three different benchmarks.
 OSTRICH-reduced shows the results without the auxiliary `OSP` and `POS` indexes.
 These results have been derived from the ingestion into a regular OSTRICH store,
@@ -265,7 +265,7 @@ while the batch algorithm consumes a large amount of memory, resulting in slower
 
 #### Query Evaluation
 
-Figures [9](#results-beara-vm-sumary), [10](#results-beara-dm-summary) and [11](#results-beara-vq-summary) respectively
+Figures [10](#results-beara-vm-sumary), [11](#results-beara-dm-summary) and [12](#results-beara-vq-summary) respectively
 summarize the VM, DM and VQ query durations of all BEAR-A queries on the ten first versions of the BEAR-A dataset for the different approaches.
 HDT-IC clearly outperforms all other approaches in all cases,
 while the Jena-based approaches are orders of magnitude slower than the HDT-based approaches and OSTRICH in all cases.
@@ -297,7 +297,7 @@ Median BEAR-A VQ query results for all triple patterns.
 </figcaption>
 </figure>
 
-Figures [12](#results-bearb-daily-vm-sumary), [13](#results-bearb-daily-dm-summary) and [14](#results-bearb-daily-vq-summary)
+Figures [13](#results-bearb-daily-vm-sumary), [14](#results-bearb-daily-dm-summary) and [15](#results-bearb-daily-vq-summary)
 contain the query duration results for the BEAR-B queries on the complete BEAR-B-daily dataset for the different approaches.
 Jena-based approaches are again slower than both the HDT-based ones and OSTRICH.
 For VM queries, OSTRICH is slower than HDT-IC, but faster than HDT-CB, which becomes slower for larger versions.
@@ -328,7 +328,7 @@ Median BEAR-B-daily VQ query results for all triple patterns.
 </figcaption>
 </figure>
 
-Figures [15](#results-bearb-hourly-vm-sumary), [16](#results-bearb-hourly-dm-summary) and [17](#results-hourly-daily-vq-summary)
+Figures [16](#results-bearb-hourly-vm-sumary), [17](#results-bearb-hourly-dm-summary) and [18](#results-hourly-daily-vq-summary)
 show the query duration results for the BEAR-B queries on the complete BEAR-B-hourly dataset for all approaches.
 OSTRICH again outperforms Jena-based approaches in all cases.
 HDT-IC is faster for VM queries than OSTRICH, but HDT-CB is significantly slower, except for the first 100 versions.
@@ -514,6 +514,32 @@ and as factors version and number of results.
 we can accept the null hypothesis that the version factor has no influence on the models with a confidence of 99%.
 Based on these results, we *accept* our [first hypothesis](#hypothesis-qualitative-querying).
 
+[Hypothesis 2](#hypothesis-qualitative-ic-storage) states that OSTRICH requires *less* storage space than IC-based approaches,
+and [Hypothesis 3](#hypothesis-qualitative-ic-querying) correspondingly states that
+query evaluation is *slower* for VM and *faster* or *equal* for DM and VQ.
+Results from previous section showed that for BEAR-A, BEAR-B-daily and BEAR-B-hourly,
+OSTRICH requires *less* space than HDT-IC, which means that we *accept* Hypothesis 2.
+In order to validate that query evaluation is slower for VM but faster or equal for DM and VQ,
+we compared the means using the two-sample t-test, for which the results can be found in [](#hypo-test-2).
+In all cases, the means are not equal with a confidence of 95%.
+For BEAR-B-daily and BEAR-B-hourly, HDT-IC is faster for VM queries, but slower for DM and VQ queries.
+For BEAR-A, HDT-IC is faster for all query types.
+We therefore *reject* Hypothesis 3, as it does not apply for BEAR-A, but it is valid for BEAR-B-daily and BEAR-B-hourly.
+This means that OSTRICH typically requires less storage space than IC-based approaches,
+and outperforms other approaches in terms of querying efficiency
+unless the number of versions is small or for VM queries.
+
+In [Hypothesis 4](#hypothesis-qualitative-cb-storage), we stated that OSTRICH requires *more*
+storage space than CB-based approaches,
+and in [Hypothesis 5](#hypothesis-qualitative-cb-querying) that query evaluation is *faster* or *equal*.
+In all cases OSTRICH requires more storage space than HDT-CB, which is why we *accept* Hypothesis 4.
+For the query evaluation, we again compare the means in [](#hypo-test-3) using the same test.
+In BEAR-A, VQ queries in OSTRICH are not faster for BEAR-A, and VM queries in OSTRICH are not faster for BEAR-B-daily,
+which is why we *reject* Hypothesis 5.
+However, only one in three query atoms are not fulfilled, and OSTRICH is faster than HDT-CB for BEAR-B-hourly.
+In general, OSTRICH requires more storage space than CB-based approaches,
+and query evaluation is faster unless the number of versions is low.
+
 <figure id="hypo-test-1" class="table" markdown="1">
 
 | Dataset       | Query      | Version (p)     | Results (p)     |
@@ -532,21 +558,6 @@ For all cases, the version factor has no significant influence on the models,
 the number of results has an influence in the last three cases.
 </figcaption>
 </figure>
-
-[Hypothesis 2](#hypothesis-qualitative-ic-storage) states that OSTRICH requires *less* storage space than IC-based approaches,
-and [Hypothesis 3](#hypothesis-qualitative-ic-querying) correspondingly states that
-query evaluation is *slower* for VM and *faster* or *equal* for DM and VQ.
-Results from previous section showed that for BEAR-A, BEAR-B-daily and BEAR-B-hourly,
-OSTRICH requires *less* space than HDT-IC, which means that we *accept* Hypothesis 2.
-In order to validate that query evaluation is slower for VM but faster or equal for DM and VQ,
-we compared the means using the two-sample t-test, for which the results can be found in [](#hypo-test-2).
-In all cases, the means are not equal with a confidence of 95%.
-For BEAR-B-daily and BEAR-B-hourly, HDT-IC is faster for VM queries, but slower for DM and VQ queries.
-For BEAR-A, HDT-IC is faster for all query types.
-We therefore *reject* Hypothesis 3, as it does not apply for BEAR-A, but it is valid for BEAR-B-daily and BEAR-B-hourly.
-This means that OSTRICH typically requires less storage space than IC-based approaches,
-and outperforms other approaches in terms of querying efficiency
-unless the number of versions is small or for VM queries.
 
 <figure id="hypo-test-2" class="table" markdown="1">
 
@@ -568,17 +579,6 @@ for VM, DM and VQ queries in BEAR-B-daily and BEAR-B-hourly.
 The last column indicates whether or not the actual lookup time mean of OSTRICH is less than or equal to HDT-IC.
 </figcaption>
 </figure>
-
-In [Hypothesis 4](#hypothesis-qualitative-cb-storage), we stated that OSTRICH requires *more*
-storage space than CB-based approaches,
-and in [Hypothesis 5](#hypothesis-qualitative-cb-querying) that query evaluation is *faster* or *equal*.
-In all cases OSTRICH requires more storage space than HDT-CB, which is why we *accept* Hypothesis 4.
-For the query evaluation, we again compare the means in [](#hypo-test-3) using the same test.
-In BEAR-A, VQ queries in OSTRICH are not faster for BEAR-A, and VM queries in OSTRICH are not faster for BEAR-B-daily,
-which is why we *reject* Hypothesis 5.
-However, only one in three query atoms are not fulfilled, and OSTRICH is faster than HDT-CB for BEAR-B-hourly.
-In general, OSTRICH requires more storage space than CB-based approaches,
-and query evaluation is faster unless the number of versions is low.
 
 <figure id="hypo-test-3" class="table" markdown="1">
 

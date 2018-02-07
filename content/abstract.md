@@ -21,7 +21,7 @@ we evaluate our implementation, called OSTRICH.
 <!-- Findings     -->
 Results show that OSTRICH introduces a new trade-off regarding storage space, ingestion time, and querying efficiency.
 By processing and storing more metadata during ingestion time,
-it significantly lowers average lookup time for versioning queries.
+it significantly lowers the average lookup time for versioning queries.
 OSTRICH performs better for many smaller dataset versions
 than for few larger dataset versions.
 Furthermore, it enables efficient offsets in query result streams,

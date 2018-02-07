@@ -400,6 +400,10 @@ We discuss the ingestion, query evaluation, offset efficiency and test our hypot
 
 #### Ingestion
 For all evaluated cases, OSTRICH requires more effort for ingesting new data than the other approaches.
+More specifically, the BEAR-A and BEAR-B-hourly datasets indicate the limitations of the ingestion algorithm in our system.
+The results for BEAR-A show that OSTRICH ingests slowly for many very large versions,
+but it is still possible because of the memory-efficient streaming algorithm.
+The results for BEAR-B-hourly show that OSTRICH should not be used when the number of versions is very large.
 Furthermore, for each additional version in a dataset, the ingestion time increases.
 This is a direct consequence of our alternative delta chain method where all deltas are relative to a snapshot.
 That is the reason why when new deltas are inserted,

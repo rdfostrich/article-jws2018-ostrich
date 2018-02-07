@@ -36,8 +36,7 @@ which is required for the batch ingestion.
 and returning the resulting merged changeset.
 First, all contents of the original changeset are copied into the new changeset (line 3).
 After that, we iterate over all triples of the second changeset (line 4).
-If the changeset already contained the given triple---it is a local change (line 5),
-<span style="color:red">Miel: following sentence needs rephrasing?</span>the local change flag is set to the negation of the local change flag in the first changeset.
+If the changeset already contained the given triple (line 5), the local change flag is negated.
 Otherwise, the triple is added to the new changeset, and the local change flag is set to `false` (line 8-10).
 Finally, in both cases the addition flag of the triple in the new changeset is copied from the second changeset (line 12).
 

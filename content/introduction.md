@@ -12,7 +12,7 @@ While the RDF data model itself is atemporal, Linked Datasets typically [change 
 [dataset, schema, and/or instance level](cite:cites diachronql).
 Such changes can include additions,
 modifications, or deletions of complete datasets, ontologies, and separate facts.
-While some evolving datasets, such as [DBpedia](dbpedia),
+While some evolving datasets, such as [DBpedia](cite:cites dbpedia),
 are published as separate dumps per version,
 more direct and efficient access to prior versions is desired.
 

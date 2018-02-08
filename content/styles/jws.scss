@@ -254,7 +254,9 @@ dl.references {
     margin: 0 0 0 $number-width;
     text-indent: -$number-width;
     counter-increment: reference;
-    font-size:0.9em;
+    font-size:0.8em;
+    line-height: 1em;
+    padding-bottom: 0.1em;
 
     &:before {
       content: "[" counter(reference) "]\00a0\00a0";

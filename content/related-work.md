@@ -23,7 +23,7 @@ For the remainder of this article, we focus on the latter because of their direc
 on a clustered B+Tree with 18 indexes in which triples are sorted lexicographically.
 Given that a triple consists of
 a subject (S), predicate (P) and object (O),
-it includes six indexes for possible triple component orders (SPO, SOP, OSP, OPS, PSO and POS),
+it includes six indexes for different triple component orders (SPO, SOP, OSP, OPS, PSO and POS),
 six aggregated indexes (SP, SO, PS, PO, OS, and OP),
 and three one-valued indexes (S, P, and O).
 A dictionary is used to compress common triple components.
@@ -42,13 +42,13 @@ Furthermore, it uses auxiliary index structures to improve index selection durin
 
 [K2-Triples](cite:cites k2triples) is another RDF storage technique that uses _k2-tree_
 structures to the data, which results in high compression rates.
-These structures allow SPARQL queries to be evaluated in memory without decompression the structures.
+These structures allow SPARQL queries to be evaluated in memory without decompressing the structures.
 
 [RDFCSA](cite:cites rdfcsa) is a compact RDF storage technique.
 It is a _self-index_ that stores the data together with its index, which results in less storage space than raw storage.
 Furthermore, it is built on the concept of _compressed suffix arrays_,
-which compresses text while still allowing pattern-based search on it.
-RDFCSA requires about twice the storage space compared to K2Triples, but it is faster for most queries.
+which compresses text while still allowing efficient pattern-based search on it.
+RDFCSA requires about twice the storage space compared to K2-Triples, but it is faster for most queries.
 
 [HDT](cite:cites hdt) is a binary RDF representation that is highly compressed
 and provides indexing structures that enable efficient querying.
@@ -73,7 +73,7 @@ and stores these adjacency list in a bitmap structure that efficiently
 indicates the borders of these consecutive adjacency list.
 By default, HDT only stores triples in the SPO-order.
 When querying is required, enhanced triple indexes are constructed
-to allow any triple pattern to be resolved efficiently.
+to allow any triple pattern to be resolved efficiently based on the [HDT-FoQ](cite:cites hdtfoq) approach.
 HDT archives are read-only, which leads to high efficiency and compressibility,
 but makes them unsuitable for cases where datasets change frequently.
 Its fast triple pattern queries and high compression rate make it
@@ -95,7 +95,7 @@ Where a _version-annotated triple_ _(s, p, o):[i]_ is defined as _an RDF triple 
 The set of all [RDF triples](cite:cites spec:rdf) is defined as _(U ∪ B) × U × (U ∪ B ∪ L)_,
 where _U_, _B_, and _L_, respectively represent the disjoint, infinite sets of URIs, blank nodes, and literals.
 Furthermore,
-_An RDF version of an RDF archive A at snapshot i is the RDF graph A(i) = {(s, p, o)|(s, p, o):[i] ∈ A}._
+_an RDF version of an RDF archive A at snapshot i is the RDF graph A(i) = {(s, p, o)|(s, p, o):[i] ∈ A}._
 For the remainder of this article, we use the notation _Vi_ to refer to the RDF version _A(i)_.
 
 The [DIACHRON data model](cite:cites diachronql) introduces the concept of _diachronic datasets_,
@@ -105,7 +105,7 @@ Each dataset version is defined as a set of records (i.e., tuples or triples), a
 temporal information about this version and metadata specific to this version.
 Domain data must be reified in order to store it in the DIACHRON model.
 Due to the simplicity of RDF archive model compared to the domain-specific DIACHRON data model,
-we will use the former model for the remainder of this document.
+we will use the model of Fernández et al. for the remainder of this document.
 
 Systems for archiving Linked Open Data are categorized
 into [three non-orthogonal storage strategies](cite:cites archiving):
@@ -173,7 +173,7 @@ queries at a certain version are only usable for medium-sized datasets.
 
 #### Timestamp-based approaches
 [Hauptman et. al. introduce a similar delta-based storage approach](cite:cites vcld)
-by storing each triple in a different named graph as a storage TB approach.
+by storing each triple in a different named graph as a TB storage approach.
 The identifying graph of each triple is used in a commit graph for SPARQL query evaluation at a certain version.
 Their implementation is based on [Sesame](cite:cites sesame) and [Blazegraph](cite:cites blazegraph) and is slower than snapshot-based approaches, but uses less disk space.
 
@@ -226,9 +226,9 @@ Delta chain in which deltas are relative to the previous delta, as is done in [T
 {:#related-work-benchmarks}
 
 [BEAR](cite:cites bear) is a benchmark for RDF archive systems.
-We use the extended dataset and queries that are provided on [BEAR website](https://aic.ai.wu.ac.at/qadlod/bear.html){:.mandatory},
+We include the extended dataset and queries that are provided on [BEAR website](https://aic.ai.wu.ac.at/qadlod/bear.html){:.mandatory},
 which are not yet part of an accepted publication at the time of writing,
-but still very useful for our evaluations.
+but still very useful for our work and its evaluations.
 The BEAR benchmark is based on three real-world datasets from different domains:
 
 BEAR-A

@@ -15,9 +15,9 @@ These six indexes correspond to the combinations for storing three triple compon
 separately for additions and deletions.
 The indexes for the three different triple component orders
 ensure that any triple pattern query can be resolved quickly.
-The additions and deletions are stored in separately
+The additions and deletions are stored separately
 because access patterns to additions and deletions in deltas differ between VM, DM, and VQ queries.
-To support inter-delta DM queries, each addition and deletion value contains a _local change_ flag
+To efficiently support inter-delta DM queries, each addition and deletion value contains a _local change_ flag
 that indicates if the change is not relative to the snapshot.
 Finally, in order to provide cardinality estimation for any triple pattern,
 we store an additional count data structure.
@@ -33,9 +33,9 @@ and methods for storing addition and deletion counts.
 
 Our storage technique is partially based on a hybrid IC/CB approach similar to [](#regular-delta-chain).
 To avoid increasing reconstruction times,
-we construct the delta chain in a [aggregated deltas](cite:cites vmrdf) fashion:
+we construct the delta chain in an [aggregated deltas](cite:cites vmrdf) fashion:
 each delta is _independent_ of a preceding delta and relative to the closest preceding snapshot in the chain, as shown in [](#alternative-delta-chain).
-Hence, for any version, version reconstruction only requires at most one delta and one snapshot.
+Hence, for any version, reconstruction only requires at most one delta and one snapshot.
 Although this does increase possible redundancies within delta chains,
 due to each delta _inheriting_ the changes of its preceding delta,
 the overhead can be compensated with compression, which we discuss in [](#storage).
@@ -50,18 +50,18 @@ Delta chain in which deltas are relative to the snapshot at the start of the cha
 ### Multiple Indexes
 {:#indexes}
 
-Our storage approach consists of three different indexes that are used for storing additions and deletions
-in different triple component orders, namely: `SPO`, `POS` and `OSP`.
+Our storage approach consists of six different indexes that are used for separately storing additions and deletions
+in three different triple component orders, namely: `SPO`, `POS` and `OSP`.
 These indexes are B+Trees, thereby, the starting triple for any triple pattern can be found in logarithmic time.
-Consequently, the triples can be found by iterating through the links between each tree leaf.
+Consequently, the next triples can be found by iterating through the links between each tree leaf.
 [](#triple-pattern-index-mapping) shows an overview of which triple patterns can be mapped to which index.
-In contrast to [other approaches](cite:cites rdf3x,hexastore),
+In contrast to [other approaches](cite:cites rdf3x,hexastore) that ensure certain triple orders,
 we use three indexes instead of all six possible component orders,
 because we only aim to reduce the iteration scope of the lookup tree for any triple pattern.
 For each possible triple pattern,
 we now have an index that locates the first triple component in logarithmic time,
 and identifies the terminating element of the result stream without necessarily having iterate to the last value of the tree.
-For some scenarios, it might be benefetial to ensure to order the triples in the result stream,
+For some scenarios, it might be beneficial to ensure the order of triples in the result stream,
 so that more efficient stream joining algorithms can be used, such as sort-merge join.
 If this would be needed, `OPS`, `PSO` and `SOP` indexes could optionally be added
 so that all possible triple orders would be available.
@@ -92,17 +92,17 @@ If querying would become required afterwards,
 the auxiliary `OSP` and `POS` indexes could still be derived from this main index
 during a one-time, pre-querying processing phase.
 
-Our technique is similar to the [HDT-FoQ](cite:cites hdtfoq) extension for HDT that adds additional indexes to a basic HDT file
+This technique is similar to the [HDT-FoQ](cite:cites hdtfoq) extension for HDT that adds additional indexes to a basic HDT file
 to enable faster querying for any triple pattern.
 The main difference is that HDT-FoQ uses the indexes `OSP`, `PSO` and `OPS`,
 with a different triple pattern to index mapping as shown in [](#triple-pattern-index-mapping-hdt).
-We chose these indexes in order to achieve a more balanced distribution from triple patterns to index,
+We chose our indexes in order to achieve a more balanced distribution from triple patterns to index,
 which could lead to improved load balancing between indexes when queries are parallelized.
-Additionally, the mapping from patterns `S?O` to index `SPO` in HDT-FoQ will lead to suboptimal query evaluation
-when a large number of distinct predicates is present.
 HDT-FoQ uses `SPO` for five triple pattern groups, `OPS` for two and `PSO` for only a single group.
 Our approach uses `SPO` for 4 groups, `POS` for two and `OSP` for two.
 Future work is needed to evaluate the distribution for real-world queries.
+Additionally, the mapping from patterns `S?O` to index `SPO` in HDT-FoQ will lead to suboptimal query evaluation
+when a large number of distinct predicates is present.
 
 <figure id="triple-pattern-index-mapping-hdt" class="table" markdown="1">
 
@@ -128,8 +128,8 @@ Overview of which triple patterns are queried inside which index in HDT-FoQ.
 
 A delta chain can contain multiple instances of the same triple,
 since it could be added in one version and removed in the next.
-Triples that revert a previous addition or deletion within the same delta chain, are called _local changes_
-, and are important for query evaluation.
+Triples that revert a previous addition or deletion within the same delta chain, are called _local changes_,
+and are important for query evaluation.
 Determining the locality of changes can be costly,
 thus we pre-calculate this information during ingestion time and store it for each versioned triple,
 so that this does not have to happen during query-time.

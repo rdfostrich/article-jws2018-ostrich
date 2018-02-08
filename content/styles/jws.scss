@@ -129,7 +129,8 @@ object, iframe {
   height:auto !important;
   min-height:240px !important;
 }
-img, video { max-width:100% !important; height:auto !important; }
+img, video { max-width:100%; height:auto; }
+img.plot { max-width:75%; }
 
 
 /*

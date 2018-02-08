@@ -137,7 +137,7 @@ img.plot { max-width:75%; }
 XXX:column-width doesn't seem to get applied in Firefox
 https://bugzilla.mozilla.org/show_bug.cgi?id=684062
 */
-main, footer, #appendix {
+.double-column {
   clear:both;
   float:left;
   width:100%;

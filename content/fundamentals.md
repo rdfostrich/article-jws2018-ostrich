@@ -68,20 +68,13 @@ so that all possible triple orders would be available.
 
 <figure id="triple-pattern-index-mapping" class="table" markdown="1">
 
-| Triple pattern | Index |
-| -------------- |-------|
-| `S P O`        | `SPO` |
-| `S P ?`        | `SPO` |
-| `S ? O`        | `OSP` |
-| `S ? ?`        | `SPO` |
-| `? P O`        | `POS` |
-| `? P ?`        | `POS` |
-| `? ? O`        | `OSP` |
-| `? ? ?`        | `SPO` |
-
+| Triple pattern | `SPO` | `SP?` | `S?O` | `S??` | `?PO` | `?P?` | `??O` | `???` |
+| -------------- |-------|-------|-------|-------|-------|-------|-------|-------|
+| **OSTRICH**    | `SPO` | `SPO` | `OSP` | `SPO` | `POS` | `POS` | `OSP` | `SPO` |
+| **HDT-FoQ**    | `SPO` | `SPO` | `SPO` | `SPO` | `OPS` | `PSO` | `OPS` | `SPO` |
 
 <figcaption markdown="block">
-Overview of which triple patterns can be queried inside which index to optimally reduce the iteration scope.
+Overview of which triple patterns are queried inside which index in OSTRICH and HDT-FoQ.
 </figcaption>
 </figure>
 
@@ -95,7 +88,7 @@ during a one-time, pre-querying processing phase.
 This technique is similar to the [HDT-FoQ](cite:cites hdtfoq) extension for HDT that adds additional indexes to a basic HDT file
 to enable faster querying for any triple pattern.
 The main difference is that HDT-FoQ uses the indexes `OSP`, `PSO` and `OPS`,
-with a different triple pattern to index mapping as shown in [](#triple-pattern-index-mapping-hdt).
+with a different triple pattern to index mapping as shown in [](#triple-pattern-index-mapping).
 We chose our indexes in order to achieve a more balanced distribution from triple patterns to index,
 which could lead to improved load balancing between indexes when queries are parallelized.
 HDT-FoQ uses `SPO` for five triple pattern groups, `OPS` for two and `PSO` for only a single group.
@@ -103,25 +96,6 @@ Our approach uses `SPO` for 4 groups, `POS` for two and `OSP` for two.
 Future work is needed to evaluate the distribution for real-world queries.
 Additionally, the mapping from patterns `S?O` to index `SPO` in HDT-FoQ will lead to suboptimal query evaluation
 when a large number of distinct predicates is present.
-
-<figure id="triple-pattern-index-mapping-hdt" class="table" markdown="1">
-
-| Triple pattern | Index |
-| -------------- |-------|
-| `S P O`        | `SPO` |
-| `S P ?`        | `SPO` |
-| `S ? O`        | `SPO` |
-| `S ? ?`        | `SPO` |
-| `? P O`        | `OPS` |
-| `? P ?`        | `PSO` |
-| `? ? O`        | `OPS` |
-| `? ? ?`        | `SPO` |
-
-
-<figcaption markdown="block">
-Overview of which triple patterns are queried inside which index in HDT-FoQ.
-</figcaption>
-</figure>
 
 ### Local Changes
 {:#local-changes}

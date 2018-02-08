@@ -95,7 +95,7 @@ All raw results and the scripts that were used to process them are available on 
 
 #### Ingestion
 
-Tables [9](#results-ingestion-time) and [10](#results-ingestion-size)
+[](#results-ingestion-time) and [](#results-ingestion-size)
 respectively show the ingestion times and storage requirements for the different approaches for the three different benchmarks.
 For BEAR-A, the HDT-based approaches outperform OSTRICH in terms of ingestion time, they are about two orders of magniture faster.
 Only HDT-CB requires slightly less storage space.
@@ -103,6 +103,29 @@ The Jena-based approaches ingest one order of magnitude faster than OSTRICH, but
 For BEAR-B-daily, OSTRICH requires less storage space than all other approaches except for HDT-CB at the cost of slower ingestion.
 For BEAR-B-hourly, only HDT-CB and Jena-CB/TB require about 8 to 4 times less space than OSTRICH.
 For BEAR-B-daily and BEAR-B-hourly, OSTRICH even requires less storage space than gzip on raw N-Triples.
+
+As mentioned in [](#addition-counts), we use a threshold to define which addition count values should be stored,
+and which ones should be evaluated at query time.
+For our experiments, we fixed this count threshold at 200,
+as for values higher than 200, the addition counts started having a noticable impact on the performance of count estimation.
+This threshold value means that when a triple pattern has 200 matching additions,
+then this count will be stored.
+[](#results-addition-counts) shows that the storage space of the addition count datastructure
+in the case of BEAR-A and BEAR-B-hourly is insignificant compared to the total space requirements.
+However, for BEAR-B-daily, addition counts take up 37.05% of the total size with still an acceptable absolute size,
+as the addition and deletion trees require relatively less space,
+because of the lower amount of versions.
+Within the scope of this work, we use this fixed threshold of 200.
+We consider investigating the impact of different threshold levels and methods for dynamically determining optimal levels future work.
+
+[](#results-ostrich-ingestion-rate-beara) shows the ingestion rate for each consecutive version for BEAR-A,
+while [](#results-ostrich-ingestion-size-beara) shows the corresponding increasing storage sizes.
+Analogously, [](#results-ostrich-ingestion-rate-bearb-hourly) shows the ingestion rate for BEAR-B-hourly,
+and [](#results-ostrich-ingestion-size-bearb-hourly) shows its storage sizes.
+
+[](#results-ostrich-ingestion-rate-beara-compare) compares the BEAR-A ingestion rate of the streaming and batch algorithms.
+The streaming algorithm starts of slower than the batch algorithm but grows linearly,
+while the batch algorithm consumes a large amount of memory, resulting in slower ingestion after version 8 and an out-of-memory error after version 10.
 
 <figure id="results-ingestion-time" class="table" markdown="1">
 
@@ -143,20 +166,6 @@ The lowest sizes per dataset are indicated in italics.
 </figcaption>
 </figure>
 
-As mentioned in [](#addition-counts), we use a threshold to define which addition count values should be stored,
-and which ones should be evaluated at query time.
-For our experiments, we fixed this count threshold at 200,
-as for values higher than 200, the addition counts started having a noticable impact on the performance of count estimation.
-This threshold value means that when a triple pattern has 200 matching additions,
-then this count will be stored.
-[](#results-addition-counts) shows that the storage space of the addition count datastructure
-in the case of BEAR-A and BEAR-B-hourly is insignificant compared to the total space requirements.
-However, for BEAR-B-daily, addition counts take up 37.05% of the total size with still an acceptable absolute size,
-as the addition and deletion trees require relatively less space,
-because of the lower amount of versions.
-Within the scope of this work, we use this fixed threshold of 200.
-We consider investigating the impact of different threshold levels and methods for dynamically determining optimal levels future work.
-
 <figure id="results-addition-counts" class="table" markdown="1">
 
 | BEAR-A            | BEAR-B-daily   | BEAR-B-hourly      |
@@ -168,11 +177,6 @@ Storage sizes of the OSTRICH addition count component in MB with BEAR-A, BEAR-B-
 The percentage of storage space that this component requires compared to the complete store is indicated between brackets.
 </figcaption>
 </figure>
-
-[](#results-ostrich-ingestion-rate-beara) shows the ingestion rate for each consecutive version for BEAR-A,
-while [](#results-ostrich-ingestion-size-beara) shows the corresponding increasing storage sizes.
-Analogously, [](#results-ostrich-ingestion-rate-bearb-hourly) shows the ingestion rate for BEAR-B-hourly,
-and [](#results-ostrich-ingestion-size-bearb-hourly) shows its storage sizes.
 
 <figure id="results-ostrich-ingestion-rate-beara">
 <img src="img/results-ostrich-ingestion-rate-beara.svg" alt="[bear-a ostrich ingestion rate]" height="150em">
@@ -203,10 +207,6 @@ OSTRICH ingestion durations for each consecutive BEAR-B-hourly version in minute
 Cumulative OSTRICH store sizes for each consecutive BEAR-B-hourly version in GB for an increasing number of versions.
 </figcaption>
 </figure>
-
-[](#results-ostrich-ingestion-rate-beara-compare) compares the BEAR-A ingestion rate of the streaming and batch algorithms.
-The streaming algorithm starts of slower than the batch algorithm but grows linearly,
-while the batch algorithm consumes a large amount of memory, resulting in slower ingestion after version 8 and an out-of-memory error after version 10.
 
 <figure id="results-ostrich-ingestion-rate-beara-compare">
 <img src="img/results-ostrich-ingestion-rate-beara-compare.svg" alt="[Comparison of ostrich ingestion algorithms]" height="150em">

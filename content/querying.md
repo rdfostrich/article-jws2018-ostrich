@@ -3,13 +3,9 @@
 
 In this section, we introduce algorithms for performing VM, DM and VQ triple pattern queries
 based on the storage structure introduced in [](#storage).
-Each of these querying algorithms is based on result streams, enabling efficient offsets and limits.
-Instead of naively iterating over elements in order to achieve a certain offset,
-we provide techniques in our algorithms for achieving more efficient offsets by exploiting the index structure from [](#storage).
-Furthermore, querying algorithms typically use exact or estimated counts for triple patterns in their optimizer algorithms,
-such as [TPF](cite:cites ldf),
-for determining the order of triple patterns during evaluation.
-In order to support this, we provide corresponding count estimation queries.
+Each of these querying algorithms are based on result streams, enabling efficient offsets and limits,
+by exploiting the index structure from [](#storage).
+Furthermore, we provide algorithms to provide count estimates for each query.
 
 ### Version Materialization
 
@@ -22,7 +18,7 @@ After that, we prove the correctness of our VM algorithm and introduce a corresp
 #### Query
 
 [](#algorithm-querying-vm) introduces an algorithm for VM triple pattern queries based on our storage structure.
-On line 2, it starts by determining the snapshot on which the given version is based.
+It starts by determining the snapshot on which the given version is based (line 2).
 After that, this snapshot is queried for the given triple pattern and offset.
 If the given version is equal to the snapshot version, the snapshot iterator can be returned directly (line 3).
 In all other cases, this snapshot offset could only be an estimation,
@@ -44,20 +40,20 @@ filter out local changes, and use the snapshot triple as offset.
 This triple-based offset is done by navigating through the tree to the smallest triple before or equal to the offset triple.
 We store an additional offset value (line 16), which corresponds to the current numerical offset inside the deletions stream.
 As long as the current snapshot offset is different from the sum of the original offset and the additional offset,
-we continue iterating this loop (line 17), which will continuously update this additional offset value.
+we continue iterating this loop (line 17), which will continuously increase this additional offset value.
 
 In the second case (line 19), the given offset lies within the additions range.
 Now, we terminate the snapshot stream by offsetting it after its last element (line 20),
 and we relatively offset the additions stream (line 21).
 This offset is calculated as the original offset subtracted with the number of snapshot triples incremented with the number of deletions.
 
-Finally, we return a simple iterator starting from the three streams that could be offset (line 25).
+Finally, we return a simple iterator starting from the three streams (line 25).
 This iterator performs a sort-merge join operation that removes each triple from the snapshot that also appears in the deletion stream,
 which can be done efficiently because of the consistent `SPO`-ordering.
 Once the snapshot and deletion streams have finished,
 the iterator will start emitting addition triples at the end of the stream.
 For all streams, local changes are filtered out because locally changed triples
-are cancelled out for the given version as explained in [](#fundamentals),
+are cancelled out for the given version as explained in [](#local-changes),
 so they should not be returned in materialized versions.
 
 <figure id="algorithm-querying-vm" class="algorithm numbered">
@@ -133,30 +129,10 @@ and store expensive addition and deletion counts as explained in [](#addition-co
 In this section, we prove that [](#algorithm-querying-vm) results in the correct stream offset
 for any given version and triple pattern.
 
-##### _Algorithm description_
-The algorithm is initialized as follows:
-
-* `snapshot`: stream of triples from the snapshot with largest version ID less than or equal to the given version,
-* `deletions`: stream of triples that are deleted from `snapshot` for the given version,
-* `additions`: stream of triples that are added to `snapshot` for the given version.
-* `offset`: The extra snapshot offset to take into account the `deletions` that need to be removed from `snapshot`, initialized as `0`.
-
-During every iteration of the do/while loop,
-we determine the triple in the snapshot at the index (`originalOffset + offset`),
-and count how many deletions are preceding that triple for the given triple pattern (i.e., the relative position).
-`offset` is then set to that number of deletions.
-
-When the do/while loop terminates,
-`PatchedSnapshotIterator` returns all elements from the given snapshot stream,
-minus the deletions, followed by the additions.
-
-##### _Proof_
-Two cases can occur with regards to the version:
-
-1. the version is equal to the snapshot version,
-2. the version is strictly larger than the snapshot version.
-
-In the first case (line 3), the output stream is the `snapshot` stream.
+Two cases can occur regarding the queried version.
+Either the version is equal to the snapshot version,
+or the version is strictly larger than the snapshot version.
+In the first case (line 3), the output stream is the `snapshot` stream, which we assume correctly applies offsets.
 For the remainder of this proof, we will elaborate on the second case.
 
 The first triple in the output stream can originate from either the snapshot stream or the additions stream.
@@ -211,23 +187,13 @@ and only emits the triples that have a different addition/deletion flag for the 
 
 #### Estimated count
 
-For count esimation we can also distinguish the two separate cases from previous section.
-
 For the first case, the start version corresponds to the snapshot version.
-A query for counting the number of triples for the start version is delegated to the snapshot,
-which we assume can happen efficiently.
-After that, the number of deletions and additions for the given triple pattern and version are queried,
-which can happen efficiently as described in [](#fundamentals).
-The estimated number of results is then the number of snapshot triples summed up with the number of deletions and additions.
+The estimated number of results is then the number of snapshot triples for the pattern summed up with the exact umber of deletions and additions for the pattern.
 
 In the second case the start version does not correspond to the snapshot version.
 We estimate the total count as the sum of the additions and deletions for the given triple pattern in both versions.
 This may only be a rough estimate, but will always be an upper bound, as the triples that were changed twice within the version range and negate each other
 are also counted.
-For example, for querying within version 1 and 4, if triple A was added in version 2 but removed again in version 3,
-it should not be included in the delta triple count with respect to version range `[1,4]`.
-But according to our algorithm, this triple will be included twice in our counting, once as an addition and once as a deletion.
-Our count in this case will at least be 2 too much.
 For exact counting, this number of negated triples should be subtracted.
 
 ### Version Query
@@ -235,14 +201,13 @@ For exact counting, this number of negated triples should be subtracted.
 For version querying (VQ), the final query atom, we have to retrieve all triples across all versions,
 annotated with the versions in which they exist.
 In this work, we again focus on version queries for a single snapshot and delta chain.
-For multiple snapshots and delta chains, the following algorithms should simply be applied once for each snapshot and delta chain.
+For multiple snapshots and delta chains, the following algorithms can simply be applied once for each snapshot and delta chain.
 In the following sections, we introduce an algorithm for performing triple pattern version queries
 and an algorithm for estimating the total number of matching triples for the former queries.
 
 #### Query
 
 Our version querying algorithm is again based on a sort-merge join-like operation.
-
 We start by iterating over the snapshot for the given triple pattern.
 Each snapshot triple is queried within the deletion tree.
 If such a deletion value can be found, the versions annotation contains all versions except for the versions

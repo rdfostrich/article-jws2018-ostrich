@@ -230,21 +230,21 @@ as all compressed sizes were in all cases two to three times larger than the N-T
 | B-hourly      | 8,314.86  |   466.35  | 94.39%        |
 | B-daily       |   556.44  |    30.98  | 94.43%        |
 | **OSTRICH**{:.hr} ||||
-| A             | 3,117.64  | 2,155.13  | 30.87%        |
-| B-hourly      |   187.46  |    34.92  | 81.37%        |
-| B-daily       |    12.32  |     3.35  | 72.80%        |
-| **HDT-IC**{:.hr} ||||
-| A             | 5,335.04  | 1,854.48  | 65.24%        |
-| B-hourly      | 2,127.57  |   388.02  | 81.76%        |
-| B-daily       |   142.08  |    25.69  | 81.92%        |
-| **HDT-CB**{:.hr} ||||
-| A             | 2,682.88  |  *856.39* | 68.08%        |
-| B-hourly      |    24.39  |    *2.86* | 88.27%        |
-| B-daily       |     5.96  |    *1.14* | 80.87%        |
+| A             | 3,117.64  | 2,155.13  | 95.32%        |
+| B-hourly      |   187.46  |    34.92  | 99.58%        |
+| B-daily       |    12.32  |     3.35  | 99.39%        |
+| **HDT-IC**{:.hr} ||||                                  
+| A             | 5,335.04  | 1,854.48  | 95.97%        |
+| B-hourly      | 2,127.57  |   388.02  | 95.33%        |
+| B-daily       |   142.08  |    25.69  | 95.33%        |
+| **HDT-CB**{:.hr} ||||                                  
+| A             | 2,682.88  |  *856.39* | *98.14%*      |
+| B-hourly      |    24.39  |    *2.86* | *99.96%*      |
+| B-daily       |     5.96  |    *1.14* | *99.79%*      |
 
 <figcaption markdown="block">
 Compressability using gzip for all BEAR datasets using OSTRICH, HDT-IC, HDT-CB and natively as N-Triples.
-The columns represent the original size, the resulting size after applying gzip, and the relative space savings for this approach.
+The columns represent the original size, the resulting size after applying gzip, and the total space savings for this approach.
 The lowest compressed sizes per dataset are indicated in italics.
 </figcaption>
 </figure>

@@ -37,9 +37,6 @@ containing a dataset with 30M triples in 10 versions using [TPF](cite:cites ldf)
 As mentioned before in [](#related-work-benchmarks), we evaluate our approach using the BEAR benchmark.
 We chose for this benchmark because it provides a complete set of tools and data for benchmarking RDF versioning systems,
 containing datasets, queries and easy-to-use engines to compare with.
-We were not able to extend this benchmark with other similar systems such as X-RDF-3X, RDF-TX and Dydra,
-because the source code of systems was either not publicly available,
-or the system would require additional implementation work to support the required query interface.
 
 We extended the existing BEAR implementation for the evaluation of offsets.
 We did this by implementing custom offset features into each of the BEAR approaches.
@@ -48,7 +45,7 @@ In all other cases, naive offsets had to be implemented by iterating over the re
 until a number of elements equal to the desired offset were consumed.
 This modified implementation is available on [GitHub](https://github.com/rdfostrich/bear/tree/ostrich-eval-journal){:.mandatory}.
 To test the scalability of our approach for datasets with few and large versions, we use the BEAR-A benchmark.
-We use the ten first versions of the BEAR-A dataset, which contains an average of 17M triples per version.
+We use the ten first versions of the BEAR-A dataset, which contains 30M to 66M triples per version.
 This dataset was compiled from the [Dynamic Linked Data Observatory](http://swse.deri.org/dyldo/).
 To test for datasets with many smaller versions, we use BEAR-B with the daily and hourly granularities.
 The daily dataset contains 89 versions and the hourly dataset contains 1,299 versions,
@@ -67,7 +64,7 @@ These querysets correspond to all possible triple pattern materializations, exce
 For BEAR-B, only two querysets are provided, those that correspond to `?P?` and `?PO` queries.
 The number of BEAR-B queries is more limited, but they are derived from real-world DBpedia queries
 which makes them useful for testing real-world applicability.
-All of these queries can be evaluated as VM queries on all versions,
+All of these queries are evaluated as VM queries on all versions,
 as DM between the first version and all other versions,
 and as VQ.
 
@@ -77,10 +74,13 @@ and HDT with the IC and CB implementations
 using the BEAR-A dataset for ten versions.
 We did the same for BEAR-B with the daily and hourly dataset.
 After that, we evaluated OSTRICH for the same queries and datasets.
+We were not able to extend this benchmark with other similar systems such as X-RDF-3X, RDF-TX and Dydra,
+because the source code of systems was either not publicly available,
+or the system would require additional implementation work to support the required query interfaces.
 
 Additionally, we evaluated the ingestion rates and storage sizes for all approaches.
 Furthermore, we compared the ingestion rate for the two different ingestion algorithms of OSTRICH.
-The batch-based algorithm ran out of memory for larger amounts of versions,
+The batch-based algorithm expectedly ran out of memory for larger amounts of versions,
 so we used the streaming-based algorithm for all further evaluations.
 
 Finally, we evaluated the offset capabilities of OSTRICH
@@ -90,21 +90,19 @@ We evaluated the blank triple pattern query with offsets ranging from 2 to 4,096
 ### Results
 
 In this section, we present the results of our evaluation.
-We report the ingestion results, query evaluation times for all cases and offset result.
+We report the ingestion results, compressibility, query evaluation times for all cases and offset result.
 All raw results and the scripts that were used to process them are available on [GitHub](https://github.com/rdfostrich/ostrich-bear-results/){:.mandatory}.
 
 #### Ingestion
 
 Tables [9](#results-ingestion-time) and [10](#results-ingestion-size)
 respectively show the ingestion times and storage requirements for the different approaches for the three different benchmarks.
-OSTRICH-reduced shows the results without the auxiliary `OSP` and `POS` indexes.
-These results have been derived from the ingestion into a regular OSTRICH store,
-so ingestion time is not explicitly measured, only storage size.
 For BEAR-A, the HDT-based approaches outperform OSTRICH in terms of ingestion time, they are about two orders of magniture faster.
 Only HDT-CB requires slightly less storage space.
 The Jena-based approaches ingest one order of magnitude faster than OSTRICH, but require more storage space.
 For BEAR-B-daily, OSTRICH requires less storage space than all other approaches except for HDT-CB at the cost of slower ingestion.
 For BEAR-B-hourly, only HDT-CB and Jena-CB/TB require about 8 to 4 times less space than OSTRICH.
+For BEAR-B-daily and BEAR-B-hourly, OSTRICH even requires less storage space than gzip on raw N-Triples.
 
 <figure id="results-ingestion-time" class="table" markdown="1">
 
@@ -140,7 +138,7 @@ The lowest times per dataset are indicated in italics.
 
 <figcaption markdown="block">
 Storage sizes for each of the RDF archive approaches in MB with BEAR-A, BEAR-B-daily and BEAR-B-hourly.
-The additional storage size for the auxiliary OSTRICH indexes and HDT index files are provided between brackets.
+The additional storage size for the auxiliary OSTRICH and HDT indexes are provided between brackets.
 The lowest sizes per dataset are indicated in italics.
 </figcaption>
 </figure>
@@ -151,12 +149,12 @@ For our experiments, we fixed this count threshold at 200,
 as for values higher than 200, the addition counts started having a noticable impact on the performance of count estimation.
 This threshold value means that when a triple pattern has 200 matching additions,
 then this count will be stored.
-[](#results-addition-counts) shows the storage space requirements of the addition counts.
-Results show that for BEAR-A and BEAR-B-hourly, the storage space is insignificant compared to the total space requirements.
+[](#results-addition-counts) shows that the storage space of the addition count datastructure
+in the case of BEAR-A and BEAR-B-hourly is insignificant compared to the total space requirements.
 However, for BEAR-B-daily, addition counts take up 37.05% of the total size with still an acceptable absolute size,
-which is simply because the addition and deletion trees require relatively less space,
+as the addition and deletion trees require relatively less space,
 because of the lower amount of versions.
-Within the scope of this work, we keep using this fixed threshold of 200.
+Within the scope of this work, we use this fixed threshold of 200.
 We consider investigating the impact of different threshold levels and methods for dynamically determining optimal levels future work.
 
 <figure id="results-addition-counts" class="table" markdown="1">
@@ -171,53 +169,10 @@ The percentage of storage space that this component requires compared to the com
 </figcaption>
 </figure>
 
-[](#results-ostrich-compressability) shows the compressibility of datasets for the approaches that achieve better compression than gzipped N-Triples.
-We omitted the results from the Jena-based approaches in this table,
-as all compressed sizes were in all cases _two to three times larger_ than the N-Triples compression.
-When applying gzip directly on the raw N-Triples input already achieves significant space savings.
-However, OSTRICH, HDT-IC and HDT-CB are able to reduce the required storage space _even further_ when they are used as a pre-processing step before applying gzip.
-This shows that these approaches are better --storage-wise-- for the archival of versioned datasets.
-This table also shows that OSTRICH datasets with more versions are more prone to space savings
-using compression techniques like gzip compared to OSTRICH datasets with fewer versions.
-Furthermore, compressibility is reduced when auxiliary (both OSTRICH and HDT) indexes are compressed as well.
-
-<figure id="results-ostrich-compressability" class="table" markdown="1">
-
-| Dataset       | Original Size (MB)   | gzip (MB)            | Space savings    |
-| ------------- |---------------------:|---------------------:|-----------------:|
-| **N-Triples**{:.hr} ||||
-| A             |46,069.76             | 3,194.88             | 93.07%           |
-| B-hourly      | 8,314.86             |   466.35             | 94.39%           |
-| B-daily       |   556.44             |    30.98             | 94.43%           |
-| **OSTRICH**{:.hr} ||||
-| A             | 3,117.64 (+1,469.88) | 2,155.13 (+1,117.37) | 30.87% (-2.21%)  |
-| B-hourly      |   187.46 (+263.13)   |    34.92 (+51.2)     | 81.37% (-0.49%)  |
-| B-daily       |    12.32 (+4.55)     |     3.35 (+2.07)     | 72.80% (-4.93%)  |
-| **HDT-IC**{:.hr} ||||
-| A             | 5,335.04 (+1.494.69) | 1,854.48 (+1,300.16) | 65.24% (-24.35%) |
-| B-hourly      | 2,127.57 (+98.88)    |   388.02 (+77.76)    | 81.76% (-2.68%)  |
-| B-daily       |   142.08 (+6.53)     |    25.69 (+5.11)     | 81.92% (-2,65%)  |
-| **HDT-CB**{:.hr} ||||
-| A             | 2,682.88 (+802.55)   |  *856.39 (+718.89)*  | 68.08% (-13,28%) |
-| B-hourly      |    24.39 (+0.75)     |    *2.86 (+0.99)*    | 88.27% (-2,50%)  |
-| B-daily       |     5.96 (+0.25)     |    *1.14 (+0.26)*    | 80.87% (-3.41%)  |
-
-<figcaption markdown="block">
-Compressability using gzip for all BEAR datasets using OSTRICH, HDT-IC, HDT-CB and natively as N-Triples.
-The columns represent the original size, the resulting size after applying gzip, and the relative space savings for this approach.
-The additional storage size for the auxiliary OSTRICH indexes and HDT index files are provided between brackets.
-The lowest compressed sizes per dataset are indicated in italics.
-</figcaption>
-</figure>
-
 [](#results-ostrich-ingestion-rate-beara) shows the ingestion rate for each consecutive version for BEAR-A,
 while [](#results-ostrich-ingestion-size-beara) shows the corresponding increasing storage sizes.
 Analogously, [](#results-ostrich-ingestion-rate-bearb-hourly) shows the ingestion rate for BEAR-B-hourly,
 and [](#results-ostrich-ingestion-size-bearb-hourly) shows its storage sizes.
-For BEAR-A, a linear trend for both ingestion duration and storage space for each consecutive version can observed.
-For BEAR-B-hourly, these slightly increase for larger versions.
-Furthermore, [](#results-ostrich-ingestion-rate-bearb-hourly) shows that the OSTRICH ingestion algorithm becomes slower around version 1,200,
-showing a limitation of our system when only a single snapshot is used. In future work, a new snapshot could be created _before_ this point is reached.
 
 <figure id="results-ostrich-ingestion-rate-beara">
 <img src="img/results-ostrich-ingestion-rate-beara.svg" alt="[bear-a ostrich ingestion rate]" height="150em">
@@ -250,16 +205,48 @@ Cumulative OSTRICH store sizes for each consecutive BEAR-B-hourly version in GB 
 </figure>
 
 [](#results-ostrich-ingestion-rate-beara-compare) compares the BEAR-A ingestion rate of the streaming and batch algorithms.
-While the batch algorithm is faster than the streaming algorithm for the first 9 versions,
-the batch algorithm quickly becomes slower after that, and runs out of memory after version 10, even on a machine with 128 GB of memory.
-The ingestion duration in case of the streaming algorithm on the other hand continues to grow linearly without memory issues.
+The streaming algorithm starts of slower than the batch algorithm but grows linearly,
+while the batch algorithm consumes a large amount of memory, resulting in slower ingestion after version 8 and an out-of-memory error after version 10.
 
 <figure id="results-ostrich-ingestion-rate-beara-compare">
 <img src="img/results-ostrich-ingestion-rate-beara-compare.svg" alt="[Comparison of ostrich ingestion algorithms]" height="150em">
 <figcaption markdown="block">
 Comparison of the OSTRICH stream and batch-based ingestion durations.
-The streaming algorithm starts of slower than the batch algorithm but grows linearly,
-while the batch algorithm consumes a large amount of memory, resulting in slower ingestion after version 8 and an out-of-memory error after version 10.
+</figcaption>
+</figure>
+
+#### Compressibility
+
+[](#results-ostrich-compressability) shows the compressibility of datasets for the approaches that achieve better compression than gzipped N-Triples.
+We omitted the results from the Jena-based approaches in this table,
+as all compressed sizes were in all cases two to three times larger than the N-Triples compression.
+
+<figure id="results-ostrich-compressability" class="table" markdown="1">
+
+| Dataset       | Original Size (MB)   | gzip (MB)            | Space savings    |
+| ------------- |---------------------:|---------------------:|-----------------:|
+| **N-Triples**{:.hr} ||||
+| A             |46,069.76             | 3,194.88             | 93.07%           |
+| B-hourly      | 8,314.86             |   466.35             | 94.39%           |
+| B-daily       |   556.44             |    30.98             | 94.43%           |
+| **OSTRICH**{:.hr} ||||
+| A             | 3,117.64 (+1,469.88) | 2,155.13 (+1,117.37) | 30.87% (-2.21%)  |
+| B-hourly      |   187.46 (+263.13)   |    34.92 (+51.2)     | 81.37% (-0.49%)  |
+| B-daily       |    12.32 (+4.55)     |     3.35 (+2.07)     | 72.80% (-4.93%)  |
+| **HDT-IC**{:.hr} ||||
+| A             | 5,335.04 (+1.494.69) | 1,854.48 (+1,300.16) | 65.24% (-24.35%) |
+| B-hourly      | 2,127.57 (+98.88)    |   388.02 (+77.76)    | 81.76% (-2.68%)  |
+| B-daily       |   142.08 (+6.53)     |    25.69 (+5.11)     | 81.92% (-2,65%)  |
+| **HDT-CB**{:.hr} ||||
+| A             | 2,682.88 (+802.55)   |  *856.39 (+718.89)*  | 68.08% (-13,28%) |
+| B-hourly      |    24.39 (+0.75)     |    *2.86 (+0.99)*    | 88.27% (-2,50%)  |
+| B-daily       |     5.96 (+0.25)     |    *1.14 (+0.26)*    | 80.87% (-3.41%)  |
+
+<figcaption markdown="block">
+Compressability using gzip for all BEAR datasets using OSTRICH, HDT-IC, HDT-CB and natively as N-Triples.
+The columns represent the original size, the resulting size after applying gzip, and the relative space savings for this approach.
+The additional storage size for the auxiliary OSTRICH indexes and HDT index files are provided between brackets.
+The lowest compressed sizes per dataset are indicated in italics.
 </figcaption>
 </figure>
 
@@ -363,17 +350,16 @@ Median BEAR-B-hourly VQ query results for all triple patterns.
 From our evaluation of offsets, [](#results-offset-vm) shows that OSTRICH offset evaluation remain below 1ms,
 while other approaches grow beyond that for larger offsets, except for HDT-IC+.
 HDT-CB, Jena-CB and Jena-CB/TB are not included in this and the following figures
-because they require full materialization before offsets can be applied, which is expensive and would therefore take a very long time to evaluate.
-For DM queries, all approaches have growing evaluating times for larger offsets, including OSTRICH.
+because they require full materialization before offsets can be applied, which is expensive and therefore take a very long time to evaluate.
+For DM queries, all approaches have growing evaluating times for larger offsets including OSTRICH, as can be seen in [](#results-offset-dm).
 Finally, OSTRICH has VQ evaluation times that are approximately independent of the offset value,
-while other approaches again have growing evaluation times.
+while other approaches again have growing evaluation times, as shown in [](#results-offset-vq).
 
 <figure id="results-offset-vm">
 <img src="img/query/results_offsets-vm.svg" alt="[Offsets vm]" height="200em">
 <figcaption markdown="block">
 Median VM query results for different offsets over all versions in the BEAR-A dataset.
 HDT-IC+ refers to the efficient offset implementation based on HDT's native offset capabilities.
-HDT-CB, Jena-CB and Jena-CB/TB were not included due to evaluation times larger than one minute.
 </figcaption>
 </figure>
 
@@ -381,7 +367,6 @@ HDT-CB, Jena-CB and Jena-CB/TB were not included due to evaluation times larger 
 <img src="img/query/results_offsets-dm.svg" alt="[Offsets dm]" height="200em">
 <figcaption markdown="block">
 Median DM query results for different offsets between version 0 and all other versions in the BEAR-A dataset.
-HDT-CB, Jena-CB and Jena-CB/TB were not included due to evaluation times larger than one minute.
 </figcaption>
 </figure>
 
@@ -389,27 +374,21 @@ HDT-CB, Jena-CB and Jena-CB/TB were not included due to evaluation times larger 
 <img src="img/query/results_offsets-vq.svg" alt="[Offsets vq]" height="200em">
 <figcaption markdown="block">
 Median VQ query results for different offsets in the BEAR-A dataset.
-HDT-CB, Jena-CB and Jena-CB/TB were not included due to evaluation times larger than one minute.
 </figcaption>
 </figure>
 
 ### Discussion
 
 In this section, we interpret and discuss the results from previous section.
-We discuss the ingestion, query evaluation, offset efficiency and test our hypotheses.
+We discuss the ingestion, compressbility, query evaluation, offset efficiency and test our hypotheses.
 
 #### Ingestion
-For all evaluated cases, OSTRICH requires more effort for ingesting new data than the other approaches.
-More specifically, the BEAR-A and BEAR-B-hourly datasets indicate the limitations of the ingestion algorithm in our system.
-The results for BEAR-A show that OSTRICH ingests slowly for many very large versions,
-but it is still possible because of the memory-efficient streaming algorithm.
-The results for BEAR-B-hourly show that OSTRICH should not be used when the number of versions is very large.
-Furthermore, for each additional version in a dataset, the ingestion time increases.
-This is a direct consequence of our alternative delta chain method where all deltas are relative to a snapshot.
-That is the reason why when new deltas are inserted,
-the previous one must be fully materialized by iterating over all existing triples,
-because no version index exists.
-These results should however be interpreted correctly,
+
+For all evaluated cases, OSTRICH requires less storage space than most non-CB approaches.
+The CB and CB/TB approaches in most cases outperform OSTRICH in terms of storage space efficiency due
+to the additional metadata that OSTRICH stores per triple.
+Because of this, most other approaches require less time to ingest new data.
+These timing results should however be interpreted correctly,
 because all other approaches receive their input data in the appropriate format (IC, CB, TB, CB/TB),
 while OSTRICH does not.
 OSTRICH must convert CB input at runtime to the alternative CB structure where deltas are relative to the snapshot,
@@ -432,6 +411,16 @@ i.e., each triple is an addition or deletion relative to the _first_ version ins
 </figcaption>
 </figure>
 
+The BEAR-A and BEAR-B-hourly datasets indicate the limitations of the ingestion algorithm in our system.
+The results for BEAR-A show that OSTRICH ingests slowly for many very large versions,
+but it is still possible because of the memory-efficient streaming algorithm.
+The results for BEAR-B-hourly show that OSTRICH should not be used when the number of versions is very large.
+Furthermore, for each additional version in a dataset, the ingestion time increases.
+This is a direct consequence of our alternative delta chain method where all deltas are relative to a snapshot.
+That is the reason why when new deltas are inserted,
+the previous one must be fully materialized by iterating over all existing triples,
+because no version index exists.
+
 In [](#results-ostrich-ingestion-rate-bearb-hourly), we can observe large fluctuations in ingestion time around version 1,200 of BEAR-B-hourly.
 This is caused by the large amount of versions that are stored for each tree value.
 Since each version requires a mapping to seven triple pattern indexes and one local change flag in the deletion tree,
@@ -445,36 +434,22 @@ This could be solved by either tweaking the B+Tree parameters for this large amo
 reducing storage requirements for each value,
 or by dynamically creating a new snapshot.
 
-OSTRICH ingests slower than the other approaches
-and achieves smaller resulting storage size in most cases.
-OSTRICH achieves a smaller store than all Jena approaches for BEAR-A,
-and is also slightly smaller than HDT-IC (1,49 times).
-For BEAR-B-daily, OSTRICH is 8,82 times smaller than HDT-IC, and it is 4,95 times smaller for BEAR-B-hourly.
-The CB and CB/TB approaches in most cases outperform OSTRICH in terms of storage space efficiency due
-to the additional metadata that OSTRICH stores per triple.
-For BEAR-B-daily and BEAR-B-hourly, OSTRICH even requires less storage space than gzip on raw N-Triples.
-
-OSTRICH requires more space than gzip for BEAR-A on raw N-Triples,
-but it is able to provide an efficient query interface, which gzip is not.
-For the BEAR-B cases, OSTRICH requires less storage space than gzip.
-If pure compression is required without querying capabilities,
-OSTRICH's format is still beneficial as is shown in [](#results-ostrich-compressability) and [](#results-ostrich-reduced-compressability).
-For the BEAR-B cases, OSTRICH requires less storage space more than gzip,
-which is because of the increased redundancy in B+Tree values.
-Furthermore, compressing BEAR-B-hourly saves even more space (80.88%) than BEAR-B-daily (67.87%),
-because of the same reason, BEAR-B-hourly contains 1,299 versions, while BEAR-B-daily contains 89 versions.
-For reduced OSTRICH stores, where only the main `SPO` index is stored,
-this compressibility rate is even slightly higher.
-
 We compared the streaming and batch-based ingestion algorithm in [](#results-ostrich-ingestion-rate-beara-compare).
-The streaming algorithm has linearly increasing durations for each next version,
-while the batch algorithm is significantly faster for the first seven versions,
-it quickly becomes slower after that. After version 10 it runs out of memory.
-The batch algorithm is faster because most operations can happen in memory,
+The batch algorithm is initially faster because most operations can happen in memory,
 while the streaming algorithm only uses a small fraction of that memory,
 which makes the latter usable for very large datasets that don't fit in memory.
 In future work, a hybrid between the current streaming and batch algorithm could be investigated,
 i.e., a streaming algorithm with a larger buffer size, which is faster, but doesn't require unbounded amounts of memory.
+
+#### Compressibility
+
+As shown in [](#results-ostrich-compressability),
+when applying gzip directly on the raw N-Triples input already achieves significant space savings.
+However, OSTRICH, HDT-IC and HDT-CB are able to reduce the required storage space _even further_ when they are used as a pre-processing step before applying gzip.
+This shows that these approaches are better --storage-wise-- for the archival of versioned datasets.
+This table also shows that OSTRICH datasets with more versions are more prone to space savings
+using compression techniques like gzip compared to OSTRICH datasets with fewer versions.
+Furthermore, compressibility is reduced when auxiliary (both OSTRICH and HDT) indexes are compressed as well.
 
 #### Query Evaluation
 
@@ -511,7 +486,7 @@ We will only consider the comparison between OSTRICH and HDT-based approaches,
 as OSTRICH outperforms the Jena-based approaches for all cases in terms of lookup times.
 These validations were done using R, for which the source code can be found on [GitHub](https://github.com/rdfostrich/ostrich-bear-results/){:.mandatory}.
 
-For our [first hypothesis](#hypothesis-qualitative-querying), we expect OSTRICH lookup times remain independent of version for VM and DM queries.
+For our [first hypothesis](#hypothesis-qualitative-querying), we expect OSTRICH lookup times to remain independent of version for VM and DM queries.
 We validate this hypothesis by building a linear regression model with as response the lookup time,
 and as factors version and number of results.
 [](#hypo-test-1) contains the influence of each factor, which shows that for all cases,
@@ -617,8 +592,3 @@ unless the number of versions is low.
 In this section, we accepted three of the six hypotheses.
 As these are statistical hypotheses, these do not necessarily indicate negative results of our approach.
 Instead, they allow us to provide general guidelines on where our approach can be used effectively, and where not.
-In summary, OSTRICH is in most cases more efficient than other approaches for querying for datasets with a large number of versions.
-This is not the case when only VM queries are required, in which case IC-based storage provides faster querying at the cost of more storage space.
-Next to that, the number of versions in an OSTRICH store does not significantly influence the query times.
-Furthermore, OSTRICH requires less storage space than IC-based approaches, and more than CB-based approaches.
-This querying and storage space efficiency comes at the cost of relatively higher ingestion times compared to other approaches.

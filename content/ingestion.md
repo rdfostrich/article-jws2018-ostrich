@@ -5,7 +5,7 @@ In this section, we discuss two ingestion algorithms: a memory-intensive batch a
 These algorithms both take a changeset—containing additions and deletions—as input,
 and append it as a new version to the store.
 Note that the ingested changesets are regular changesets: they are relative to one another according to [](#regular-delta-chain).
-Furthermore, we assume that the ingested changesets are valid changesets:
+Furthermore, we assume that the ingested changesets are _valid_ changesets:
 they don't contain impossible triple sequences such as a triple that is removed in two versions without having an addition in between.
 During ingestion, they will be transformed to the alternative delta chain structure as shown in [](#alternative-delta-chain).
 Within the scope of this article, we only discuss ingestion of deltas in a single delta chain following a snapshot.
@@ -18,7 +18,7 @@ More specifically, an ingestion algorithm has the following requirements:
     <li>addition triples must be stored in all addition trees;</li>
     <li>additions and deletions must be annotated with their version;</li>
     <li>additions and deletions must be annotated with being a local change or not;</li>
-    <li>deletions must be annotated with their position for all triple patterns.</li>
+    <li>deletions must be annotated with their relative position for all triple patterns.</li>
 </ul>
 
 ### Batch Ingestion
@@ -32,12 +32,11 @@ The main disadvantage is the high memory consumption requirement for large versi
 Before we discuss the actual batch ingestion algorithm,
 we first introduce an in-memory changeset merging algorithm,
 which is required for the batch ingestion.
-[](#algorithm-ingestion-batch-merge) shows the pseudocode of an algorithm for merging a changeset into another changeset,
-and returning the resulting merged changeset.
+[](#algorithm-ingestion-batch-merge) contains the pseudocode of this algorithm.
 First, all contents of the original changeset are copied into the new changeset (line 3).
 After that, we iterate over all triples of the second changeset (line 4).
 If the changeset already contained the given triple (line 5), the local change flag is negated.
-Otherwise, the triple is added to the new changeset, and the local change flag is set to `false` (line 8-10).
+Otherwise, the triple is added to the new changeset, and the local change flag is set to `false` (line 9,10).
 Finally, in both cases the addition flag of the triple in the new changeset is copied from the second changeset (line 12).
 
 <figure id="algorithm-ingestion-batch-merge" class="algorithm numbered">
@@ -63,19 +62,13 @@ After that, it loads the changeset from the previous version in memory,
 which is required for merging it together with the new changeset using the algorithm from [](#algorithm-ingestion-batch-merge).
 After that, we have the new changeset loaded in memory.
 Now, we load each added triple into the addition trees, together with their version and local change flag.
-After that, we finally load each deleted triple into the deletion trees
-with their version, local change flag and positions.
+After that, we load each deleted triple into the deletion trees
+with their version, local change flag and relative positions.
 These positions are calculated using `calculatePositions(triple)`.
-For the sake of completeness, we included the algorithm in pseudo-code in [Appendix A](#appendix-algorithms).
+For the sake of completeness, we included the batch algorithm in pseudo-code in [Appendix D](#appendix-algorithms).
 
 Even though this algorithm is straightforward,
-it can require a large amount of memory for a number of reasons:
-1) loading the complete new changeset;
-2) loading the complete previous changeset;
-3) combining and loading the previous and new changesets;
-4) maintaining counters for the deletions in all possible triple patterns.
-As deltas are stored relative to snapshots, their size can grow for an increasing number of versions,
-which directly leads to larger memory requirements.
+it can require a large amount of memory for large changesets and long delta chains.
 The theoretical time complexity of this algorithm is `O(P + N log(N))` (`O(P + N)` if the new changeset is already sorted),
 with `P` the number of triples in the previous changeset,
 and `N` the number of triples in the new changeset.
@@ -85,7 +78,7 @@ and `N` the number of triples in the new changeset.
 
 Because of the unbounded memory requirements of the [batch ingestion algorithm](#batch-ingestion),
 we introduce a more complex streaming ingestion algorithm.
-Just like the batch algorithm, it takes a changeset stream and store as input parameters,
+Just like the batch algorithm, it takes a changeset stream as input,
 with the additional requirement that the stream's values must be sorted in SPO-order.
 This way the algorithm can assume a consistent order and act as a sort-merge join operation.
 Just as for the batch algorithm, we included this algorithm in pseudo-code in [Appendix D](#appendix-algorithms).
@@ -147,8 +140,8 @@ and the local change flag can be inherited.
 </ol>
 
 The theoretical memory requirement for this algorithm is much lower than the [batch variant](#batch-ingestion).
-That is because load at most three triples, i.e., the heads of each stream, in memory, instead of the complete new changeset.
-Furthermore, we still need to maintain the position counters for the deletions in all triple patterns.
+That is because it only has to load at most least triples, i.e., the heads of each stream, in memory, instead of the complete new changeset.
+Furthermore, we still need to maintain the relative position counters for the deletions in all triple patterns.
 While these counters could also become large, a smart implementation could perform memory-mapping
 to avoid storing everything in memory.
 The lower memory requirements come at the cost of a higher logical complexity, but an equal time complexity (assuming sorted changesets).

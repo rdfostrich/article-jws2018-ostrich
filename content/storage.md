@@ -6,7 +6,7 @@ In this section, we introduce our hybrid IC/CB/TB storage approach for storing m
 Our approach consists of an initial dataset snapshot---stored in [HDT](cite:cites hdt)---followed by a delta chain (similar to [TailR](cite:cites tailr)).
 The delta chain uses multiple compressed B+Trees for a TB-storage strategy (similar to [Dydra](cite:cites dydra)),
 applies dictionary-encoding to triples, and
-stores additional metadata to improve lookup times [](cite:cites hdt).
+stores additional metadata to improve lookup times.
 In this section, we discuss each component in more detail.
 In the next section, we describe two ingestion algorithms based on this storage structure.
 
@@ -48,7 +48,7 @@ a dictionary can definitely reduce storage space requirements.
 
 Each delta chain consists of two dictionaries, one for the snapshot and one for the deltas.
 The snapshot dictionary consists of triple components that already existed in the snapshot.
-All other triple components are present in the delta dictionary.
+All other triple components are stored in the delta dictionary.
 This dictionary is shared between the additions and deletions,
 as the dictionary ignores whether or not the triple is an addition or deletion.
 How this distinction is made will be explained in [](#delta-storage).
@@ -128,28 +128,23 @@ Additions and deletions are respectively stored in separate stores,
 which hold all additions and deletions from the complete delta chain.
 Each store uses B+Tree data structures,
 where a key corresponds to a triple and the value contains version information.
-The version information consists of a mapping from version to a local change flag and,
+The version information consists of a mapping from version to a local change flag as mentioned in [](#local-changes) and,
 in case of deletions, also the relative position of the triple inside the delta.
 Even though triples can exist in multiple deltas in the same chain,
 they will only be stored once.
 Each addition and deletion store uses three trees with a different triple component order (SPO, POS and OSP),
-which is sufficient for efficiently resolving any triple pattern (as discussed in [](#indexes)).
-
-The local change flag indicates whether or not the triple is a _local change_, which, as mentioned in [](#local-changes), further improves query evaluation time.
-A triple is a local change in a certain version in respectively the addition/deletion tree
-if it was already respectively removed/added in an earlier version.
-This local change information helps the querying algorithm to determine when to ignore a triple or not.
+as discussed in [](#indexes).
 
 The relative position of each triple inside the delta to the deletion trees speeds up the process
 of patching a snapshot's triple pattern subset for any given offset.
-In fact, seven relative positions are stored for each triple: one for each possible triple pattern (`SP?`, `S?O`, `S??`, `?PO`, `?P?`, `??O`, `???`),
+In fact, seven relative positions are stored for each deleted triple: one for each possible triple pattern (`SP?`, `S?O`, `S??`, `?PO`, `?P?`, `??O`, `???`),
 except for `SPO` since this position will always be 0 as each triple is stored only once.
 This position information serves two purposes:
 1) it allows the querying algorithm to exploit offset capabilities of the snapshot store
 to resolve offsets for any triple pattern against any version;
 and 2) it allows deletion counts for any triple pattern and version to be determined efficiently.
 
-The use of the relative position and the local change flag will be further explained in [](#querying).
+The use of the relative position and the local change flag during querying will be further explained in [](#querying).
 
 [](#example-delta-storage-additions) and [](#example-delta-storage-deletions) respectively represent
 the addition and deletion tree contents when the triples from the example in [](#example-archive) are stored.
@@ -204,8 +199,6 @@ To cope with this, we propose to only store the elements where their counts are 
 Elements that are not stored will have to be counted during lookup time.
 This is however not a problem for reasonably low thresholds,
 because the iteration scope in our indexes can be limited efficiently, as mentioned in [](#addition-deletion-counts).
-Thus, for triple patterns for which only a limited number of matches exist,
-iteration, and therefore the counts, can happen efficiently.
 The count threshold introduces a trade-off between the storage requirements and the required triple counting during lookups.
 
 ### Deletion Counts

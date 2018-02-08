@@ -217,37 +217,33 @@ Comparison of the OSTRICH stream and batch-based ingestion durations.
 
 #### Compressibility
 
-[](#results-ostrich-compressability) shows the compressibility of datasets without auxiliary indexes.
-We omitted the results from the Jena-based approaches in this table,
-as all compressed sizes were in all cases two to three times larger than the N-Triples compression.
-
 <figure id="results-ostrich-compressability" class="table" markdown="1">
 
-| Dataset       | Size (MB) | gzip (MB) | Space savings |
-| ------------- |----------:|----------:|--------------:|
-| **N-Triples**{:.hr} ||||
-| A             |46,069.76  | 3,194.88  | 93.07%        |
-| B-hourly      | 8,314.86  |   466.35  | 94.39%        |
-| B-daily       |   556.44  |    30.98  | 94.43%        |
-| **OSTRICH**{:.hr} ||||
-| A             | 3,117.64  | 2,155.13  | 95.32%        |
-| B-hourly      |   187.46  |    34.92  | 99.58%        |
-| B-daily       |    12.32  |     3.35  | 99.39%        |
-| **HDT-IC**{:.hr} ||||                                  
-| A             | 5,335.04  | 1,854.48  | 95.97%        |
-| B-hourly      | 2,127.57  |   388.02  | 95.33%        |
-| B-daily       |   142.08  |    25.69  | 95.33%        |
-| **HDT-CB**{:.hr} ||||                                  
-| A             | 2,682.88  |  *856.39* | *98.14%*      |
-| B-hourly      |    24.39  |    *2.86* | *99.96%*      |
-| B-daily       |     5.96  |    *1.14* | *99.79%*      |
+| Format        | Dataset  | Size      | gzip      | Savings  |
+|---------------|----------|----------:|----------:|---------:|
+| **N-Triples** | A        |46,069.76  | 3,194.88  | 93.07%   |
+|               | B-hourly | 8,314.86  |   466.35  | 94.39%   |
+|               | B-daily  |   556.44  |    30.98  | 94.43%   |
+| **OSTRICH**   | A        | 3,117.64  | 2,155.13  | 95.32%   |
+|               | B-hourly |   187.46  |    34.92  | 99.58%   |
+|               | B-daily  |    12.32  |     3.35  | 99.39%   |
+| **HDT-IC**    | A        | 5,335.04  | 1,854.48  | 95.97%   |
+|               | B-hourly | 2,127.57  |   388.02  | 95.33%   |
+|               | B-daily  |   142.08  |    25.69  | 95.33%   |
+| **HDT-CB**    | A        | *2,682.88*|  *856.39* | *98.14%* |
+|               | B-hourly |    *24.39*|    *2.86* | *99.96%* |
+|               | B-daily  |     *5.96*|    *1.14* | *99.79%* |
 
 <figcaption markdown="block">
 Compressability using gzip for all BEAR datasets using OSTRICH, HDT-IC, HDT-CB and natively as N-Triples.
-The columns represent the original size, the resulting size after applying gzip, and the total space savings for this approach.
-The lowest compressed sizes per dataset are indicated in italics.
+The columns represent the original size (MB), the resulting size after applying gzip (MB), and the total space savings each format.
+The lowest sizes are indicated in italics.
 </figcaption>
 </figure>
+
+[](#results-ostrich-compressability) shows the compressibility of datasets without auxiliary indexes.
+We omitted the results from the Jena-based approaches in this table,
+as all compressed sizes were in all cases two to three times larger than the N-Triples compression.
 
 #### Query Evaluation
 

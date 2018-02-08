@@ -91,11 +91,11 @@ Hence, RDF archiving has been an active area of research over the last couple of
 
 Fernández et al. formally define an [_RDF archive_](cite:cites bear) as follows:
 _An RDF archive graph A is a set of version-annotated triples._
-Where a _version-annotated triple_ _(s, p, o):[i]_ is defined as _an RDF triple (s, p, o) with a label i ∈ N representing the version in which this triple holds.
+Where a _version-annotated triple_ _(s, p, o):\[i\]_ is defined as _an RDF triple (s, p, o) with a label i ∈ N representing the version in which this triple holds.
 The set of all [RDF triples](cite:cites spec:rdf) is defined as _(U ∪ B) × U × (U ∪ B ∪ L)_,
 where _U_, _B_, and _L_, respectively represent the disjoint, infinite sets of URIs, blank nodes, and literals.
 Furthermore,
-_an RDF version of an RDF archive A at snapshot i is the RDF graph A(i) = {(s, p, o)|(s, p, o):[i] ∈ A}._
+_an RDF version of an RDF archive A at snapshot i is the RDF graph A(i) = {(s, p, o)|(s, p, o):\[i\] ∈ A}._
 For the remainder of this article, we use the notation _Vi_ to refer to the RDF version _A(i)_.
 
 The [DIACHRON data model](cite:cites diachronql) introduces the concept of _diachronic datasets_,
@@ -303,13 +303,13 @@ To cover the retrieval demands in RDF archiving,
 which are referred to as _query atoms_:
 
 1. **Version materialization (VM)** retrieves data using a query _Q_ targeted at a single version _Vi_.
-Formally: _VM(Q, Vi) = [[Q]]Vi_.
+Formally: _VM(Q, Vi) = \[\[Q\]\]Vi_.
 Example: _Which books were present in the library yesterday?_
 2. **Delta materialization (DM)** retrieves query _Q_'s result change sets between two versions _Vi_ and _Vj_.
-Formally: _DM(Q, Vi, Vj)=(Ω+, Ω−). With Ω+ = [[Q]]Vi \ [[Q]]Vj and Ω− = [[Q]]Vj \ [[Q]]Vi_.
+Formally: _DM(Q, Vi, Vj)=(Ω+, Ω−). With Ω+ = \[\[Q\]\]Vi \ \[\[Q\]\]Vj and Ω− = \[\[Q\]\]Vj \ \[\[Q\]\]Vi_.
 Example: _Which books were returned or taken from the library between yesterday and now?_
 3. **Version query (VQ)** annotates query _Q_'s results with the versions (of RDF archive A) in which they are valid.
-Formally: _VQ(Q, A) = {(Ω, W) | W = {A(i) | Ω=[[Q]]A(i), i ∈ N} ∧ Ω ≠ ∅}_.
+Formally: _VQ(Q, A) = {(Ω, W) | W = {A(i) | Ω=\[\[Q\]\]A(i), i ∈ N} ∧ Ω ≠ ∅}_.
 Example: _At what times was book X present in the library?_
 4. **Cross-version join (CV)** joins the results of two queries (_Q1_ and _Q2_) between versions _Vi_ and _Vj_.
 Formally: _VM(Q1, Vi) ⨝ VM(Q2, Vj)_.

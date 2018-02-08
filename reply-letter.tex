@@ -72,7 +72,7 @@ Thank you for your insightful comments.
 \textbf{The storage approach is interesting, but I would like to see more proof that the system can scale to larger dataset sizes.}
 
 We used the BEAR-A and BEAR-B-hourly datasets to evaluate both extremes of dataset sizes.
-The first extreme (BEAR-A) contains a few very large versions (30 million triples for \emph{each version}).
+The first extreme (BEAR-A) contains a few very large versions (30 to 66 million triples for \emph{each version}).
 The second extreme (BEAR-B-hourly) has many (1299) smaller versions.
 To the best of our knowledge, these are the only available versioned datasets with real-world data
 that are this large.
@@ -192,7 +192,7 @@ Triple pattern queries form the smallest building block for evaluating SPARQL qu
 Therefore, we do not aim to compete with existing versioned SPARQL engines,
 full access to the language should be leveraged by umbrella engines,
 for instance by using Triple Pattern Fragments.
-This has been clarified in the introduction section.
+This has been clarified in the introduction section, and was also already mentioned as the motivation for using the BEAR benchmark in section 2.3.
 Implementation inside SPARQL engines is planned for future work, but out-of-scope for this work.
 Next to triple pattern queries,
 we also evaluate the performance of the offset support for such queries,

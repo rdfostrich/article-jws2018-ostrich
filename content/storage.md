@@ -17,6 +17,26 @@ Overview of the main components of our hybrid IC/CB/TB storage approach.
 </figcaption>
 </figure>
 
+Throughout this section, we will use the example RDF archive from [](#example-archive)
+to illustrate the different storage components with.
+
+<figure id="example-archive" class="table" markdown="1">
+
+| Version | Triple                       |
+|--------:|------------------------------|
+| 0       | `:Bob foaf:name "Bobby"`   |
+| 1       | `:Alice foaf:name "Alice"` |
+| 1       | `:Bob foaf:name "Bobby"`   |
+| 2       | `:Bob foaf:name "Bob"`     |
+| 3       | `:Alice foaf:name "Alice"` |
+| 3       | `:Bob foaf:name "Bob"`     |
+
+<figcaption markdown="block">
+Example of a small RDF archive with 4 versions.
+We assume that the following URI prefixes: `: http://example.org`, `foaf: http://xmlns.com/foaf/0.1/`
+</figcaption>
+</figure>
+
 ### Snapshot storage
 {:#snapshot-storage}
 
@@ -62,42 +82,16 @@ a reserved bit is used where `1` indicates snapshot dictionary
 and `0` indicates the delta dictionary.
 The text-based dictionary values can be compressed to reduce storage space further, as they are likely to contain many redundancies.
 
-[](#example-delta-storage-dict) contains example encodings of the triple components
-from the example in [](#example-archive).
-
-<figure id="example-archive" class="table" markdown="1">
-
-| Version | Triple                       |
-|--------:|------------------------------|
-| 0       | `ex:Bob foaf:name "Bobby"`   |
-|||
-| 1       | `ex:Alice foaf:name "Alice"` |
-| 1       | `ex:Bob foaf:name "Bobby"`   |
-||
-| 2       | `ex:Bob foaf:name "Bob"`     |
-||
-| 3       | `ex:Alice foaf:name "Alice"` |
-| 3       | `ex:Bob foaf:name "Bob"`     |
-
-<figcaption markdown="block">
-Example of a small RDF archive with 4 versions.
-We assume that the following URI prefixes: `ex: http://example.org`, `foaf: http://xmlns.com/foaf/0.1/`
-</figcaption>
-</figure>
+[](#example-delta-storage-dict) contains example encodings of the triple components.
 
 <figure id="example-delta-storage-dict" class="table" markdown="1">
 
-| Triple Component | ID   |
-|------------------|-----:|
-| `ex:Bob`         | `S0` |
-| `foaf:name`      | `S1` |
-| `"Bobby"`        | `S2` |
-| `ex:Alice`       | `D0` |
-| `"Alice"`        | `D1` |
-| `"Bob"`          | `D2` |
+| `:Bob` | `foaf:name` | `"Bobby"` | `:Alice` | `"Alice"` | `"Bob"` |
+|-------:|------------:|----------:|---------:|----------:|--------:|
+| `S0`   | `S1`        | `S2`      | `D0`     | `D1`      | `D2`    |
 
 <figcaption markdown="block">
-Example encoding of several triple components.
+Example encoding of the triple components from [](#example-archive).
 Instead of the reserved bit, IDs prefixed with `S` belong to the snapshot dictionary
 and those prefixed with `D` belong to the delta dictionary.
 </figcaption>
@@ -143,45 +137,35 @@ This position information serves two purposes:
 1) it allows the querying algorithm to exploit offset capabilities of the snapshot store
 to resolve offsets for any triple pattern against any version;
 and 2) it allows deletion counts for any triple pattern and version to be determined efficiently.
-
 The use of the relative position and the local change flag during querying will be further explained in [](#querying).
 
-[](#example-delta-storage-additions) and [](#example-delta-storage-deletions) respectively represent
-the addition and deletion tree contents when the triples from the example in [](#example-archive) are stored.
-The local change flag is enabled for `D0;S1;D1` in the deletions tree for version 2, as it was previously added in version 1.
-The relative positions in the deletion tree for `S0;S1;S2` is not the same for versions 2 and 3,
-because in version 2, the triple `D0;S1;D1` also exists as a deletion, and when sorted, this comes before `S0;S1;S2` for triple patterns `?P?` and `???`.
+<figure id="example-delta-storage" class="table" markdown="1">
 
-<figure id="example-delta-storage-additions" class="table" markdown="1">
-
-| T          | V | L |
+| +          | V | L |
 |------------|--:|---|
 | `D0;S1;D1` | 1 | F |
 |            | 3 | F |
 | `S0;S1;D2` | 2 | F |
 
-<figcaption markdown="block">
-Addition tree contents based on the example from [](#example-archive) using the dictionary encoding from [](#example-delta-storage-dict).
-Column `T` represents the keys of the tree, which contains triples based on the encoded triple components.
-The remaining columns represent the values, i.e., a mapping from version (`V`) to the local change flag (`L`).
-</figcaption>
-</figure>
-
-<figure id="example-delta-storage-deletions" class="table" markdown="1">
-
-| T          | V | L | `SP?` | `S?O` | `S??` | `?PO` | `?P?` | `??O` | `???` |
+| -          | V | L | `SP?` | `S?O` | `S??` | `?PO` | `?P?` | `??O` | `???` |
 |------------|--:|---|------:|------:|------:|------:|------:|------:|------:|
 | `D0;S1;D1` | 2 | T | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
 | `S0;S1;S2` | 2 | F | 0     | 0     | 0     | 0     | 1     | 0     | 1     |
 |            | 3 | F | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
 
 <figcaption markdown="block">
-Deletion tree contents based on the example from [](#example-archive) using the dictionary encoding from [](#example-delta-storage-dict).
-Column `T` represents the keys of the tree, which contains triples based on the encoded triple components.
-The remaining columns represent the values, i.e., a mapping from version (`V`) to the local change flag (`L`)
-and relative positions for all essential triple patterns.
+Addition and deletion tree contents based on the example from [](#example-archive) using the dictionary encoding from [](#example-delta-storage-dict).
+Column `+` and `-` respectively represent the keys of the addition and deletion trees, which contains triples based on the encoded triple components.
+The remaining columns represent the values, i.e., a mapping from version (`V`) to the local change flag (`L`).
+For the deletion trees, values also include the relative positions for all essential triple patterns.
 </figcaption>
 </figure>
+
+[](#example-delta-storage) represent
+the addition and deletion tree contents when the triples from the example in [](#example-archive) are stored.
+The local change flag is enabled for `D0;S1;D1` in the deletions tree for version 2, as it was previously added in version 1.
+The relative positions in the deletion tree for `S0;S1;S2` is not the same for versions 2 and 3,
+because in version 2, the triple `D0;S1;D1` also exists as a deletion, and when sorted, this comes before `S0;S1;S2` for triple patterns `?P?` and `???`.
 
 ### Addition Counts
 {:#addition-counts}

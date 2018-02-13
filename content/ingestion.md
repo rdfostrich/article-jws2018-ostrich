@@ -140,7 +140,7 @@ and the local change flag can be inherited.
 </ol>
 
 The theoretical memory requirement for this algorithm is much lower than the [batch variant](#batch-ingestion).
-That is because it only has to load at most least triples, i.e., the heads of each stream, in memory, instead of the complete new changeset.
+That is because it only has to load at least three triples, i.e., the heads of each stream, in memory, instead of the complete new changeset.
 Furthermore, we still need to maintain the relative position counters for the deletions in all triple patterns.
 While these counters could also become large, a smart implementation could perform memory-mapping
 to avoid storing everything in memory.

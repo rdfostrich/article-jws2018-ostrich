@@ -1,6 +1,6 @@
 queryVm(store, tp, version, originalOffset) {
   snapshot = store.getSnapshot(version).query(tp, originalOffset)
-  if (snapshot.getVersion() == version) {
+  if (snapshot.getVersion() = version) {
     return snapshot
   }
   

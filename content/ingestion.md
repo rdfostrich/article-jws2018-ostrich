@@ -112,25 +112,25 @@ A triple is added or removed that was not present before,
 so it can respectively be added as a non-local change addition or a non-local change deletion.
 </li>
 <li markdown="1">
-**input == deletion _and_ input < addition**
+**input = deletion _and_ input < addition**
 <br />
 In this case, the new triple already existed in the previous version as a deletion.
 If the new triple is an addition, it must be added as a local change.
 </li>
 <li markdown="1">
-**input == addition _and_ input < deletion**
+**input = addition _and_ input < deletion**
 <br />
 Similar as in the previous case, the new triple now already existed as an addition.
 So the triple must be deleted as a local change if the new triple is a deletion.
 </li>
 <li markdown="1">
-**addition == deletion _and_ addition < input**
+**addition = deletion _and_ addition < input**
 <br />
 The triple existed as both an addition and deletion at some point.
 In this case, we copy over the one that existed at the latest version, as it will still apply in the new version.
 </li>
 <li markdown="1">
-**addition == deletion == input**
+**addition = deletion = input**
 <br />
 Finally, the triple already existed as both an addition and deletion,
 and is equal to our new triple.

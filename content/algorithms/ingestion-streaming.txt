@@ -24,8 +24,8 @@ ingestStreaming(new, store)  {
         store.addDeletion(element.getTriple(), newVersion,
           false, calculatePositions(element.getTriple()))
       }
-    } else if (new.peek() == deletions.peek()
-            && new.peek() <  additions.peek()) {
+    } else if (new.peek() = deletions.peek()
+            && new.peek() < additions.peek()) {
       element = new.next()
       deletion = deletions.next()
       if (element.isAddition()) {
@@ -35,8 +35,8 @@ ingestStreaming(new, store)  {
           deletion.isLocalChange(),
           calculatePositions(element.getTriple()))
       }
-    } else if (new.peek() == additions.peek()
-            && new.peek() <  deletions.peek()) {
+    } else if (new.peek() = additions.peek()
+            && new.peek() < deletions.peek()) {
       element = new.next()
       addition = addition.next()
       if (element.isAddition()) {

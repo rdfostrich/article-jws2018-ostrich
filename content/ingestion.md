@@ -89,48 +89,48 @@ In summary, the algorithm performs a sort-merge join over three streams in SPO-o
 and 3) the existing _additions_ over all versions.
 The algorithm iterates over all streams together, until all of them are finished.
 The smallest triple (string-based) over all stream heads is handled in each iteration,
-and can be categorized in seven different cases:
+and can be categorized in seven different cases where these stream heads are indicated by _input_, _deletion_ and _addition_, respectively:
 
 <ol>
 <li markdown="1">
-**deletion < input _and_ deletion < addition**
+**_Deletion_ is strictly smaller than both _input_ and _addition_.**
 <br />
 The current deletion is the smallest element.
 The unchanged deletion information can be copied to the new version.
 New relative positions must be calculated in this and all other cases where deletions are added.
 </li>
 <li markdown="1">
-**addition < input _and_ addition < deletion**
+**_Addition_ is strictly smaller than both _input_ and _deletion_.**
 <br />
 Similar to the previous case, the current addition is now the smallest element,
 and its information can be copied to the new version.
 </li>
 <li markdown="1">
-**input < addition _and_ input < deletion**
+**_Input_ is strictly smaller than both _addition_ and _deletion_.**
 <br />
 A triple is added or removed that was not present before,
 so it can respectively be added as a non-local change addition or a non-local change deletion.
 </li>
 <li markdown="1">
-**input = deletion _and_ input < addition**
+**_Input_ and _deletion_ are equal, but strictly smaller than _addition_.**
 <br />
 In this case, the new triple already existed in the previous version as a deletion.
 If the new triple is an addition, it must be added as a local change.
 </li>
 <li markdown="1">
-**input = addition _and_ input < deletion**
+**_Input_ and _addition_ are equal, but strictly smaller than _deletion_.**
 <br />
 Similar as in the previous case, the new triple now already existed as an addition.
 So the triple must be deleted as a local change if the new triple is a deletion.
 </li>
 <li markdown="1">
-**addition = deletion _and_ addition < input**
+**_Addition_ and _deletion_ are equal, but strictly smaller than _input_.**
 <br />
 The triple existed as both an addition and deletion at some point.
 In this case, we copy over the one that existed at the latest version, as it will still apply in the new version.
 </li>
 <li markdown="1">
-**addition = deletion = input**
+**_Addition_,  _deletion_, and _input_ are equal.**
 <br />
 Finally, the triple already existed as both an addition and deletion,
 and is equal to our new triple.

@@ -1,0 +1,22 @@
+% Packages
+\usepackage[dvipsnames,svgnames]{xcolor} % text color
+\usepackage[normalem]{ulem} % wavy underlines
+
+% Comments
+\newcommand{\todo}[1]{\noindent\textcolor{red}{{\bf \{TODO}: #1{\bf \}}}}
+\newcommand{\TODO}[1]{\todo{#1}}
+\newcommand{\citeneeded}{\textcolor{red}{{\bf [?!]}}}
+\newenvironment{draft}{\color{gray}}{\color{black}}
+
+% Reviewers
+\newcommand\rv[1]{{\color{RubineRed}\textbf{RV}: #1}}
+
+% Annotations
+\makeatletter
+\font\uwavefont=lasyb10 scaled 700
+\def\spelling{\bgroup\markoverwith{\lower3.5\p@\hbox{\uwavefont\textcolor{Red}{\char58}}}\ULon}
+\def\grammar{\bgroup\markoverwith{\lower3.5\p@\hbox{\uwavefont\textcolor{LimeGreen}{\char58}}}\ULon}
+\def\phrasing{\bgroup\markoverwith{\lower3.5\p@\hbox{\uwavefont\textcolor{RoyalBlue}{\char58}}}\ULon}
+\let\rephrase\phrasing
+\newcommand\remove{\bgroup\markoverwith{\textcolor{red}{\rule[0.5ex]{2pt}{0.4pt}}}\ULon}
+\makeatother

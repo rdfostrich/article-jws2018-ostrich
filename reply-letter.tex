@@ -153,16 +153,18 @@ which would make the information from figures 5 and 6 hard to see.
 We believe this was a misunderstanding due to our text not being sufficiently clear.
 Our approach does not \emph{incorporate} the mentioned solutions,
 instead, our approach is \emph{inspired} by their underlying techniques.
-This means that our approach is in no way compatible with their storage models and follow-up algorithms.
+Our approach is incompatible with their storage models and follow-up algorithms.
 We have updated the text (introduction of Section 5) to clarify this.
 
 \textbf{\enquote{\ldots this paper ignores how to deal with the situation that one snapshot is not enough to capture the history of the RDF archives and the delta chains are too long that negates all performance improvements offered. \ldots}}
 \textbf{\enquote{\ldots I would challenge its generality comparison with other solutions such as RDF-TX[1] which is mentioned in [19] but is not discussed this paper. \ldots}}
 
 In Section 8.4.1, we discuss the limitations and effects of our ingestion algorithms.
-In this section, it becomes clear that a single snapshot + delta chain is indeed not sufficient for datasets with many versions,
+In this section, it becomes clear that a single snapshot and delta chain is indeed not sufficient for datasets with many versions,
 as has been noted by reviewer.
-In this section, we explicitly mention the following possibilities for future optimizations:
+Our research reveals the possibilities and limitations of a~single snapshot;
+production systems are likely to use multiple snapshot.
+In this section, we therefore explicitly mention the following possibilities for future optimizations:
 \begin{itemize}
     \item A new snapshot could dynamically be created when ingestion time becomes too large.
     \item Maintain the last version of each chain in a separate index for faster patching.
@@ -171,22 +173,18 @@ In this section, we explicitly mention the following possibilities for future op
 
 \textbf{\enquote{\ldots the paper's evaluation only focuses on single-triple-pattern queries \ldots}}
 
-OSTRICH is not a versioned SPARQL engine, but a versioned triple index,
-with versioned triple pattern query support.
-Triple pattern queries, though, form the smallest building block for evaluating SPARQL queries.
-Therefore, we do not aim to compete with existing versioned SPARQL engines,
-full access to the language should be leveraged by umbrella engines,
-for instance by using Triple Pattern Fragments.
-This has been clarified in the introduction section, and was also mentioned as the motivation for using the BEAR benchmark in section 2.3.
-Implementation inside SPARQL engines is planned as future work, but considered out-of-scope for this work.
-Next to triple pattern queries,
-we also evaluate the performance of the offset support for such queries,
-which is one of the main distinguishing factors of our approach.
-
 \textbf{\enquote{\ldots the paper tries to solve a narrower problem than that of [19] \emph{(BEAR)} \ldots}}
 
-We assume the reviewer meant that we do not solve the same problem as versioned SPARQL engines.
-This is correct, and is clarified in the introduction, as mentioned before.
+OSTRICH is not a versioned SPARQL query engine, but a versioned triple index,
+with versioned triple pattern query support.
+This is because triple pattern access forms the smallest building block for many SPARQL query engines,
+and their successful application for querying historical versions has been demonstrated [11].
+As such, OSTRICH can be used with different SPARQL query engines.
+This has been clarified in the introduction section, and was also mentioned as the motivation for using the BEAR benchmark in section 2.3.
+Next to triple pattern queries,
+we also evaluate the performance of the offset support for such queries
+(as used by query engines),
+which is one of the main distinguishing factors of our approach.
 
 \textbf{\enquote{The data model and query operators are not clearly defined.}}
 
@@ -198,7 +196,9 @@ We extended the formal definitions throughout the paper:
 
 \textbf{\enquote{Even authors indicate the they can use the threshold to defer the counting during lookup time but it's not clear to how the threshold is specified.}}
 
-We defined this threshold empirically to be as high as possible, but still low enough not to have a significant impact on the overall count estimation.
+We defined this threshold empirically to be as high as possible,
+\rv{can you make this concrete?}
+but still low enough not to have a significant impact on the overall count estimation.
 We now mention this in Section 8.3.1.
 To further motivate the effectiveness of this threshold value,
 we added evaluation results showing the impact of this threshold on the addition count size compared to the overall storage size.
@@ -233,9 +233,9 @@ A reserved bit in the encoding is used where 1 indicates snapshot dictionary and
 We have clarified in the text that the delta chain dictionary is addition/deletion-agnostic.
 Both additions and deletions are stored in this same dictionary without making a distinction between them.
 
-\textbf{\enquote{I wonder why authors do not compare with x-RDF3X[25 and ignore RDF-TX[1].}}
+\textbf{\enquote{I wonder why authors do not compare with x-RDF3X[25] and ignore RDF-TX[1].}}
 
-See our reply to the second comment in review 2.
+We refer to the second comment in review 2.
 
 \pagebreak
 \section*{Review 4}

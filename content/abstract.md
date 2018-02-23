@@ -10,10 +10,9 @@ Existing approaches either require much storage space,
 or they expose an insufficiently expressive or efficient interface
 with respect to querying demands.
 <!-- Task         -->
-In this article, we introduce an RDF archiving technique that is able to store datasets
+In this article, we introduce an RDF archive indexing technique that is able to store datasets
 with a low storage overhead,
 by compressing consecutive versions and adding metadata for reducing lookup times.
-<span class="comment" data-author="RV">Maybe we should clarify here that this is an indexing solution compatible with different query engines, not a query engine (cfr. reviews)?</span>
 <!-- Object       -->
 We introduce algorithms based on this technique for efficiently evaluating
 queries *at* a certain version, *between* any two versions, and *for* versions.
@@ -35,5 +34,4 @@ This allows data owners to store and query multiple versions of their dataset ef
 <!-- Perspectives -->
 lowering the barrier to historical dataset publication and analysis.
 
-<span id="keywords"><span class="title">Keywords:</span> Linked Data, RDF archiving, Semantic Data Versioning, storage, querying</span>
-<span class="comment" data-author="RV">Maybe remove querying then, and add indexing?</span>
+<span id="keywords"><span class="title">Keywords:</span> Linked Data, RDF archiving, Semantic Data Versioning, storage, indexing</span>

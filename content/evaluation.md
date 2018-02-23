@@ -448,7 +448,7 @@ i.e., a streaming algorithm with a larger buffer size, which is faster, but does
 As shown in [](#results-ostrich-compressability),
 when applying gzip directly on the raw N-Triples input already achieves significant space savings.
 However, OSTRICH, HDT-IC and HDT-CB are able to reduce the required storage space _even further_ when they are used as a pre-processing step before applying gzip.
-This shows that these approaches are better --storage-wise-- for the archival of versioned datasets.
+This shows that these approaches are better—storage-wise—for the archival of versioned datasets.
 This table also shows that OSTRICH datasets with more versions are more prone to space savings
 using compression techniques like gzip compared to OSTRICH datasets with fewer versions.
 
@@ -527,7 +527,7 @@ In all cases, the ingestion time for OSTRICH is higher than the other approaches
 and as shown in [](#hypo-test-3) in the appendix, query evaluation times for non-IC approaches are lower for BEAR-B-hourly.
 This means that we *reject* Hypothesis 6 because it only holds for BEAR-B-hourly and not for BEAR-A and BEAR-B-daily.
 In general, OSTRICH ingestion is slower than other approaches,
-but this lowers query evaluation time compared to other non-IC approaches,
+but improves query evaluation time compared to other non-IC approaches,
 unless the number of versions is low.
 
 In this section, we accepted three of the six hypotheses.

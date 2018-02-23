@@ -49,10 +49,10 @@ this work introduces a storage technique with the following contributions:
 - an extensive *evaluation* of OSTRICH compared to other approaches using an existing RDF archiving benchmark.
 
 The main novelty of this work is the combination of efficient offset-enabled queries over a new index structure for RDF archives.
-We do not aim to compete with existing versioned SPARQL engines---full access to the language can instead be leveraged by different engines, for instance by using Triple Pattern Fragments.
+We do not aim to compete with existing versioned SPARQL engines---full access to the language can instead be leveraged by different engines,
+or by using alternative RDF publication and querying methods such as the HTTP interface-based TPF approach.
 Optional versioning capabilities are possible for TPF by using [VTPF](cite:cites vtpf),
 or [datetime content-negotiation](cite:cites mementoldf) through [Memento](cite:cites memento).
-<span class="comment" data-author="RV">That last sentence won't be understood by typical readers; explain that they are ways of exposing this through an interface (rather than a competing solution).</span>
 
 This article is structured as follows.
 In the following section, we start by introducing the related work and our problem statement in [](#problem-statement).

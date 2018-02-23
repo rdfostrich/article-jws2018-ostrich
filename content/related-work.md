@@ -306,7 +306,7 @@ which are referred to as _query atoms_:
 Formally: _VM(Q, Vi) = \[\[Q\]\]Vi_.
 Example: _Which books were present in the library yesterday?_
 2. **Delta materialization (DM)** retrieves query _Q_'s result change sets between two versions _Vi_ and _Vj_.
-Formally: _DM(Q, Vi, Vj)=(Ω+, Ω−). With Ω+ = \[\[Q\]\]Vi \ \[\[Q\]\]Vj and Ω− = \[\[Q\]\]Vj \ \[\[Q\]\]Vi_.
+Formally: _DM(Q, Vi, Vj)=(Ω<sup>+</sup>, Ω<sup>−</sup>). With Ω<sup>+</sup> = \[\[Q\]\]Vi \ \[\[Q\]\]Vj and Ω<sup>−</sup> = \[\[Q\]\]Vj \ \[\[Q\]\]Vi_.
 Example: _Which books were returned or taken from the library between yesterday and now?_
 3. **Version query (VQ)** annotates query _Q_'s results with the versions (of RDF archive A) in which they are valid.
 Formally: _VQ(Q, A) = {(Ω, W) | W = {A(i) | Ω=\[\[Q\]\]A(i), i ∈ N} ∧ Ω ≠ ∅}_.
@@ -316,7 +316,7 @@ Formally: _VM(Q1, Vi) ⨝ VM(Q2, Vj)_.
 Example: _What books were present in the library yesterday and today?_
 5. **Change materialization (CM)** returns a list of versions in which a given query _Q_ produces
 consecutively different results.
-Formally: _{(i, j) | i,j ∈ N, i < j, DM(Q, A(i), A(j)) = (Ω+, Ω−), Ω+ ∪ Ω− ≠ ∅, ∄ k ∈ N: i < k < j}_.
+Formally: _{(i, j) | i,j ∈ ℕ, i < j, DM(Q, A(i), A(j)) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ k ∈ ℕ : i < k < j}_.
 Example: _At what times was book X returned or taken from the library?_
 
 There exists a correspondence between these query atoms

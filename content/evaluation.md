@@ -159,6 +159,13 @@ The lowest times per dataset are indicated in italics.
 | HDT-IC          |  5,335.04 (+1,494.69) | 142.08 (+6.53) | 2,127.57 (+98.88)  |
 | HDT-CB          | *2,682.88 (+802.55)*  |  *5.96 (+0.25)*|   *24.39 (+0.75)*  |
 
+<span class="comment" data-author="RV">
+The numbers in parentheses break the scanability of the table,
+and hence the utility of the table overall.
+Either add new columns add the end for indexes,
+or add new rows for these values.
+</span>
+
 <figcaption markdown="block">
 Storage sizes for each of the RDF archive approaches in MB with BEAR-A, BEAR-B-daily and BEAR-B-hourly.
 The additional storage size for the auxiliary OSTRICH and HDT indexes are provided between brackets.

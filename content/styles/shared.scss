@@ -3,6 +3,9 @@ figure {
   img {
     width: 100%;
   }
+  table + table {
+    margin-top: 1em;
+  }
 }
 
 .todo {

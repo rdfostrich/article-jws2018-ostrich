@@ -84,8 +84,8 @@ The second extreme (BEAR-B-hourly) has many (1299) smaller versions.
 To the best of our knowledge, these are the only available versioned datasets with real-world data
 that are this large.
 These datasets already sufficiently indicate the limitations of the ingestion algorithm in our system,
-and we have updated the text to reflect this.
-\rv{Are we saying that we will not scale beyond this? Or are we saying that what BEAR tests is already outside of the boundaries of what real-world systems would do?}
+as ingestion has been shown to slow down and run into memory issues.
+We have updated the text to reflect this.
 
 \textbf{\enquote{OSTRICH can handle itself fine with the Jena-based baselines and HDT, but how about performance-based systems such as x-rdf3x or Dydra?}}
 
@@ -196,8 +196,7 @@ We extended the formal definitions throughout the paper:
 
 \textbf{\enquote{Even authors indicate the they can use the threshold to defer the counting during lookup time but it's not clear to how the threshold is specified.}}
 
-We defined this threshold empirically to be as high as possible,
-\rv{can you make this concrete?}
+We defined the threshold for storing addition counts higher than 200 empirically to be as high as possible,
 but still low enough not to have a significant impact on the overall count estimation.
 We now mention this in Section 8.3.1.
 To further motivate the effectiveness of this threshold value,
@@ -295,8 +294,8 @@ This is clarified in the text.
 
 \textbf{\enquote{I doubt about the reported complexity of the algorithm 3, O (P+N), as you need to sort the changeset, which typically is O (N logN).}}
 
-Our complexity was indeed incorrect. We now mention the complexity with and without sorting separately.
-\rv{briefly explain why separately}
+Our complexity was indeed incorrect. We now mention the complexities both with and without sorting,
+as there are cases where changesets may already have been sorted before.
 
 \textbf{\enquote{The algorithm in 6.2 is not formal enough.}}
 

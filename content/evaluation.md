@@ -151,24 +151,20 @@ The lowest times per dataset are indicated in italics.
 | --------------- |----------------------:|---------------:|-------------------:|
 | Raw (N-Triples) | 46,069.76             | 556.44         | 8,314.86           |
 | Raw (gzip)      |  3,194.88             |  30.98         |   466.35           |
-| OSTRICH         |  3,102.72 (+1,484.8)  |  12.32 (+4.55) |   187.46 (+263.13) |
+| OSTRICH         |  3,102.72             |  12.32         |   187.46           |
+|                 | +1,484.80             |  +4.55         |  +263.13           |
 | Jena-IC         | 32,808.96             | 415.32         | 6,233.92           |
 | Jena-CB         | 18,216.96             |  42.82         |   473.41           |
 | Jena-TB         | 82,278.4              |  23.61         | 3,678.89           |
 | Jena-CB/TB      | 31,160.32             |  22.83         |    53.84           |
-| HDT-IC          |  5,335.04 (+1,494.69) | 142.08 (+6.53) | 2,127.57 (+98.88)  |
-| HDT-CB          | *2,682.88 (+802.55)*  |  *5.96 (+0.25)*|   *24.39 (+0.75)*  |
-
-<span class="comment" data-author="RV">
-The numbers in parentheses break the scanability of the table,
-and hence the utility of the table overall.
-Either add new columns add the end for indexes,
-or add new rows for these values.
-</span>
+| HDT-IC          |  5,335.04             | 142.08         | 2,127.57           |
+|                 | +1,494.69             |  +6.53         |   +98.88           |
+| HDT-CB          | *2,682.88*            |  *5.96*        |   *24.39*          |
+|                 |   +802.55             |  +0.25         |    +0.75           |
 
 <figcaption markdown="block">
 Storage sizes for each of the RDF archive approaches in MB with BEAR-A, BEAR-B-daily and BEAR-B-hourly.
-The additional storage size for the auxiliary OSTRICH and HDT indexes are provided between brackets.
+The additional storage size for the auxiliary OSTRICH and HDT indexes are provided as separate rows.
 The lowest sizes per dataset are indicated in italics.
 </figcaption>
 </figure>

@@ -16,8 +16,7 @@ balancing between storage and querying requirements.
 
 With lookup times of 1ms or less in most cases, OSTRICH is an ideal candidate for Web querying,
 as the network latency will typically be higher than that.
-At the cost of increased ingestion times, fast lookup times are guaranteed in most cases.
-<span class="comment" data-author="RV">Perhaps revisit the cases where it is not, either explaining that they are not a problem or that they can/should (not) be fixed in the future</span>
+At the cost of increased ingestion times, lookups are fast.
 Furthermore, by reusing the highly efficient HDT format for snapshots,
 existing HDT files can directly be loaded by OSTRICH
 and patched with additional versions afterwards.

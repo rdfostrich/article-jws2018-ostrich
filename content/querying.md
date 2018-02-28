@@ -31,6 +31,13 @@ snapshot, additions and deletions streams can be split up into two cases.
 The given offset lies within the range of either snapshot minus deletion triples or within the range of addition triples.
 At this point, the additions and deletions streams are initialized to the start position for the given triple pattern and version.
 
+<figure id="algorithm-querying-vm" class="algorithm numbered">
+````/algorithms/querying-vm.txt````
+<figcaption markdown="block">
+Version Materialization algorithm for triple patterns that produces a triple stream with an offset in a given version.
+</figcaption>
+</figure>
+
 In the first case, when the offset lies within the snapshot and deletions range (line 11),
 we enter a loop that converges to the actual snapshot offset based on the deletions
 for the given triple pattern in the given version.
@@ -55,13 +62,6 @@ the iterator will start emitting addition triples at the end of the stream.
 For all streams, local changes are filtered out because locally changed triples
 are cancelled out for the given version as explained in [](#local-changes),
 so they should not be returned in materialized versions.
-
-<figure id="algorithm-querying-vm" class="algorithm numbered">
-````/algorithms/querying-vm.txt````
-<figcaption markdown="block">
-Version Materialization algorithm for triple patterns that produces a triple stream with an offset in a given version.
-</figcaption>
-</figure>
 
 #### Example
 

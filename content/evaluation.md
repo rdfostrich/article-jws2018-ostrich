@@ -95,8 +95,8 @@ All raw results and the scripts that were used to process them are available on 
 
 #### Ingestion
 
-[](#results-ingestion-time) and [](#results-ingestion-size)
-respectively show the ingestion times and storage requirements for the different approaches for the three different benchmarks.
+[](#results-ingestion-size) and [](#results-ingestion-time)
+respectively show the storage requirements and ingestion times for the different approaches for the three different benchmarks.
 For BEAR-A, the HDT-based approaches outperform OSTRICH in terms of ingestion time, they are about two orders of magniture faster.
 Only HDT-CB requires slightly less storage space.
 The Jena-based approaches ingest one order of magnitude faster than OSTRICH, but require more storage space.
@@ -127,24 +127,6 @@ and [](#results-ostrich-ingestion-size-bearb-hourly) shows its storage sizes.
 The streaming algorithm starts of slower than the batch algorithm but grows linearly,
 while the batch algorithm consumes a large amount of memory, resulting in slower ingestion after version 8 and an out-of-memory error after version 10.
 
-<figure id="results-ingestion-time" class="table" markdown="1">
-
-| Approach        | BEAR-A | BEAR-B-daily  | BEAR-B-hourly |
-| --------------- |-------:|--------------:|--------------:|
-| OSTRICH         | 2,256  | 12.36         | 4,497.32      |
-| Jena-IC         |   443  |  8.91         |  142.26       |
-| Jena-CB         |   226  |  9.53         |  173.48       |
-| Jena-TB         | 1,746  |  0.35         |   70.56       |
-| Jena-CB/TB      |   679  |  0.35         |    0.65       |
-| HDT-IC          |    34  |  0.39         |    5.89       |
-| HDT-CB          |   *18* | *0.02*        |   *0.07*      |
-
-<figcaption markdown="block">
-Ingestion times for each of the RDF archive approaches with BEAR-A, BEAR-B-daily and BEAR-B-hourly.
-The lowest times per dataset are indicated in italics.
-</figcaption>
-</figure>
-
 <figure id="results-ingestion-size" class="table" markdown="1">
 
 | Approach        | BEAR-A                | BEAR-B-daily   | BEAR-B-hourly      |
@@ -166,6 +148,24 @@ The lowest times per dataset are indicated in italics.
 Storage sizes for each of the RDF archive approaches in MB with BEAR-A, BEAR-B-daily and BEAR-B-hourly.
 The additional storage size for the auxiliary OSTRICH and HDT indexes are provided as separate rows.
 The lowest sizes per dataset are indicated in italics.
+</figcaption>
+</figure>
+
+<figure id="results-ingestion-time" class="table" markdown="1">
+
+| Approach        | BEAR-A | BEAR-B-daily  | BEAR-B-hourly |
+| --------------- |-------:|--------------:|--------------:|
+| OSTRICH         | 2,256  | 12.36         | 4,497.32      |
+| Jena-IC         |   443  |  8.91         |  142.26       |
+| Jena-CB         |   226  |  9.53         |  173.48       |
+| Jena-TB         | 1,746  |  0.35         |   70.56       |
+| Jena-CB/TB      |   679  |  0.35         |    0.65       |
+| HDT-IC          |    34  |  0.39         |    5.89       |
+| HDT-CB          |   *18* | *0.02*        |   *0.07*      |
+
+<figcaption markdown="block">
+Ingestion times for each of the RDF archive approaches with BEAR-A, BEAR-B-daily and BEAR-B-hourly.
+The lowest times per dataset are indicated in italics.
 </figcaption>
 </figure>
 
@@ -211,15 +211,6 @@ Cumulative OSTRICH store sizes for each consecutive BEAR-B-hourly version in GB 
 </figcaption>
 </figure>
 
-<figure id="results-ostrich-ingestion-rate-beara-compare">
-<img src="img/results-ostrich-ingestion-rate-beara-compare.svg" alt="[Comparison of ostrich ingestion algorithms]" height="150em" class="plot">
-<figcaption markdown="block">
-Comparison of the OSTRICH stream and batch-based ingestion durations.
-</figcaption>
-</figure>
-
-#### Compressibility
-
 <figure id="results-ostrich-compressability" class="table" markdown="1">
 
 | Format        | Dataset  | Size      | gzip      | Savings  |
@@ -243,6 +234,15 @@ The columns represent the original size (MB), the resulting size after applying 
 The lowest sizes are indicated in italics.
 </figcaption>
 </figure>
+
+<figure id="results-ostrich-ingestion-rate-beara-compare">
+<img src="img/results-ostrich-ingestion-rate-beara-compare.svg" alt="[Comparison of ostrich ingestion algorithms]" height="150em" class="plot">
+<figcaption markdown="block">
+Comparison of the OSTRICH stream and batch-based ingestion durations.
+</figcaption>
+</figure>
+
+#### Compressibility
 
 [](#results-ostrich-compressability) shows the compressibility of datasets without auxiliary indexes.
 We omitted the results from the Jena-based approaches in this table,
@@ -357,7 +357,6 @@ while other approaches again have growing evaluation times, as shown in [](#resu
 <img src="img/query/results_offsets-vm.svg" alt="[Offsets vm]" height="200em" class="plot">
 <figcaption markdown="block">
 Median VM query results for different offsets over all versions in the BEAR-A dataset.
-HDT-IC+ refers to the efficient offset implementation based on HDT's native offset capabilities.
 </figcaption>
 </figure>
 

@@ -6,6 +6,8 @@ efficient triple pattern querying _at_, _between_, and _for_ different versions,
 in combination with a scalable _storage model_ and efficient _compression_.
 In the context of query engines, streams are typically used to return query results,
 on which offsets and limits can be applied to reduce processing time if only a subset is needed.
+Offsets are used to skip a certain amount of elements,
+while limits are used to restrict the number of elements to a given amount.
 As such, RDF archiving solutions should also allow query results to be returned as offsettable streams.
 The ability to achieve such stream subsets is limited in existing solutions.
 

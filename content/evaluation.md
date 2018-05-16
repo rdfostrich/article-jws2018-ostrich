@@ -119,10 +119,11 @@ because of the lower amount of versions.
 Within the scope of this work, we use this fixed threshold of 200.
 We consider investigating the impact of different threshold levels and methods for dynamically determining optimal levels future work.
 
-[](#results-ostrich-ingestion-rate-beara) shows the ingestion rate for each consecutive version for BEAR-A,
-while [](#results-ostrich-ingestion-size-beara) shows the corresponding increasing storage sizes.
+[](#results-ostrich-ingestion-rate-beara) shows linearly increasing ingestion rate for each consecutive version for BEAR-A,
+while [](#results-ostrich-ingestion-size-beara) shows corresponding linearly increasing storage sizes.
 Analogously, [](#results-ostrich-ingestion-rate-bearb-hourly) shows the ingestion rate for BEAR-B-hourly,
-and [](#results-ostrich-ingestion-size-bearb-hourly) shows its storage sizes.
+which increases linearly until around version 1100, after which it increases significantly.
+[](#results-ostrich-ingestion-size-bearb-hourly) shows near-linearly increasing storage sizes.
 
 [](#results-ostrich-ingestion-rate-beara-compare) compares the BEAR-A ingestion rate of the streaming and batch algorithms.
 The streaming algorithm starts of slower than the batch algorithm but grows linearly,
@@ -231,7 +232,7 @@ Cumulative OSTRICH store sizes for each consecutive BEAR-B-hourly version in GB 
 
 <figcaption markdown="block">
 Compressability using gzip for all BEAR datasets using OSTRICH, HDT-IC, HDT-CB and natively as N-Triples.
-The columns represent the original size (MB), the resulting size after applying gzip (MB), and the total space savings each format.
+The columns represent the original size (MB), the resulting size after applying gzip (MB), and the total space savings.
 The lowest sizes are indicated in italics.
 </figcaption>
 </figure>
@@ -245,7 +246,8 @@ Comparison of the OSTRICH stream and batch-based ingestion durations.
 
 #### Compressibility
 
-[](#results-ostrich-compressability) shows the compressibility of datasets without auxiliary indexes.
+[](#results-ostrich-compressability) presents the compressibility of datasets without auxiliary indexes,
+showing that OSTRICH and the HDT-based approaches significantly improve compressibility compared to the original N-Triples serialization.
 We omitted the results from the Jena-based approaches in this table,
 as all compressed sizes were in all cases two to three times larger than the N-Triples compression.
 

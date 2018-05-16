@@ -88,6 +88,9 @@ Because of these reasons, we will reuse HDT snapshots as part of our storage sol
 Linked Open Datasets typically [change over time](cite:cites datasetdynamics),
 creating a need for [maintaining the history of the datasets](cite:cites archiving).
 Hence, RDF archiving has been an active area of research over the last couple of years.
+To the best of our knowledge, no research has been done yet in the area of archiving for non-RDF graph databases.
+Furthermore, none of the existing non-RDF graph stores offer native versioning capabilities at the time of writing.
+We therefore only discuss RDF archiving for the remainder of this section.
 
 Fernández et al. formally define an [_RDF archive_](cite:cites bear) as follows:
 _An RDF archive graph A is a set of version-annotated triples._

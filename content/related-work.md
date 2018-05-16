@@ -16,7 +16,7 @@ such as [relational databases](cite:cites virtuoso) or [document stores](cite:ci
 or on techniques tailored to RDF.
 These technologies can even be combined, such as approaches that detect [_emergent schemas_](cite:cites derivingemergentschemas,emergentschemas)
 in RDF datasets, which allow parts of the data to be stored in relational databases
-in order to increase compression and improve the efficiency of query evaluation and.
+in order to increase compression and improve the efficiency of query evaluation.
 For the remainder of this article, we focus on the latter because of their direct relevance.
 
 [RDF-3X](cite:cites rdf3x) is an RDF storage technique that is based

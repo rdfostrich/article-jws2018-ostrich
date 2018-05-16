@@ -1,4 +1,4 @@
-## Storage
+## Hybrid Multiversion Storage Approach
 {:#storage}
 
 In this section, we introduce our hybrid IC/CB/TB storage approach for storing multiple versions of an RDF dataset.

@@ -1,4 +1,4 @@
-## Ingestion
+## Changeset Ingestion Algorithms
 {:#ingestions}
 
 In this section, we discuss two ingestion algorithms: a memory-intensive batch algorithm and a memory-efficient streaming algorithm.

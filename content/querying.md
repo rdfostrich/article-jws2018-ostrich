@@ -1,4 +1,4 @@
-## Querying
+## Versioned Query Algorithms
 {:#querying}
 
 In this section, we introduce algorithms for performing VM, DM and VQ triple pattern queries

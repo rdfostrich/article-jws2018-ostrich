@@ -91,12 +91,12 @@ Hence, RDF archiving has been an active area of research over the last couple of
 
 Fernández et al. formally define an [_RDF archive_](cite:cites bear) as follows:
 _An RDF archive graph A is a set of version-annotated triples._
-Where a _version-annotated triple_ _(s, p, o):\[i\]_ is defined as _an RDF triple (s, p, o) with a label i ∈ N representing the version in which this triple holds.
+Where a _version-annotated triple_ _(s, p, o):\[i\]_ is defined as _an RDF triple (s, p, o) with a label i ∈ N representing the version in which this triple holds._
 The set of all [RDF triples](cite:cites spec:rdf) is defined as _(U ∪ B) × U × (U ∪ B ∪ L)_,
 where _U_, _B_, and _L_, respectively represent the disjoint, infinite sets of URIs, blank nodes, and literals.
 Furthermore,
 _an RDF version of an RDF archive A at snapshot i is the RDF graph A(i) = {(s, p, o)|(s, p, o):\[i\] ∈ A}._
-For the remainder of this article, we use the notation _Vi_ to refer to the RDF version _A(i)_.
+For the remainder of this article, we use the notation _V<sub>i</sub>_ to refer to the RDF version _A(i)_.
 
 The [DIACHRON data model](cite:cites diachronql) introduces the concept of _diachronic datasets_,
 i.e., datasets that contain diachronic entities, which are semantic entities that evolve over time.
@@ -293,23 +293,23 @@ the [RDF data model](cite:cites spec:rdf) and [SPARQL query language](cite:cites
 In these models, a _triple pattern_ is defined as _(U ∪ V) × (U ∪ V) × (U ∪ L ∪ V)_, with _V_ being the infinite set of variables.
 A set of triple patterns is called a _Basic Graph Pattern_, which forms the basis of a SPARQL query.
 The evaluation of a SPARQL query _Q_ on an RDF graph _G_ containing RDF triples,
-produces a bag of solution mappings _\[\[Q\]\]G_.
+produces a bag of solution mappings _\[\[Q\]\]<sub>G</sub>_.
 
 To cover the retrieval demands in RDF archiving,
 [five foundational query types were introduced](cite:cites bear),
 which are referred to as _query atoms_:
 
-1. **Version materialization (VM)** retrieves data using a query _Q_ targeted at a single version _Vi_.
-Formally: _VM(Q, Vi) = \[\[Q\]\]Vi_.
+1. **Version materialization (VM)** retrieves data using a query _Q_ targeted at a single version _V<sub>i</sub>_.
+Formally: _VM(Q, V<sub>i</sub>) = \[\[Q\]\]<sub>V<sub>i</sub></sub>_.
 Example: _Which books were present in the library yesterday?_
-2. **Delta materialization (DM)** retrieves query _Q_'s result change sets between two versions _Vi_ and _Vj_.
-Formally: _DM(Q, Vi, Vj)=(Ω<sup>+</sup>, Ω<sup>−</sup>). With Ω<sup>+</sup> = \[\[Q\]\]Vi \ \[\[Q\]\]Vj and Ω<sup>−</sup> = \[\[Q\]\]Vj \ \[\[Q\]\]Vi_.
+2. **Delta materialization (DM)** retrieves query _Q_'s result change sets between two versions _V<sub>i</sub>_ and _V<sub>j</sub>_.
+Formally: _DM(Q, V<sub>i</sub>, V<sub>j</sub>)=(Ω<sup>+</sup>, Ω<sup>−</sup>). With Ω<sup>+</sup> = \[\[Q\]\]<sub>V<sub>i</sub></sub> \ \[\[Q\]\]<sub>V<sub>j</sub></sub> and Ω<sup>−</sup> = \[\[Q\]\]<sub>V<sub>j</sub></sub> \ \[\[Q\]\]<sub>V<sub>i</sub></sub>_.
 Example: _Which books were returned or taken from the library between yesterday and now?_
 3. **Version query (VQ)** annotates query _Q_'s results with the versions (of RDF archive A) in which they are valid.
-Formally: _VQ(Q, A) = {(Ω, W) | W = {A(i) | Ω=\[\[Q\]\]A(i), i ∈ N} ∧ Ω ≠ ∅}_.
+Formally: _VQ(Q, A) = {(Ω, W) | W = {A(i) | Ω=\[\[Q\]\]<sub>A(i)</sub>, i ∈ N} ∧ Ω ≠ ∅}_.
 Example: _At what times was book X present in the library?_
-4. **Cross-version join (CV)** joins the results of two queries (_Q1_ and _Q2_) between versions _Vi_ and _Vj_.
-Formally: _VM(Q1, Vi) ⨝ VM(Q2, Vj)_.
+4. **Cross-version join (CV)** joins the results of two queries (_Q1_ and _Q2_) between versions _V<sub>i</sub>_ and _V<sub>j</sub>_.
+Formally: _VM(Q1, V<sub>i</sub>) ⨝ VM(Q2, V<sub>j</sub>)_.
 Example: _What books were present in the library yesterday and today?_
 5. **Change materialization (CM)** returns a list of versions in which a given query _Q_ produces
 consecutively different results.

@@ -143,14 +143,14 @@ The use of the relative position and the local change flag during querying will 
 
 | +          | V | L |
 |------------|--:|---|
-| `D0;S1;D1` | 1 | F |
+| `D0 S1 D1` | 1 | F |
 |            | 3 | F |
-| `S0;S1;D2` | 2 | F |
+| `S0 S1 D2` | 2 | F |
 
 | -          | V | L | `SP?` | `S?O` | `S??` | `?PO` | `?P?` | `??O` | `???` |
 |------------|--:|---|------:|------:|------:|------:|------:|------:|------:|
-| `D0;S1;D1` | 2 | T | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
-| `S0;S1;S2` | 2 | F | 0     | 0     | 0     | 0     | 1     | 0     | 1     |
+| `D0 S1 D1` | 2 | T | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
+| `S0 S1 S2` | 2 | F | 0     | 0     | 0     | 0     | 1     | 0     | 1     |
 |            | 3 | F | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
 
 <figcaption markdown="block">
@@ -163,9 +163,9 @@ For the deletion trees, values also include the relative positions for all essen
 
 [](#example-delta-storage) represent
 the addition and deletion tree contents when the triples from the example in [](#example-archive) are stored.
-The local change flag is enabled for `D0;S1;D1` in the deletions tree for version 2, as it was previously added in version 1.
-The relative positions in the deletion tree for `S0;S1;S2` is not the same for versions 2 and 3,
-because in version 2, the triple `D0;S1;D1` also exists as a deletion, and when sorted, this comes before `S0;S1;S2` for triple patterns `?P?` and `???`.
+The local change flag is enabled for `D0 S1 D1` in the deletions tree for version 2, as it was previously added in version 1.
+The relative positions in the deletion tree for `S0 S1 S2` is not the same for versions 2 and 3,
+because in version 2, the triple `D0 S1 D1` also exists as a deletion, and when sorted, this comes before `S0 S1 S2` for triple patterns `?P?` and `???`.
 
 ### Addition Counts
 {:#addition-counts}
@@ -199,9 +199,9 @@ this will be the last deletion in the list, so this position corresponds to the 
 
 For example, when we want to determine the deletion count for `? foaf:name ?` (encoded: `? S1 ?`) in version 2
 using the deletion tree contents from [](#example-delta-storage-deletions),
-we will find `S0;S1;S2` as largest triple in version 2.
+we will find `S0 S1 S2` as largest triple in version 2.
 This triple has relative position `1` for `?P?`, so the total deletion count is `2` for this pattern.
-This is correct, as we have indeed two triples matching this pattern, namely `D0;S1;D1` and `S0;S1;S2`.
+This is correct, as we have indeed two triples matching this pattern, namely `D0 S1 D1` and `S0 S1 S2`.
 
 ### Metadata
 {:#metadata}

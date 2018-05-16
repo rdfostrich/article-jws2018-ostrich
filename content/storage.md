@@ -198,7 +198,7 @@ Because we have queried the largest possible triple for that triple pattern in t
 this will be the last deletion in the list, so this position corresponds to the total number of deletions in that case.
 
 For example, when we want to determine the deletion count for `? foaf:name ?` (encoded: `? S1 ?`) in version 2
-using the deletion tree contents from [](#example-delta-storage-deletions),
+using the deletion tree contents from [](#example-delta-storage),
 we will find `S0 S1 S2` as largest triple in version 2.
 This triple has relative position `1` for `?P?`, so the total deletion count is `2` for this pattern.
 This is correct, as we have indeed two triples matching this pattern, namely `D0 S1 D1` and `S0 S1 S2`.

@@ -107,7 +107,8 @@ For BEAR-B-daily and BEAR-B-hourly, OSTRICH even requires less storage space tha
 As mentioned in [](#addition-counts), we use a threshold to define which addition count values should be stored,
 and which ones should be evaluated at query time.
 For our experiments, we fixed this count threshold at 200,
-as for values higher than 200, the addition counts started having a noticable impact on the performance of count estimation.
+which has been empirically determined through various experiments as a good value.
+For values higher than 200, the addition counts started having a noticable impact on the performance of count estimation.
 This threshold value means that when a triple pattern has 200 matching additions,
 then this count will be stored.
 [](#results-addition-counts) shows that the storage space of the addition count datastructure

@@ -126,7 +126,7 @@ and store expensive addition and deletion counts as explained in [](#addition-co
 
 #### Correctness
 
-In this section, we prove that [](#algorithm-querying-vm) results in the correct stream offset
+In this section, we provide an informal proof that [](#algorithm-querying-vm) results in the correct stream offset
 for any given version and triple pattern.
 
 Two cases can occur regarding the queried version.

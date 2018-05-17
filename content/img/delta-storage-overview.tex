@@ -41,23 +41,29 @@
     %\draw [decorate, decoration={brace,mirror,amplitude=15pt,raise=55pt}] (delta1.west) -- (delta5.east);
     
     % Additions trees    
-    \node[treenode] (asporoot)        {SPO};
-    \node[treenode,below=of asporoot.south west] (aspo1) {\ldots};
-    \node[treenode,below=of asporoot.south east] (aspo2) {\ldots};
+    \node[treenode,fill=colordelta] (asporoot)        {SPO};
+    \node[treenode,fill=colordelta,below=of asporoot.south west] (aspo1) {\ldots};
+    \node[treenode,fill=colordelta,below=of asporoot.south east] (aspo2) {\ldots};
     \draw[-,thick](aspo1) -- (asporoot);
     \draw[-,thick](aspo2) -- (asporoot);
-    \node[treenode,right=of asporoot] (aposroot)        {POS};
-    \node[treenode,below=of aposroot.south west] (apos1) {\ldots};
-    \node[treenode,below=of aposroot.south east] (apos2) {\ldots};
+    \node[treenode,fill=colordelta,right=of asporoot] (aposroot)        {POS};
+    \node[treenode,fill=colordelta,below=of aposroot.south west] (apos1) {\ldots};
+    \node[treenode,fill=colordelta,below=of aposroot.south east] (apos2) {\ldots};
     \draw[-,thick](apos1) -- (aposroot);
     \draw[-,thick](apos2) -- (aposroot);
-    \node[treenode,right=of aposroot] (aosproot)        {OSP};
-    \node[treenode,below=of aosproot.south west] (aosp1) {\ldots};
-    \node[treenode,below=of aosproot.south east] (aosp2) {\ldots};
+    \node[treenode,fill=colordelta,right=of aposroot] (aosproot)        {OSP};
+    \node[treenode,fill=colordelta,below=of aosproot.south west] (aosp1) {\ldots};
+    \node[treenode,fill=colordelta,below=of aosproot.south east] (aosp2) {\ldots};
     \draw[-,thick](aosp1) -- (aosproot);
     \draw[-,thick](aosp2) -- (aosproot);
     
-    \node[txt,above=of aposroot]             {+};
+    % Additions tree
+    \node[above=of aposroot]           (adummy) {};
+    \node[treenode,above=of adummy] (additionsroot)        {+};
+    \node[treenode,below=of additionsroot.south west] (additions1) {\ldots};
+    \node[treenode,below=of additionsroot.south east] (additions2) {\ldots};
+    \draw[-,thick](additions1) -- (additionsroot);
+    \draw[-,thick](additions2) -- (additionsroot);
     \draw [decorate, decoration={brace,amplitude=15pt,raise=25pt}] (asporoot.west) -- (aosproot.east);
     
     \node[base,dashed,draw=colortext,below=of apos1] (aversion) {\{Version: Local Change\}};
@@ -70,23 +76,28 @@
     \node[right=of dummy3]             (dummy4) {};
     
     % Deletion trees    
-    \node[treenode,right=of dummy4] (dsporoot)        {SPO};
-    \node[treenode,below=of dsporoot.south west] (dspo1) {\ldots};
-    \node[treenode,below=of dsporoot.south east] (dspo2) {\ldots};
+    \node[treenode,fill=colordelta,right=of dummy4] (dsporoot)        {SPO};
+    \node[treenode,fill=colordelta,below=of dsporoot.south west] (dspo1) {\ldots};
+    \node[treenode,fill=colordelta,below=of dsporoot.south east] (dspo2) {\ldots};
     \draw[-,thick](dspo1) -- (dsporoot);
     \draw[-,thick](dspo2) -- (dsporoot);
-    \node[treenode,right=of dsporoot] (dposroot)        {POS};
-    \node[treenode,below=of dposroot.south west] (dpos1) {\ldots};
-    \node[treenode,below=of dposroot.south east] (dpos2) {\ldots};
+    \node[treenode,fill=colordelta,right=of dsporoot] (dposroot)        {POS};
+    \node[treenode,fill=colordelta,below=of dposroot.south west] (dpos1) {\ldots};
+    \node[treenode,fill=colordelta,below=of dposroot.south east] (dpos2) {\ldots};
     \draw[-,thick](dpos1) -- (dposroot);
     \draw[-,thick](dpos2) -- (dposroot);
-    \node[treenode,right=of dposroot] (dosproot)        {OSP};
-    \node[treenode,below=of dosproot.south west] (dosp1) {\ldots};
-    \node[treenode,below=of dosproot.south east] (dosp2) {\ldots};
+    \node[treenode,fill=colordelta,right=of dposroot] (dosproot)        {OSP};
+    \node[treenode,fill=colordelta,below=of dosproot.south west] (dosp1) {\ldots};
+    \node[treenode,fill=colordelta,below=of dosproot.south east] (dosp2) {\ldots};
     \draw[-,thick](dosp1) -- (dosproot);
     \draw[-,thick](dosp2) -- (dosproot);
     
-    \node[txt,above=of dposroot]             {-};
+    \node[above=of dposroot]           (ddummy) {};
+    \node[treenode,above=of ddummy] (deletionsroot)        {-};
+    \node[treenode,below=of deletionsroot.south west] (deletions1) {\ldots};
+    \node[treenode,below=of deletionsroot.south east] (deletions2) {\ldots};
+    \draw[-,thick](deletions1) -- (deletionsroot);
+    \draw[-,thick](deletions2) -- (deletionsroot);
     \draw [decorate, decoration={brace,amplitude=15pt,raise=25pt}] (dsporoot.west) -- (dosproot.east);
     
     \node[below=of dspo1]             (ddummy1) {};

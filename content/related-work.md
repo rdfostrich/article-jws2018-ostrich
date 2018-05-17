@@ -112,7 +112,7 @@ Domain data must be reified in order to store it in the DIACHRON model.
 Due to the simplicity of RDF archive model compared to the domain-specific DIACHRON data model,
 we will use the model of Fernández et al. for the remainder of this document.
 
-Systems for archiving Linked Open Data are categorized
+Systems for archiving Linked Open Data are categorized 
 into [three non-orthogonal storage strategies](cite:cites archiving):
 
 - The **Independent Copies (IC)** approach creates separate instantiations of datasets for

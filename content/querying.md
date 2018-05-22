@@ -129,39 +129,65 @@ and store expensive addition and deletion counts as explained in [](#addition-co
 In this section, we provide an informal proof that [](#algorithm-querying-vm) results in the correct stream offset
 for any given version and triple pattern.
 
-Two cases can occur regarding the queried version.
-Either the version is equal to the snapshot version,
-or the version is strictly larger than the snapshot version.
-In the first case (line 3), the output stream is the `snapshot` stream, which we assume correctly applies offsets.
-For the remainder of this proof, we will elaborate on the second case.
+We will make use of bracket notation to indicate lists (ordered sets):
 
-The first triple in the output stream can originate from either the snapshot stream or the additions stream.
-A triple originates from the snapshot stream if its index within the stream is smaller than `|snapshot|` − `|deletions|` (line 11),
-otherwise, it originates from the additions stream (line 19).
+ - `A[i]` is the element at position `i` from the list `A`.
+ - `A + B` is the concatenation of list `A` followed by list `B`.
 
-In the first case (line 11) we have to find the triple in the `snapshot` stream
-for which the index in the output stream would be `originalOffset`.
-The difference between the two streams, is that `snapshot` still contains all elements to be deleted for the current version.
-Since the stream is sorted, the index of this triple in `snapshot` is
-`originalOffset` + `offset` (line 13), with `offset` being the number of deletions
-preceding that triple in `snapshot`.
-The do/while loop iteratively determines this triple by (absolutely) offsetting the `snapshot` stream (line 13),
-and updates the value of `offset` (line 16).
-The loop only terminates when no new deletions were found since last iteration (line 17),
-and since the value of `offset` can never decrease,
-the loop is guaranteed to end.
-At this point, the head of the snapshot stream is now correctly pointing at the snapshot element at `originalOffset` with `offset` deletions preceding it.
-Afterwards the output is a `PatchedSnapshotIterator` starting at the correct `snapshot` index,
-minus the deletions (line 24),
-appended with all additions, which is what we required.
+We also have the following definitions:
 
-In the second case (line 19) the starting triple is in the stream of `additions`.
-The number of elements preceding the `additions` elements,
-is the number of `snapshot` elements minus the number of `deletions`,
-which is exactly what is calculated (line 21).
-The `snapshot` stream is finalized by offsetting it after its last element (line 20),
-which will cause the `PatchedSnapshotIterator` to only output `additions` elements
-starting from the calculated index, which is also what we required.
+ - `snapshot(version)` is the ordered list of triples contained in the corresponding snapshot, from here on shortened to `snapshot`.
+ - `additions(version)` and `deletions(version)` are the corresponding ordered additions and deletions for the given version, from here on shortened to `additions` and `deletions`.
+ - `originalOffset` is how much the versioned list should be shifted, from here on shortened to `ori`.
+ - `PatchedSnapshotIterator(snapshot, deletions, additions)` is a function that returns the list `snapshot\deletions + additions`.
+
+The following definitions correspond to elements from the loop on lines 12-17:
+
+ - `deletions(t)` is the ordered list `{d | d ∈ deletions, d >= t}`.
+ - `offset(deletions(t)) = i : deletions[i] = deletions(t)[0]`.
+ - `t(i)` is the triple generated at line 13-14 for iteration `i`.
+ - `off(i)` is the offset generated at line 16 for iteration `i`.
+
+**Lemma 1**: `off(n) >= off(n-1)`  
+*Proof*:  
+We prove this by induction over the iterations of the loop.
+For `n=1` this follows from line 9 and `∀ x offset(x) >= 0.`
+
+For `n+1` we know by induction that `off(n) >= off(n-1)`.
+Since `snapshot` is ordered, `snapshot[ori + off(n)] >= snapshot[ori + off(n-1)]`.
+From lines 13-14 follows that `t(n) = snapshot[ori + off(n-1)]`,
+together this gives `t(n+1) >= t(n)`.
+Since `deletions` is an ordered list, `offset(deletions(t(n+1))) >= offset(deletions(t(n)))`
+which, together with lines 15-16, gives us `off(n+1) >= off(n)`.
+
+**Corollary 1**: The loop on lines 12-17 always terminates.  
+*Proof*:  
+Following the definitions, the end condition of the loop is `ori + off(n) = ori + off(n+1)`.
+From Lemma 1 we know that `off` is a non-decreasing function.
+Since `deletions` is a finite list of triples, there is an upper limit for `off` (`|deletions|`),
+causing `off` to stop increasing at some point which triggers the end condition.
+
+**Corollary 2**: When the loop on lines 12-17 terminates, `offset = |{d | d ∈ deletions, d <= snapshot[ori + offset]}|` and `ori + offset < |snapshot|`  
+*Proof*:  
+The first part follows from the definition of `deletions` and `offset`.
+The second part follows from `offset <= |deletions|` and line 11.
+
+**Theorem 1**: queryVm returns a sublist of `(snapshot\deletions + additions)`, starting at the given offset.  
+*Proof*:  
+If the given version is equal to a snapshot, there are no additions or deletions so this follows directly from lines 2-4.
+
+Following the definition of `deletions`, `∀ x ∈ deletions: x ∈ snapshot` and thus `|snapshot\deletions| = |snapshot| - |deletions|`.
+
+Due to the ordered nature of `snapshot` and `deletions`, if `ori < |snapshot\deletions|`, version`[ori] = snapshot[ori + |D|]` with `D = {d | d ∈ deletions, d < snapshot[ori + |D|]}`.
+Due to `|snapshot\deletions| = |snapshot| - |deletions|`, this corresponds to the if-statement on line 11.
+From Corollary 1 we know that the loop terminates
+and from Corollary 2 and line 13 that snapshot points to the element at position
+`ori + |{d | d ∈ deletions, d <= snapshot[ori + offset]}|` which,
+together with `additions` starting at index 0 and line 25,
+returns the requested result.
+
+If `ori >= |snapshot\deletions|`, `version[ori] = additions[ori - |snapshot\deletions|]`.
+From lines 20-22 follows that `snapshot` gets emptied and `additions` gets shifted for the remaining required elements `(ori - |snapshot\deletions|)`, which then also returns the requested result on line 25.
 
 ### Delta Materialization
 

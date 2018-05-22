@@ -1,0 +1,113 @@
+\documentclass{letter}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper,margin=3cm,top=2.5cm]{geometry}
+\usepackage{microtype}
+\usepackage{csquotes}
+\linespread{1.3}
+\include{reviewing}
+
+\newcounter{section}
+\newcounter{subsection}[section]
+\setcounter{secnumdepth}{3}
+\makeatletter
+\newcommand\section{\@startsection {section}{1}{\z@}%
+                                   {-3.5ex \@plus -1ex \@minus -.2ex}%
+                                   {2.3ex \@plus.2ex}%
+                                   {\normalfont\Large\bfseries}}
+\newcommand\subsection{\@startsection{subsection}{2}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\large\bfseries}}
+\renewcommand \thesection{\@arabic\c@section}
+\renewcommand\thesubsection{\thesection.\@arabic\c@subsection}
+\makeatother
+
+\signature{Ruben Taelman\\on behalf of the authors}
+\address{imec -- Ghent University -- IDLab\\Technologiepark-Zwijnaarde 15\\B-9052 Gent\\Belgium}
+\begin{document}
+
+\begin{letter}{To the Editors of the Special Issue on\\Managing the Evolution and Preservation of the Data Web\\of the Journal of Web Semantics}
+
+\opening{Dear Editors and Reviewers,}
+
+\bigskip
+
+Thank you for your reviews.
+Please find attached to this letter a revised version of our submission entitled
+\enquote{Triple Storage for Random-Access Versioned Querying of RDF Archives}
+in which we have addressed your comments.
+
+\bigskip
+
+Hereafter, you can find detailed answers to your questions and remarks.
+Should you have any further questions or concerns, please do not hesitate to contact us.
+We look forward to hearing back from you and thank you in advance.
+
+\bigskip
+
+\closing{Sincerely,}
+
+\pagebreak
+\section*{Review 2}
+
+\textbf{\enquote{Missing overview of related work in the context of evolving graph databases (not just RDF).}}
+
+Non-RDF graph databases do not offer native versioning capabilities to the best of our knowledge.
+We now briefly mention this lack in the related work section.
+
+\textbf{\enquote{Two recent papers on Extended Characteristic Sets are missing}}
+
+We now briefly discuss this topic and the mentioned papers.
+
+\section*{Review 3}
+
+\textbf{\enquote{The BEAR journal paper has been accepted at Semantic Web Journal}}
+
+We have updated the BEAR reference.
+
+\textbf{\enquote{Strange notation in formalization}}
+
+We improved the notation of the symbols in the formalization in Section 2.4.
+
+\textbf{\enquote{In the problem statement in Section 3, I would maybe briefly mention the meaning of "offset" in this context}}
+
+Offset and limit have now been clarified in Section 3.
+
+\textbf{\enquote{The titles of Sections 4, 5, 6 and 7 are too generic}}
+
+In our opinion, the title of Section 4 (Overview: Storage and Querying) is concrete enough for its contents.
+We have updated the titles of Sections 5, 6 and 7.
+
+\textbf{\enquote{I would suggest to represent the triples with the notation (D0, S1, D1)}}
+
+We have updated all triples in the paper to use the suggested notation.
+
+\textbf{\enquote{Figure 3 and 4 could be somehow aligned}}
+
+We have updated Figure 4 to be aligned with Figure 3.
+The representations of the addition and deletion trees have been made consistent now.
+
+\textbf{\enquote{Results are not commented in the result section}}
+
+All results are now commented on in the results section.
+They are then summarized and discussed later.
+
+\section*{Review 4}
+
+\textbf{\enquote{the symbols used in Section 2 where not previously explained}}
+
+All symbols in Section 2 are explained in that section.
+As suggested by Reviewer 2, we have improved some of the notations.
+
+\textbf{\enquote{How was the threshold of 200 chosen?}}
+
+This threshold was defined empirically.
+This has been clarified in Section 8.3.1.
+
+\textbf{\enquote{The proof of correctness in section 7.1.4 is strange and it is not really a formal proof}}
+
+We have rewritten the proof to use induction, which makes it more formal.
+
+\end{letter}
+\end{document}

@@ -1,0 +1,130 @@
+Plan of action: https://docs.google.com/document/d/1oS9llgd8pdUG6gs9yD7XIpkb5ngpAv-_J4E1EaUNBqU/edit#
+
+Ms. Ref. No.: JWS-D-17-00163R1 
+Title: Triple Storage for Random-Access Versioned Querying of RDF Archives 
+Journal of Web Semantics 
+
+Dear rtaelman, 
+
+The reviewers have commented on your above paper. Please note that we will publish your paper, once the reviewers advised changes have been made. 
+
+Please carefully address the issues raised in the comments. 
+
+If you are submitting a revised manuscript, please also: 
+
+a) outline each change made (point by point) as raised in the reviewer comments 
+
+AND/OR 
+
+b) provide a suitable rebuttal to each reviewer comment not addressed 
+
+
+To submit your revision, please do the following: 
+
+1. Go to: https://ees.elsevier.com/jws/ 
+
+2. Enter your login details 
+
+3. Click [Author Login] 
+This takes you to the Author Main Menu. 
+
+4. Click [Submissions Needing Revision] 
+
+Please note that this journal offers a new, free service called AudioSlides: brief, webcast-style presentations that are shown next to published articles on ScienceDirect (see also http://www.elsevier.com/audioslides). If your paper is accepted for publication, you will automatically receive an invitation to create an AudioSlides presentation. 
+
+I look forward to receiving your revised manuscript. 
+
+When submitting this revised manuscript, please ensure that you upload the source files (e.g. Word). Uploading a PDF file at this stage will create delays should your manuscript be finally accepted for publication as it is difficult to accurately extract text from a PDF and Re-keying leads to costly errors being introduced. 
+
+The revised manuscript should be submitted within 28 days.
+
+Journal of Web Semantics features the Interactive Plot Viewer, see: http://www.elsevier.com/interactiveplots. Interactive Plots provide easy access to the data behind plots. To include one with your article, please prepare a .csv file with your plot data and test it online at http://authortools.elsevier.com/interactiveplots/verification before submission as supplementary material. 
+
+The revised version of your submission is due by May 30, 2018. 
+
+Yours sincerely, 
+
+Abraham Bernstein, Ph.D. 
+Editor-in-Chief 
+Journal of Web Semantics 
+
+Note: While submitting the revised manuscript, please double check the author names provided in the submission so that authorship related changes are made in the revision stage. If your manuscript is accepted, any authorship change will involve approval from co-authors and respective editor handling the submission and this may cause a significant delay in publishing your manuscript. 
+
+Reviewers' comments: 
+
+Dear Rueben Taelman, 
+
+We would like to thank you for re-submitting and revising your manuscript to the special issue. The reviewers are satisfied with your revisions, however, there are still some minor concerns by reviewers 2 and 3 which could be easily fixed in your manuscript. Therefore, we classify your paper as "minor revision". 
+
+We expect to receive a revised paper within 2 weeks. Should you need more time, please let us know. The revised manuscript will be checked again on resubmission. Please also provide a letter to the reviewers detailing the improvements. 
+
+Thank you and Best Regards, 
+MEPDaW Guest Editors 
+
+Reviews Below: 
+====== 
+
+Reviewer #2: This paper introduces an efficient evolving RDF data management system, OSTRICH, that combines triple indexing, versioning and compression in a novel way that no other existing work has addressed in the context of RDF and Linked Data versioning. While the combination of indexing, querying, versioning and storage (compression) optimization presents novelty in the way such systems deal with evolving data, the techniques presented individually are basically a mixture of existing state of the art, with a decent amount of novelty mostly in the architecture and management flow. The authors, as many others have done in the past, successfully use hybrid storage combining full materialization, with delta-based storage, and the system is evaluated over predefined query atoms, using BEAR. 
+
+The paper is well written and the revision addresses most of the comments laid out by the reviewers. I understand the reasoning behind the design of the experimental evaluation and the selection of competitors, even though it would indeed benefit the paper to perform comparisons with systems like Dydra or x-RDF-3X, even at the system level. 
+
+In any case, the authors have made a real effort to address all the reviewers' comments and remarks, including my own. The paper is more concise and readable, including the merged tables and better illustrated experimental results. 
+
+What is missing perhaps is an overview of related work in the context of evolving graph databases (not just RDF). Furthermore, in the Related Work section, the following sentence ends abruptly: 
+
+"These technologies can even be combined, such as approaches that detect emergent schemas [15][16] in RDF datasets, which allow parts of the data to be stored in relational databases in order to increase compression and improve the efficiency of query evaluation and. ". 
+
+Furthermore, if the authors are to mention emergent schema techniques, two recent papers are missing, namely "Extended Characteristic Sets" from last year's ICDE [2] and the "Odyssey Approach" published in last year's ISWC [1]. These approaches use the concept of Characteristic Sets in order to provide more efficient indexing and querying capabilities based on the triples' subjects' natural classification. It would be interesting to discuss the usage of Characteristic Sets and the joins between them (i.e., Extended Characteristic Sets) in the context of versioning. 
+
+
+[1] Montoya, Gabriela, Hala Skaf-Molli, and Katja Hose. "The Odyssey approach for optimizing federated SPARQL queries." In International Semantic Web Conference, pp. 471-489. Springer, Cham, 2017. 
+[2] Meimaris, Marios, George Papastefanatos, Nikos Mamoulis, and Ioannis Anagnostopoulos. "Extended characteristic sets: graph indexing for SPARQL query optimization." In Data Engineering (ICDE), 2017 IEEE 33rd International Conference on, pp. 497-508. IEEE, 2017. 
+
+
+
+
+Reviewer #4: Authors propose a new RDF store for versioned data. The approach is based on fully materialized snapshots followed by delta chains. Consecutive add and delete delta sets refer to the previous snapshot, and are multi-indexed, in SPO, OSP, and POS order. In addition, authors optimize queries by storing additional metadata during ingestion time, such as the local changes (triples that revert a previous modification) and counters for adds and deletes, hence that triple pattern estimation can be done in constant time. Authors provide a practical implementation, named OSTRICH, which is evaluated with different systems (HDT, Jena) and versioning strategies. To do so, they make use of an existing benchmark, named BEAR, which is tailored for OSTRICH. Results show that OSTRICH requires less space than other approaches using fully materialized snapshots (aka Independent Copies, IC), but slightly more than delta-based approaches (aka Changed-based, CB). As for query 
+resolution, compared to IC, OSTRICH is slower when querying a single point in time (version materialization) but comparable when resolving changes across versions. In turn, OSTRICH is, in general, faster than CB. Nonetheless, OSTRICH reports large ingestion times, which are particularly important when managing large number of versions. 
+
+I thank authors for considering my previous comments in the new version. In my opinion, the paper has been improved regarding: a) added missing related work, b) new practical example, c) better explanation of the indexes and the difference with HDT-FoQ, d) better explanation of the dictionary, e) correction of the complexity of the search algorithm, f) improvement of the formality, g) clarification of experiments, in particular the ingestion time. 
+
+In contrast, I would suggest a minor review (which might be editorial) to fix the following points: 
+
+- The BEAR journal paper has been accepted at Semantic Web Journal, so a proper reference to the last version (and maybe update some comments?) should be provided: http://semantic-web-journal.org/content/evaluating-query-and-storage-strategies-rdf-archives-0 
+
+- In the formalization, I find strange the notation Vi. I would suggest V_i. Also, in Section 2.2, please correct the typo "_(U U B) x ….", removing the underscore _. 
+
+- In the problem statement in Section 3, I would maybe briefly mention the meaning of "offset" in this context. 
+
+- The titles of Sections 4, 5, 6 and 7 are too generic, and give a feeling of poor structure in the paper. I would suggest to be more specific in these titles in order to clarify that you are dealing with your concrete approach. Maybe giving a name to the RDF archive indexing technique would help. 
+
+- In Table 5, I would suggest to represent the triples with the notation (D0, S1, D1), and in any case avoiding the non-standard ';', which is confusing. 
+
+- Figure 3 and 4 could be somehow aligned in the style to clarify that Figure 4 refers to the deltas represented in Figure 3 (note that + and - are also there but with a different style, which can be unclear) 
+
+- Correct the typo "using the deletion tree contents from ." in section 5.5 
+
+- I find strange that most of the tables and figures are just presented but the results are not commented in the result section. This is done much later in the final discussion section. See for example the simple introduction of figure 5, 6, 7 and 8. I would suggest to comment the results "in line", and use the final discussion to summarize the most important points and/or to analyze the overall results. 
+
+- In general the text still has room for improvement regarding verbosity. 
+
+
+
+Reviewer #5: This is a review based on previous Reviewer's 3 comments. I am happy that the authors addressed most of the reviewer's comments with sufficient explanation. I am also happy with the state of the paper myself. However, I will point out the following concerns from the first review (by reviewer 3) which are my concerns: 
+
+1. The formalisation used in Section 2 looked a bit weird. Furthermore, the symbols used where not previously explained. I would first suggest that proper formatting is used for the formalisation, symbols are explained, and not part of the text. I liked the examples though. 
+2. How was the threshold of 200 chosen? I didn't quite understand how the authors came up with this number, and it would be really useful that this is explained in the manuscript. 
+3. The proof of correctness in section 7.1.4 is strange and it is not really a formal proof. It is more of a description. A proof by induction would be more useful to show the correctness of the algorithm. 
+
+The authors should address these three minor comments prior to acceptance. 
+
+
+
+
+
+
+
+
+****************************************** 
+
+For further assistance, please visit our customer support site at http://help.elsevier.com/app/answers/list/p/7923. Here you can search for solutions on a range of topics, find answers to frequently asked questions and learn more about EES via interactive tutorials. You will also find our 24/7 support contact details should you need any further assistance from one of our customer support representatives. 

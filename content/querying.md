@@ -136,29 +136,38 @@ We will make use of bracket notation to indicate lists (ordered sets):
 
 We also have the following definitions:
 
- - `snapshot(version)` is the ordered list of triples contained in the corresponding snapshot, from here on shortened to `snapshot`.
+ - `snapshot(tp, version)` is the ordered list of triples matching the given triple pattern `tp` in the corresponding snapshot, from here on shortened to `snapshot`.
  - `additions(version)` and `deletions(version)` are the corresponding ordered additions and deletions for the given version, from here on shortened to `additions` and `deletions`.
  - `originalOffset` is how much the versioned list should be shifted, from here on shortened to `ori`.
  - `PatchedSnapshotIterator(snapshot, deletions, additions)` is a function that returns the list `snapshot\deletions + additions`.
 
 The following definitions correspond to elements from the loop on lines 12-17:
 
- - `deletions(t)` is the ordered list `{d | d ∈ deletions, d >= t}`.
- - `offset(deletions(t)) = i : deletions[i] = deletions(t)[0]`.
+ - `deletions(x)` is the ordered list `{d | d ∈ deletions, d ≥ x}`, with `x` a triple.
+ - `offset(x) = |deletions| - |deletions(x)|`, with `x` a triple.
  - `t(i)` is the triple generated at line 13-14 for iteration `i`.
  - `off(i)` is the offset generated at line 16 for iteration `i`.
 
-**Lemma 1**: `off(n) >= off(n-1)`  
+**Lemma 1**: `off(n) ≥ off(n-1)`  
 *Proof*:  
 We prove this by induction over the iterations of the loop.
-For `n=1` this follows from line 9 and `∀ x offset(x) >= 0.`
+For `n=1` this follows from line 9 and `∀ x offset(x) ≥ 0.`
 
-For `n+1` we know by induction that `off(n) >= off(n-1)`.
-Since `snapshot` is ordered, `snapshot[ori + off(n)] >= snapshot[ori + off(n-1)]`.
+For `n+1` we know by induction that `off(n) ≥ off(n-1)`.
+Since `snapshot` is ordered, `snapshot[ori + off(n)] ≥ snapshot[ori + off(n-1)]`.
 From lines 13-14 follows that `t(n) = snapshot[ori + off(n-1)]`,
-together this gives `t(n+1) >= t(n)`.
-Since `deletions` is an ordered list, `offset(deletions(t(n+1))) >= offset(deletions(t(n)))`
-which, together with lines 15-16, gives us `off(n+1) >= off(n)`.
+together this gives `t(n+1) ≥ t(n)`.
+
+From this, we get:
+
+`{d | d ∈ deletions, d ≥ t(n+1)} ⊆ {d | d ∈ deletions, d ≥ t(n)}`  
+`deletions(t(n+1)) ⊆ deletions(t(n))`  
+`|deletions(t(n+1))| ≤ |deletions(t(n))|`  
+`|deletions| - |deletions(t(n+1))| ≥ |deletions| - |deletions(t(n))|`  
+`offset(t(n+1)) ≥ offset(t(n))`
+{: style="text-align: center"}
+
+Together with lines 15-16 this gives us `off(n+1) ≥ off(n)`.
 
 **Corollary 1**: The loop on lines 12-17 always terminates.  
 *Proof*:  
@@ -167,10 +176,10 @@ From Lemma 1 we know that `off` is a non-decreasing function.
 Since `deletions` is a finite list of triples, there is an upper limit for `off` (`|deletions|`),
 causing `off` to stop increasing at some point which triggers the end condition.
 
-**Corollary 2**: When the loop on lines 12-17 terminates, `offset = |{d | d ∈ deletions, d <= snapshot[ori + offset]}|` and `ori + offset < |snapshot|`  
+**Corollary 2**: When the loop on lines 12-17 terminates, `offset = |{d | d ∈ deletions, d ≤ snapshot[ori + offset]}|` and `ori + offset < |snapshot|`  
 *Proof*:  
 The first part follows from the definition of `deletions` and `offset`.
-The second part follows from `offset <= |deletions|` and line 11.
+The second part follows from `offset ≤ |deletions|` and line 11.
 
 **Theorem 1**: queryVm returns a sublist of `(snapshot\deletions + additions)`, starting at the given offset.  
 *Proof*:  
@@ -182,11 +191,11 @@ Due to the ordered nature of `snapshot` and `deletions`, if `ori < |snapshot\del
 Due to `|snapshot\deletions| = |snapshot| - |deletions|`, this corresponds to the if-statement on line 11.
 From Corollary 1 we know that the loop terminates
 and from Corollary 2 and line 13 that snapshot points to the element at position
-`ori + |{d | d ∈ deletions, d <= snapshot[ori + offset]}|` which,
+`ori + |{d | d ∈ deletions, d ≤ snapshot[ori + offset]}|` which,
 together with `additions` starting at index 0 and line 25,
 returns the requested result.
 
-If `ori >= |snapshot\deletions|`, `version[ori] = additions[ori - |snapshot\deletions|]`.
+If `ori ≥ |snapshot\deletions|`, `version[ori] = additions[ori - |snapshot\deletions|]`.
 From lines 20-22 follows that `snapshot` gets emptied and `additions` gets shifted for the remaining required elements `(ori - |snapshot\deletions|)`, which then also returns the requested result on line 25.
 
 ### Delta Materialization

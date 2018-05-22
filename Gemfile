@@ -15,7 +15,7 @@ gem 'bibtex-ruby'
 gem 'latex-decode'
 gem 'citeproc-ruby', '>= 1.1.6'
 gem 'csl-styles'
-gem 'bibmarkdown', '~> 1.3'
+gem 'bibmarkdown', '~> 2.0'
 
 group :development do
   # live view

@@ -127,14 +127,17 @@ and store expensive addition and deletion counts as explained in [](#addition-co
 #### Correctness
 
 In this section, we provide a proof that [](#algorithm-querying-vm) results in the correct stream offset
-for any given version and triple pattern.
+for any given version and triple pattern. We do this by first introducing a set of notations,
+followed by several lemmas and corollaries, which lead up to our final theorem proof.
+
+**Notations**:
 
 We will make use of bracket notation to indicate lists (ordered sets):
 
  - `A[i]` is the element at position `i` from the list `A`.
  - `A + B` is the concatenation of list `A` followed by list `B`.
 
-We also have the following definitions:
+Furthermore, we will use the following definitions:
 
  - `snapshot(tp, version)` is the ordered list of triples matching the given triple pattern `tp` in the corresponding snapshot, from here on shortened to `snapshot`.
  - `additions(version)` and `deletions(version)` are the corresponding ordered additions and deletions for the given version, from here on shortened to `additions` and `deletions`.

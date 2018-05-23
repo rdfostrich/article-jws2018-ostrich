@@ -126,7 +126,7 @@ and store expensive addition and deletion counts as explained in [](#addition-co
 
 #### Correctness
 
-In this section, we provide an informal proof that [](#algorithm-querying-vm) results in the correct stream offset
+In this section, we provide a proof that [](#algorithm-querying-vm) results in the correct stream offset
 for any given version and triple pattern.
 
 We will make use of bracket notation to indicate lists (ordered sets):
@@ -160,12 +160,11 @@ together this gives `t(n+1) ≥ t(n)`.
 
 From this, we get:
 
-`{d | d ∈ deletions, d ≥ t(n+1)} ⊆ {d | d ∈ deletions, d ≥ t(n)}`  
-`deletions(t(n+1)) ⊆ deletions(t(n))`  
-`|deletions(t(n+1))| ≤ |deletions(t(n))|`  
-`|deletions| - |deletions(t(n+1))| ≥ |deletions| - |deletions(t(n))|`  
-`offset(t(n+1)) ≥ offset(t(n))`
-{: style="text-align: center"}
+* `{d | d ∈ deletions, d ≥ t(n+1)} ⊆ {d | d ∈ deletions, d ≥ t(n)}`  
+* `deletions(t(n+1)) ⊆ deletions(t(n))`  
+* `|deletions(t(n+1))| ≤ |deletions(t(n))|`  
+* `|deletions| - |deletions(t(n+1))| ≥ |deletions| - |deletions(t(n))|`  
+* `offset(t(n+1)) ≥ offset(t(n))`
 
 Together with lines 15-16 this gives us `off(n+1) ≥ off(n)`.
 
@@ -185,17 +184,17 @@ The second part follows from `offset ≤ |deletions|` and line 11.
 *Proof*:  
 If the given version is equal to a snapshot, there are no additions or deletions so this follows directly from lines 2-4.
 
-Following the definition of `deletions`, `∀ x ∈ deletions: x ∈ snapshot` and thus `|snapshot\deletions| = |snapshot| - |deletions|`.
+Following the definition of `deletions`, `∀ x ∈ deletions: x ∈ snapshot` and thus `|snapshot\deletions| = |snapshot| - |deletions|`.
 
 Due to the ordered nature of `snapshot` and `deletions`, if `ori < |snapshot\deletions|`, version`[ori] = snapshot[ori + |D|]` with `D = {d | d ∈ deletions, d < snapshot[ori + |D|]}`.
-Due to `|snapshot\deletions| = |snapshot| - |deletions|`, this corresponds to the if-statement on line 11.
+Due to `|snapshot\deletions| = |snapshot| - |deletions|`, this corresponds to the if-statement on line 11.
 From Corollary 1 we know that the loop terminates
 and from Corollary 2 and line 13 that snapshot points to the element at position
 `ori + |{d | d ∈ deletions, d ≤ snapshot[ori + offset]}|` which,
 together with `additions` starting at index 0 and line 25,
 returns the requested result.
 
-If `ori ≥ |snapshot\deletions|`, `version[ori] = additions[ori - |snapshot\deletions|]`.
+If `ori ≥ |snapshot\deletions|`, `version[ori] = additions[ori - |snapshot\deletions|]`.
 From lines 20-22 follows that `snapshot` gets emptied and `additions` gets shifted for the remaining required elements `(ori - |snapshot\deletions|)`, which then also returns the requested result on line 25.
 
 ### Delta Materialization

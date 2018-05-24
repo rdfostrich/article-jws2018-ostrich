@@ -1,4 +1,4 @@
-## Overview: Storage and Querying
+## Overview of Storage and Querying approach
 {:#fundamentals}
 
 In this section, we lay the groundwork for the following sections.

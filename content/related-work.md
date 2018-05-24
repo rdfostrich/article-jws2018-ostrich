@@ -90,7 +90,9 @@ Because of these reasons, we will reuse HDT snapshots as part of our storage sol
 Linked Open Datasets typically [change over time](cite:cites datasetdynamics),
 creating a need for [maintaining the history of the datasets](cite:cites archiving).
 Hence, RDF archiving has been an active area of research over the last couple of years.
-To the best of our knowledge, no research has been done yet in the area of archiving for non-RDF graph databases.
+In the domain of non-RDF graph databases, several graph database extensions exist.
+These extensions are either [wrapper-based](cite:cites fluxgraph,neo4jversioning), which leads to sub-optimal querying due to the lack of indexing,
+or they are based on [changing the graph model](cite:cites neo4jtimedependentgraphs,neo4jmultilevelindex), which complicates the writing of queries.
 Furthermore, none of the existing non-RDF graph stores offer native versioning capabilities at the time of writing.
 We therefore only discuss RDF archiving for the remainder of this section.
 

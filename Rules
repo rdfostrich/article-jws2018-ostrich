@@ -1,13 +1,30 @@
 #!/usr/bin/env ruby
 
+require 'scholarmarkdown/snippets'
+require 'scholarmarkdown/filter/acronym'
+require 'scholarmarkdown/filter/citation'
+require 'scholarmarkdown/filter/hyphenate_iri'
+require 'scholarmarkdown/filter/include_code'
+require 'scholarmarkdown/filter/labelify'
+require 'scholarmarkdown/filter/references_to_footer'
+require 'scholarmarkdown/filter/headerids_to_section'
+require 'scholarmarkdown/filter/dokieli'
+
 compile '/index.*' do
   filter :erb
-  filter :bibmarkdown, bibfile: items['/references.bib'],
-                       style: 'lncs-custom'
+  filter :scholar_citation, bibfile: items['/references.bib'],
+                            style: 'lncs-custom'
   filter :kramdown
-  filter :markupfilter
+  filter :scholar_acronym, acronyms: items['/acronyms.csv']
+  filter :scholar_hyphenate_iri
+  filter :scholar_include_code
+  filter :scholar_labelify
+  filter :scholar_references_to_footer
+  filter :scholar_headerids_to_section
   filter :rubypants
   layout '/default.*'
+  filter :scholar_dokieli, notifications: 'https://pod.linkedsoftwaredependencies.org/inbox/rdfostrich.github.io/article-jws2018-ostrich/',
+                           annotations: 'https://pod.linkedsoftwaredependencies.org/annotation/rdfostrich.github.io/article-jws2018-ostrich/'
 end
 
 ignore '/*.md'

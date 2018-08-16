@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 gem 'nanoc', '~> 4.7'
 
+gem 'scholarmarkdown'
+
 # text processing
 gem 'kramdown'
 gem 'rubypants'
@@ -11,11 +13,10 @@ gem 'sass'
 
 # references
 gem 'i18n'
-gem 'bibtex-ruby'
 gem 'latex-decode'
+gem 'unicode_utils'
 gem 'citeproc-ruby', '>= 1.1.6'
 gem 'csl-styles'
-gem 'bibmarkdown', '~> 2.0'
 
 group :development do
   # live view
@@ -27,6 +28,7 @@ group :development do
   gem 'rack-livereload'
   gem 'wdm', '>= 0.1.0' if Gem.win_platform?
   gem 'rb-readline'
+  gem 'rb-notifu' if Gem.win_platform?
 end
 
 group :test do

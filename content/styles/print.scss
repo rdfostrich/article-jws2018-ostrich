@@ -1,2 +1,8 @@
 @import "jws.scss";
 @import "shared.scss";
+
+header {
+  .actions, .context {
+    display: none;
+  }
+}

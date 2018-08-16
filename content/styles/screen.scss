@@ -36,43 +36,71 @@ header {
     margin: 1em 0;
     padding: 0;
   }
-
-  #authors {
+  
+  .actions, .context {
+    font-size: .9em;
+    h2 {
+      margin: 0;
+      display: inline;
+      font-size: 1em;
+      font-weight: normal;
+       &:after {
+        content: ":";
+      }
+    }
+    ul {
+      display: inline;
+    }
+    
     li {
       display: inline;
-      margin-right: 1.5em;
       white-space: nowrap;
-    }
+      font-style: italic;
 
-    a {
-      &:not(:hover) {
-        background: none;
-      }
-      sup {
-        margin: 0 -.1em 0 .1em;
+      &:not(:last-child) {
+        &:after {
+          content: ", ";
+        }
       }
     }
   }
+}
 
-  #affiliations {
-    list-style: none;
-    margin: 1em 0;
-    padding: 0;
+#authors {
+  li {
+    display: inline;
+    margin-right: 1.5em;
+    white-space: nowrap;
+  }
 
-    font-size: .9em;
-
+  a {
+    &:not(:hover) {
+      background: none;
+    }
     sup {
-      margin-right: .15em;
+      margin: 0 -.1em 0 .1em;
     }
   }
+}
 
-  #abstract {
-    font-weight: bold;
-    hyphens: auto;
+#affiliations {
+  list-style: none;
+  margin: 1em 0;
+  padding: 0;
 
-    h2 {
-      display: none;
-    }
+  font-size: .9em;
+
+  sup {
+    margin-right: .15em;
+  }
+}
+
+#abstract {
+  font-weight: bold;
+  hyphens: auto;
+
+  h2 {
+    display: none;
   }
 }
 

@@ -7,5 +7,11 @@ script:
   - bundle exec nanoc check internal_links mixed_content stale
 cache:
   - bundler
-after_success:
-  - ./.travis_build_pages
+deploy:
+  provider: pages
+  local-dir: output
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep-history: true
+  on:
+    branch: master

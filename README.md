@@ -1,31 +1,6 @@
-```
-abstract
-introduction
-    motivation (mention tpf in here)
-preliminaries
-    (on rdf archiving)
-    Querying
-    Storage policies
-problem statement
-    (provide groundwork for evaluation structure)
-    research questions
-related work
-    archiving solutions
-        hdt
-    archiving benchmarks
-OSTRICH
-storage (data structure)
-ingestion algo
-querying (algos for VM, DM and VQ + corresponding counts)
-VTPF (interface)
-evaluation
-    experimental setup
-        implementation (cpp+node)
-    ingestion
-    querying
-    discussion
-conclusion
-```
+An article for the [Journal of Web Semantics Special Issue on Managing the Evolution and Preservation of the Data Web](https://journalofwebsemantics.blogspot.com/2017/06/cfp-special-issue-on-managing-evolution.html) on [OSTRICH](https://github.com/rdfostrich/ostrich).
+
+This article was written with [ScholarMarkdown](https://github.com/rubensworks/ScholarMarkdown).
 
 ## Build
 ```
@@ -40,7 +15,7 @@ bundle exec guard
 ```
 
 ## Live version
-TODO
+https://rdfostrich.github.io/article-jws2018-ostrich/
 
 ## License
 This article is written by [Ruben Taelman](http://rubensworks.net/) and colleagues.

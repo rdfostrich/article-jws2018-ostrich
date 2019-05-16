@@ -10,6 +10,7 @@ require 'scholarmarkdown/filter/references_to_footer'
 require 'scholarmarkdown/filter/headerids_to_section'
 require 'scholarmarkdown/filter/dokieli_ui'
 require 'scholarmarkdown/filter/annotations'
+require 'scholarmarkdown/filter/citation_metadata'
 
 compile '/index.*' do
   filter :erb
@@ -27,6 +28,13 @@ compile '/index.*' do
   filter :scholar_dokieli_ui
   filter :scholar_annotations, notifications: 'https://pod.linkedsoftwaredependencies.org/inbox/rdfostrich.github.io/article-jws2018-ostrich/',
                                annotations: 'https://pod.linkedsoftwaredependencies.org/annotation/rdfostrich.github.io/article-jws2018-ostrich/'
+  filter :scholar_citation_metadata, publication_date: '2019/01/01',
+                                     journal_title: 'Journal of Web Semantics',
+                                     volume: '54',
+                                     issue: '1',
+                                     firstpage: '4',
+                                     lastpage: '28',
+                                     doi: '10.1016/j.websem.2018.08.001'
 end
 
 ignore '/*.md'

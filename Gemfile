@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'nanoc', '~> 4.7'
+gem 'nanoc', '~> 4.11.5'
 
 gem 'scholarmarkdown', '~> 2.3.0'
 
